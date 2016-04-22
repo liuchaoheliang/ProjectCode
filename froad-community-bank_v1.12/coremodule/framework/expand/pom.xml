@@ -1,0 +1,21 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.froad.cbank.coremodule.framework</groupId>
+		<artifactId>coremodule-framework</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<groupId>com.froad.cbank.coremodule.framework.expand</groupId>
+	<artifactId>framework-expand</artifactId>
+	<packaging>pom</packaging>
+	<name>Froad Cbank Coremodule Framework Expand</name>
+	<modules>
+		<!-- <module>spring</module>
+		<module>token</module>
+		<module>cross</module> -->
+		<module>log</module>
+		<module>thrift</module>
+		<module>redis</module>
+	</modules>
+</project>

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.fft.persistent.api.AgreementMapper">
+
+    <resultMap type="Agreement" id="agreementResultMap">
+        <id property="id" column="id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+
+        <result property="type" column="type" typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"/>
+        <result property="content" column="content"/>
+        <result property="clientId" column="client_id"/>
+        <result property="dataState" column="data_state" typeHandler="com.froad.db.extend.EnumTypeHandler"/>
+    </resultMap>
+
+    <!-- 插入 -->
+    <insert id="saveAgreement" parameterType="Agreement" useGeneratedKeys="true" keyProperty="id">
+		insert into fft_agreement values
+		(
+			#{id},#{createTime},#{updateTime},#{type,typeHandler=org.apache.ibatis.type.EnumOrdinalTypeHandler},#{content},
+			#{clientId},30
+		)
+	</insert>
+
+    <!-- 更新 -->
+    <update id="updateAgreementById" parameterType="Agreement">
+        update fft_agreement set update_time = #{updateTime}
+        <if test="type != null">
+            ,type = #{type,typeHandler=org.apache.ibatis.type.EnumOrdinalTypeHandler}
+        </if>
+        <if test="content != null">
+            ,content = #{content}
+        </if>
+        <if test="dataState != null">
+            ,data_state = #{dataState,typeHandler=com.froad.db.extend.EnumTypeHandler}
+        </if>
+        where id = #{id}
+    </update>
+
+    <!-- 查询 -->
+    <select id="selectAgreementById" parameterType="java.lang.Long" resultMap="agreementResultMap">
+		select * from fft_agreement where id = #{id}
+	</select>
+
+    <!--分页 -->
+    <select id="selectAgreementByPage" parameterType="com.froad.fft.persistent.bean.page.Page" resultMap="agreementResultMap">
+        select * from fft_agreement
+        <if test="pageFilter != null">
+            <where>
+                <if test="pageFilter.filterEntity != null">
+                    <if test="pageFilter.filterEntity.id!= null">
+                        and id = #{pageFilter.filterEntity.id}
+                    </if>
+                    <if test="pageFilter.filterEntity.type!= null">
+                        and type = #{pageFilter.filterEntity.type,typeHandler=com.froad.db.extend.EnumTypeHandler}
+                    </if>
+                    <if test="pageFilter.filterEntity.dataState!= null">
+                        and data_state = #{pageFilter.filterEntity.dataState,typeHandler=com.froad.db.extend.EnumTypeHandler}
+                    </if>
+                    <if test="pageFilter.filterEntity.clientId!= null">
+                        and client_id = #{pageFilter.filterEntity.clientId}
+                    </if>
+
+                </if>
+
+                <!-- 时间段条件 -->
+                <if test="pageFilter.property != null and pageFilter.startTime != null">
+                    <![CDATA[
+  					 and ${pageFilter.property} >= #{pageFilter.startTime}
+  					]]>
+                </if>
+                <if test="pageFilter.property != null and pageFilter.endTime != null">
+                    <![CDATA[
+  					 and ${pageFilter.property} <= #{pageFilter.endTime}
+  					]]>
+                </if>
+            </where>
+        </if>
+        <!-- 排序 -->
+        <if test="order != null">
+            <if test="order.property != null and order.direction != null">
+                order by ${order.property} ${order.direction}
+            </if>
+        </if>
+    </select>
+    <!-- 查询分页条数 -->
+    <select id="selectAgreementByPageCount" parameterType="com.froad.fft.persistent.bean.page.Page" resultType="java.lang.Integer">
+        select count(*) from fft_agreement
+        <if test="pageFilter != null">
+            <where>
+                <if test="pageFilter.filterEntity != null">
+                    <if test="pageFilter.filterEntity.id!= null">
+                        and id = #{pageFilter.filterEntity.id}
+                    </if>
+                    <if test="pageFilter.filterEntity.type!= null">
+                        and type = #{pageFilter.filterEntity.type,typeHandler=com.froad.db.extend.EnumTypeHandler}
+                    </if>
+                    <if test="pageFilter.filterEntity.dataState!= null">
+                        and data_state = #{pageFilter.filterEntity.dataState,typeHandler=com.froad.db.extend.EnumTypeHandler}
+                    </if>
+                    <if test="pageFilter.filterEntity.clientId!= null">
+                        and client_id = #{pageFilter.filterEntity.clientId}
+                    </if>
+                </if>
+
+                <!-- 时间段条件 -->
+                <if test="pageFilter.property != null and pageFilter.startTime != null">
+                    <![CDATA[
+  					 and ${pageFilter.property} >= #{pageFilter.startTime}
+  					]]>
+                </if>
+                <if test="pageFilter.property != null and pageFilter.endTime != null">
+                    <![CDATA[
+  					 and ${pageFilter.property} <= #{pageFilter.endTime}
+  					]]>
+                </if>
+            </where>
+        </if>
+        <!-- 排序 -->
+        <if test="order != null">
+            <if test="order.property != null and order.direction != null">
+                order by ${order.property} ${order.direction}
+            </if>
+        </if>
+    </select>
+
+
+</mapper>

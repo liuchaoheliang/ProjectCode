@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.mysql.mapper.ProductCategoryMapper">
+
+	<resultMap type="ProductCategory" id="productCategoryResultMap">
+		<id property="id" column="id" />
+		<result property="clientId" column="client_id" />
+		<result property="name" column="name" />
+		<result property="treePath" column="tree_path" />
+		<result property="parentId" column="parent_id" />
+		<result property="isDelete" column="is_delete" />
+		<result property="icoUrl" column="ico_url" />
+		<result property="orderValue" column="order_value" />
+		<result property="bigIcoUrl" column="big_ico_url" />
+	</resultMap>
+
+
+	<!-- 添加  ProductCategory -->
+	<insert id="addProductCategory" parameterType="ProductCategory" useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[
+			INSERT INTO cb_product_category (
+				client_id,name,tree_path,parent_id,is_delete,ico_url,order_value
+			) values (
+				#{clientId},trim(#{name}),trim(#{treePath}),#{parentId},0,#{icoUrl},#{orderValue}
+			) 
+		]]>
+	</insert>
+
+
+	<!-- 批量添加  ProductCategory -->
+	<insert id="addProductCategoryBatch" parameterType="java.util.List">
+		INSERT INTO cb_product_category (
+			client_id,name,tree_path,parent_id,is_delete,ico_url,order_value
+		) values 
+		<foreach collection="list" item="item" index="index" separator=",">
+			(#{item.clientId},trim(#{item.name}),trim(#{item.treePath}),#{item.parentId},0,#{item.icoUrl},#{item.orderValue})
+		</foreach>
+	</insert>
+
+
+	<!-- 逻辑删除  ProductCategory -->
+	<update id="deleteLogicCategory" parameterType="ProductCategory">
+		UPDATE cb_product_category SET is_delete =1
+		WHERE id = #{id} 
+			<if test="clientId != null and clientId != ''">
+				 AND client_id = #{clientId}
+			</if>
+	</update>
+
+
+	<!-- 修改  ProductCategory -->
+	<update id="updateProductCategory" parameterType="ProductCategory">
+		UPDATE cb_product_category 
+		SET name = trim(#{name}) , tree_path = trim(#{treePath}) , parent_id = #{parentId}, ico_url = #{icoUrl}
+		<if test="orderValue != null">
+		    ,order_value= #{orderValue}	
+		</if>	
+		WHERE id = #{id} 
+			<if test="clientId != null and clientId != ''">
+				 AND client_id = #{clientId}
+			</if>
+	</update>
+
+
+	<!-- 查询  ProductCategory -->
+	<select id="getProductCategorys" parameterType="ProductCategory" resultMap="productCategoryResultMap">
+		SELECT id,client_id,name,tree_path,parent_id,is_delete,ico_url,order_value 
+		FROM cb_product_category
+		WHERE is_delete=0
+		<if test="id != null">
+			AND id = #{id}
+		</if>
+		<if test="clientId != null and clientId != ''">
+			AND client_id = #{clientId}
+		</if>
+		 ORDER BY order_value DESC 
+	</select>
+	
+	
+	<!-- 查询  ProductCategory是否存在 -->
+	<select id="getProductCategoryCount" parameterType="ProductCategory" resultType="Integer">
+		SELECT COUNT(0) 
+		FROM cb_product_category
+		WHERE is_delete=0
+		<if test="id != null">
+			AND id <![CDATA[<>]]> #{id}
+		</if>
+		<if test="clientId != null and clientId != ''">
+			AND client_id = #{clientId}
+		</if>
+		<if test="name != null and name != ''">
+			AND name = trim(#{name})
+		</if>
+		<if test="treePath != null and treePath != ''">
+			AND tree_path = trim(#{treePath})
+		</if>
+		<if test="parentId != null">
+			AND parent_id = #{parentId}
+		</if>	
+	</select>
+	
+	<!-- 查询商品分类的树节点 -->
+	<select id="findProductCategoryById" parameterType="Long" resultMap="productCategoryResultMap">
+		SELECT id,client_id,name,tree_path,parent_id,is_delete FROM cb_product_category WHERE id=#{id} LIMIT 1
+	</select>
+	
+	<!-- 分页查询 -->
+	<select id="findCategorysByPage" parameterType="java.util.HashMap" resultMap="productCategoryResultMap" >
+		select id,client_id,name,tree_path,parent_id,is_delete,ico_url,order_value from cb_product_category 
+		WHERE is_delete=0 
+		<if test="pc.clientId != null and pc.clientId != ''">
+			 AND client_id = #{pc.clientId}
+		</if>
+		<if test="pc.id != null and pc.id != 0">
+			 AND id = #{pc.id}
+		</if>
+		<if test="pc.parentId != null and pc.parentId != 0 " >
+			 AND parent_id = #{pc.parentId}
+		</if>
+		<if test="pc.name != null and pc.name !=''">
+			 AND name LIKE CONCAT('%',#{pc.name},'%')
+		</if>
+		 ORDER BY order_value DESC 
+	</select>
+	
+	
+	<!-- 查询  ProductCategory -->
+	<select id="findProductCategorys" parameterType="Map" resultMap="productCategoryResultMap">
+		SELECT id,client_id,name,tree_path,parent_id,is_delete,ico_url,order_value  
+		FROM cb_product_category
+        <where>
+			<if test="clientId != null and clientId != ''">
+				 AND client_id = #{clientId}
+			</if>
+			<if test="names!=null and names.size>0">
+				 AND name IN  
+				 <foreach collection="names" item="item" open="(" separator="," close=")">
+                     #{item}
+				 </foreach>
+			</if>
+		</where>
+		 ORDER BY parent_id ASC  
+	</select>
+	
+	<!-- 查询商品分类:特惠商品分类首页商品分类查询-H5用户端 -->
+	<select id="findCategorys" parameterType="java.util.HashMap" resultMap="productCategoryResultMap" >
+		SELECT id,client_id,name,tree_path,parent_id,is_delete,ico_url,order_value,big_ico_url  
+		FROM cb_product_category 
+		WHERE is_delete=0 
+		<if test="clientId != null and clientId != ''">
+			 AND client_id = #{clientId}
+		</if>
+		<if test="parentId != null" >
+			 AND parent_id = #{parentId}
+		</if>
+		<if test="isMall != null" >
+			 AND is_mall = #{isMall} 
+		</if>
+		<if test="isMarket != null" >
+			 AND is_market = #{isMarket}
+		</if>
+		<if test="parentIds!=null and parentIds.size>0">
+			 AND parent_id IN  
+			 <foreach collection="parentIds" item="item" open="(" separator="," close=")">
+			 	#{item}
+			 </foreach>
+		</if>
+		 ORDER BY parent_id,order_value DESC 
+	</select>
+	
+	<select id="findCategoryChildNum" parameterType="java.util.HashMap" resultType="java.util.HashMap" >
+		SELECT parent_id id,COUNT(id) childNum 
+		FROM cb_product_category 
+		WHERE is_delete=0 
+		<if test="clientId != null and clientId != ''">
+			 AND client_id = #{clientId}
+		</if>
+		<if test="parentId != null" >
+			 AND parent_id = #{parentId}
+		</if>
+		<if test="isMall != null" >
+			 AND is_mall = #{isMall} 
+		</if>
+		<if test="parentIds!=null and parentIds.size>0">
+			 AND parent_id IN  
+			 <foreach collection="parentIds" item="item" open="(" separator="," close=")">
+			 	#{item}
+			 </foreach>
+		</if>
+		 GROUP BY parent_id 
+	</select>
+
+</mapper>

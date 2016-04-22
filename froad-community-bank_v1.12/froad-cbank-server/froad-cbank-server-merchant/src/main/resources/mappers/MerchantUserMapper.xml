@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.mysql.mapper.MerchantUserMapper">
+
+	<resultMap type="MerchantUser" id="merchantUserResultMap">
+		<id property="id" column="id" />
+		<result property="clientId" column="client_id" />
+		<result property="createTime" column="create_time" />
+		<result property="merchantId" column="merchant_id" />
+		<result property="outletId" column="outlet_id" />
+		<result property="merchantRoleId" column="merchant_role_id" />
+		<result property="username" column="username" />
+		<result property="password" column="password" />
+		<result property="email" column="email" />
+		<result property="phone" column="phone" />
+		<result property="isRest" column="is_rest" />
+		<result property="isDelete" column="is_delete" />
+		<result property="realname" column="realname" />
+		
+		<!-- 商户表 -->
+		<result property="merchantName" column="merchant_name" />
+		<result property="merchantIsEnable" column="merchant_is_enable" />
+		<result property="merchantDisableStatus" column="merchant_disable_status" />
+		<result property="orgCode" column="org_code" />
+		
+		<!-- 门店表 -->
+		<result property="outletName" column="outlet_name" />
+	</resultMap>
+
+
+	<!-- 添加  MerchantUser -->
+	<insert id="addMerchantUser" parameterType="MerchantUser" useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[
+			INSERT INTO cb_merchant_user (
+				client_id,create_time,merchant_id,outlet_id,merchant_role_id,username,password,email,phone,is_rest,is_delete,realname
+			) VALUES (
+				#{clientId},#{createTime},#{merchantId},#{outletId},#{merchantRoleId},#{username},#{password},#{email},#{phone},#{isRest},#{isDelete},#{realname}
+			) 
+		]]>
+	</insert>
+
+
+	<!-- 批量添加  MerchantUser -->
+	<insert id="addMerchantUserByBatch" parameterType="java.util.List">
+		INSERT INTO cb_merchant_user (
+			client_id,create_time,merchant_id,outlet_id,merchant_role_id,username,password,email,phone,is_delete,realname
+		) VALUES 
+		<foreach collection="merchantUserList" item="item" index="index" separator=",">
+			(#{clientId},#{createTime},#{merchantId},#{outletId},#{merchantRoleId},#{username},#{password},#{email},#{phone},#{isDelete},#{realname})
+		</foreach>
+	</insert>
+
+
+	<!-- 删除  MerchantUser -->
+	<update id="deleteMerchantUser" parameterType="MerchantUser">
+		UPDATE cb_merchant_user SET is_delete = true AND id = #{id}
+	</update>
+
+
+	<!-- 修改  MerchantUser -->
+	<update id="updateMerchantUser" parameterType="MerchantUser">
+		UPDATE cb_merchant_user 
+		
+		<set>
+				<if test="clientId != null">
+					  client_id = #{clientId}, 
+				</if>
+				<if test="merchantId != null">
+					  merchant_id = #{merchantId}, 
+				</if>
+				<if test="outletId != null">
+					  outlet_id = #{outletId}, 
+				</if>
+				<if test="merchantRoleId != null">
+					  merchant_role_id = #{merchantRoleId}, 
+				</if>
+				<if test="username != null">
+					  username = #{username}, 
+				</if>
+				<if test="password != null">
+					  password = #{password}, 
+				</if>
+				<if test="email != null">
+					  email = #{email}, 
+				</if>
+				<if test="phone != null">
+					  phone = #{phone}, 
+				</if>
+				<if test="isRest != null">
+					  is_rest = #{isRest}, 
+				</if>
+				<if test="realname != null">
+					realname = #{realname},
+				</if>
+				<if test="isDelete != null">
+					is_delete = #{isDelete},
+				</if>
+		</set>
+		
+		where id = #{id}
+	</update>
+	
+
+
+	<!-- 查询  MerchantUser -->
+	<select id="findMerchantUserById" parameterType="java.lang.Long" resultMap="merchantUserResultMap">
+		SELECT 
+            u.id, u.create_time, u.client_id, u.merchant_id, u.outlet_id
+            , u.merchant_role_id, u.username, u.password, u.email, u.phone
+            , u.is_rest, u.is_delete, u.realname
+            , m.merchant_name 
+            , m.is_enable merchant_is_enable
+            , m.disable_status  merchant_disable_status
+            , m.org_code 
+            , o.outlet_name 
+        FROM cb_merchant_user u LEFT JOIN cb_merchant m ON u.merchant_id = m.merchant_id LEFT JOIN cb_outlet o ON o.outlet_id = u.outlet_id 
+        WHERE 
+            u.id = #{id}
+
+	</select>
+
+	<!-- 查询  MerchantUser -->
+	<select id="findMerchantUser" parameterType="MerchantUser" resultMap="merchantUserResultMap">
+		SELECT 
+            u.id, u.create_time, u.client_id, u.merchant_id, u.outlet_id
+            , u.merchant_role_id, u.username, u.password, u.email, u.phone
+            , u.is_rest, u.is_delete, u.realname
+            , m.merchant_name 
+            , m.is_enable merchant_is_enable
+            , m.disable_status  merchant_disable_status
+            , m.org_code 
+            , o.outlet_name 
+        FROM cb_merchant_user u LEFT JOIN cb_merchant m ON u.merchant_id = m.merchant_id LEFT JOIN cb_outlet o ON o.outlet_id = u.outlet_id 
+        <where>
+			<if test="clientId != null">
+				 AND u.client_id = #{clientId}
+			</if>
+			<if test="merchantId != null">
+				 AND u.merchant_id = #{merchantId}
+			</if>
+			<if test="outletId != null">
+				 AND u.outlet_id = #{outletId}
+			</if>
+			<if test="merchantRoleId != null and merchantRoleId > 0">
+				 AND u.merchant_role_id = #{merchantRoleId}
+			</if>
+			<if test="username != null">
+				 AND u.username like CONCAT('%',#{username},'%' )
+			</if>
+			<if test="password != null">
+				 AND password = #{password}
+			</if>
+			<if test="email != null">
+				 AND u.email like CONCAT('%',#{email},'%' )
+			</if>
+			<if test="phone != null">
+				 AND u.phone like CONCAT('%',#{phone},'%' )
+			</if>
+			<if test="isRest != null">
+				 AND u.is_rest = #{isRest}
+			</if>
+			<if test="isDelete != null">
+				 AND u.is_delete = #{isDelete}
+			</if>
+			<if test="realname != null">
+				 AND u.realname like CONCAT('%',#{realname},'%' )
+			</if>
+			<if test="id != null">
+			     AND u.id = #{id}
+			</if>
+		</where>
+			 ORDER BY u.merchant_role_id ASC, u.create_time DESC 
+	</select>
+
+	<!-- 分页查询  MerchantUser -->
+	<select id="findByPage" parameterType="java.util.HashMap" resultMap="merchantUserResultMap">
+		select 
+            u.id, u.create_time, u.client_id, u.merchant_id, u.outlet_id
+            , u.merchant_role_id, u.username, u.password, u.email, u.phone
+            , u.is_rest, u.is_delete, u.realname
+            , m.merchant_name 
+            , m.is_enable merchant_is_enable
+            , m.disable_status  merchant_disable_status
+            , m.org_code 
+            , o.outlet_name 
+        FROM cb_merchant_user u LEFT JOIN cb_merchant m ON u.merchant_id = m.merchant_id LEFT JOIN cb_outlet o ON o.outlet_id = u.outlet_id 
+        <where>
+			<if test="merchantUser != null">
+				<if test="merchantUser.clientId != null">
+				    AND u.client_id = #{merchantUser.clientId}
+				</if>
+				<if test="merchantUser.merchantId != null">
+				    AND u.merchant_id = #{merchantUser.merchantId}
+				</if>
+				<if test="merchantUser.outletId != null">
+				    AND u.outlet_id = #{merchantUser.outletId}
+				</if>
+				<if test="merchantUser.merchantRoleId != null and merchantUser.merchantRoleId > 0">
+				    AND u.merchant_role_id = #{merchantUser.merchantRoleId}
+				</if>
+				<if test="merchantUser.username != null">
+				    AND u.username like CONCAT('%',#{merchantUser.username},'%' )
+				</if>
+				<if test="merchantUser.password != null">
+				    AND u.password = #{merchantUser.password}
+				</if>
+				<if test="merchantUser.email != null">
+				    AND u.email like CONCAT('%',#{merchantUser.email},'%' )
+				</if>
+				<if test="merchantUser.phone != null">
+				    AND u.phone like CONCAT('%',#{merchantUser.phone},'%' )
+				</if>
+				<if test="merchantUser.isRest != null">
+				    AND u.is_rest = #{merchantUser.isRest}
+				</if>
+				<if test="merchantUser.isDelete != null">
+				    AND u.is_delete = #{merchantUser.isDelete}
+				</if>
+				<if test="merchantUser.realname != null">
+				    AND u.realname = #{merchantUser.realname}
+				</if>
+				<if test="merchantUser.id != null">
+				    AND u.id = #{merchantUser.id}
+				</if>
+			</if>
+		</where>
+		 ORDER BY u.merchant_role_id ASC, u.create_time DESC 
+	</select>
+
+	<!-- 查询  MerchantUser - 根据 username findMerchantUserByUsername -->
+	<select id="findMerchantUserByUsername" parameterType="java.lang.String" resultMap="merchantUserResultMap">
+		SELECT 
+            u.id, u.create_time, u.client_id, u.merchant_id, u.outlet_id
+            , u.merchant_role_id, u.username, u.password, u.email, u.phone
+            , u.is_rest, u.is_delete, u.realname
+            , m.merchant_name 
+            , m.is_enable merchant_is_enable
+            , m.disable_status  merchant_disable_status
+            , m.org_code 
+            , o.outlet_name 
+        FROM cb_merchant_user u LEFT JOIN cb_merchant m ON u.merchant_id = m.merchant_id LEFT JOIN cb_outlet o ON o.outlet_id = u.outlet_id 
+        WHERE u.username = #{username} AND u.client_id = #{clientId} limit 1
+	</select>
+	
+	<!-- 查询  MerchantUser - 根据 phone findMerchantUserByPhone -->
+	<select id="findMerchantUserByPhone" parameterType="java.lang.String" resultMap="merchantUserResultMap">
+		SELECT 
+            u.id, u.create_time, u.client_id, u.merchant_id, u.outlet_id
+            , u.merchant_role_id, u.username, u.password, u.email, u.phone
+            , u.is_rest, u.is_delete, u.realname
+            ,(select m.merchant_name from cb_merchant m where m.merchant_id = u.merchant_id) merchant_name
+	        , m.merchant_name 
+            , m.is_enable merchant_is_enable
+            , m.disable_status  merchant_disable_status
+            , m.org_code 
+            , o.outlet_name 
+        FROM cb_merchant_user u LEFT JOIN cb_merchant m ON u.merchant_id = m.merchant_id LEFT JOIN cb_outlet o ON o.outlet_id = u.outlet_id 
+        WHERE u.phone = #{phone} limit 1
+	</select>
+	
+	<!-- 查询  MerchantUserList - 根据 roleId 和 merchantIds -->
+	<select id="getMerchantUserByRoleIdAndMerchantIds" resultMap="merchantUserResultMap">
+		SELECT 
+            u.id, u.create_time, u.client_id, u.merchant_id, u.outlet_id
+            , u.merchant_role_id, u.username, u.password, u.email, u.phone
+            , u.is_rest, u.is_delete, u.realname
+            , m.merchant_name 
+            , m.is_enable merchant_is_enable
+            , m.disable_status  merchant_disable_status
+            , m.org_code 
+            , o.outlet_name 
+        FROM cb_merchant_user u LEFT JOIN cb_merchant m ON u.merchant_id = m.merchant_id LEFT JOIN cb_outlet o ON o.outlet_id = u.outlet_id 
+        WHERE u.merchant_role_id = #{roleId} 
+          AND u.merchant_id in 
+          		<foreach collection="merchantIdList" item="merId" index="index" open="(" close=")" separator=",">
+					#{merId}
+				</foreach>
+		  AND u.is_delete = 0 order by u.id desc
+	</select>
+
+</mapper>
+

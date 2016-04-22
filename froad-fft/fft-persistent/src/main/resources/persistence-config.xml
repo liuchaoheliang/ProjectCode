@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <typeAliases>
+        <typeAlias alias="ClientChannel" type="com.froad.fft.persistent.entity.ClientChannel"/>
+        <typeAlias alias="Ad" type="com.froad.fft.persistent.entity.Ad"/>
+        <typeAlias alias="AdPosition" type="com.froad.fft.persistent.entity.AdPosition"/>
+        <typeAlias alias="Agreement" type="com.froad.fft.persistent.entity.Agreement"/>
+        <typeAlias alias="Area" type="com.froad.fft.persistent.entity.Area"/>
+        <typeAlias alias="Article" type="com.froad.fft.persistent.entity.Article"/>
+        <typeAlias alias="ArticleCategory" type="com.froad.fft.persistent.entity.ArticleCategory"/>
+        <typeAlias alias="BusinessCircle" type="com.froad.fft.persistent.entity.BusinessCircle"/>
+        <typeAlias alias="FriendLink" type="com.froad.fft.persistent.entity.FriendLink"/>
+        <typeAlias alias="FundsChannel" type="com.froad.fft.persistent.entity.FundsChannel"/>
+        <typeAlias alias="GivePointRule" type="com.froad.fft.persistent.entity.GivePointRule"/>
+        <typeAlias alias="Log" type="com.froad.fft.persistent.entity.Log"/>
+        <typeAlias alias="Member" type="com.froad.fft.persistent.entity.Member"/>
+        <typeAlias alias="Merchant" type="com.froad.fft.persistent.entity.Merchant"/>
+        <typeAlias alias="MerchantCategory" type="com.froad.fft.persistent.entity.MerchantCategory"/>
+        <typeAlias alias="MerchantComment" type="com.froad.fft.persistent.entity.MerchantComment"/>
+        <typeAlias alias="MerchantGroupUser" type="com.froad.fft.persistent.entity.MerchantGroupUser"/>
+        <typeAlias alias="MerchantOnlineApply" type="com.froad.fft.persistent.entity.MerchantOnlineApply"/>
+        <typeAlias alias="MerchantOutletTag" type="com.froad.fft.persistent.entity.MerchantOutletTag"/>
+        <typeAlias alias="MerchantOutlet" type="com.froad.fft.persistent.entity.MerchantOutlet"/>
+        <typeAlias alias="MerchantPreferential" type="com.froad.fft.persistent.entity.MerchantPreferential"/>
+        <typeAlias alias="MerchantPhoto" type="com.froad.fft.persistent.entity.MerchantPhoto"/>
+        <typeAlias alias="MerchantPresent" type="com.froad.fft.persistent.entity.MerchantPresent"/>
+        <typeAlias alias="Navigation" type="com.froad.fft.persistent.entity.Navigation"/>
+        <typeAlias alias="Pay" type="com.froad.fft.persistent.entity.Pay"/>
+        <typeAlias alias="Product" type="com.froad.fft.persistent.entity.Product"/>
+        <typeAlias alias="ProductAttribute" type="com.froad.fft.persistent.entity.ProductAttribute"/>
+        <typeAlias alias="ProductAttributeValue" type="com.froad.fft.persistent.entity.ProductAttributeValue"/>
+        <typeAlias alias="ProductCategory" type="com.froad.fft.persistent.entity.ProductCategory"/>
+        <typeAlias alias="ProductGroup" type="com.froad.fft.persistent.entity.ProductGroup"/>
+        <typeAlias alias="ProductPresell" type="com.froad.fft.persistent.entity.ProductPresell"/>
+        <typeAlias alias="PresellDelivery" type="com.froad.fft.persistent.entity.PresellDelivery"/>
+        <typeAlias alias="ProductImage" type="com.froad.fft.persistent.entity.ProductImage"/>
+        <typeAlias alias="ProductType" type="com.froad.fft.persistent.entity.ProductType"/>
+        <typeAlias alias="SysClient" type="com.froad.fft.persistent.entity.SysClient"/>
+        <typeAlias alias="SysResource" type="com.froad.fft.persistent.entity.SysResource"/>
+        <typeAlias alias="SysRole" type="com.froad.fft.persistent.entity.SysRole"/>
+        <typeAlias alias="SysRoleResource" type="com.froad.fft.persistent.entity.SysRoleResource"/>
+        <typeAlias alias="SysUser" type="com.froad.fft.persistent.entity.SysUser"/>
+        <typeAlias alias="SysUserRole" type="com.froad.fft.persistent.entity.SysUserRole"/>
+        <typeAlias alias="SmsLog" type="com.froad.fft.persistent.entity.SmsLog"/>
+        <typeAlias alias="SmsContent" type="com.froad.fft.persistent.entity.SmsContent"/>
+        <typeAlias alias="TransDetails" type="com.froad.fft.persistent.entity.TransDetails"/>
+        <typeAlias alias="Trans" type="com.froad.fft.persistent.entity.Trans"/>
+        <typeAlias alias="Tag" type="com.froad.fft.persistent.entity.Tag"/>
+        <typeAlias alias="TransSecurityTicket" type="com.froad.fft.persistent.entity.TransSecurityTicket"/>
+        <typeAlias alias="PresentPointsRule" type="com.froad.fft.persistent.entity.PresentPointsRule"/>
+        <typeAlias alias="MerchantAccount" type="com.froad.fft.persistent.entity.MerchantAccount"/>
+        <typeAlias alias="WithdrawPointsRule" type="com.froad.fft.persistent.entity.WithdrawPointsRule"/>
+        <typeAlias alias="Refunds" type="com.froad.fft.persistent.entity.Refunds"/>
+        <typeAlias alias="StockPileLog" type="com.froad.fft.persistent.entity.StockPileLog"/>
+        <typeAlias alias="StockPile" type="com.froad.fft.persistent.entity.StockPile"/>
+        <typeAlias alias="OutletPresellDelivery" type="com.froad.fft.persistent.entity.OutletPresellDelivery"/>
+        <typeAlias alias="CashPointsRatio" type="com.froad.fft.persistent.entity.CashPointsRatio"/>
+        <typeAlias alias="ReturnSale" type="com.froad.fft.persistent.entity.ReturnSale"/>
+        <typeAlias alias="ReturnSaleDetail" type="com.froad.fft.persistent.entity.ReturnSaleDetail"/>
+        <typeAlias alias="ProductPresellDelivery" type="com.froad.fft.persistent.entity.ProductPresellDelivery"/>
+        <typeAlias alias="ProductRestrictRule" type="com.froad.fft.persistent.entity.ProductRestrictRule"/>
+        <typeAlias alias="RegisterGivePointRule" type="com.froad.fft.persistent.entity.RegisterGivePointRule"/>
+        <typeAlias alias="PresellTrans" type="com.froad.fft.persistent.entity.PresellTrans"/>
+        <typeAlias alias="OutletStatistic" type="com.froad.fft.persistent.bean.OutletStatistic"/>
+        <typeAlias alias="TransStatistic" type="com.froad.fft.persistent.bean.TransStatistic"/>
+    </typeAliases>
+
+    <!-- 分页拦截器     mysql or oracle -->
+    <plugins>
+        <plugin interceptor="com.froad.fft.persistent.interceptor.PageInterceptor">
+            <property name="databaseType" value="MySql"/>
+            <property name="pageSqlIdRegEx" value=".*ByPage"/>
+        </plugin>
+    </plugins>
+
+    <mappers>
+        <mapper resource="mappers/ClientChannelMapper.xml"/>
+        <mapper resource="mappers/AdMapper.xml"/>
+        <mapper resource="mappers/AdPositionMapper.xml"/>
+        <mapper resource="mappers/AgreementMapper.xml"/>
+        <mapper resource="mappers/AreaMapper.xml"/>
+        <mapper resource="mappers/ArticleMapper.xml"/>
+        <mapper resource="mappers/ArticleCategoryMapper.xml"/>
+        <mapper resource="mappers/BusinessCircleMapper.xml"/>
+        <mapper resource="mappers/FriendLinkMapper.xml"/>
+        <mapper resource="mappers/FundsChannelMapper.xml"/>
+        <mapper resource="mappers/GivePointRuleMapper.xml"/>
+        <mapper resource="mappers/LogMapper.xml"/>
+        <mapper resource="mappers/MemberMapper.xml"/>
+        <mapper resource="mappers/MerchantMapper.xml"/>
+        <mapper resource="mappers/MerchantCategoryMapper.xml"/>
+        <mapper resource="mappers/MerchantCommentMapper.xml"/>
+        <mapper resource="mappers/MerchantGroupUserMapper.xml"/>
+        <mapper resource="mappers/MerchantOnlineApplyMapper.xml"/>
+        <mapper resource="mappers/MerchantOutletTagMapper.xml"/>
+        <mapper resource="mappers/MerchantOutletMapper.xml"/>
+        <mapper resource="mappers/MerchantPreferentialMapper.xml"/>
+        <mapper resource="mappers/MerchantPhotoMapper.xml"/>
+        <mapper resource="mappers/MerchantPresentMapper.xml"/>
+        <mapper resource="mappers/NavigationMapper.xml"/>
+        <mapper resource="mappers/PayMapper.xml"/>
+        <mapper resource="mappers/ProductMapper.xml"/>
+        <mapper resource="mappers/ProductAttributeMapper.xml"/>
+        <mapper resource="mappers/ProductAttributeValueMapper.xml"/>
+        <mapper resource="mappers/ProductCategoryMapper.xml"/>
+        <mapper resource="mappers/ProductGroupMapper.xml"/>
+        <mapper resource="mappers/ProductPresellMapper.xml"/>
+        <mapper resource="mappers/PresellDeliveryMapper.xml"/>
+        <mapper resource="mappers/ProductImageMapper.xml"/>
+        <mapper resource="mappers/ProductTypeMapper.xml"/>
+        <mapper resource="mappers/SysClientMapper.xml"/>
+        <mapper resource="mappers/SysResourceMapper.xml"/>
+        <mapper resource="mappers/SysRoleMapper.xml"/>
+        <mapper resource="mappers/SysRoleResourceMapper.xml"/>
+        <mapper resource="mappers/SysUserMapper.xml"/>
+        <mapper resource="mappers/SysUserRoleMapper.xml"/>
+        <mapper resource="mappers/SmsLogMapper.xml"/>
+        <mapper resource="mappers/SmsContentMapper.xml"/>
+        <mapper resource="mappers/TagMapper.xml"/>
+        <mapper resource="mappers/TransMapper.xml"/>
+        <mapper resource="mappers/TransDetailsMapper.xml"/>
+        <mapper resource="mappers/TransSecurityTicketMapper.xml"/>
+        <mapper resource="mappers/MerchantAccountMapper.xml"/>
+        <mapper resource="mappers/PresentPointsRuleMapper.xml"/>
+        <mapper resource="mappers/WithdrawPointsRuleMapper.xml"/>
+        <mapper resource="mappers/RefundsMapper.xml"/>
+        <mapper resource="mappers/StockPileLogMapper.xml"/>
+        <mapper resource="mappers/StockPileMapper.xml"/>
+        <mapper resource="mappers/OutletPresellDeliveryMapper.xml"/>
+        <mapper resource="mappers/CashPointsRatioMapper.xml"/>
+        <mapper resource="mappers/ReturnSaleDetailMapper.xml"/>
+        <mapper resource="mappers/ReturnSaleMapper.xml"/>
+        <mapper resource="mappers/ProductPresellDeliveryMapper.xml"/>
+        <mapper resource="mappers/ProductRestrictRuleMapper.xml"/>
+        <mapper resource="mappers/RegisterGivePointRuleMapper.xml"/>
+        <mapper resource="mappers/TransStatisticMapper.xml"/>
+    </mappers>
+</configuration>

@@ -1,0 +1,51 @@
+/*
+* Author:
+* pengling@f-road.com.cn 
+*/
+/*积分兑换详情*/
+.points{width:758px; border:1px solid #b7b7b7;  padding-bottom:10px; background:#FFF;font-family:"微软雅黑";}
+
+.points .leffShow{ float:left;   }
+*+html .points .leffShow{display:inline; border:1px solid #ddd; }
+.points .leffShow img{}
+.bookingfloat{position:absolute; z-index:22;}
+*+html  .bookingfloat{ z-index:22}
+.points  .bookingnum{font-size:13px;background:#f3f3f3;height:30px;line-height:30px;text-align:center;font-family: "微软雅黑";}
+.points .rightInfor{width:380px; float:left; margin-left:5px; display:inline; margin-top:10px; font-size:14px; font-family:Arial, Helvetica, sans-serif}
+.points .rightInfor hr{border-top:1px dotted #999;height:1px}
+.points .rightInfor dt{ height:30px; font:bold 20px/20px "微软雅黑"; color:#000; border-bottom:1px dashed #ddd;}
+
+.points .rightInfor dd{line-height:35px; word-break: break-all; white-space:normal; word-wrap:break-word; font-family: "微软雅黑";}
+
+.points .rightInfor dd font{ margin-right:5px; }
+.points .rightInfor .countdown {margin:-5px 0;font-family: "微软雅黑";font-size:14px}
+.points .rightInfor .countdown font{float:left ;line-height:40px;font-size:14px}
+.points .rightInfor .countdown span{margin:10px 3px 0 3px ;display:block;background:#000;width:15px;color:#fff; text-align:center;float:left;height:22px;line-height:22px}
+*+html .countdown span{margin:0px 3px 0 3px;display:block;background:#000;width:15px;color:#fff; text-align:center;height:102px;line-height:22px;font-size:14px}
+.points .rightInfor .pay img{margin:0 4px 0 0}
+
+
+
+
+
+.points  .mebuy{ height:40px;font-family: "微软雅黑";}
+
+.points  .mebuy a{ font-size:16px; margin:0 2px; color:#999; text-decoration:none; padding:0px 5px; font-weight:bold; font-family:Arial, Helvetica, sans-serif;}
+
+.points .contantInr{width:96%; margin:20px;line-height:30px; font-size:12px;float:left;}
+.points .contantInr dt{display:block;margin:15px 0 0 0;font:bold 16px/24px "微软雅黑" ;}
+.points .contantInr dd{}
+
+.points .contantInr img{width:500px; height:313px; display:block;}
+
+
+
+.orangefont{color:#f60}
+.rightImg{width:240px; font-family: "微软雅黑";}
+.bookingtit{margin-bottom:10px;font-family:"微软雅黑";}
+.rightImg a{float:Left; text-decoration:none;color:#000;font-size:14px;line-height:22px;}
+.rightImg img{ margin:0 0 10px 0; border:1px solid #ececec;}
+ a .rightImg:link{color:#000}
+.rightImg .right{float:right;margin-right:2px;font-size:12px}
+.rightImg .grayFont{margin-left:10px;font-size:12px}
+.rightImg .grayFont span{ text-decoration: line-through}

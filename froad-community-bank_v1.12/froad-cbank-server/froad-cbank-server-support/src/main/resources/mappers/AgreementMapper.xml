@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.mysql.mapper.AgreementMapper">
+
+	<resultMap type="Agreement" id="agreementResultMap">
+		<id property="id" column="id" />
+		<result property="clientId" column="client_id" />
+		<result property="content" column="content" />
+	</resultMap>
+
+
+	<!-- 添加  Agreement -->
+	<insert id="addAgreement" parameterType="Agreement" useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[
+			insert into cb_agreement (
+				client_id,content
+			) values (
+				#{clientId},#{content}
+			) 
+		]]>
+	</insert>
+
+
+	<!-- 批量添加  Agreement -->
+	<insert id="addAgreementByBatch" parameterType="java.util.List">
+		insert into cb_agreement (
+			client_id,content
+		) values 
+		<foreach collection="agreementList" item="item" index="index" separator=",">
+			(#{clientId},#{content})
+		</foreach>
+	</insert>
+
+
+	<!-- 删除  Agreement -->
+	<delete id="deleteAgreement" parameterType="Agreement">
+		delete from cb_agreement where  id = #{id}
+	</delete>
+
+
+	<!-- 修改  Agreement -->
+	<update id="updateAgreement" parameterType="Agreement">
+		update cb_agreement  
+			<set>
+				<if test="clientId != null">
+					 client_id = #{clientId},
+				</if>
+				<if test="content != null">
+					content = #{content},
+				</if>
+			</set>
+		 where id = #{id}
+	</update>
+
+<!-- 查询  Agreement -->
+	<select id="findAgreementById" parameterType="java.lang.Long" resultMap="agreementResultMap">
+		SELECT 
+            id,client_id,content 
+        FROM cb_agreement 
+        WHERE 
+            id = #{id}
+
+	</select>
+
+
+
+	<!-- 查询  Agreement -->
+	<select id="findAgreement" parameterType="Agreement" resultMap="agreementResultMap">
+		select 
+            id,client_id,content 
+        from cb_agreement 
+		<where>
+			<if test="id != null">
+				and id = #{id}
+			</if>
+			<if test="clientId != null">
+				and client_id = #{clientId}
+			</if>
+			<if test="content != null">
+				and content = #{content}
+			</if>
+		</where>
+	</select>
+
+	<!-- 分页查询  Agreement -->
+	<select id="findByPage" parameterType="java.util.HashMap" resultMap="agreementResultMap">
+		select 
+            id,client_id,content 
+        from cb_agreement 
+		<if test="agreement != null">
+			<where>
+				<if test="agreement.id != null">
+					and id = #{agreement.id}
+				</if>
+				<if test="agreement.clientId != null">
+					and client_id = #{agreement.clientId}
+				</if>
+				<if test="agreement.content != null">
+					and content = #{agreement.content}
+				</if>
+			</where>
+		</if>
+	</select>
+
+
+</mapper>
+

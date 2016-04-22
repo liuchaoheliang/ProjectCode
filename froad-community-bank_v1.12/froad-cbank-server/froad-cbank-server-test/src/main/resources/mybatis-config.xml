@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+	<properties url="file:./config/jdbc.properties"/>
+
+	<!-- 参数名称 参数说明 cacheModelsEnabled 是否启动ibatis中的缓存功能。 enhancementEnabled 是否需要POJO启动Java字节码增强功能，可以提升getter/setter的调用效能避免Java反射所带来的性能开销。 
+		lazyLoadingEnabled 是否同时Lazy Loading带来极大的性能提升。 useStatementNamespaces 是否使用 
+		domain xml 文件中 namespace 别名配置。 maxRequests 最大并发请求数(Statemetn数)。 maxTransactions 
+		最大并发事务数 maxSessions 最大Session数，当前最大允许的并发 SqlMapCliect数 maxSessions 须界于 maxTransactions和maxRequests之间进行配置 -->
+
+	<settings>
+		<setting name="cacheModelsEnabled" value="true"/>
+		<setting name="lazyLoadingEnabled" value="true"/>
+		<setting name="enhancementEnabled" value="true"/>
+		<setting name="errorTracingEnabled" value="true"/>
+		<setting name="maxSessions" value="1024"/>
+		<setting name="maxTransactions" value="512"/>
+		<setting name="maxRequests" value="2048"/>
+		<setting name="useStatementNamespaces" value="true"/>
+	</settings>
+	
+	<!-- 指定结果集映射关系 -->
+	<typeAliases>
+
+	</typeAliases>
+
+	<!-- 分页拦截器 mysql or oracle -->
+	<plugins>
+		<plugin interceptor="com.froad.db.mysql.interceptor.PageInterceptor">
+			<property name="databaseDialect" value="com.froad.db.mysql.dialet.MySQLDialect" />
+			<property name="pageSqlIdRegEx" value=".*ByPage" />
+		</plugin>
+	</plugins>
+	
+	<!-- -->
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC" />
+			<dataSource type="com.froad.db.mysql.datasource.DruidDataSourceFactory">
+				<property name="driverClassName" value="${jdbc.driverClassName}" />
+				<property name="url" value="${jdbc.url}" />
+				<property name="username" value="${jdbc.username}" />
+				<property name="password" value="${jdbc.password}" />
+
+				<!-- 配置初始化大小、最小、最大 -->
+				<property name="initialSize" value="${pool.initialSize}" />
+				<property name="minIdle" value="${pool.minIdle}" />
+				<property name="maxActive" value="${pool.maxActive}" />
+
+				<!-- 配置获取连接等待超时的时间 -->
+				<property name="maxWait" value="${pool.maxWait}" />
+
+				<property name="validationQuery" value="select now()" />
+				<property name="testWhileIdle" value="true" />
+				<property name="testOnBorrow" value="false" />
+				<property name="testOnReturn" value="false" />
+				<property name="poolPreparedStatements" value="false" />
+				<property name="maxOpenPreparedStatements" value="-1" />
+
+				<!-- 对于长时间不使用的连接强制关闭 -->
+				<property name="removeAbandoned" value="true" />
+
+				<!-- 超过30分钟开始关闭空闲连接 -->
+				<property name="removeAbandonedTimeout" value="120" />
+
+				<!-- 将当前关闭动作记录到日志 -->
+				<property name="logAbandoned" value="true" />
+			</dataSource>
+		</environment>
+	</environments>
+
+	<!-- 指定mapper资源 -->
+	<mappers>
+	
+	</mappers>
+
+</configuration>

@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.mysql.rp_mappers.ReportUserTransMapper">
+	<resultMap type="ReportUserTrans" id="reportUserTransResultMap">
+		<id property="id" column="id" />
+		<result property="createTime" column="create_time" />
+		<result property="clientId" column="client_id" />
+		<result property="bankCardId" column="bank_card_id" />
+		<result property="forgCode" column="forg_code" />
+		<result property="forgName" column="forg_name" />
+		<result property="sorgCode" column="sorg_code" />
+		<result property="sorgName" column="sorg_name" />
+		<result property="torgCode" column="torg_code" />
+		<result property="torgName" column="torg_name" />
+		<result property="lorgCode" column="lorg_code" />
+		<result property="lorgName" column="lorg_name" />
+		<result property="userId" column="user_id" />
+		<result property="loginId" column="login_id" />
+		<result property="userName" column="user_name" />
+		<result property="mobile" column="mobile" />
+		<result property="regTime" column="reg_time" />
+		<result property="regType" column="reg_type" />
+		<result property="isVip" column="is_vip" />
+		<result property="signTime" column="sign_time" />
+		<result property="validStatus" column="valid_status" />
+		<result property="orderType" column="order_type" />
+		<result property="totalOrderNumber" column="total_order_number" />
+		<result property="totalOrderAmount" column="total_order_amount" />
+		<result property="totalProductNumber" column="total_product_number" />
+		<result property="totalProductAmount" column="total_product_amount" />
+		<result property="totalRefundsAmount" column="total_refunds_amount" />
+		<result property="totalPointNumber" column="total_point_number" />
+		<result property="totalPointAmount" column="total_point_amount" />
+		<result property="totalQuickNumber" column="total_quick_number" />
+		<result property="totalQuickAmount" column="total_quick_amount" />
+		<result property="totalFilmNumber" column="total_film_number" />
+		<result property="totalFilmAmount" column="total_film_amount" />
+		<result property="totalPointFilmNumber" column="total_point_film_number" />
+		<result property="totalPointFilmAmount" column="total_point_film_amount" />
+		<result property="totalPointQuickNumber" column="total_point_quick_number" />
+		<result property="totalPointQuickAmount" column="total_point_quick_amount" />
+	</resultMap>
+	
+	<resultMap type="ReportUserTrans" id="consumeTradeTypeResultMap">
+		<result property="orderType" column="order_type" />
+		<result property="totalUsers" column="total_users" />
+		<result property="totalOrderAmount" column="total_order_amount" />
+	</resultMap>
+	
+	<sql id="selectColumn">
+		id,create_time,client_id,bank_card_id,forg_code,forg_name,sorg_code,sorg_name,
+		torg_code,torg_name,lorg_code,lorg_name,user_id,login_id,user_name,mobile,reg_time,reg_type,
+		is_vip,sign_time,valid_status,order_type,total_order_number,total_order_amount,
+		total_product_number,total_product_amount,total_refunds_amount,total_point_number,total_point_amount,
+		total_quick_number,total_quick_amount,total_film_number,total_film_amount,
+		total_point_film_number,total_point_film_amount,total_point_quick_number,total_point_quick_amount 
+	</sql>
+	
+	
+	<insert id="addByBatch">
+		INSERT INTO cb_report_user_trans (
+			create_time,client_id,bank_card_id,forg_code,forg_name,sorg_code,sorg_name,
+			torg_code,torg_name,lorg_code,lorg_name,user_id,login_id,user_name,mobile,reg_time,reg_type,
+			is_vip,sign_time,valid_status,order_type,total_order_number,total_order_amount,
+			total_product_number,total_product_amount,total_refunds_amount,total_point_number,total_point_amount,
+			total_quick_number,total_quick_amount,total_film_number,total_film_amount,
+			total_point_film_number,total_point_film_amount,total_point_quick_number,total_point_quick_amount
+		) VALUES 
+		<foreach collection="trans" item="tran" index="index" separator=",">
+			(#{tran.createTime},#{tran.clientId},#{tran.bankCardId},#{tran.forgCode},#{tran.forgName},
+			#{tran.sorgCode},#{tran.sorgName},#{tran.torgCode},#{tran.torgName},#{tran.lorgCode},#{tran.lorgName},
+			#{tran.userId},#{tran.loginId},#{tran.userName},#{tran.mobile},#{tran.regTime},#{tran.regType},
+			#{tran.isVip},#{tran.signTime},#{tran.validStatus},#{tran.orderType},
+			#{tran.totalOrderNumber},#{tran.totalOrderAmount},#{tran.totalProductNumber},#{tran.totalProductAmount},
+			#{tran.totalRefundsAmount},#{tran.totalPointNumber},#{tran.totalPointAmount},
+			#{tran.totalQuickNumber},#{tran.totalQuickAmount},#{tran.totalFilmNumber},#{tran.totalFilmAmount},
+			#{tran.totalPointFilmNumber},#{tran.totalPointFilmAmount},#{tran.totalPointQuickNumber},#{tran.totalPointQuickAmount})
+		</foreach>
+	</insert>
+	
+
+	<select id="selectConsumeTradeType" resultMap="consumeTradeTypeResultMap">
+		SELECT 
+			order_type,COUNT(DISTINCT user_id) total_users,SUM(IFNULL(total_order_amount,0)) total_order_amount 
+		FROM 
+			cb_report_user_trans  
+		<where>
+			<if test="begDate != null">
+				AND create_time >= #{begDate} 
+			</if>
+			<if test="endDate != null">
+			<![CDATA[
+				AND create_time <= #{endDate} 
+			]]>		
+			<if test="bankOrg.forgCode != null and flag == false">
+				AND forg_code = #{bankOrg.forgCode} 
+			</if>
+			<if test="bankOrg.forgCode != null and flag == true">
+				AND forg_code = #{bankOrg.forgCode} 
+				AND (sorg_code IS NULL OR sorg_code = '') 
+			</if>
+			<if test="bankOrg.sorgCode != null">
+				AND sorg_code = #{bankOrg.sorgCode} 
+			</if>
+			</if>
+			AND total_order_number!=0 
+		</where>
+		GROUP BY order_type 
+	</select>
+	
+	
+	<select id="selectUserTradeDetailList" resultMap="reportUserTransResultMap">
+		SELECT 
+			forg_code,forg_name,sorg_code,sorg_name,user_name,mobile,reg_time,reg_type,
+			SUM(total_point_number) total_point_number,SUM(total_point_amount) total_point_amount,
+			SUM(total_quick_number) total_quick_number,SUM(total_quick_amount) total_quick_amount,
+			SUM(total_film_number) total_film_number,SUM(total_film_amount) total_film_amount,
+			SUM(total_point_film_number) total_point_film_number,SUM(total_point_film_amount) total_point_film_amount,
+			SUM(total_point_quick_number) total_point_quick_number,SUM(total_point_quick_amount) total_point_quick_amount,
+			SUM(total_order_number) total_order_number,SUM(total_order_amount) total_order_amount 
+		FROM 
+			cb_report_user_trans 
+		<where>
+			<if test="begDate != null">
+				AND create_time >= #{begDate} 
+			</if>
+			<if test="endDate != null">
+			<![CDATA[
+				AND create_time <= #{endDate} 
+			]]>
+			</if>
+			<if test="bankOrg.clientId != null">
+				AND client_id = #{bankOrg.clientId} 
+			</if>
+			<if test="bankOrg.forgCode != null and flag == false">
+				AND forg_code = #{bankOrg.forgCode} 
+			</if>
+			<if test="bankOrg.forgCode != null and flag == true">
+				AND forg_code = #{bankOrg.forgCode} 
+				AND (sorg_code IS NULL OR sorg_code = '') 
+			</if>
+			<if test="bankOrg.sorgCode != null">
+				AND sorg_code = #{bankOrg.sorgCode} 
+			</if>
+		</where>
+		GROUP BY 
+			client_id,forg_code,sorg_code,user_id   
+	</select>
+	
+	
+	<select id="selectUserTradeInfoList" resultMap="reportUserTransResultMap">
+		SELECT 
+			user_id,user_name,mobile,is_vip,
+			SUM(total_order_number) total_order_number,SUM(total_order_amount) total_order_amount,
+			SUM(total_product_number) total_product_number,SUM(total_product_amount) total_product_amount,
+			sum(total_refunds_amount) total_refunds_amount 
+		FROM 
+			cb_report_user_trans 
+		<where>
+			<if test="begDate != null">
+				AND create_time >= #{begDate} 
+			</if>
+			<if test="endDate != null">
+			<![CDATA[
+				AND create_time <= #{endDate} 
+			]]>
+			</if>
+			<if test="bankOrg.clientId != null">
+				AND client_id = #{bankOrg.clientId} 
+			</if>
+			<if test="bankOrg.forgCode != null and flag == false">
+				AND forg_code = #{bankOrg.forgCode} 
+			</if>
+			<if test="bankOrg.forgCode != null and flag == true">
+				AND forg_code = #{bankOrg.forgCode} 
+				AND (sorg_code IS NULL OR sorg_code = '') 
+			</if>
+			<if test="bankOrg.sorgCode != null">
+				AND sorg_code = #{bankOrg.sorgCode} 
+			</if>
+		</where>
+		GROUP BY 
+			client_id,forg_code,sorg_code,user_id 
+	</select>
+	
+</mapper>

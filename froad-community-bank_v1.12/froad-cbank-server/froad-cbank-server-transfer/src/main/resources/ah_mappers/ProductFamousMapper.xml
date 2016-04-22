@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.fft.persistent.api.ProductFamousMapper">
+	<resultMap type="ProductFamous" id="productFamousResultMap">
+        <id property="id" column="id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="title" column="title"/>
+        <result property="summary" column="summary"/>
+        <result property="perNumber" column="per_number"/>
+        <result property="perminNumber" column="permin_number"/>
+        <result property="startTime" column="start_time"/>
+        <result property="endTime" column="end_time"/>
+        <result property="buyKnow" column="buy_know"/>
+        <result property="generalizeImage" column="generalize_image"/>
+        <result property="detailsImage" column="details_image"/>
+        <result property="description" column="description"/>
+        <result property="orderValue" column="order_value"/>
+        <result property="famousDetails" column="famous_details"/>
+        <result property="purchaseNotes" column="purchase_notes"/>
+        <result property="product.id" column="product_id"/>
+        <result property="product.name" column="product_name"/>
+    </resultMap>
+	
+	
+	<insert id="save" useGeneratedKeys="true" keyProperty="id"  parameterType="productFamous">
+		INSERT INTO fft_product_famous 
+		            (id, 
+		             create_time, 
+		             update_time, 
+		             title, 
+		             summary, 
+		             per_number, 
+		             permin_number, 
+		             start_time, 
+		             end_time, 
+		             buy_know, 
+		             generalize_image, 
+		             details_image, 
+		             description, 
+		             order_value, 
+		             famous_details, 
+		             purchase_notes) 
+		VALUES      ( #{id}, 
+		              #{createTime}, 
+		              #{updateTime}, 
+		              #{title}, 
+		              #{summary}, 
+		              #{perNumber}, 
+		              #{perminNumber}, 
+		              #{startTime}, 
+		              #{endTime}, 
+		              #{buyKnow}, 
+		              #{generalizeImage}, 
+		              #{detailsImage}, 
+		              #{description}, 
+		              #{orderValue}, 
+		              #{famousDetails}, 
+		              #{purchaseNotes} ) 
+	</insert>
+	
+	<select id="selectById"  parameterType="java.lang.Long" resultMap="productFamousResultMap">
+		select * from fft_product_famous where id=#{id}
+	</select>
+	
+	<select id="selectByCondition" parameterType="productFamous" resultMap="productFamousResultMap">
+		select f.*,p.id as product_id,p.name as product_name from fft_product_famous f left join fft_product p on p.product_famous_id = f.id
+			where 1=1
+			<if test="null!= id">
+				and f.id = #{id}
+			</if>
+			<if test="null!= title">
+				and f.title = #{title}
+			</if>
+			<if test="null!= summary">
+				and f.summary = #{summary}
+			</if>
+			<if test="null!= startTime">
+				<![CDATA[and f.start_time >= #{startTime}]]>
+			</if>
+			<if test="null!= endTime">
+				<![CDATA[and f.end_time <= #{endTime}]]>
+			</if>
+			<if test="null!= summary">
+				and f.summary = #{summary}
+			</if>
+			<if test="null!= product">
+				<if test="null!= product.id">
+					and p.id = #{product.id}
+				</if>
+				<if test="null!= product.name">
+					and p.name like CONCAT('%',#{product.name},'%') 
+				</if>
+			</if>
+	</select>
+	
+	<update id="update" parameterType="productFamous">
+		update fft_product_famous set update_time = #{updateTime}
+			<if test="null!= title">
+				,title = #{title}
+			</if>
+			<if test="null!= summary">
+				,summary = #{summary}
+			</if>
+			<if test="null!= perNumber">
+				,per_number = #{perNumber}
+			</if>
+			<if test="null!= perminNumber">
+				,permin_number = #{perminNumber}
+			</if>
+			<if test="null!= startTime">
+				,start_time = #{startTime}
+			</if>
+			<if test="null!= endTime">
+				,end_time = #{endTime}
+			</if>
+			<if test="null!= buyKnow">
+				,buy_know = #{buyKnow}
+			</if>
+			<if test="null!= generalizeImage">
+				,generalize_image = #{generalizeImage}
+			</if>
+			<if test="null!= description">
+				,description = #{description}
+			</if>
+			<if test="null!= detailsImage">
+				,details_image = #{detailsImage}
+			</if>
+			<if test="null!= orderValue">
+				,order_value = #{orderValue}
+			</if>
+			<if test="null!= famousDetails">
+				,famous_details = #{famousDetails}
+			</if>
+			<if test="null!= purchaseNotes">
+				,purchase_notes = #{purchaseNotes}
+			</if>
+			where id = #{id}
+	</update>
+	
+	<select id="selectByPage" parameterType="com.froad.fft.persistent.bean.page.Page" resultMap="productFamousResultMap">
+		select f.*,p.id as product_id,p.name as product_name from fft_product_famous f left join fft_product p on p.product_famous_id = f.id
+			where 1=1	 
+		<if test="pageFilter != null">
+			<if test="pageFilter.filterEntity != null">
+				<if test="null!= pageFilter.filterEntity.id">
+					and f.id = #{pageFilter.filterEntity.id}
+				</if>
+				<if test="null!= pageFilter.filterEntity.title">
+					and f.title like CONCAT('%', #{pageFilter.filterEntity.title},'%')
+				</if>
+				<if test="null!= pageFilter.filterEntity.summary">
+					and f.summary like CONCAT('%',#{pageFilter.filterEntity.summary},'%')
+				</if>
+				<if test="null!= pageFilter.filterEntity.startTime">
+					<![CDATA[and f.start_time >= #{pageFilter.filterEntity.startTime}]]>
+				</if>
+				<if test="null!= pageFilter.filterEntity.endTime">
+					<![CDATA[and f.end_time <= #{pageFilter.filterEntity.endTime}]]>
+				</if>
+				<if test="null!= pageFilter.filterEntity.summary">
+					and f.summary = #{summary}
+				</if>
+				<if test="null!= pageFilter.filterEntity.product">
+					<if test="null!= pageFilter.filterEntity.product.id">
+						and p.id = #{pageFilter.filterEntity.product.id}
+					</if>
+					<if test="null!= pageFilter.filterEntity.product.name">
+						and p.name like CONCAT('%',#{pageFilter.filterEntity.product.name},'%') 
+					</if>
+				</if>
+			</if>
+			<!-- 时间段条件 -->
+			<if test="pageFilter.property != null and pageFilter.startTime != null">
+            	<![CDATA[
+					and ${pageFilter.property} >= #{pageFilter.startTime}
+				]]>
+			</if>
+			<if test="pageFilter.property != null and pageFilter.endTime != null">
+            	<![CDATA[
+					and ${pageFilter.property} <= #{pageFilter.endTime}
+				]]>
+			</if>
+			<!-- 排序 -->
+        <if test="order != null">
+            <if test="order.property != null and order.direction != null">
+                order by f.${order.property} ${order.direction}
+            </if>
+        </if>
+		</if>
+	</select>
+	
+	<select id="selectByPageCount" parameterType="com.froad.fft.persistent.bean.page.Page" resultType="java.lang.Integer">
+		select count(0) from fft_product_famous f left join fft_product p on p.product_famous_id = f.id
+			where 1=1	 
+		<if test="pageFilter != null">
+			<if test="pageFilter.filterEntity != null">
+				<if test="null!= pageFilter.filterEntity.id">
+					and f.id = #{pageFilter.filterEntity.id}
+				</if>
+				<if test="null!= pageFilter.filterEntity.title">
+					and f.title like CONCAT('%', #{pageFilter.filterEntity.title},'%')
+				</if>
+				<if test="null!= pageFilter.filterEntity.summary">
+					and f.summary like CONCAT('%',#{pageFilter.filterEntity.summary},'%')
+				</if>
+				<if test="null!= pageFilter.filterEntity.startTime">
+					<![CDATA[and f.start_time >= #{pageFilter.filterEntity.startTime}]]>
+				</if>
+				<if test="null!= pageFilter.filterEntity.endTime">
+					<![CDATA[and f.end_time <= #{pageFilter.filterEntity.endTime}]]>
+				</if>
+				<if test="null!= pageFilter.filterEntity.summary">
+					and f.summary = #{summary}
+				</if>
+				<if test="null!= pageFilter.filterEntity.product">
+					<if test="null!= pageFilter.filterEntity.product.id">
+						and p.id = #{pageFilter.filterEntity.product.id}
+					</if>
+					<if test="null!= pageFilter.filterEntity.product.name">
+						and p.name like CONCAT('%',#{pageFilter.filterEntity.product.name},'%') 
+					</if>
+				</if>
+			</if>
+			<!-- 时间段条件 -->
+			<if test="pageFilter.property != null and pageFilter.startTime != null">
+            	<![CDATA[
+					and ${pageFilter.property} >= #{pageFilter.startTime}
+				]]>
+			</if>
+			<if test="pageFilter.property != null and pageFilter.endTime != null">
+            	<![CDATA[
+					and ${pageFilter.property} <= #{pageFilter.endTime}
+				]]>
+			</if>
+		</if>
+	</select>
+	
+	  <!-- 查询所有未绑定名优特惠商品 -->
+    <select id="selectAllUnBindProductFamous" parameterType="java.util.Map" resultMap="productFamousResultMap">
+         SELECT * FROM fft_product_famous t WHERE NOT EXISTS (SELECT 1 FROM fft_product d WHERE d.product_famous_id=t.id )
+        order  by t.id desc
+
+    </select>
+	
+</mapper>

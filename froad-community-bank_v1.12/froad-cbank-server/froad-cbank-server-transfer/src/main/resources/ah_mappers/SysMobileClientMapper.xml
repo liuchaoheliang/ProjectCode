@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+	<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  		 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.ahui.mappers.SysMobileClientMapper">
+
+	<resultMap type="SysMobileClient" id="sysMobileClientResultMap">
+		<id property="id" column="id" />
+		<result property="createTime" column="create_time" />
+		<result property="updateTime" column="update_time" />
+		<result property="name" column="name" />
+		<result property="number" column="number" />
+		<result property="appkey" column="appkey" />
+		<result property="appsecret" column="appsecret" />
+		<result property="isEnabled" column="is_enabled"/>
+		<result property="bankOrgNo" column="bank_org_no"/>
+	</resultMap>
+	
+	<insert id="saveMobileClient" parameterType="SysMobileClient" useGeneratedKeys="true" keyProperty="id">
+		insert into fft_sys_mobile_client
+		values(null,#{createTime},#{updateTime},#{name},#{number},#{appkey},#{appsecret},#{isEnabled},#{bankOrgNo})
+	</insert>
+	
+	<update id="updateMobileClient" parameterType="SysMobileClient">
+		update fft_sys_mobile_client set update_time = now()
+		<if test="name!=null">
+			,name = #{name}
+		</if>
+		<if test="number!=null">
+			,number = #{number}
+		</if>
+		<if test="appkey!=null">
+			,appkey = #{appkey}
+		</if>
+		<if test="appsecret!=null">
+			,appsecret = #{appsecret}
+		</if>
+		<if test="isEnabled!=null">
+			,is_enabled = #{isEnabled}
+		</if>
+		<if test="bankOrgNo!=null">
+			,bank_org_no = #{bankOrgNo}
+		</if>
+		where id = #{id}
+	</update>
+	
+	<select id="selectByCondition" parameterType="SysMobileClient" resultMap="sysMobileClientResultMap">
+			select * from fft_sys_mobile_client
+			<where>
+					<if test="id!=null">
+						and id = #{id}
+					</if>
+					<if test="number!=null">
+						and number = #{number}
+					</if>
+					<if test="appkey!=null">
+						and appkey = #{appkey}
+					</if>
+					<if test="isEnabled!=null">
+						and is_enabled = #{isEnabled}
+					</if>
+					<if test="bankOrgNo != null">
+						and bank_org_no = #{bankOrgNo}
+					</if>
+			</where>
+	</select>
+	
+	
+	<!--分页数据-->
+    <select id="selectSysMobileClientByPage" parameterType="com.froad.fft.persistent.bean.page.Page" resultMap="sysMobileClientResultMap">
+        select * from fft_sys_mobile_client
+        <if test="pageFilter != null">
+            <where>
+                <if test="pageFilter.filterEntity != null">
+                    <if test="pageFilter.filterEntity.id!= null">
+                        and id = #{pageFilter.filterEntity.id}
+                    </if>
+                    <if test="pageFilter.filterEntity.name!= null">
+                        and name like CONCAT('%',#{pageFilter.filterEntity.name},'%')
+                    </if>
+                     <if test="pageFilter.filterEntity.number!= null">
+                        and number like CONCAT('%',#{pageFilter.filterEntity.number},'%')
+                    </if>
+                    <if test="pageFilter.filterEntity.isEnabled!= null">
+                        and is_enabled = #{pageFilter.filterEntity.isEnabled}
+                    </if>
+                </if>
+
+                <!-- 时间段条件 -->
+                <if test="pageFilter.property != null and pageFilter.startTime != null">
+                    <![CDATA[
+     					 and ${pageFilter.property} >= #{pageFilter.startTime}
+     					]]>
+                </if>
+                <if test="pageFilter.property != null and pageFilter.endTime != null">
+                    <![CDATA[
+     					 and ${pageFilter.property} <= #{pageFilter.endTime}
+     					]]>
+                </if>
+            </where>
+        </if>
+        <!-- 排序 -->
+        <if test="order != null">
+            <if test="order.property != null and order.direction != null">
+                order by ${order.property} ${order.direction}
+            </if>
+        </if>
+    </select>
+
+    <select id="selectSysMobileClientByPageCount" parameterType="com.froad.fft.persistent.bean.page.Page" resultType="java.lang.Integer">
+        select count(*) from fft_sys_mobile_client
+        <if test="pageFilter != null">
+            <where>
+                <if test="pageFilter.filterEntity != null">
+                    <if test="pageFilter.filterEntity.id!= null">
+                        and id = #{pageFilter.filterEntity.id}
+                    </if>
+                    <if test="pageFilter.filterEntity.name!= null">
+                        and name like CONCAT('%',#{pageFilter.filterEntity.name},'%')
+                    </if>
+                     <if test="pageFilter.filterEntity.number!= null">
+                        and number like CONCAT('%',#{pageFilter.filterEntity.number},'%')
+                    </if>
+                    <if test="pageFilter.filterEntity.isEnabled!= null">
+                        and is_enabled = #{pageFilter.filterEntity.isEnabled}
+                    </if>
+                </if>
+
+                <!-- 时间段条件 -->
+                <if test="pageFilter.property != null and pageFilter.startTime != null">
+                    <![CDATA[
+     					 and ${pageFilter.property} >= #{pageFilter.startTime}
+     					]]>
+                </if>
+                <if test="pageFilter.property != null and pageFilter.endTime != null">
+                    <![CDATA[
+     					 and ${pageFilter.property} <= #{pageFilter.endTime}
+     					]]>
+                </if>
+            </where>
+        </if>
+    </select>
+	
+</mapper>

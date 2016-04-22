@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.mysql.mapper.ClientMapper">
+
+	<resultMap type="Client" id="clientResultMap">
+		<id property="id" column="id" />
+		<result property="createTime" column="create_time" />
+		<result property="clientId" column="client_id" />
+		<result property="uri" column="uri" />
+		<result property="name" column="name" />
+		<result property="pointPartnerNo" column="point_partner_no" />
+		<result property="openapiPartnerNo" column="openapi_partner_no" />
+		<result property="orderDisplay" column="order_display" />
+		<result property="appkey" column="appkey" />
+		<result property="appsecret" column="appsecret" />
+		<result property="bankType" column="bank_type" />
+		<result property="bankName" column="bank_name" />
+		<result property="qrLogo" column="qr_logo" />
+		<result property="returnUrl" column="return_url" />
+		<result property="remark" column="remark" />
+		<result property="bankId" column="bank_id" />
+		<result property="settlePayOrg" column="settle_pay_org" />
+		<result property="bankOrg" column="bank_org" />
+		<result property="bankZH" column="bank_ZH" />
+	</resultMap>
+
+
+	<!-- 添加  Client -->
+	<insert id="addClient" parameterType="Client" useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[
+			insert into cb_client (
+				create_time,client_id,uri,name,point_partner_no,openapi_partner_no,order_display,appkey,appsecret,bank_type,bank_name,qr_logo,return_url,remark,bank_id,settle_pay_org,bank_org,bank_ZH     
+			) values (
+				#{createTime},#{clientId},#{uri},#{name},#{pointPartnerNo},#{openapiPartnerNo},#{orderDisplay},#{appkey},#{appsecret},#{bankType},#{bankName},#{qrLogo},#{returnUrl},#{remark},#{bankId},#{settlePayOrg},#{bankOrg},#{bankZH}   
+			) 
+		]]>
+	</insert>
+
+
+	<!-- 批量添加  Client -->
+	<insert id="addClientByBatch" parameterType="java.util.List">
+		insert into cb_client (
+			create_time,client_id,uri,name,point_partner_no,openapi_partner_no,order_display,appkey,appsecret,bank_type,bank_name,qr_logo,return_url,remark,bank_id,bank_org,bank_ZH       
+		) values 
+		<foreach collection="clientList" item="item" index="index" separator=",">
+			(#{createTime},#{clientId},#{uri},#{name},#{pointPartnerNo},#{openapiPartnerNo},#{orderDisplay},#{appkey},#{appsecret},#{bankType},#{bankName},#{qrLogo},#{returnUrl},#{remark},#{bankId},#{settlePayOrg},#{bankOrg},#{bankZH})
+		</foreach>
+	</insert>
+
+
+	<!-- 修改  Client -->
+	<update id="updateClient" parameterType="Client">
+		update cb_client 
+		<set>
+			<if test="name != null">
+				name = #{name},
+			</if>
+			<if test="uri != null">
+				uri = #{uri},
+			</if>
+			<if test="pointPartnerNo != null">
+				 point_partner_no = #{pointPartnerNo},
+			</if>
+			<if test="openapiPartnerNo != null">
+				openapi_partner_no = #{openapiPartnerNo},
+			</if>
+			<if test="orderDisplay != null">
+				order_display = #{orderDisplay},
+			</if>
+			<if test="appkey != null">
+				appkey = #{appkey},
+			</if>
+			<if test="appsecret != null">
+				appsecret = #{appsecret},
+			</if>
+			<if test="bankType != null">
+				bank_type = #{bankType},
+			</if>
+			<if test="bankName != null">
+				bank_name = #{bankName},
+			</if>
+			<if test="qrLogo != null">
+				qr_logo = #{qrLogo},
+			</if>
+			<if test="returnUrl != null">
+				return_url = #{returnUrl},
+			</if>
+			<if test="remark != null">
+				remark = #{remark}, 
+			</if>
+			<if test="bankId != null">
+				bank_id = #{bankId}, 
+			</if>
+			<if test="settlePayOrg != null">
+				settle_pay_org = #{settlePayOrg},  
+			</if>
+			<if test="bankOrg != null">
+				bank_org = #{bankOrg},  
+			</if>
+			<if test="bankZH != null">
+				bank_ZH = #{bankZH},  
+			</if>
+		</set>
+		<where>
+				<if test="id != null">
+					and id = #{id} 
+				</if>
+				<if test="clientId != null">
+					and client_id = #{clientId} 
+				</if>
+		</where>
+	</update>
+
+
+	<!-- 查询  Client -->
+	<select id="findClient" parameterType="Client" resultMap="clientResultMap">
+		select 
+			id,create_time,client_id,uri,name,point_partner_no,openapi_partner_no,order_display,appkey,appsecret,bank_type,bank_name,qr_logo,return_url,remark,bank_id,settle_pay_org,bank_org,bank_ZH     
+		from cb_client 
+			<where>
+				<if test="id != null">
+					and id = #{id}
+				</if>
+				<if test="clientId != null">
+					and client_id = #{clientId}
+				</if>
+				<if test="uri != null">
+					and uri = #{uri}
+				</if>
+				<if test="createTime != null">
+					and create_time = #{createTime}
+				</if>
+				<if test="name != null">
+					and name = #{name}
+				</if>
+				<if test="pointPartnerNo != null">
+					and point_partner_no = #{pointPartnerNo}
+				</if>
+				<if test="openapiPartnerNo != null">
+					and openapi_partner_no = #{openapiPartnerNo}
+				</if>
+				<if test="orderDisplay != null">
+					and order_display = #{orderDisplay}
+				</if>
+				<if test="appkey != null">
+					and appkey = #{appkey}
+				</if>
+				<if test="appsecret != null">
+					and appsecret = #{appsecret}
+				</if>
+				<if test="bankType != null">
+					and bank_type = #{bankType}
+				</if>
+				<if test="bankName != null">
+					and bank_name = #{bankName}
+				</if>
+				<if test="qrLogo != null">
+					and qr_logo = #{qrLogo}
+				</if>
+				<if test="returnUrl != null">
+					and return_url = #{returnUrl}
+				</if>
+				<if test="remark != null">
+					and remark = #{remark}
+				</if>
+				<if test="bankId != null">
+					and bank_id = #{bankId}   
+				</if>
+				<if test="settlePayOrg != null">
+					and settle_pay_org = #{settlePayOrg}   
+				</if>
+				<if test="bankOrg != null">
+					and bank_org = #{bankOrg}   
+				</if>
+				<if test="bankZH != null">
+					and bank_ZH = #{bankZH}    
+				</if>
+			</where>
+	</select>
+
+	<!-- 分页查询  Client -->
+	<select id="findByPage" parameterType="java.util.HashMap" resultMap="clientResultMap">
+		select 
+			id,create_time,client_id,uri,name,point_partner_no,openapi_partner_no,order_display,appkey,appsecret,bank_type,bank_name,qr_logo,return_url,remark,bank_id,settle_pay_org,bank_org,bank_ZH    
+		from cb_client 
+		<if test="client != null">
+			<where>
+				<if test="client.id != null">
+					and id = #{client.id}
+				</if>
+				<if test="client.clientId != null">
+					and client_id = #{client.clientId}
+				</if>
+				<if test="client.uri != null">
+					and uri = #{client.uri}
+				</if>
+				<if test="client.createTime != null">
+					and create_time = #{client.createTime}
+				</if>
+				<if test="clientId != null">
+					and client_id = #{client.clientId}
+				</if>
+				<if test="client.name != null">
+					and name = #{client.name}
+				</if>
+				<if test="client.pointPartnerNo != null">
+					and point_partner_no = #{client.pointPartnerNo}
+				</if>
+				<if test="client.openapiPartnerNo != null">
+					and openapi_partner_no = #{client.openapiPartnerNo}
+				</if>
+				<if test="client.orderDisplay != null">
+					and order_display = #{client.orderDisplay}
+				</if>
+				<if test="client.appkey != null">
+					and appkey = #{client.appkey}
+				</if>
+				<if test="client.appsecret != null">
+					and appsecret = #{client.appsecret}
+				</if>
+				<if test="client.bankType != null">
+					and bank_type = #{client.bankType}
+				</if>
+				<if test="client.bankName != null">
+					and bank_name = #{client.bankName}
+				</if>
+				<if test="client.qrLogo != null">
+					and qr_logo = #{client.qrLogo}
+				</if>
+				<if test="client.returnUrl != null">
+					and return_url = #{client.returnUrl}
+				</if>
+				<if test="client.remark != null">
+					and remark = #{client.remark}
+				</if>
+				<if test="client.bankId != null">
+					and bank_id = #{client.bankId}   
+				</if>
+				<if test="client.settlePayOrg != null">
+					and settle_pay_org = #{client.settlePayOrg} 
+				</if>
+				<if test="client.bankOrg != null">
+					and bank_org = #{client.bankOrg}   
+				</if>
+				<if test="client.bankZH != null">
+					and bank_ZH = #{client.bankZH}    
+				</if>
+			</where>
+		</if>
+		order by create_time desc 
+	</select>
+
+
+</mapper>
+

@@ -1,0 +1,23 @@
+<requestPresentPointsApi>
+	<presentPointsInfo>
+		<orgNo>${orgNo}</orgNo>
+		<points>${points}</points>
+		<objectNo>${objectNo}</objectNo>
+		<objectDes><![CDATA[${objectDes}]]></objectDes>
+		<objectType>${objectType}</objectType>
+		<businessType>${businessType!""}</businessType>
+		<remark><![CDATA[${remark}]]></remark>
+	</presentPointsInfo>
+	<partnerAccount>
+		<accountMarked>${accountMarked}</accountMarked>
+		<accountMarkedType>${accountMarkedType}</accountMarkedType>
+	</partnerAccount>
+	<system>
+		<partnerNo>${partnerNo}</partnerNo>
+		<requestNo>${requestNo}</requestNo>
+		<charset>${charset}</charset>
+		<signType>${signType}</signType>
+		<signMsg>${signMsg}</signMsg>
+		<requestTime>${requestTime}</requestTime>
+	</system>
+</requestPresentPointsApi>

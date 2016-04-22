@@ -1,0 +1,1416 @@
+﻿新增公告信息表(2012-09-13)----liqiaopeng
+CREATE TABLE `FBU_Announcement` (
+  `ID` varchar(50) NOT NULL,
+  `title` varchar(50) default NULL,
+  `content` varchar(512) default NULL,
+  `releaseDate` varchar(50) default NULL,
+  `endDate` varchar(50) default NULL,
+  `type` varchar(50) default NULL,
+  `important` varchar(50) default NULL,
+  `releaser` varchar(50) default NULL,
+  PRIMARY KEY  (`ID`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8
+
+
+FBU_Merchant表中增加一个字段user_id(2012-10-30)---liuli
+
+
+FBU_Trans_funds_channel表中添加字段target(1:买家可用 2:卖家可用 3:全部可用)----lijinkui
+alter table FBU_Trans_funds_channel add column target varchar(10) not null;
+
+
+FBU_Trans_Buyers_Deposit_Channel表修改字段(Merchant_id改成userID)  ----lijinkui
+alter table FBU_Trans_Buyers_Deposit_Channel change column Merchant_id userID varchar(32) not null;
+
+
+
+修改FBU_Trans_Buyers_Deposit_Channel表名 -----------lijinkui
+alter table FBU_Trans_Buyers_Deposit_Channel rename FBU_Trans_Buyers_Pay_Channel;
+
+
+FBU_Trans表中添加orderType字段 ----------------------lijinkui
+alter table FBU_Trans add column orderType varchar(10) not null;
+
+
+FBU_Trans_funds_channel表中添加payOrg字段------------lijinkui
+alter table FBU_Trans_funds_channel add column payOrg varchar(6);
+
+
+
+FBU_Trans_Seller_Deposit_Channel表中添加两个字段----------lijinkui
+alter table FBU_Trans_Seller_Deposit_Channel add column account_name varchar(32);
+alter table FBU_Trans_Seller_Deposit_Channel add column account_number varchar(32);
+
+
+FBU_Trans表中添加字段-------------------lijinkui
+alter table FBU_Trans add column froad_bill_no varchar(32);
+
+
+FBU_Trans_funds_channel表添加字段--------lijinkui
+alter table FBU_Trans_funds_channel add column bank_account_name varchar(32);
+alter table FBU_Trans_funds_channel add column bank_account_number varchar(32);
+
+
+FBU_Tag_MAP表中添加字段-------------------liuli
+alter table FBU_Tag_MAP add column tag_classify_a_id varchar(32);
+alter table FBU_Tag_MAP add column tag_classify_b_id varchar(32);
+alter table FBU_Tag_MAP add column tag_district_a_id varchar(32);
+alter table FBU_Tag_MAP add column tag_district_b_id varchar(32);
+
+FBU_Tag_Classify_B表中添加字段-------------------liuli
+alter table FBU_Tag_Classify_B add column parent_tag_classify_id varchar(32);
+
+FBU_Tag_District_B表中添加字段-------------------liuli
+alter table FBU_Tag_District_B add column parent_tag_district_id varchar(32);
+alter table FBU_Tag_MAP add column tag_district_b_id varchar(32);
+
+
+创建系统参数表----------------------lijinkui
+CREATE TABLE sys_parameter (
+  merchantServerHost varchar(50) NOT NULL,
+  merchantServerWLANHost varchar(50) default NULL,
+  merchantMobileHost varchar(50) NOT NULL,
+  merchantPCHost varchar(50) default NULL,
+  billHost varchar(50) NOT NULL,
+  billWLANHost varchar(50) default NULL,
+  SJYHCQRCHost varchar(50) NOT NULL,
+  shortMessageHost varchar(50) NOT NULL,
+  merchantDemoHost varchar(50) NOT NULL
+);
+
+
+向系统参数表中添加一条测试数据-----------lijinkui
+insert into sys_parameter 
+	(merchantServerHost, 
+	merchantServerWLANHost, 
+	merchantMobileHost, 
+	merchantPCHost, 
+	billHost, 
+	billWLANHost, 
+	SJYHCQRCHost, 
+	shortMessageHost, 
+	merchantDemoHost
+	)
+	values
+	('http://116.228.153.46:9000', 
+	'http://192.168.2.167:8888', 
+	'http://116.228.153.46:9081', 
+	'http://116.228.153.46:9091', 
+	'http://116.228.153.46:8085', 
+	'http://192.168.2.167:8888', 
+	'http://222.178.68.122:8885', 
+	'http://210.14.71.66:12001', 
+	'http://210.14.71.66:8083'
+	);
+	
+	
+在FBU_Trans_funds_channel表中添加四个字段--------------lijinkui
+alter table FBU_Trans_funds_channel add column fft_score_account_name varchar(32);
+alter table FBU_Trans_funds_channel add column fft_score_account_number varchar(32);
+alter table FBU_Trans_funds_channel add column fft_charges_account_name varchar(32);
+alter table FBU_Trans_funds_channel add column fft_charges_account_number varchar(32);
+
+
+添加seller_account表---------------------lijinkui
+create table seller_account(
+id int primary key not null,
+seller_id int not null,
+account_name varchar(32),
+account_number varchar(32),
+mobile varchar(20),
+state varchar(10),
+is_default varchar(2)
+);
+
+
+在seller_account表中添加字段-----------------lijinkui
+alter table seller_account add column funds_channel_id int;
+
+
+添加积分表----------------------------------lijinkui
+create table FBU_Trans_Points(
+id int primary key not null auto_increment,
+tran_id int,
+merchant_id int,
+seller_id int,
+buyer_id int,
+user_id_of_buyer varchar(32),
+Seller_Deposit_Channel_id int,
+Buyers_Deposit_Channel_id int,
+points_value_all varchar(32),
+points_value_real_all varchar(32),
+buyer_points_account_no varchar(32),
+seller_points_account_no varchar(32),
+points_sent_state varchar(32),
+points_sent_no varchar(32),
+
+currency varchar(32),
+sell_point_curre_val varchar(32),
+sell_fac_point_curre_val varchar(32),
+fft_point_curre_val varchar(32),
+fft_fac_point_curre_val varchar(32),
+points_pay_state varchar(32),
+points_pay_bill_no varchar(32),
+
+points_pay_result_code varchar(32),
+points_pay_result_desc varchar(32),
+points_sent_result_code varchar(32),
+points_sent_result_desc varchar(32)
+);
+
+
+添加补贴信息表---------------------------lijinkui
+create table FBU_Trans_Allowance(
+id int primary key not null auto_increment,
+tran_id int,
+sourcesChannel varchar(32),
+sourcesType varchar(32),
+seller_id int,
+merchant_id int,
+Seller_Deposit_Channel_id int,
+currency varchar(32),
+
+fft_allowance_curre_val varchar(32),
+sell_allowance_curre_val varchar(32),
+
+result_code varchar(32),
+result_desc varchar(32),
+state varchar(32),
+create_time varchar(32),
+update_time varchar(32),
+remark varchar(100)
+);
+
+
+在交易表中新增五个字段--------------------------------lijinkui
+alter table FBU_Trans_Pay add column to_account_type varchar(32);
+alter table FBU_Trans_Pay add column from_account_type varchar(32);
+alter table FBU_Trans_Pay add column points varchar(32);
+alter table FBU_Trans_Pay add column trans_points_id int;
+alter table FBU_Trans_Pay add column trans_allowance_id int;
+
+表名：FBU_Merchant   增加字段---------------------------liqiaopeng
+alter table FBU_Merchant add column preferential_type varchar(32) COMMENT '优惠类型 1：折扣优惠 2：积分返利';
+alter table FBU_Merchant add column point_rate varchar(32) COMMENT '返还积分率';
+alter table FBU_Merchant add column preferential_rate varchar(32) COMMENT '折扣率';
+alter table FBU_Merchant add column merchant_priority varchar(32) COMMENT '优先级';
+
+表名：FBU_Merchant_Products   增加字段---------------------------liqiaopeng
+alter table FBU_Merchant_Products add column point_rate varchar(32) COMMENT '返还积分率';
+alter table FBU_Merchant_Products add column preferential_rate varchar(32) COMMENT '折扣率';
+alter table FBU_Merchant_Products add column price varchar(32) COMMENT '商品价格';
+alter table FBU_Merchant_Products add column product_priority varchar(32) COMMENT '优先级';
+
+表名：announcement   增加字段---------------------------liqiaopeng
+alter table announcement add column state varchar(32) COMMENT '状态(10-创建，20-录入，30-启用，40-停用，50-删除)';
+
+搜索记录表
+create table FBU_Searches(
+id int primary key not null COMMENT '主键',
+M_preferential_type varchar(32) COMMENT  '优惠类型' ,
+Tag_Classify_id varchar(32) COMMENT  '分类ID' ,
+Tag_District_id varchar(32) COMMENT  '商圈ID' ,
+search_keywords varchar(225) COMMENT  '搜索关键字' ,
+search_count varchar(32) COMMENT '搜索次数',
+state varchar(32),
+create_time varchar(32),
+update_time varchar(32),
+remark varchar(100)
+) ENGINE=MyISAM auto_increment=100001001 DEFAULT CHARSET=utf8;
+
+
+修改：announcement   重新建立---------------------------fangquan
+CREATE TABLE `FBU_Announcement` (
+  `id` int(32) NOT NULL auto_increment COMMENT '主键 自增100001001开始',
+  `title` varchar(32) default NULL COMMENT '公告标题',
+  `content` varchar(512) default NULL COMMENT '公告内容',
+  `release_date` varchar(32) default NULL COMMENT '发布时间',
+  `end_date` varchar(32) default NULL COMMENT '截止时间',
+  `type` varchar(32) default NULL COMMENT '公告类型 0-默认',
+  `important` varchar(32) default NULL COMMENT '等级',
+  `releaser` text COMMENT '发布人',
+  `state` varchar(32) default NULL COMMENT '状态(10-创建，20-录入，30-启用，40-停用，50-删除)',
+  `create_time` varchar(32) default NULL COMMENT '创建时间',
+  `update_time` varchar(32) default NULL COMMENT '更新时间',
+  `remark` varchar(100) default NULL COMMENT '备注',
+  PRIMARY KEY  (`id`),
+) ENGINE=MyISAM AUTO_INCREMENT=100001001 DEFAULT CHARSET=utf8;
+
+
+修改FBU_Trans_Pay表中的字段数据类型-------------------------lijinkui
+alter table FBU_Trans_Pay modify tran_id int;
+alter table FBU_Trans_Pay modify funds_channel_id int;
+
+为FBU_Trans_Allowance,FBU_Trans_Points表的主键设置自动增长的初始值------------lijinkui
+alter table FBU_Trans_Allowance AUTO_INCREMENT=100001001;
+alter table FBU_Trans_Points AUTO_INCREMENT=100001001;
+
+
+修改字段长度-------------------------lijinkui
+alter table FBU_Trans_Pay modify pay_state varchar(11);
+alter table FBU_Trans_Pay modify settle_state varchar(11);
+alter table FBU_Trans_Pay modify settle_type varchar(11);
+alter table FBU_Trans_Pay modify pay_type varchar(11);
+alter table FBU_Trans_Pay modify to_role varchar(11);
+alter table FBU_Trans_Pay modify points_state varchar(11);
+alter table FBU_Trans_Pay modify from_role varchar(11);
+
+
+在FBU_Trans表中添加字段----------------------lijinkui
+alter table FBU_Trans add column pay_channel varchar(2);
+
+修改热门搜索词表-----------------------liqiaopeng
+alter table FBU_Searches drop column Tag_Classify_id; 
+alter table FBU_Searches drop column Tag_District_id; 
+alter table FBU_Searches add column tag_classify_a_id varchar(32);
+alter table FBU_Searches add column tag_classify_b_id varchar(32);
+alter table FBU_Searches add column tag_district_a_id varchar(32);
+alter table FBU_Searches add column tag_district_b_id varchar(32);
+
+
+修改交易详情里的字段类型------------------lijinkui
+alter table FBU_Trans_Details modify column trans_id int;
+
+
+商户表中添加字段--------------------lijinkui
+alter table FBU_Merchant add column audit_staff varchar(32);
+
+
+在FBU_Trans_Points表中添加字段------------lijinkui
+alter table FBU_Trans_Points add column create_time varchar(32);
+
+
+
+增加 投诉分类和投诉表------------------------------fanguqan
+--投诉分类
+create table FBU_Complaint_Category (
+  id int(32) NOT NULL auto_increment COMMENT '主键 自增100001001开始',  
+  name varchar(32) default NULL COMMENT '分类名称',  
+  description varchar(255) DEFAULT NULL COMMENT '描述',  
+  order_list varchar(32) DEFAULT NULL COMMENT '排序',  
+  path varchar(512) DEFAULT NULL COMMENT '树路径 ，分割 如：一级ID,二级ID',  
+  parent_id varchar(32) DEFAULT NULL COMMENT '父类ID',
+  state varchar(32) default NULL COMMENT '状态(10-创建，20-录入，30-启用，40-停用，50-删除)',
+  create_time varchar(32) default NULL COMMENT '创建时间',
+  update_time varchar(32) default NULL COMMENT '更新时间',
+  remark varchar(100) default NULL COMMENT '备注',
+  PRIMARY KEY  (id)              
+)ENGINE=MyISAM AUTO_INCREMENT=100001001 DEFAULT CHARSET=utf8;
+
+--投诉
+CREATE TABLE FBU_Complaint (
+  id int(32) NOT NULL auto_increment COMMENT '主键 自增100001001开始',  
+  complaint_category_id varchar(32) default null COMMENT '分类ID',
+  order_id varchar(32) default NULL COMMENT '订单ID',
+  content varchar(512) default NULL COMMENT '内容',
+  is_read varchar(32) default NULL COMMENT '是否已读 10-未读 20-已读',
+  is_reply varchar(32) default NULL COMMENT '是否回复 10-未回复 20-已回复' , 
+  delete_status varchar(32) default NULL COMMENT '删除状态 10-未删除 20-已删除', 
+  from_user_id varchar(36) default NULL COMMENT '发出会员,为null时表示管理员',  
+  to_user_id varchar(36) default NULL COMMENT '接收会员,为null时表示管理员',  
+  state varchar(32) default NULL COMMENT '状态(10-创建，20-录入，30-启用，40-停用，50-删除)',
+  create_time varchar(32) default NULL COMMENT '创建时间',
+  update_time varchar(32) default NULL COMMENT '更新时间',
+  remark varchar(100) default NULL COMMENT '备注',
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=100001001 DEFAULT CHARSET=utf8;
+/* 修改产品表和相册表中的详细介绍字段增加长度为300字符 */---liqiaopeng
+alter table FBU_Merchant_Photos modify column txt_2 varchar(300) ;
+alter table FBU_Merchant_Products modify column txt_2 varchar(300) ;
+/* 修改产品表和相册表中的详细介绍字段text类型 */---liqiaopeng
+ALTER TABLE FBU_Merchant_Photos MODIFY txt_2 text; 
+ALTER TABLE FBU_Merchant_Products MODIFY txt_2 text; 
+
+/* 商家优惠信息增加字段 */---liqiaopeng
+alter table FBU_Merchant_Preferential add column point_rate varchar(32) COMMENT '返还积分率';
+alter table FBU_Merchant_Preferential add column preferential_rate varchar(32) COMMENT '折扣率';
+ALTER TABLE FBU_Merchant_Preferential MODIFY txt_2 text; 
+
+
+--分享商户
+create table FBU_share_merchant(
+  id int(32) NOT NULL auto_increment COMMENT '主键 自增100001001开始',   
+  user_id varchar(36) not null COMMENT '会员ID',  
+  merchant_id varchar(32) not null COMMENT '商户ID',
+  share_mobile varchar(11)  not null COMMENT '分享手机号码',
+  share_content varchar(255) not null COMMENT '分享内容',
+  state varchar(32) default NULL COMMENT '状态(10-创建，20-录入，30-启用，40-停用，50-删除)',
+  create_time varchar(32) default NULL COMMENT '创建时间',
+  update_time varchar(32) default NULL COMMENT '更新时间',
+  remark varchar(100) default NULL COMMENT '备注',
+  PRIMARY KEY  (id) 
+)ENGINE=MyISAM AUTO_INCREMENT=100001001 DEFAULT CHARSET=utf8;
+
+##交易-----------------------李金魁
+create table trans
+(
+    id int primary key not null AUTO_INCREMENT,
+	track_no varchar(32),##业务跟踪号
+	bill_no varchar(32),##账单平台号
+	trans_sn varchar(32),##交易编号
+	trans_type varchar(32),##交易类型 1000-积分返利 2000-积分兑换 3000-积分提现 4000-团购 
+	seller_id varchar(32),##卖家ID
+	buyers_id varchar(32),##买家ID
+	seller_deposit_channel_id varchar(32),##卖家收款渠道ID
+	buyers_deposit_channel_id varchar(32),##买家支付渠道ID
+	currency varchar(32),##货币单位
+	costprice_total varchar(32),##原价总和
+	currency_value_all varchar(32),##总货币值，所有交易明细累计
+	currency_value_real_all varchar(32),##总实际货币数值，由规则计算出,买家实际支付金额
+	
+	bank_points_account varchar(32),##银行积分账户
+	bank_points_value_all varchar(32),##银行总积分值，所有交易明细累计
+	bank_points_value_real_all varchar(32),##银行总实际积分数值，由规则计算出
+	fft_points_account varchar(32),##分分通积分账户
+	fft_points_value_all varchar(32),##分分通总积分值，所有交易明细累计
+	fft_points_value_real_all varchar(32),##分分通总实际积分数值，由规则计算出
+
+	failure_time varchar(32),##失效时间
+	state varchar(32),##状态
+	create_time varchar(32),##创建时间
+	update_time varchar(32),##更新时间
+	remark varchar(100)##备注
+) AUTO_INCREMENT=1001000000000001;
+
+##交易明细-----------------------李金魁
+create table trans_details
+(
+    id int primary key not null AUTO_INCREMENT,
+	trans_id int,##交易ID
+	goods_rack_id varchar(32),##商品交易架ID
+	goods_number varchar(32),##购买数量
+	
+	buyers_rule_id varchar(32),##买家规则ID
+	buyers_rule_desc varchar(32),##买家规则描述
+	seller_rule_id varchar(32),##卖家规则ID
+	seller_rule_desc varchar(32),##卖家规则描述
+	currency varchar(32),##货币单位
+	costprice_total varchar(32),##原价总和
+	currency_value varchar(32),##货币值
+	currency_value_real varchar(32),##实际货币值
+	
+	bank_points_value_all varchar(32),##银行总积分值，所有交易明细累计
+	bank_points_value_real_all varchar(32),##银行总实际积分数值，由规则计算出
+	
+	fft_points_value_all varchar(32),##分分通总积分值，所有交易明细累计
+	fft_points_value_real_all varchar(32),##分分通总实际积分数值，由规则计算出
+
+	state varchar(32),##状态
+	create_time varchar(32),##创建时间
+	update_time varchar(32),##更新时间
+	remark varchar(100)##备注
+) AUTO_INCREMENT=1001000000000001;
+
+##支付-----------------------李金魁
+create table pay
+(
+    id int primary key not null AUTO_INCREMENT,
+	track_no varchar(32),##业务跟踪号
+	trans_id varchar(32),##交易ID
+
+	type varchar(32),##1000-资金 2000-积分
+	from_account_name varchar(32),##支付人姓名
+	from_account_no varchar(32),##支付号
+	pay_value varchar(32),##支付值
+	to_account_name varchar(32),##收款人姓名
+	to_account_no varchar(32),##收款人号
+
+	state varchar(32),##支付状态 00-支付成功 10-支付创建 20-支付失败 
+	step varchar(32),##步骤 1 2 3
+	result_code varchar(32),##结果码
+	result_desc varchar(32),##结果码描述
+	create_time varchar(32),##创建时间
+	update_time varchar(32),##更新时间
+	remark varchar(100)##备注
+) AUTO_INCREMENT=1001000000000001;
+
+
+在goods表中添加一个字段--------------lijinkui
+alter table goods add column goods_image_list_store text;##图片路径存储
+
+alter table trans add column client_type varchar(32) not null;##'客户端类型 100-pc 200-android 300-iphone';
+alter table trans add column bank_org varchar(32) not null;##'银行 100-珠海农商行';
+在pay表中加了下面这些字段----liuli
+alter table pay add column from_account_type varchar(3) default NULL COMMENT '从账户类型'
+alter table pay add column to_account_type varchar(3) default NULL COMMENT '到账户类型'
+alter table pay add column from_phone varchar(3) default NULL COMMENT '从电话号码'
+alter table pay add column to_phone varchar(3) default NULL COMMENT '到电话号码'
+alter table pay add column from_id varchar(32) default NULL COMMENT '从哪个卖家/买家/银行/fft'
+alter table pay add column to_id varchar(32) default NULL COMMENT '到哪个卖家/买家/银行/fft'
+
+alter table pay add column from_username varchar(32) default NULL COMMENT '从哪个用户名'
+alter table pay add column to_username varchar(32) default NULL COMMENT '到哪个用户名'
+
+alter table pay add column channel_type varchar(3) default NULL COMMENT '渠道类型'
+alter table pay add column channel_id varchar(32) default NULL COMMENT '渠道ID'
+
+
+alter table pay add column rule_type varchar(3) default NULL COMMENT '规则类型'
+alter table pay add column rule_id varchar(32) default NULL COMMENT '规则ID'
+alter table pay add column rule_detail_id varchar(32) default NULL COMMENT '规则明细id'
+alter table pay add column is_intime varchar(1) default NULL COMMENT '是否及时'
+
+交易表中添加字段--------------------lijinkui
+alter table trans add column pay_method varchar(2);
+
+
+USER表中增加性别年龄两个字段---------liqiaopeng
+alter table user add column sex varchar(2) default NULL COMMENT '性别0：男 1:女性';
+alter table user add column age int(36) default '0' COMMENT '年龄';
+
+
+merchant_online_apply表中添加字段-------------------liqiaopeng
+alter table merchant_online_apply add column user_id varchar(36) default NULL COMMENT '用户ID，关联user表';
+
+增加商户管理员和操作员资源表-------------------liqiaopeng
+create table merchant_clerk_url(
+id int NOT NULL AUTO_INCREMENT COMMENT '主键',
+url_type varchar(32) NOT NULL COMMENT  '资源类型 0：不许普通操作员访问url 1：普通操作员和管理员都可访问url' ,
+url varchar(250) NOT NULL COMMENT  '资源' ,
+state varchar(32) COMMENT '状态',
+create_time varchar(32) COMMENT '创建时间',
+update_time varchar(32) COMMENT '更新时间',
+remark varchar(100),
+PRIMARY KEY (`id`)
+) ENGINE=MyISAM auto_increment=100001001 DEFAULT CHARSET=utf8;
+
+商户管理员和操作员表-------------------liqiaopeng
+create table merchant_user_set(
+id int NOT NULL AUTO_INCREMENT COMMENT '主键',
+merchant_id varchar(32) NOT NULL COMMENT  '商户ID' ,
+user_id varchar(36) NOT NULL COMMENT  'userID' ,
+login_name varchar(32) NOT NULL COMMENT  '商户名' ,
+be_code varchar(32) NOT NULL COMMENT  '工号' ,
+be_codepwd varchar(32) NOT NULL COMMENT  '操作员密码' ,
+be_name varchar(32) COMMENT  '操作员名称' ,
+be_spec varchar(32) COMMENT  '操作员描述' ,
+is_admin varchar(32) COMMENT  '是否是管理员 0-否 1-是' ,
+state varchar(32) COMMENT '状态',
+create_time varchar(32) COMMENT '创建时间',
+update_time varchar(32) COMMENT '更新时间',
+remark varchar(100),
+PRIMARY KEY (`id`)
+) ENGINE=MyISAM auto_increment=100001001 DEFAULT CHARSET=utf8;
+
+
+***********************增加商户后台管理权限控制url***************************
+insert into merchant_clerk_url
+		(id,url_type,url,state,create_time,update_time,remark) 
+		values
+		('','1','home.action','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),'基本信息菜单');
+insert into merchant_clerk_url
+		(id,url_type,url,state,create_time,update_time,remark) 
+		values
+		('','1','cashdesk_info.action','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),'收银台菜单');
+insert into merchant_clerk_url
+		(id,url_type,url,state,create_time,update_time,remark) 
+		values
+		('','1','message_manage.action','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),'商家介绍菜单');
+insert into merchant_clerk_url
+		(id,url_type,url,state,create_time,update_time,remark) 
+		values
+		('','1','merchant_product_list.action','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),'商家产品菜单');
+insert into merchant_clerk_url
+		(id,url_type,url,state,create_time,update_time,remark) 
+		values
+		('','1','merchant_photo_list.action','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),'商家相册菜单');
+insert into merchant_clerk_url
+		(id,url_type,url,state,create_time,update_time,remark) 
+		values
+		('','1','merchant_preferential_list.action','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),'商家优惠菜单');
+insert into merchant_clerk_url
+		(id,url_type,url,state,create_time,update_time,remark) 
+		values
+		('','1','query_trans.action','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),'积分返利菜单');
+insert into merchant_clerk_url
+		(id,url_type,url,state,create_time,update_time,remark) 
+		values
+		('','1','query_exchange_trans.action','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),'积分兑换菜单');
+insert into merchant_clerk_url
+		(id,url_type,url,state,create_time,update_time,remark) 
+		values
+		('','1','query_group_trans.action','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),'团购菜单');
+insert into merchant_clerk_url
+		(id,url_type,url,state,create_time,update_time,remark) 
+		values
+		('','0','merchant_complaint_list.action','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),'客诉处理菜单');
+
+insert into merchant_clerk_url
+		(id,url_type,url,state,create_time,update_time,remark) 
+		values
+		('','0','to_merchantComplaint_reply.action','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),'客诉回复');
+
+
+insert into merchant_clerk_url
+		(id,url_type,url,state,create_time,update_time,remark) 
+		values
+		('','1','toAuthentication.action','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),'认证中心菜单');
+		
+insert into merchant_clerk_url
+		(id,url_type,url,state,create_time,update_time,remark) 
+		values
+		('','1','groupExchange_authentication.action','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),'团购兑换认证');
+
+insert into merchant_clerk_url
+		(id,url_type,url,state,create_time,update_time,remark) 
+		values
+		('','1','toChangPasswordMerchant.action','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),'密码修改菜单');
+insert into merchant_clerk_url
+		(id,url_type,url,state,create_time,update_time,remark) 
+		values
+		('','0','to_add_clerk.action','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),'添加操作员菜单');
+insert into merchant_clerk_url
+		(id,url_type,url,state,create_time,update_time,remark) 
+		values
+		('','0','addClerk.action','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),'添加操作员');
+		
+insert into merchant_clerk_url
+		(id,url_type,url,state,create_time,update_time,remark) 
+		values
+		('','1','changeClerkPassword.action','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),'修改操作员密码');
+insert into merchant_clerk_url
+		(id,url_type,url,state,create_time,update_time,remark) 
+		values
+		('','0','updPresentInfo.action','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),'修改商户介绍信息');
+insert into merchant_clerk_url
+		(id,url_type,url,state,create_time,update_time,remark) 
+		values
+		('','0','merchant_product_save.action','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),'增加商户商品信息');
+
+insert into merchant_clerk_url
+		(id,url_type,url,state,create_time,update_time,remark) 
+		values
+		('','0','merchant_product_update.action','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),'修改商户商品信息');
+
+insert into merchant_clerk_url
+		(id,url_type,url,state,create_time,update_time,remark) 
+		values
+		('','0','deleteProduct.action','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),'删除商户商品');
+
+insert into merchant_clerk_url
+		(id,url_type,url,state,create_time,update_time,remark) 
+		values
+		('','0','lineDownProductJSON.action','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),'下线商户商品');
+
+insert into merchant_clerk_url
+		(id,url_type,url,state,create_time,update_time,remark) 
+		values
+		('','0','onLineProductJSON.action','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),'上线商户商品');
+
+insert into merchant_clerk_url
+		(id,url_type,url,state,create_time,update_time,remark) 
+		values
+		('','0','merchant_photo_save.action','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),'增加商户相册');
+
+insert into merchant_clerk_url
+		(id,url_type,url,state,create_time,update_time,remark) 
+		values
+		('','0','merchant_photo_update.action','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),'修改商户相册');
+
+insert into merchant_clerk_url
+		(id,url_type,url,state,create_time,update_time,remark) 
+		values
+		('','0','deletePhoto.action','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),'删除商户相册');
+
+insert into merchant_clerk_url
+		(id,url_type,url,state,create_time,update_time,remark) 
+		values
+		('','0','lineDownPhotoJSON.action','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),'下线商户相册');
+
+insert into merchant_clerk_url
+		(id,url_type,url,state,create_time,update_time,remark) 
+		values
+		('','0','onLinePhotoJSON.action','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),'上线商户相册');
+
+insert into merchant_clerk_url
+		(id,url_type,url,state,create_time,update_time,remark) 
+		values
+		('','0','merchant_preferential_save.action','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),'增加商户优惠');
+
+insert into merchant_clerk_url
+		(id,url_type,url,state,create_time,update_time,remark) 
+		values
+		('','0','merchant_preferential_update.action','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),'修改商户优惠');
+
+insert into merchant_clerk_url
+		(id,url_type,url,state,create_time,update_time,remark) 
+		values
+		('','0','deletePreferential.action','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),'删除商户优惠');
+
+insert into merchant_clerk_url
+		(id,url_type,url,state,create_time,update_time,remark) 
+		values
+		('','0','lineDownPreferentialJSON.action','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),'下线商户优惠');
+
+insert into merchant_clerk_url
+		(id,url_type,url,state,create_time,update_time,remark) 
+		values
+		('','0','onLinePreferentialJSON.action','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),'上线商户优惠');
+
+insert into merchant_clerk_url
+		(id,url_type,url,state,create_time,update_time,remark) 
+		values
+		('','0','merchantComplaint_reply.action','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),'商户回复投诉');
+		
+insert into merchant_clerk_url
+		(id,url_type,url,state,create_time,update_time,remark) 
+		values
+		('','0','merchant_clerk_list.action','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),'查看操作员列表');
+
+insert into merchant_clerk_url
+		(id,url_type,url,state,create_time,update_time,remark) 
+		values
+		('','0','clerk_info.action','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),'查看操作员信息');
+
+insert into merchant_clerk_url
+		(id,url_type,url,state,create_time,update_time,remark) 
+		values
+		('','0','delete_clerk.action','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),'删除操作员');
+
+insert into merchant_clerk_url
+		(id,url_type,url,state,create_time,update_time,remark) 
+		values
+		('','0','online_clerk.action','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),'启用操作员');
+insert into merchant_clerk_url
+		(id,url_type,url,state,create_time,update_time,remark) 
+		values
+		('','1','add_goods_page.action','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),'手机银行卡收款');
+insert into merchant_clerk_url
+		(id,url_type,url,state,create_time,update_time,remark) 
+		values
+		('','1','create_order.action','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),'手机银行卡收款生成订单');
+insert into merchant_clerk_url
+		(id,url_type,url,state,create_time,update_time,remark) 
+		values
+		('','1','pay_transaction.action','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),'手机银行卡收款提交订单');
+		
+insert into merchant_clerk_url
+		(id,url_type,url,state,create_time,update_time,remark) 
+		values
+		('','1','send_points_page.action','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),'赠送积分');
+insert into merchant_clerk_url
+		(id,url_type,url,state,create_time,update_time,remark) 
+		values
+		('','1','create_order_of_send_points.action','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),'赠送积分生成订单');
+insert into merchant_clerk_url
+		(id,url_type,url,state,create_time,update_time,remark) 
+		values
+		('','1','pay_transPoints.action','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),'赠送积分提交订单');
+
+
+---------------添加卖家类型字段
+alter table seller add column seller_type varchar(2);
+alter table trans add column merchant_id int(32);
+alter table trans add column seller_type varchar(2);
+--------各种上架商品中添加seller_id字段
+alter table goods_carry_rack add column seller_id int(32);
+alter table goods_exchange_rack add column seller_id int(32);
+alter table goods_gather_rack add column seller_id int(32);
+alter table goods_group_rack add column seller_id int(32);
+alter table goods_rebate_rack add column seller_id int(32);
+
+alter table client_goods_carry_rack add column seller_id int(32);
+alter table client_goods_exchange_rack add column seller_id int(32);
+alter table client_goods_gather_rack add column seller_id int(32);
+alter table client_goods_group_rack add column seller_id int(32);
+alter table client_goods_rebate_rack add column seller_id int(32);
+---------------------删除track_no字段
+alter table trans drop column track_no;
+alter table pay drop column track_no;
+---------------------删除商户里的卖家
+alter table merchant drop column seller_id;
+---------------------------将seller表的seller_type字段改成not null
+
+------------temp_point表中增加 activate_account
+alter table temp_point add column activate_account varchar(36);
+
+
+
+-------------------修改交易表的字段
+alter table trans drop column fft_points_account;
+alter table trans drop column bank_points_account;
+alter table trans add column points_account varchar(32);
+
+
+-------------------添加goods_category表 实体商品分类的记录,更新其作为本地商品和农特产品的父类
+insert into goods_category(id,name,description,order_list,path,state,create_time,update_time ) values(100001010,'实体商品','实体商品','10', '100001010', '30', '2013-04-09|10:29:14','2013-04-09|10:29:14' )
+update goods_category set parent_id='100001010,100001003'  where id=100001003
+update goods_category set parent_id='100001010,100001009'  where id=100001009
+
+#修改BUG  FFT_010
+update merchant_clerk_url set url_type='1' where url_type='0' and url ='merchant_complaint_list.action'
+
+------------------交易表里添加字段virtual_type：虚拟商品的类型 值与GoodsCategory表里的id一致
+alter table trans add column virtual_type varchar(32);
+
+
+
+---2013-4-23增加
+-----------------商品分类增加数据---------------------
+INSERT INTO `goods_category` VALUES (100001011,'珠海专区','珠海专区','10','100001011',NULL,'30','2013-04-09|10:29:14','2013-04-09|10:29:14','珠海农商积分兑换专区');
+
+-----------------协议表增加数据-----------------------
+//增加对应图片到服务器  内容图片地址
+
+INSERT INTO `agreement` VALUES (100001002,'1','<p class=\"MsoNormal\" align=\"center\" style=\"margin-left:36.0pt;text-align:center;\">\r\n\t<b>分分通平台合作介绍</b> \r\n</p>\r\n<p class=\"MsoNormal\">\r\n\t<b><span>&nbsp;&nbsp;&nbsp; </span></b>分分通平台是珠海农商银行<span>2013</span>年度面向珠海全市用户推出的营销推广平台，将联合珠海市范围内各行业商家，一同为珠海全市用户提供包含积分返利、积分兑换、团购、积分提现等一系列服务，以多种手段介绍推荐用户至合作商家处消费，消费后送积分，积分可以多种方式再次消费，形成良性营销循环\r\n</p>\r\n<p class=\"MsoNormal\">\r\n\t<br />\r\n</p>\r\n<p class=\"MsoNormal\">\r\n\t<b>业务模式</b> \r\n</p>\r\n<p class=\"MsoNormal\" style=\"text-align:center;\">\r\n\t<b><img src=\"http://192.168.2.168:10002/zh_fenfentong/agreement/e4b78abc4c8e481fab16cc8f7c12565b.jpg\" alt=\"\" /><br />\r\n</b> \r\n</p>\r\n<p class=\"MsoNormal\" style=\"text-align:center;\">\r\n\t<b><img src=\"http://192.168.2.168:10002/zh_fenfentong/agreement/6fb42d71068242bd850804bf266bdddb.jpg\" alt=\"\" /><br />\r\n</b> \r\n</p>\r\n<p class=\"MsoNormal\">\r\n\t<p class=\"MsoNormal\">\r\n\t\t<br />\r\n\t</p>\r\n\t<p class=\"MsoNormal\">\r\n\t\t<b>为合作商家免费提供优势宣传渠道</b>\r\n\t</p>\r\n\t<p class=\"MsoNormal\" style=\"margin-left:72.0pt;text-indent:-18.0pt;\">\r\n\t\t&nbsp; 百万级客户手机短信群发推广\r\n\t</p>\r\n\t<p class=\"MsoNormal\" style=\"margin-left:72.0pt;text-indent:-18.0pt;\">\r\n\t\t&nbsp; 珠海当地报纸广告跟进\r\n\t</p>\r\n\t<p class=\"MsoNormal\" style=\"margin-left:72.0pt;text-indent:-18.0pt;\">\r\n\t\t&nbsp; 珠海当地广播广告跟进\r\n\t</p>\r\n\t<p class=\"MsoNormal\" style=\"margin-left:72.0pt;text-indent:-18.0pt;\">\r\n\t\t&nbsp; 微信、微博推广\r\n\t</p>\r\n\t<p class=\"MsoNormal\" style=\"margin-left:72.0pt;text-indent:-18.0pt;\">\r\n\t\t&nbsp; 所有珠海农商分支网点宣传跟进\r\n\t</p>\r\n\t<p class=\"MsoNormal\" style=\"margin-left:72.0pt;text-indent:-18.0pt;\">\r\n\t\t&nbsp; 商户处易拉宝、海报、桌牌、门贴宣传跟进\r\n\t</p>\r\n\t<p class=\"MsoNormal\">\r\n\t\t<br />\r\n\t</p>\r\n\t<p class=\"MsoNormal\">\r\n\t\t<b>分分通平台期待与各行业商家和合作，愿我们携手共创辉煌！</b>\r\n\t</p>\r\n\t<p class=\"MsoNormal\">\r\n\t\t<span style=\"line-height:1.5;\"></span>\r\n\t</p>\r\n\t<p class=\"MsoNormal\" style=\"text-indent:24.0pt;\">\r\n\t\t<br />\r\n\t</p>\r\n</p>','30','2013-03-28|12:00:00','2013-03-28|12:00:00','分分通合作介绍');
+INSERT INTO `agreement` VALUES (100001003,'2','<p class=\"MsoNormal\" align=\"center\" style=\"text-align:center;\">\r\n\t<b>直接优惠合作介绍</b><b></b>\r\n</p>\r\n<p class=\"MsoNormal\" style=\"text-indent:24.0pt;\">\r\n\t直接优惠是珠海农商转为其珠海农商银行客户提供的专属优惠服务，凡珠海农商持卡客户，均可在分分通平台的直接优惠板块中查询相关合作商家的优惠信息，持卡至商家处刷卡消费即可享受相应折扣，客户更可在分分通平台积分兑换板块中的珠海农商兑换专区中，用珠海农商银行积分兑换相关产品\r\n</p>\r\n<p class=\"MsoNormal\">\r\n\t&nbsp;\r\n</p>\r\n<p class=\"MsoNormal\">\r\n\t<b>直接优惠合作的优势：</b><b></b>\r\n</p>\r\n<p class=\"MsoNormal\" style=\"margin-left:36.0pt;text-indent:24.0pt;\">\r\n\t&nbsp;&nbsp; 珠海农商银行随着多年的发展，在珠海拥有及120余万用户，仅比珠海常住户籍人口数略低，占总人口数280万人的三分之一以上，客户覆盖率极高。\r\n</p>\r\n<p class=\"MsoNormal\">\r\n\t在珠海本地银行当中，珠海农商银行以全市96家支行网点遥遥领先，占据绝对优势，是其他银行网点覆盖率的数倍\r\n</p>\r\n<p class=\"MsoNormal\">\r\n\t<b>&nbsp;</b>\r\n</p>\r\n<p class=\"MsoNormal\">\r\n\t<b>珠海农商银行客户量大，本地合作首选</b>\r\n</p>\r\n<p class=\"MsoNormal\" style=\"text-align:center;\">\r\n\t<b><img src=\"http://192.168.2.168:10002/zh_fenfentong/agreement/4277ade526f44490b235f7779b2452a7.jpg\" alt=\"\" /><br />\r\n</b>\r\n</p>\r\n<p class=\"MsoNormal\" style=\"text-indent:24.0pt;\">\r\n\t<br />\r\n</p>','30','2013-03-28|12:00:00','2013-03-28|12:00:00','直接优惠合作介绍');
+
+
+---分分通1.4----5.7----
+alter table goods_group_rack add column buy_know text;
+alter table goods_group_rack add column goods_rack_detail text;
+alter table goods_exchange_rack add column goods_rack_detail text;
+alter table client_goods_group_rack add column buy_know text;
+
+-----------修改goods表中字段的类型 5月9号
+alter table goods modify column store int;
+alter table goods modify column freeze_store int;
+
+-------------修改团购和积分兑换表中字段的类型 5月9号
+alter table goods_group_rack modify column market_total_number int;
+alter table goods_group_rack modify column refund_total_number int;
+alter table client_goods_group_rack modify column market_total_number int;
+alter table client_goods_group_rack modify column refund_total_number int;
+alter table goods_exchange_rack modify column market_total_number int;
+alter table client_goods_exchange_rack modify column market_total_number int;
+
+--------商户一级分类日用百货
+insert into tag_classify_a (id, tag_value, tag_hyperlink, site_value, sort_value, description,
+	   state, create_time, update_time, remark)
+	   values('', '日用百货', 'http://www.f-road.com.cn/rybh', '9',
+	    '9', '日用百货', '30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),
+	    DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"), '日用百货');
+insert into merchant_industry (id, name, description, order_list, path, parent_id,
+	   state, create_time, update_time, remark)
+	   values('', '日用百货', '日用百货', '10',
+	    '100001009', '', '30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),
+	    DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"), '日用百货');
+
+--------goods表的库存列添加默认值  5月14号
+alter table goods alter store set default 0;
+alter table goods alter freeze_store set default 0;
+
+alter table goods add column store int(11) default 0;
+alter table goods add column freeze_store int(11) default 0;
+
+
+--------------操作员重置密码--------生产环境----20130524---liqiaopeng
+UPDATE merchant_user_set a SET a.be_codepwd='3665dd96a77572824afd1bbc6e71d3e2' WHERE  a.login_name='user15800321977' AND a.be_code='1000';
+UPDATE merchant_user_set a SET a.be_codepwd='fe53886ba8255ba72200ca32961d8372' WHERE  a.login_name='u1304111' AND a.be_code='1000';
+UPDATE merchant_user_set a SET a.be_codepwd='6c46d0276168a3b89df6bfb4584a1a83' WHERE  a.login_name='u1304112' AND a.be_code='1000';
+UPDATE merchant_user_set a SET a.be_codepwd='25a59e809debbb2bec84fd643edb21b6' WHERE  a.login_name='u1304113' AND a.be_code='1000';
+UPDATE merchant_user_set a SET a.be_codepwd='9f1e16ae7f289b23ca6f270f92feeb4b' WHERE  a.login_name='u1304114' AND a.be_code='1000';
+UPDATE merchant_user_set a SET a.be_codepwd='570321feeb1424a7478792660b740822' WHERE  a.login_name='u1304115' AND a.be_code='1000';
+UPDATE merchant_user_set a SET a.be_codepwd='cdc28fb5361bf495d530935e365830f4' WHERE  a.login_name='u13041116' AND a.be_code='1000';
+UPDATE merchant_user_set a SET a.be_codepwd='20eb26a5db9276abb8f3248c70148338' WHERE  a.login_name='u1304117' AND a.be_code='1000';
+UPDATE merchant_user_set a SET a.be_codepwd='eb7a842dd4a5fd91f2583d2050486f6b' WHERE  a.login_name='u1304118' AND a.be_code='1000';
+UPDATE merchant_user_set a SET a.be_codepwd='ee02b65af9c6398a3f9b18c7baebbd70' WHERE  a.login_name='user15992680397' AND a.be_code='1000';
+UPDATE merchant_user_set a SET a.be_codepwd='94cd59392d42c9c895086cdbb1005e36' WHERE  a.login_name='user15992680397' AND a.be_code='1001';
+UPDATE merchant_user_set a SET a.be_codepwd='52a3801d2f97246f9b1b0f0317383c92' WHERE  a.login_name='user15992680397' AND a.be_code='1002';
+UPDATE merchant_user_set a SET a.be_codepwd='8e732f7b82c0df40af5a9d3ab66da16f' WHERE  a.login_name='u1305097' AND a.be_code='1000';
+UPDATE merchant_user_set a SET a.be_codepwd='9de812dd2a19913c064f12d3083afc2d' WHERE  a.login_name='u1305189' AND a.be_code='1000';
+
+
+------------merchant_user_set表 新增字段 2013年-5月29号-----------------------zhaoxiaoyao
+新增 is_account_locked 字段      账号是否锁定   (0  账户被锁定  1 账户正常)
+新增 login_failure_count 字段  连续登陆失败次数
+新增 lockedDate 字段 账号锁定日期
+新增 last_try_time; 该帐号的最后尝试登录的时间
+alter table merchant_user_set add column is_account_locked varchar(32) default '1' comment ' 账号是否锁定   (0 账户被锁定 , 1 账户正常)';
+alter table merchant_user_set add column login_failure_count int(11) default 0 comment '连续登陆失败次数';
+alter table merchant_user_set add column locked_date varchar(32) default '' comment '账号锁定日期';
+alter table merchant_user_set add column last_try_time varchar(32) default '' comment '该帐号的最后尝试登录的时间';
+--------------user表中的增加字段--------生产环境----20130529---liqiaopeng
+alter table `user` add column isAccountLocked varchar(32) default '1' COMMENT '账号是否锁定0：已经锁定  1：没锁定';
+alter table `user` add column loginFailureCount int(11) default 0 COMMENT '连续登陆失败次数，默认为0';
+alter table `user` add column lockedDate varchar(32) default '' COMMENT '账号锁定日期';
+
+--------------user表中添加字段2013年-5月30号 --------------------zhaoxiaoyao
+alter table `user` add column lastTryTime varchar(32) default '' COMMENT '账号最后尝试登录时间';
+
+
+--------------user表中的增加字段--------生产环境----20130530---liqiaopeng
+alter table `user` add column isPointActivateAccountLocked varchar(32) default '1' comment ' 账号激活积分是否锁定   (0 账户被锁定 , 1 账户正常)';
+alter table `user` add column pointActivateFailureCount int(11) default 0 comment '连续激活积分失败次数';
+alter table `user` add column pointActivateLockedDate varchar(32) default '' comment '账号激活积分锁定日期';
+alter table `user` add column lastPointActivateTime varchar(32) default '' comment '该帐号的最后尝试激活积分的时间';
+
+-------------操作员卖家关系表
+create table merchant_user_sellers (
+id int NOT NULL AUTO_INCREMENT COMMENT '主键',
+merchant_id varchar(32) NOT NULL COMMENT  '商户ID' ,
+merchant_user_id varchar(32) NOT NULL COMMENT  '操作员ID' ,
+seller_id varchar(32) NOT NULL COMMENT  '卖家ID' ,
+seller_type varchar(2) COMMENT  '卖家类型' ,
+reserve_field_one varchar(32) COMMENT '备用字段1',
+reserve_field_two varchar(32) COMMENT '备用字段2',
+reserve_field_three varchar(32) COMMENT '备用字段3',
+reserve_field_four varchar(32) COMMENT '备用字段4',
+reserve_field_five int(32) COMMENT '备用字段5',
+state varchar(32) COMMENT '状态',
+create_time varchar(32) COMMENT '创建时间',
+update_time varchar(32) COMMENT '更新时间',
+remark varchar(100),
+PRIMARY KEY (`id`)
+) ENGINE=InnoDB auto_increment=100001001 DEFAULT CHARSET=utf8;
+
+
+-----------生产环境  初始化 merchant_user_sellers 表数据 20130604  ---------------------zhaoxiaoyao
+----------------------------------------------数据初始开始--------------------------------------------------------------------------------
+insert into `fenfentong`.`merchant_user_sellers`
+(`merchant_id`,`merchant_user_id`,`seller_id`,`seller_type`,`state`,`create_time`,`update_time`)
+ values ('100001104','100001106','100001033','01','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"));
+insert into `fenfentong`.`merchant_user_sellers`
+(`merchant_id`,`merchant_user_id`,`seller_id`,`seller_type`,`state`,`create_time`,`update_time`)
+ values ('100001104','100001106','100001035','02','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"));
+insert into `fenfentong`.`merchant_user_sellers`
+(`merchant_id`,`merchant_user_id`,`seller_id`,`seller_type`,`state`,`create_time`,`update_time`)
+ values ('100001104','100001106','100001032','03','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"));
+insert into `fenfentong`.`merchant_user_sellers`
+(`merchant_id`,`merchant_user_id`,`seller_id`,`seller_type`,`state`,`create_time`,`update_time`)
+ values ('100001104','100001106','100001037','06','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"));
+ 
+ 
+ insert into `fenfentong`.`merchant_user_sellers`
+(`merchant_id`,`merchant_user_id`,`seller_id`,`seller_type`,`state`,`create_time`,`update_time`)
+ values ('100001104','100001107','100001033','01','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"));
+insert into `fenfentong`.`merchant_user_sellers`
+(`merchant_id`,`merchant_user_id`,`seller_id`,`seller_type`,`state`,`create_time`,`update_time`)
+ values ('100001104','100001107','100001035','02','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"));
+insert into `fenfentong`.`merchant_user_sellers`
+(`merchant_id`,`merchant_user_id`,`seller_id`,`seller_type`,`state`,`create_time`,`update_time`)
+ values ('100001104','100001107','100001032','03','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"));
+insert into `fenfentong`.`merchant_user_sellers`
+(`merchant_id`,`merchant_user_id`,`seller_id`,`seller_type`,`state`,`create_time`,`update_time`)
+ values ('100001104','100001107','100001037','06','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"));
+ 
+ 
+ insert into `fenfentong`.`merchant_user_sellers`
+(`merchant_id`,`merchant_user_id`,`seller_id`,`seller_type`,`state`,`create_time`,`update_time`)
+ values ('100001002','100001112','100001008','01','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"));
+insert into `fenfentong`.`merchant_user_sellers`
+(`merchant_id`,`merchant_user_id`,`seller_id`,`seller_type`,`state`,`create_time`,`update_time`)
+ values ('100001002','100001112','100001010','02','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"));
+insert into `fenfentong`.`merchant_user_sellers`
+(`merchant_id`,`merchant_user_id`,`seller_id`,`seller_type`,`state`,`create_time`,`update_time`)
+ values ('100001002','100001112','100001007','03','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"));
+insert into `fenfentong`.`merchant_user_sellers`
+(`merchant_id`,`merchant_user_id`,`seller_id`,`seller_type`,`state`,`create_time`,`update_time`)
+ values ('100001002','100001112','100001012','06','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"));
+ 
+ 
+ 
+  insert into `fenfentong`.`merchant_user_sellers`
+(`merchant_id`,`merchant_user_id`,`seller_id`,`seller_type`,`state`,`create_time`,`update_time`)
+ values ('100001002','100001113','100001008','01','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"));
+insert into `fenfentong`.`merchant_user_sellers`
+(`merchant_id`,`merchant_user_id`,`seller_id`,`seller_type`,`state`,`create_time`,`update_time`)
+ values ('100001002','100001113','100001010','02','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"));
+insert into `fenfentong`.`merchant_user_sellers`
+(`merchant_id`,`merchant_user_id`,`seller_id`,`seller_type`,`state`,`create_time`,`update_time`)
+ values ('100001002','100001113','100001007','03','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"));
+insert into `fenfentong`.`merchant_user_sellers`
+(`merchant_id`,`merchant_user_id`,`seller_id`,`seller_type`,`state`,`create_time`,`update_time`)
+ values ('100001002','100001113','100001012','06','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"));
+
+ 
+insert into `fenfentong`.`merchant_user_sellers`
+(`merchant_id`,`merchant_user_id`,`seller_id`,`seller_type`,`state`,`create_time`,`update_time`)
+ values ('100001002','100001114','100001008','01','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"));
+insert into `fenfentong`.`merchant_user_sellers`
+(`merchant_id`,`merchant_user_id`,`seller_id`,`seller_type`,`state`,`create_time`,`update_time`)
+ values ('100001002','100001114','100001010','02','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"));
+insert into `fenfentong`.`merchant_user_sellers`
+(`merchant_id`,`merchant_user_id`,`seller_id`,`seller_type`,`state`,`create_time`,`update_time`)
+ values ('100001002','100001114','100001007','03','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"));
+insert into `fenfentong`.`merchant_user_sellers`
+(`merchant_id`,`merchant_user_id`,`seller_id`,`seller_type`,`state`,`create_time`,`update_time`)
+ values ('100001002','100001114','100001012','06','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"));
+ 
+ 
+ insert into `fenfentong`.`merchant_user_sellers`
+(`merchant_id`,`merchant_user_id`,`seller_id`,`seller_type`,`state`,`create_time`,`update_time`)
+ values ('100001001','100001115','100001002','01','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"));
+insert into `fenfentong`.`merchant_user_sellers`
+(`merchant_id`,`merchant_user_id`,`seller_id`,`seller_type`,`state`,`create_time`,`update_time`)
+ values ('100001001','100001115','100001004','02','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"));
+insert into `fenfentong`.`merchant_user_sellers`
+(`merchant_id`,`merchant_user_id`,`seller_id`,`seller_type`,`state`,`create_time`,`update_time`)
+ values ('100001001','100001115','100001001','03','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"));
+insert into `fenfentong`.`merchant_user_sellers`
+(`merchant_id`,`merchant_user_id`,`seller_id`,`seller_type`,`state`,`create_time`,`update_time`)
+ values ('100001001','100001115','100001006','06','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"));
+ 
+ 
+ insert into `fenfentong`.`merchant_user_sellers`
+(`merchant_id`,`merchant_user_id`,`seller_id`,`seller_type`,`state`,`create_time`,`update_time`)
+ values ('100001102','100001116','100001027','01','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"));
+insert into `fenfentong`.`merchant_user_sellers`
+(`merchant_id`,`merchant_user_id`,`seller_id`,`seller_type`,`state`,`create_time`,`update_time`)
+ values ('100001102','100001116','100001026','02','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"));
+insert into `fenfentong`.`merchant_user_sellers`
+(`merchant_id`,`merchant_user_id`,`seller_id`,`seller_type`,`state`,`create_time`,`update_time`)
+ values ('100001102','100001116','100001025','03','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"));
+ 
+ 
+ insert into `fenfentong`.`merchant_user_sellers`
+(`merchant_id`,`merchant_user_id`,`seller_id`,`seller_type`,`state`,`create_time`,`update_time`)
+ values ('100001004','100001117','100001029','01','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"));
+insert into `fenfentong`.`merchant_user_sellers`
+(`merchant_id`,`merchant_user_id`,`seller_id`,`seller_type`,`state`,`create_time`,`update_time`)
+ values ('100001004','100001117','100001028','03','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"));
+ 
+ 
+ insert into `fenfentong`.`merchant_user_sellers`
+(`merchant_id`,`merchant_user_id`,`seller_id`,`seller_type`,`state`,`create_time`,`update_time`)
+ values ('100001101','100001118','100001014','01','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"));
+insert into `fenfentong`.`merchant_user_sellers`
+(`merchant_id`,`merchant_user_id`,`seller_id`,`seller_type`,`state`,`create_time`,`update_time`)
+ values ('100001101','100001118','100001016','02','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"));
+insert into `fenfentong`.`merchant_user_sellers`
+(`merchant_id`,`merchant_user_id`,`seller_id`,`seller_type`,`state`,`create_time`,`update_time`)
+ values ('100001101','100001118','100001013','03','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"));
+insert into `fenfentong`.`merchant_user_sellers`
+(`merchant_id`,`merchant_user_id`,`seller_id`,`seller_type`,`state`,`create_time`,`update_time`)
+ values ('100001101','100001118','100001018','06','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"));
+----------------------------------------------数据初始完成--------------------------------------------------------------------------------
+
+--------------------首页左下角广告更新(成产环境) 链接更新 20130609 -----------------------------zhaoxiaoyao
+delete from `fenfentong`.`advert` where id = '100001013';
+delete from `fenfentong`.`advert` where id = '100001014';
+
+--首页广告链接更新
+update `fenfentong`.`advert` set link = 'rebate_index.action' , is_blank_targe = '1' where id = '100001009';
+update `fenfentong`.`advert` set link = 'new_exchange_index.action' , is_blank_targe = '1' where id = '100001012';
+update `fenfentong`.`advert` set link = 'preferential_index.action' , is_blank_targe = '1' where id = '100001011';
+update `fenfentong`.`advert` set link = 'group_index.action' , is_blank_targe = '1' where id = '100001010';
+
+--积分返利链接更新
+update `fenfentong`.`advert` set link = 'merchant_info.action?id=100001105' , is_blank_targe = '1' where id = '100001001';
+update `fenfentong`.`advert` set link = 'merchant_info.action?id=100001102' , is_blank_targe = '1' where id = '100001002';
+update `fenfentong`.`advert` set link = 'merchant_info.action?id=100001100' , is_blank_targe = '1' where id = '100001003';
+update `fenfentong`.`advert` set link = 'merchant_info.action?id=100001002' , is_blank_targe = '1' where id = '100001004';
+
+--积分兑换链接更新
+update `fenfentong`.`advert` set link = 'exchange_telephonefee_info.action?id=100001032' , is_blank_targe = '1' where id = '100001005';
+update `fenfentong`.`advert` set link = 'exchange_local_info.action?id=100001010' , is_blank_targe = '1' where id = '100001006';
+update `fenfentong`.`advert` set link = 'exchange_lottery_list.action' , is_blank_targe = '1' where id = '100001007';
+update `fenfentong`.`advert` set link = 'exchange_local_info.action?id=100001027' , is_blank_targe = '1' where id = '100001008';
+
+--直接优惠链接更新，图片更换
+update `fenfentong`.`advert` set link = 'exchange_telephonefee_info.action?id=100001032' , is_blank_targe = '1' , images = '/zh_fenfentong/advert/5a87aca1793a4b8e9760640afba48ea5.png' where id = '100001015';
+update `fenfentong`.`advert` set link = 'exchange_local_info.action?id=100001010' , is_blank_targe = '1' , images = '/zh_fenfentong/advert/ff6f5f0c9ec24c74be2a8ea82f8f6eb7.png' where id = '100001016';
+update `fenfentong`.`advert` set link = 'exchange_lottery_list.action' , is_blank_targe = '1' , images = '/zh_fenfentong/advert/8bc81684f6b24c41b271469447d2aa3f.png' where id = '100001017';
+update `fenfentong`.`advert` set link = 'exchange_local_info.action?id=100001027' , is_blank_targe = '1' , images = '/zh_fenfentong/advert/76212475acf74e22bbf9699234c025d1.png' where id = '100001018';
+----注册成功是否第一次登陆系统标识 
+alter table `user` add column firstLogin VARCHAR(11) default 0 comment '用户是否第一次登陆0:还没有进行过登陆 1：已经登录多系统';
+
+---所有类似珠海农商行的内容统一为珠海农商行  20130619 zhaoxiaoyao
+delete from `agreement`;
+INSERT INTO `agreement` VALUES ('100001001', '0', '<p class=\"MsoNormal\" align=\"center\" style=\"text-align:center\"><b><span style=\"font-size: 14pt; font-family: 宋体;\">珠海农商银行分分通平台（<span lang=\"EN-US\">www.fenfentong.com.cn</span>）用户协议<span lang=\"EN-US\"><o:p></o:p></span></span></b></p>\r\n\r\n<p class=\"MsoNormal\"><span lang=\"EN-US\" style=\"font-size: 16pt; font-family: 宋体;\">&nbsp;</span></p>\r\n\r\n<p class=\"MsoNormal\"><b><span style=\"font-size: 14pt; font-family: 宋体;\">第一部分：分分通会员条款及细则<span lang=\"EN-US\"><o:p></o:p></span></span></b></p>\r\n\r\n<p class=\"MsoNormal\"><b><span lang=\"EN-US\" style=\"font-size: 9pt; font-family: 宋体;\">&nbsp;<o:p></o:p></span></b></p>\r\n\r\n<p class=\"MsoNormal\" style=\"margin-left:0cm;text-indent:18.05pt;mso-char-indent-count:\r\n2.0;mso-list:l0 level1 lfo1\"> <b><span lang=\"EN-US\" style=\"font-size: 9pt; font-family: 宋体;\">一、</span></b> <b><span style=\"font-size: 9pt; font-family: 宋体;\">分分通会员服务条款确认<span lang=\"EN-US\"><o:p></o:p></span></span></b></p>\r\n\r\n<p class=\"MsoNormal\"><b><span lang=\"EN-US\" style=\"font-size: 9pt; font-family: 宋体;\">&nbsp;</span></b></p>\r\n\r\n<p class=\"MsoNormal\"><span style=\"font-size: 9pt; font-family: 宋体; background-color: white; background-position: initial initial; background-repeat: initial initial;\">分分通网站以及网站内容所有权与运作权归珠海农商银行所有。本会员服务条款具有法律约束力。会员一旦选<span lang=\"EN-US\">\"</span>注册<span lang=\"EN-US\">\"</span>并通过注册程序，即表示其自愿接受分分通所有服务条款，并成为分分通的注册会员。<span lang=\"EN-US\"><br>\r\n</span>会员在享用分分通会员服务的同时，同意接受分分通会员服务提供的各类信息服务。<span lang=\"EN-US\"><br>\r\n</span></span><span lang=\"EN-US\" style=\"font-size: 9pt; font-family: 宋体;\">&nbsp;<o:p></o:p></span></p>\r\n\r\n<p class=\"MsoNormal\" style=\"background:white;mso-shading:windowtext;mso-pattern:\r\nsolid white;text-autospace:ideograph-other;vertical-align:top\"><span lang=\"EN-US\" style=\"font-size: 9pt; font-family: 宋体;\">&nbsp; </span><span lang=\"EN-US\" style=\"font-size: 9pt; font-family: 宋体; background-position: initial initial; background-repeat: initial initial;\">1.\r\n</span><span style=\"font-size: 9pt; font-family: 宋体; background-position: initial initial; background-repeat: initial initial;\">申请会员<span lang=\"EN-US\"><br>\r\n</span>　　<span lang=\"EN-US\">1) </span>会员可登陆分分通网站，注册成功后即可开始享受会员服务。<span lang=\"EN-US\"><br>\r\n</span>　　<span lang=\"EN-US\">2) </span>会员成功注册，将获得一个会员账号及密码，每个会员只可同时拥有一个会员账号。<span lang=\"EN-US\"><br>\r\n</span>　　<span lang=\"EN-US\">3) </span>本会籍只供会员本人使用，并不可转让。珠海农商银行分分通平台拥有最终批核会籍的决定权及最终解释权。<span lang=\"EN-US\"><br>\r\n&nbsp;&nbsp;&nbsp; 4</span>）会员至分分通合作商户的营业场所消费时，可以享受专有的积分返利优惠，并可通过分分通平台的积分兑换和团购板块，进行积分兑换和现金消费。<span lang=\"EN-US\"><o:p></o:p></span></span></p>\r\n\r\n<p class=\"MsoNormal\" style=\"background:white;mso-shading:windowtext;mso-pattern:\r\nsolid white;text-autospace:ideograph-other;vertical-align:top\"><a name=\"answer02\"></a><span lang=\"EN-US\" style=\"font-size: 9pt; font-family: 宋体; background-position: initial initial; background-repeat: initial initial;\"><br>\r\n&nbsp;2. </span><span style=\"font-size: 9pt; font-family: 宋体; background-position: initial initial; background-repeat: initial initial;\">积分获取<span lang=\"EN-US\"><br>\r\n</span>　　<span lang=\"EN-US\">1)</span>　分分通积分：会员可通过在分分通合作商户处消费后获得合作商家送出的分分通积分返利。<span lang=\"EN-US\"><o:p></o:p></span></span></p>\r\n\r\n<p class=\"MsoNormal\" style=\"text-indent:18.0pt;mso-char-indent-count:2.0;\r\nbackground:white;mso-shading:windowtext;mso-pattern:solid white;text-autospace:\r\nideograph-other;vertical-align:top\"><span lang=\"EN-US\" style=\"font-size: 9pt; font-family: 宋体; background-position: initial initial; background-repeat: initial initial;\">2</span><span style=\"font-size: 9pt; font-family: 宋体; background-position: initial initial; background-repeat: initial initial;\">） 珠海农商银行积分：珠海农商银行持卡客户可以在分分通平台上使用原有农商银行积分，相关积分按照既定比例兑换成相应的分分通平台银行积分，<span lang=\"EN-US\">1</span>分兑一元。<span lang=\"EN-US\"><o:p></o:p></span></span></p>\r\n\r\n<p class=\"MsoNormal\" style=\"text-indent:18.0pt;mso-char-indent-count:2.0;\r\nbackground:white;mso-shading:windowtext;mso-pattern:solid white;text-autospace:\r\nideograph-other;vertical-align:top\"><span lang=\"EN-US\" style=\"font-size: 9pt; font-family: 宋体; background-position: initial initial; background-repeat: initial initial;\">3</span><span style=\"font-size: 9pt; font-family: 宋体; background-position: initial initial; background-repeat: initial initial;\">）积分兑换和团购消费板块不再产生积分。<span lang=\"EN-US\"><br>\r\n</span>　　<span lang=\"EN-US\"><br>\r\n&nbsp;3. </span>积分消费<span lang=\"EN-US\"><br>\r\n</span>　　<span lang=\"EN-US\">1) </span>会员可以通过分分通平台的“积分兑换”板块进行积分产品兑换。<span lang=\"EN-US\"><o:p></o:p></span></span></p>\r\n\r\n<p class=\"MsoNormal\" style=\"text-indent:18.0pt;mso-char-indent-count:2.0;\r\nbackground:white;mso-shading:windowtext;mso-pattern:solid white;text-autospace:\r\nideograph-other;vertical-align:top\"><span lang=\"EN-US\" style=\"font-size: 9pt; font-family: 宋体; background-position: initial initial; background-repeat: initial initial;\">2</span><span style=\"font-size: 9pt; font-family: 宋体; background-position: initial initial; background-repeat: initial initial;\">）会员可以通过分分通平台“团购”板块，在购买团购类产品时选择使用积分进行消费。<span lang=\"EN-US\"><o:p></o:p></span></span></p>\r\n\r\n<p class=\"MsoNormal\" style=\"text-indent:18.0pt;mso-char-indent-count:2.0;\r\nbackground:white;mso-shading:windowtext;mso-pattern:solid white;text-autospace:\r\nideograph-other;vertical-align:top\"><span lang=\"EN-US\" style=\"font-size: 9pt; font-family: 宋体; background-position: initial initial; background-repeat: initial initial;\">3</span><span style=\"font-size: 9pt; font-family: 宋体; background-position: initial initial; background-repeat: initial initial;\">）若积分余额不足，会员可以使用积分加现金形式或全现金（现金付款需用珠海农商银行手机银行卡进行支付）方式进行产品兑换或团购消费。<span lang=\"EN-US\"><o:p></o:p></span></span></p>\r\n\r\n<p class=\"MsoNormal\"><span lang=\"EN-US\" style=\"font-size: 9pt; font-family: 宋体; background-color: white; background-position: initial initial; background-repeat: initial initial;\"><o:p>&nbsp;</o:p></span></p>\r\n\r\n<p class=\"MsoNormal\"><span lang=\"EN-US\" style=\"font-size: 9pt; font-family: 宋体; background-color: white; background-position: initial initial; background-repeat: initial initial;\">&nbsp;4.</span><span style=\"font-size: 9pt; font-family: 宋体; background-color: white; background-position: initial initial; background-repeat: initial initial;\">积分提现<span lang=\"EN-US\"><br>\r\n</span>　<span lang=\"EN-US\">&nbsp; <a name=\"answer07\"></a>1</span>）会员可在“积分提现板块”中，将分分通平台积分进行提现操作，</span><span style=\"font-size: 9pt; font-family: 宋体;\">需要将分分通账户绑定珠海农商银行的银行卡后才能提现成功；若分分通账户未绑定珠海农商银行银行卡，请先在个人中心板块中的<span lang=\"EN-US\">“</span>提现认证<span lang=\"EN-US\">”</span>中，通过绑定银行卡后再进行提现操作；若无珠海农商银行的银行卡账户，请先至珠海农商银行营业网点开卡。<span lang=\"EN-US\"><o:p></o:p></span></span></p>\r\n\r\n<p class=\"MsoNormal\"><span lang=\"EN-US\" style=\"font-size: 9pt; font-family: 宋体;\">&nbsp;&nbsp;&nbsp; 2</span><span style=\"font-size: 9pt; font-family: 宋体;\">）珠海农商银行积分不能进行提现。<span lang=\"EN-US\"><o:p></o:p></span></span></p>\r\n\r\n<p class=\"MsoNormal\" style=\"background:white;mso-shading:windowtext;mso-pattern:\r\nsolid white;text-autospace:ideograph-other;vertical-align:top\"><span lang=\"EN-US\" style=\"font-size: 9pt; font-family: 宋体; background-position: initial initial; background-repeat: initial initial;\"><br>\r\n&nbsp;5. </span><span style=\"font-size: 9pt; font-family: 宋体; background-position: initial initial; background-repeat: initial initial;\">积分及有效期<span lang=\"EN-US\"> <br>\r\n&nbsp;&nbsp;&nbsp; </span>分分通积分分为三类：（<span lang=\"EN-US\">1)</span>银行积分，珠海农商银行持卡客户的积分\r\n（<span lang=\"EN-US\">2</span>）分分通积分：通过在分分通合作商户处消费所获赠的返利积分 （<span lang=\"EN-US\">3</span>）通过参与分分通平台营销活动获赠的积分<span lang=\"EN-US\">&nbsp; <o:p></o:p></span></span></p>\r\n\r\n<p class=\"MsoNormal\" style=\"text-indent:18.0pt;mso-char-indent-count:2.0;\r\nbackground:white;mso-shading:windowtext;mso-pattern:solid white;text-autospace:\r\nideograph-other;vertical-align:top\"><span lang=\"EN-US\" style=\"font-size: 9pt; font-family: 宋体; background-position: initial initial; background-repeat: initial initial;\">1</span><span style=\"font-size: 9pt; font-family: 宋体; background-position: initial initial; background-repeat: initial initial;\">）珠海农商银行积分，当年可使用前一年产生的银行积分，使用有效期截止至本年度<span lang=\"EN-US\">12</span>月<span lang=\"EN-US\">31</span>日。<span lang=\"EN-US\"><o:p></o:p></span></span></p>\r\n\r\n<p class=\"MsoNormal\" style=\"text-indent:18.0pt;mso-char-indent-count:2.0;\r\nbackground:white;mso-shading:windowtext;mso-pattern:solid white;text-autospace:\r\nideograph-other;vertical-align:top\"><span lang=\"EN-US\" style=\"font-size: 9pt; font-family: 宋体; background-position: initial initial; background-repeat: initial initial;\">2) </span><span style=\"font-size: 9pt; font-family: 宋体; background-position: initial initial; background-repeat: initial initial;\">通过至分分通合作商户消费所累积的返利积分，暂无具体截止有效期，会员可一直积累使用。<span lang=\"EN-US\"><o:p></o:p></span></span></p>\r\n\r\n<p class=\"MsoNormal\" style=\"margin-left:0cm;text-indent:18.0pt;mso-char-indent-count:\r\n2.0;mso-list:l2 level1 lfo2\"> <span lang=\"EN-US\" style=\"font-size: 9pt; font-family: 宋体;\">3) </span> <span style=\"font-size: 9pt; font-family: 宋体; background-color: white; background-position: initial initial; background-repeat: initial initial;\">通过营销活动获得的赠送积分，积分有效期视具体活动而定，过期未兑换或使用则会自动清零。举例说明：会员于<span lang=\"EN-US\">2013</span>年<span lang=\"EN-US\">4</span>月<span lang=\"EN-US\">10</span>日到帐<span lang=\"EN-US\">100</span>个奖励积分，活动规定该笔积分的有效期至<span lang=\"EN-US\">2013</span>年<span lang=\"EN-US\">4</span>月<span lang=\"EN-US\">31</span>日，若<span lang=\"EN-US\">4</span>月<span lang=\"EN-US\">31</span>日后该笔积分尚未使用完毕，则系统将自动清零。<span lang=\"EN-US\"><o:p></o:p></span></span></p>\r\n\r\n<p class=\"MsoNormal\"><span lang=\"EN-US\" style=\"font-size: 9pt; font-family: 宋体; background-color: white; background-position: initial initial; background-repeat: initial initial;\"><br>\r\n</span><span style=\"font-size: 9pt; font-family: 宋体; background-color: white; background-position: initial initial; background-repeat: initial initial;\">　<span lang=\"EN-US\">&nbsp; 4) </span>分分通积分不可以转让给其他持卡人或任何第三人。或给予其他非回馈项目的给付。<span lang=\"EN-US\"><br>\r\n</span>　<span lang=\"EN-US\">&nbsp; 5) </span>任何不恰当、欺诈或错误使用本计划，或未能遵守有关条款及细则，珠海农商银行通平台有权即时取消其个人会员资格及所有累积的积分。分分通平台保留对终止个人会员通知与否的权利。与此同时，相关会员于分分通会员计划所有的积分结余亦将会被取消。<span lang=\"EN-US\"><br>\r\n</span>　　<span lang=\"EN-US\">6) </span>若会员不幸身故，其会员资格及所有剩余的积分将被取消。<span lang=\"EN-US\"><o:p></o:p></span></span></p>\r\n\r\n<p class=\"MsoNormal\" style=\"text-indent:18.0pt;mso-char-indent-count:2.0\"><span lang=\"EN-US\" style=\"font-size: 9pt; font-family: 宋体; background-color: white; background-position: initial initial; background-repeat: initial initial;\"><br>\r\n</span><span style=\"font-size: 9pt; font-family: 宋体; background-color: white; background-position: initial initial; background-repeat: initial initial;\">　　<span lang=\"EN-US\">6. </span>会员可在个人中心中添加绑定的珠海农商银行卡账户，或者更改绑定的手机<span lang=\"EN-US\"><o:p></o:p></span></span></p>\r\n\r\n<p class=\"MsoNormal\" style=\"text-indent:18.0pt;mso-char-indent-count:2.0\"><span lang=\"EN-US\" style=\"font-size: 9pt; font-family: 宋体; background-color: white; background-position: initial initial; background-repeat: initial initial;\"><br>\r\n</span><span style=\"font-size: 9pt; font-family: 宋体; background-color: white; background-position: initial initial; background-repeat: initial initial;\">　　<span lang=\"EN-US\">7. </span>会员账号及密码<span lang=\"EN-US\"><br>\r\n</span>　　<span lang=\"EN-US\">1) </span>注册会员成功后，会员应妥善保管会员账号及密码，并对该账户进行的所有活动及事件负法律责任。因黑客行为或会员保管疏忽致使账户被他人非法使用，分分通平台将不承担任何责任。如会员发现任何非法使用会员账户或安全漏洞的情况，请立即与分分通联络。<span lang=\"EN-US\"><br>\r\n</span>　　<span lang=\"EN-US\">2) </span>会员可通过分分通网站更改会员登录密码。<span lang=\"EN-US\"><o:p></o:p></span></span></p>\r\n\r\n<p class=\"MsoNormal\" style=\"text-indent:18.0pt;mso-char-indent-count:2.0\"><span lang=\"EN-US\" style=\"font-size: 9pt; font-family: 宋体; background-color: white; background-position: initial initial; background-repeat: initial initial;\"><o:p>&nbsp;</o:p></span></p>\r\n\r\n<p class=\"MsoNormal\" style=\"margin-left:0cm;text-indent:18.05pt;mso-char-indent-count:\r\n2.0;mso-list:l1 level1 lfo3\"> <span lang=\"EN-US\" style=\"font-size: 9pt; font-family: 宋体;\">二、 </span> <b><span style=\"font-size: 9pt; font-family: 宋体; background-color: white; background-position: initial initial; background-repeat: initial initial;\">服务内容</span></b><span lang=\"EN-US\" style=\"font-size: 9pt; font-family: 宋体; background-color: white; background-position: initial initial; background-repeat: initial initial;\"><br>\r\n</span><span style=\"font-size: 9pt; font-family: 宋体; background-color: white; background-position: initial initial; background-repeat: initial initial;\">分分通网站服务的具体内容由珠海农商银行分分通根据实际情况提供，珠海农商银行对其所提供之服务拥有最终解释权。<span lang=\"EN-US\"><br>\r\n</span>分分通平台通过网络向其会员提供相关服务，会员与相关网络服务有关的设备（如个人电脑、手机、及其他与接入互联网或移动网有关的装置）及所需的费用（如为接入互联网而支付的电话费及上网费、为使用移动网而支付的手机费）均由会员自行负担。<span lang=\"EN-US\"><br>\r\n&nbsp; <o:p></o:p></span></span></p>\r\n\r\n<p class=\"MsoNormal\"><span lang=\"EN-US\" style=\"font-size: 9pt; font-family: 宋体; background-color: white; background-position: initial initial; background-repeat: initial initial;\">&nbsp;&nbsp;&nbsp;&nbsp; </span><b><span style=\"font-size: 9pt; font-family: 宋体; background-color: white; background-position: initial initial; background-repeat: initial initial;\">三、 会员权责</span></b><span lang=\"EN-US\" style=\"font-size: 9pt; font-family: 宋体; background-color: white; background-position: initial initial; background-repeat: initial initial;\"><br>\r\n</span><span style=\"font-size: 9pt; font-family: 宋体; background-color: white; background-position: initial initial; background-repeat: initial initial;\">　　<span lang=\"EN-US\">1. </span>会员有权按照分分通网站规定的程序和要求使用分分通向会员提供的各项网络服务，如果会员对该服务有异议，可以与分分通网站联系以便得到及时解决。<span lang=\"EN-US\"><br>\r\n</span>　　<span lang=\"EN-US\">2. </span>会员在申请使用分分通会员服务时，必须向分分通提供准确的个人资料，如 个人资料有任何变动，必须及时更新。<span lang=\"EN-US\"><br>\r\n</span>　　<span lang=\"EN-US\">3. </span>会员须同意并接受分分通网站通过电子邮件、手机短信、电话外呼等方式向会员发送促销或其他相关商业信息（如积分信息、资讯、活动等）。<span lang=\"EN-US\"><br>\r\n</span>　　<span lang=\"EN-US\">4. </span>会员在分分通网站的网页上发布信息或者利用分分通的网站服务时必须符合国家的法律法规以及国际法的有关规定。<span lang=\"EN-US\"><br>\r\n</span>　　<span lang=\"EN-US\">5. </span>对于会员上传到分分通平台上信息可公开获取区域（包括但不限于论坛、<span lang=\"EN-US\">BBS</span>、评论）的任何内容，会员同意授予分分通享有完全的、免费的、永久性的、不可撤销的、非独家的权利，以及再许可第三方的使用权利，以使用、复制、修改、改编、出版、翻译、据以创作衍生作品、传播、表演和展示此等内容（整体或部分），和<span lang=\"EN-US\">/</span>或将此等内容编入当前已知的或以后开发的其他任何形式的作品、媒体或技术中。<span lang=\"EN-US\"><br>\r\n</span>　　<span lang=\"EN-US\">6. </span>会员承诺不会通过分分通网站的信息发布平台（包括但不限于论坛、<span lang=\"EN-US\">BBS</span>、评论）发布如下信息：<span lang=\"EN-US\"><br>\r\n</span>　　<span lang=\"EN-US\">1</span>） 反对宪法所确定的基本原则的；<span lang=\"EN-US\"><br>\r\n</span>　　<span lang=\"EN-US\">2</span>） 危害国家安全，泄露国家秘密，颠覆国家政权，破坏国家统一的；<span lang=\"EN-US\"><br>\r\n</span>　　<span lang=\"EN-US\">3</span>） 损害国家荣誉和利益的；<span lang=\"EN-US\"><br>\r\n</span>　　<span lang=\"EN-US\">4</span>） 煽动民族仇恨、民族歧视，破坏民族团结的；<span lang=\"EN-US\"><br>\r\n</span>　　<span lang=\"EN-US\">5</span>） 破坏国家宗教政策，宣扬邪教和封建迷信的；<span lang=\"EN-US\"> <br>\r\n</span>　　<span lang=\"EN-US\">6</span>） 散布谣言，扰乱社会秩序，破坏社会稳定的；<span lang=\"EN-US\"> <br>\r\n</span>　　<span lang=\"EN-US\">7</span>） 散布淫秽、色情、赌博、暴力、凶杀、恐怖或者教唆犯罪的；<span lang=\"EN-US\"><br>\r\n</span>　　<span lang=\"EN-US\">8</span>） 侮辱或者诽谤他人，侵害他人合法权益的；<span lang=\"EN-US\"><br>\r\n</span>　　<span lang=\"EN-US\">9</span>） 含有法律、行政法规禁止的其他内容的；<span lang=\"EN-US\"><br>\r\n</span>　　<span lang=\"EN-US\">7. </span>会员单独为其发布在分分通上的信息承担责任。会员若在分分通散布和传播违法信息，网络会员服务的系统记录有可能作为会员违法之证据。<span lang=\"EN-US\"><br>\r\n</span>　　<span lang=\"EN-US\">8. </span>会员不得利用本平台的服务从事以下活动：<span lang=\"EN-US\"><br>\r\n</span>　　<span lang=\"EN-US\">1</span>） 未经允许，进入计算机信息网络或者使用计算机信息网络资源；<span lang=\"EN-US\"><br>\r\n</span>　　<span lang=\"EN-US\">2</span>） 未经允许，对计算机信息网络功能进行删除、修改或者增加；<span lang=\"EN-US\"><br>\r\n</span>　　<span lang=\"EN-US\">3</span>） 未经允许，对进入计算机信息网络中存储、处理或者传输的数据和应用程序进行删除、修改或者增加；<span lang=\"EN-US\"><br>\r\n</span>　　<span lang=\"EN-US\">4</span>） 故意制作、传播计算机病毒等破坏性程序；<span lang=\"EN-US\"><br>\r\n</span>　　<span lang=\"EN-US\">5</span>） 其他危害计算机信息网络安全的行为。<span lang=\"EN-US\"><br>\r\n</span>　　<span lang=\"EN-US\">9. </span>会员不得以任何方式干扰本站的服务。<span lang=\"EN-US\"><br>\r\n</span>　　<span lang=\"EN-US\">10. </span>会员承诺遵守本站的所有其他规定和程序。<span lang=\"EN-US\"><br>\r\n</span>　　<span lang=\"EN-US\">11. </span>如果会员违反上述规定，分分通网站有权要求其改正或直接采取一切必要措施（包括但不限于更改或删除会员发布的信息、中断或终止会员使用网络的权利等），以减轻会员不当行为所造成的影响。<span lang=\"EN-US\"><o:p></o:p></span></span></p>\r\n\r\n<p class=\"MsoNormal\"><span lang=\"EN-US\" style=\"font-size: 9pt; font-family: 宋体; background-color: white; background-position: initial initial; background-repeat: initial initial;\"><o:p>&nbsp;</o:p></span></p>\r\n\r\n<p class=\"MsoNormal\"><b><span lang=\"EN-US\" style=\"font-size: 9pt; font-family: 宋体; background-color: white; background-position: initial initial; background-repeat: initial initial;\">&nbsp;&nbsp; </span></b><b><span style=\"font-size: 9pt; font-family: 宋体; background-color: white; background-position: initial initial; background-repeat: initial initial;\">四、服务条款的修改</span></b><span lang=\"EN-US\" style=\"font-size: 9pt; font-family: 宋体; background-color: white; background-position: initial initial; background-repeat: initial initial;\"><br>\r\n</span><span style=\"font-size: 9pt; font-family: 宋体; background-color: white; background-position: initial initial; background-repeat: initial initial;\">　　珠海农商银行分分通网站有权在必要时修改本会员服务条款，服务条款的内容一旦发生变动，分分通将会通过适当方式向会员提示修改内容。会员如不同意修改，可以主动选择取消会员资格；如果会员继续使用分分通会员服务，将被视为接受修改后的服务条款。\r\n<span lang=\"EN-US\"><br>\r\n<br>\r\n</span>　　<b>五、 服务内容的修改或中断</b><span lang=\"EN-US\"><br>\r\n</span>　　鉴于网络服务的特殊性，分分通保留随时修改或中断其部分或全部网络服务的权利，并无需通知会员或为此对会员及任何第三方负责。<span lang=\"EN-US\"> <br>\r\n<br>\r\n</span>　　<b>六、 会员隐私保护</b><span lang=\"EN-US\"><br>\r\n</span>　　分分通尊重会员的隐私权，不会公开或泄露任何有关会员的个人资料以及会员在使用网络服务时存储在分分通的非公开内容，但以下情况除外：<span lang=\"EN-US\"><br>\r\n</span>　　<span lang=\"EN-US\">1. </span>本网站已经声明该部分内容将被公开，而会员在知道的情况下仍然提供信息；<span lang=\"EN-US\"><br>\r\n</span>　　<span lang=\"EN-US\">2. </span>国家的司法机关或政府相关部门依据法规要求获得该会员的相关信息；<span lang=\"EN-US\"><br>\r\n</span>　　<span lang=\"EN-US\">3. </span>会员的信息可以从其它的公开渠道获得（如：公共网吧内，会员没有注销界面，而导致信息外泄）；<span lang=\"EN-US\"><br>\r\n</span>　　<span lang=\"EN-US\">4. </span>本网站谨慎地确认有必要公布会员的信息时（如该会员提供的信息误导浏览者或会员提供的信息含有欺诈性等）；<span lang=\"EN-US\"><br>\r\n</span>　　<span lang=\"EN-US\">5. </span>事先获得会员的明确授权；<span lang=\"EN-US\"><br>\r\n</span>　　<span lang=\"EN-US\">6. </span>遵守法律规定或分分通合法服务程序；<span lang=\"EN-US\"><br>\r\n</span>　　<span lang=\"EN-US\">7. </span>按照相关政府主管部门的合理要求；<span lang=\"EN-US\"><br>\r\n</span>　　<span lang=\"EN-US\">8. </span>维护社会公众利益。<span lang=\"EN-US\"> <br>\r\n<br>\r\n</span>　　<b>七、 中断或终止服务</b><span lang=\"EN-US\"><br>\r\n</span>　　<span lang=\"EN-US\">1. </span>如发生下列任何一种情形，分分通有权随时中断或终止向会员提供本协议项下的网络服务，而无需对会员或任何第三方承担任何责任。<span lang=\"EN-US\"><br>\r\n</span>　　<span lang=\"EN-US\">1</span>）<span lang=\"EN-US\">. </span>会员向分分通提供的个人资料不真实。<span lang=\"EN-US\"><br>\r\n</span>　　<span lang=\"EN-US\">2</span>）<span lang=\"EN-US\">. </span>会员违反本协议的规则或不履行其所承担的义务。<span lang=\"EN-US\"> <br>\r\n<br>\r\n</span>　　<b>八、 知识产权</b><span lang=\"EN-US\"><br>\r\n</span>　　<span lang=\"EN-US\">1. </span>珠海农商银行分分通网站上的内容，包括但不限于文字、图形、图像、音乐、录像、标示、标识、广告、版面设计、专栏目录、链路、图表按钮、<span lang=\"EN-US\">HTML</span>编码、商标与及软件等其他材料均受著作权、商标法等相关法律的保护，并且也受适用于国际公约中有关著作权、商标权、专利权及财产所有权法律的保护。未经分分通事先同意，任何人不能擅自复制、传播这些内容，或用于其他任何商业目的，否则将追究法律责任。<span lang=\"EN-US\"><br>\r\n</span>　　<span lang=\"EN-US\">2. </span>分分通网站为提供网络服务而使用的任何软件（包括但不限于软件中的任何文字、图形、音频、视频资料及其辅助资料）的一切权利属于该软件的著作权人，未经该著作权人同意，任何人不得对该软件进行反向工程、反向编译或反汇编。<span lang=\"EN-US\"><br>\r\n</span>　　<span lang=\"EN-US\">3. </span>如有著作权人发现会员在分分通网站发表的内容侵犯其著作权，并依《互联网著作权行政保护办法》、《信息网络传播保护条例》的规定向分分通发出书面通知并提供相关内容的著作权权属证明的，分分通有权在不事先通知会员的情况下自行移除相关内容，并依法保留相关数据。<span lang=\"EN-US\"><br>\r\n</span>　　<span lang=\"EN-US\">4. </span>为方便会员，分分通设有与其它网站或网页的链接，但分分通并不对这些网站或网页进行维护，会员启用该网站或网页链接所产生的一切风险，概与分分通无关。<span lang=\"EN-US\"><br>\r\n</span>　　<span lang=\"EN-US\">5. </span>分分通网站或有部分内容来自互联网，部分内容由于不便校对版权或内容的真实性和准确性，所以可能暂时无法确认版权或内容的真实性和准确性，由此而引起的版权问题或其他问题，请致电或电邮分分通。经核实后会立即予以删除或更改。<span lang=\"EN-US\"> <br>\r\n</span><b>　　九、 免责声明</b><span lang=\"EN-US\"><br>\r\n</span>　　<span lang=\"EN-US\">1. </span>会员提供的信息仅代表其个人的立场与观点，与本网站的立场和观点无关。<span lang=\"EN-US\"><br>\r\n</span>　　<span lang=\"EN-US\">2. </span>本网站对会员或第三方的以下损失概不承担任何责任：<span lang=\"EN-US\"><br>\r\n</span>　　<span lang=\"EN-US\">1) </span>会员提供的信息由于不正确、不完整、不及时而导致的会员自身的损失。<span lang=\"EN-US\"><br>\r\n</span>　　<span lang=\"EN-US\">2) </span>会员因错误理解和使用、复制或传播本网站上的内容而造成的损失、损害或会员提供的信息涉及侵犯他人的版权、署名权等纠纷，纯属其个人行为，与本网站无关。<span lang=\"EN-US\"> <br>\r\n</span>　　<span lang=\"EN-US\">3) </span>会员通过本网站而获分分通会员得的链接或通过链接获得的产品、服务或信息内容上的缺陷（如：内容的不完整、不及时等）与本网站概不相关，因本网站仅提供链接的渠道，而不负责对该网站或网页的维护。<span lang=\"EN-US\"><br>\r\n</span>　　<span lang=\"EN-US\">4) </span>因互联网本身的原因而引起的问题（如：网站服务导致的执行失败、错误、计算机病毒或计算机的硬件问题等而导致的问题）与本网站无关。<span lang=\"EN-US\"><br>\r\n</span>　　<span lang=\"EN-US\">3. </span>本网站上的部分内容（如：图片）来源于互联网，因互联网上的作品权利人身份不便确认，故可能有部分内容涉及版权问题。若经核实涉及版权问题，本网站将即时予以删除或更正。<span lang=\"EN-US\"><br>\r\n</span>　　<span lang=\"EN-US\">5. </span>本网站有权在本网站内使用会员在本网站上发表的信息（包括但不限于图片、游记等）。但会员在本网站上发表的信息若其它浏览者要转载，需经过本网站和该会员的许可，否则视为侵权。<span lang=\"EN-US\"><br>\r\n</span>　　<span lang=\"EN-US\">6. </span>因会员违反本法律声明而引发的任何一切索赔、损害等等，本网站概不负责。<span lang=\"EN-US\"><br>\r\n</span>　　<span lang=\"EN-US\">7. </span>分分通对任何因会员不正当或非法使用服务、在网上进行交易、或会员传送信息变动而产生的直接、间接、偶然、特殊及后续的损害不承担责任。<span lang=\"EN-US\"><br>\r\n</span>　　<span lang=\"EN-US\">8. </span>分分通平台对任何他人的威胁性的、诽谤性的、淫秽的、令人反感的或非法的内容或行为或对他人权利的侵犯（包括知识产权）不承担责任；并对任何第三方通过服务发送或在服务中包含的任何内容不承担责任。<span lang=\"EN-US\"><br>\r\n</span>　　<span lang=\"EN-US\">9. </span>会员明确同意其使用分分通服务所存在的风险以及使用分分通网络服务产生的一切后果由其自己承担。<span lang=\"EN-US\"><br>\r\n</span>　　<span lang=\"EN-US\">10. </span>对于因不可抗力或分分通不能控制的原因造成的网络服务中断或其它缺陷，分分通不承担任何责任，但将尽力减少因此而给会员造成的损失和影响（如地震、海啸等<span lang=\"EN-US\">)</span>。<span lang=\"EN-US\"><br>\r\n</span>　　<span lang=\"EN-US\">11. </span>会员消费积分返利均由合作商户自行或委托分分通进行给付。因此，会员第一时间从商户获得的消费积分仅为累计的积分记录，不可马上用于积分折抵消费；分分通只有在合作商户确认支付相应的积分款项后，会员积分才会真正达到会员积分账户，用于积分兑换或团购消费。因合作商户未能支付积分款导致会员累积的积分无法正常使用和兑换的，分分通不承担任何责任。<span lang=\"EN-US\"><o:p></o:p></span></span></p>\r\n\r\n<p class=\"MsoNormal\"><span style=\"font-size: 9pt; font-family: 宋体; background-color: white; background-position: initial initial; background-repeat: initial initial;\">　<b>十、 责任及赔偿</b><span lang=\"EN-US\"><br>\r\n</span>　　因会员对本服务之使用而导致分分通遭受任何来自第三方之纠纷、诉讼及索赔要求，会员同意向分分通及其关联企业、职员赔偿相应国家规定的合理损失（包括合理的律师费），并尽力使之免受损害。<span lang=\"EN-US\"><br>\r\n</span>　　<span lang=\"EN-US\">1. </span>分分通及<span lang=\"EN-US\">/</span>或伙伴机构对任何因会员不正当或非法使用服务、在网上进行交易、或会员传送信息变动而产生的直接、间接、偶然特殊及继起的损害不承担任何责任。而因会员对服务的不当使用而导致分分通及<span lang=\"EN-US\">/</span>或伙伴机构遭受任何来自第三方的纠纷、诉讼及索赔要求，会员同意向分分通及<span lang=\"EN-US\">/</span>或伙伴机构赔偿相应的损失（包括合理的法律费用），并尽力使之免受损害。<span lang=\"EN-US\"><br>\r\n</span>　　<span lang=\"EN-US\">2. </span>分分通及<span lang=\"EN-US\">/</span>或伙伴机构均不对有关计划及<span lang=\"EN-US\">/</span>或提供或拒绝提供有关优惠，而招致会员需承担任何间接或继之而造成的任何损失<span lang=\"EN-US\">/</span>损害或开支负责。无论后果是否因会员的疏忽而引致，或因分分通及<span lang=\"EN-US\">/</span>或伙伴机构在所能控制的情况下发生，分分通及<span lang=\"EN-US\">/</span>或伙伴机构概不负责。<span lang=\"EN-US\"><br>\r\n</span>　　<span lang=\"EN-US\">3. </span>分分通将全力确保伙伴机构能提供有关服务，但不负责因伙伴机构未能提供有关服务所引致的损失。当会员享用伙伴机构的服务时，须受伙伴机构的条款及细则所约束，分分通亦不会负责任何损失。<span lang=\"EN-US\"><br>\r\n<br>\r\n</span>　　<b>十一、 通告</b><span lang=\"EN-US\"><br>\r\n</span>　　所有发给会员的通告都可以通过重要页面的公告、电子邮件以及常规信件的形式传送。<span lang=\"EN-US\"><br>\r\n<br>\r\n</span>　　<b>十二、 法律</b><span lang=\"EN-US\"><br>\r\n</span>　　分分通平台服务条款之效力、解释、执行均适用中华人民共和国法律。如发生争议，应提交至有管辖权之法院。<span lang=\"EN-US\"> <o:p></o:p></span></span></p>\r\n\r\n<p class=\"MsoNormal\"><span lang=\"EN-US\" style=\"font-size: 9pt; font-family: 宋体; background-color: white; background-position: initial initial; background-repeat: initial initial;\"><o:p>&nbsp;</o:p></span></p>\r\n\r\n<p class=\"MsoNormal\"><span lang=\"EN-US\" style=\"font-size: 9pt; font-family: 宋体; background-color: white; background-position: initial initial; background-repeat: initial initial;\"><br>\r\n</span><b><span style=\"font-size: 16pt; font-family: 宋体; background-color: white; background-position: initial initial; background-repeat: initial initial;\">第二部分 分分通会员隐私条例 </span></b><span lang=\"EN-US\" style=\"font-size: 9pt; font-family: 宋体; background-color: white; background-position: initial initial; background-repeat: initial initial;\"><br>\r\n<br>\r\n</span><span style=\"font-size: 9pt; font-family: 宋体; background-color: white; background-position: initial initial; background-repeat: initial initial;\">　　分分通网站<span lang=\"EN-US\">http://www.fenfentong.com.cn(</span>下称<span lang=\"EN-US\"> \"</span>本网站<span lang=\"EN-US\">\") </span>由上海方付通商务服务有限公司合作经营，其会员计划由珠海农商银行及上海方付通商务服务有限公司共同经营。登记会员<span lang=\"EN-US\"> (</span>下称<span lang=\"EN-US\">”</span>会员<span lang=\"EN-US\">”) </span>向本网站提供的一切数据均会限制于我们经营业务所需的范围内。为保障会员的个人利益，本网站谨以下列声明说明本网站在网上搜集会员个人数据的方式、范围、数据使用方法，以及查询及更正等事项。本网站希望下列的声明有助于会员了解本网站如何处理会员的个人数据。<span lang=\"EN-US\"> <br>\r\n<br>\r\n</span>　　<b>一、 搜集个人资料</b><span lang=\"EN-US\"> <br>\r\n</span>　　本网站将在特定范围内，要求会员提供个人数据<span lang=\"EN-US\">(</span>下称〝数据〞<span lang=\"EN-US\">)</span>。我们会在会员所浏览的个别网站范围内，或会员所使用的移动通讯频道向会员收集不同的数据，其中包括：<span lang=\"EN-US\"><br>\r\n</span>　　<span lang=\"EN-US\">1. </span>会员号码及个人密码<span lang=\"EN-US\"> <br>\r\n</span>　　<span lang=\"EN-US\">2. </span>手机号码<span lang=\"EN-US\"> <br>\r\n</span>　　<span lang=\"EN-US\">3. </span>姓名<span lang=\"EN-US\"> <br>\r\n</span>　　<span lang=\"EN-US\">4. </span>性别<span lang=\"EN-US\"> <br>\r\n</span>　　<span lang=\"EN-US\">5. </span>出生日期<span lang=\"EN-US\"><br>\r\n</span>　　<span lang=\"EN-US\">6. </span>国籍<span lang=\"EN-US\"> <br>\r\n</span>　　<span lang=\"EN-US\">7. </span>电话及传真号码<span lang=\"EN-US\"> <br>\r\n</span>　　<span lang=\"EN-US\">8. </span>联络地址<span lang=\"EN-US\"><br>\r\n</span>　　<span lang=\"EN-US\">9. </span>电邮地址<span lang=\"EN-US\"> <br>\r\n</span>　　<span lang=\"EN-US\">10. </span>电话号码<span lang=\"EN-US\"><o:p></o:p></span></span></p>\r\n\r\n<p class=\"MsoNormal\" style=\"text-indent:18.0pt;mso-char-indent-count:2.0\"><span lang=\"EN-US\" style=\"font-size: 9pt; font-family: 宋体; background-color: white; background-position: initial initial; background-repeat: initial initial;\">12.</span><span style=\"font-size: 9pt; font-family: 宋体; background-color: white; background-position: initial initial; background-repeat: initial initial;\">银行卡号<span lang=\"EN-US\"><br>\r\n</span>　　<span lang=\"EN-US\">13. </span>其它数据包括语言、职业、工作单位、婚姻状况、薪金、教育程度等一般统计性资料<span lang=\"EN-US\"> <br>\r\n</span>会员无须在所有服务范围都提供会员的全部个人数据。但若会员未能提供个别服务范围所需的数据，本网站可能无法向相关会员提供会员可能获得的全部网上服务。\r\n本网站绝不会在会员不知情的情况下取得会员之个人资料。<span lang=\"EN-US\"><o:p></o:p></span></span></p>\r\n\r\n<p class=\"MsoNormal\" style=\"text-indent:18.0pt;mso-char-indent-count:2.0\"><span lang=\"EN-US\" style=\"font-size: 9pt; font-family: 宋体; background-color: white; background-position: initial initial; background-repeat: initial initial;\"><br>\r\n</span><span style=\"font-size: 9pt; font-family: 宋体; background-color: white; background-position: initial initial; background-repeat: initial initial;\">　<b>二、 资料保密</b><span lang=\"EN-US\"> <br>\r\n</span>　　在本网站取得的个人数据，只供本网站内部及依照取得数据时说明的使用目的和范围加以使用。<span lang=\"EN-US\"><br>\r\n</span>　　本网站也可能因下列情况而透露会员的个人数据：<span lang=\"EN-US\"><br>\r\n</span>　　<span lang=\"EN-US\">1. </span>本网站在必要时会向分分分通的伙伴机构或其它商业机构提供部分的会员数据，以便为会员提供最新的信息或为会员提供更优越的服务及产品。但会员可于登记或修改个人数据时，选择不参与这项服务；<span lang=\"EN-US\"><br>\r\n</span>　　<span lang=\"EN-US\">2. </span>在个别情况下，包括经会员事先同意、根据相关法律、法规的要求、应法庭命令、依据政府或执法机关的要求，或在紧急情况下，为保护相关会员的权利或财产，保护本网站及会员的个人或公众安全，防止本网站、会员及公众权益的受到重大危害，本网站可视情况所需透露必要的会员数据；<span lang=\"EN-US\"><br>\r\n</span>除上述说明中的特定事项外，本网站不会在未取得会员同意前将会员的个人数据提供给任何第三者，或作为其它目的使用。本网站实行严格的保安系统，可防止任何人（包括本网站职员）未经授权而取得会员的个人资料。<span lang=\"EN-US\"><br>\r\n</span>除个人数据外，任何由会员向本网站传送的问题、意见、建议或会员的非辨认性资料，均被视为非保密及非专有的数据形式而自愿提供给本网站。本网站有权自行决定该等数据的使用、复制、传送及刊登。但本网站将不会把会员于网上所提供的数据，透露或使用于任何与本条所述事项无关的地方。<span lang=\"EN-US\"> <br>\r\n<br>\r\n</span><b>　　三、<span lang=\"EN-US\"> (Cookies) </span>及档案<span lang=\"EN-US\"> (Log\r\nFiles)</span></b><span lang=\"EN-US\"><br>\r\n</span>　　<span lang=\"EN-US\">Cookies</span>是网站服务器用来与使用者之浏览器进行沟通的一种技术，是有关计算机会员的数据元素。它可能在使用者的计算机中自动储存某些信息，以替本网站去辨认会员最感兴趣的网站部分及作为会员日后之检索，借此可为会员提供更佳的浏览服务。<span lang=\"EN-US\"><br>\r\n</span>　　<span lang=\"EN-US\">Cookies </span>不能用来运行程序或将病毒递送到会员的计算机中。指定给会员的<span lang=\"EN-US\"> Cookies </span>是唯一的，它只能由将<span lang=\"EN-US\"> Cookies </span>发布给会员的域中的<span lang=\"EN-US\"> Web </span>服务器读取。<span lang=\"EN-US\"><br>\r\n</span>　　会员可以接受或拒绝<span lang=\"EN-US\"> Cookise </span>。大多数<span lang=\"EN-US\"> Web </span>浏览器会自动接受<span lang=\"EN-US\"> Cookies</span>，但会员可根据自己的需要来修改浏览器的设置以自行取消或限制此项功能。<span lang=\"EN-US\">Cookies</span>收集的是不记名的集体统计资料，并不包括姓名、地址、电话、电邮地址等个人联络数据。<span lang=\"EN-US\"><br>\r\n</span>　　本网站可能会收集会员的网络设定位置（即<span lang=\"EN-US\">\"IP address\"</span>），以协助解决及分析会员可能面对的问题，本网站亦会收集会员在本网站内相关的浏览资料。此类资料收集只会作为本网站内部研究之用，以便改善本网站的服务质量，与会员的个人数据并无直接关系。<span lang=\"EN-US\"><br>\r\n<br>\r\n</span><b>　　四、 网站链接</b><span lang=\"EN-US\"><br>\r\n</span>本网站将可能提供通往其它网站的链接，这些链接的网站并非由本网站设立及监察。任何人士如启动这些链接，即表示已经离开本网站。浏览者需自行承担链接其它网站可能引致的风险，如因启动此这些链接而产生任何损害或故障，本网站概不负责。<span lang=\"EN-US\"> <br>\r\n<b><br>\r\n</b></span><b>　　五、 更改个人资料 </b><span lang=\"EN-US\"><br>\r\n</span>　　会员可以随时登录本网站对会员的个人资料作出修改。为保护会员数据的隐私，会员将需要输入会员号码及个人密码，以获取或更改会员的个人资料。<span lang=\"EN-US\"> <br>\r\n<br>\r\n</span>　　<b>六、 隐私政策的修改 </b><span lang=\"EN-US\"><br>\r\n</span>　　本网站可在必要时随时对保护隐私及数据安全政策声明作出修改，并将新的声明公布于本网站中，以便会员能随时知悉我们如何利用有关数据。如本网站决定于新的条款下使用会员已提供的数据，本网站将提前通知会员，会员可选择是否接受本网站调整后的政策并允许本网站根据调整后的政策使用会员的数据。若在本网站向会员送达通知时所要求的合理时间内，会员未明确表示反对的，则视为会员接受调整后的政策。<span lang=\"EN-US\"><br>\r\n<b>&nbsp;&nbsp;&nbsp; </b></span><b>七、 其它注意事项</b><span lang=\"EN-US\"><br>\r\n</span>　　会员需留意，任何以会员的登记名称及密码登录本网站，本网站均视为由该会员所发出。如会员发现或怀疑会员的登记名称及密码被误用，会员有责任通知本网站。如本网站发现或怀疑会员的登记名称及密码被误用，本网站亦有权终止会员的服务。</span><span lang=\"EN-US\" style=\"font-size:9.0pt;mso-bidi-font-size:10.0pt;font-family:宋体;\r\ncolor:#303030;background:white\"><br>\r\n</span><span lang=\"EN-US\" style=\"font-size:9.0pt;mso-bidi-font-size:10.0pt;\r\nfont-family:宋体;color:red;background:white\"><br>\r\n<br>\r\n<o:p></o:p></span></p>\r\n\r\n<p class=\"MsoNormal\"><span lang=\"EN-US\" style=\"font-size:9.0pt;mso-bidi-font-size:\r\n10.0pt;font-family:宋体;color:red;background:white\"><o:p>&nbsp;</o:p></span></p>', '30', '2013-03-28|12:00:00', '2013-03-28|12:00:00', '测试协议');
+INSERT INTO `agreement` VALUES ('100001002', '1', '<p class=\"MsoNormal\" align=\"center\" style=\"margin-left:36.0pt;text-align:center;\">\r\n	<b>分分通平台合作介绍</b> \r\n</p>\r\n<p class=\"MsoNormal\">\r\n<b><span>&nbsp;&nbsp;&nbsp; </span></b>分分通平台是珠海农商银行<span>2013</span>年度面向珠海全市用户推\r\r\n出的营销推广平台，将联合珠海市范围内各行业商家，一同为珠海全市用户提供包含积分返利、积分兑换、团购、积分提现等\r\r\n一系列服务，以多种手段介绍推荐用户至合作商家处消费，消费后送积分，积分可以多种方式再次消费，形成良性营销循环\r\n</p>\r\n<p class=\"MsoNormal\">\r\n<br />\r\n</p>\r\n<p class=\"MsoNormal\">\r\n<b>业务模式</b>\r\n</p>\r\n<p class=\"MsoNormal\" style=\"text-align:center;\">\r\n<b><img src=\"http://210.14.71.130:10002/zh_fenfentong/agreement/e4b78abc4c8e481fab16cc8f7c12565b.jpg\" \r\r\nalt=\"\" /><br />\r\n</b> \r\n</p>\r\n<p class=\"MsoNormal\" style=\"text-align:center;\">\r\n<b><img src=\"http://210.14.71.130:10002/zh_fenfentong/agreement/6fb42d71068242bd850804bf266bdddb.jpg\" \r\r\nalt=\"\" /><br />\r\n</b> \r\n</p>\r\n<p class=\"MsoNormal\">\r\n	<p class=\"MsoNormal\">\r\n<br />\r\n</p>\r\n<p class=\"MsoNormal\">\r\n<b>为合作商家免费提供优势宣传渠道</b>\r\n</p>\r\n<p class=\"MsoNormal\" style=\"margin-left:72.0pt;text-indent:-18.0pt;\">\r\n	&nbsp; 百万级客户手机短信群发推广\r\n	</p>\r\n<p class=\"MsoNormal\" style=\"margin-left:72.0pt;text-indent:-18.0pt;\">\r\n&nbsp; 珠海当地报纸广告跟进\r\n</p>\r\n<p class=\"MsoNormal\" style=\"margin-left:72.0pt;text-indent:-18.0pt;\">\r\n&nbsp; 珠海当地广播广告跟进\r\n</p>\r\n<p class=\"MsoNormal\" style=\"margin-left:72.0pt;text-indent:-18.0pt;\">\r\n&nbsp; 微信、微博推广\r\n</p>\r\n<p class=\"MsoNormal\" style=\"margin-left:72.0pt;text-indent:-18.0pt;\">\r\n&nbsp; 所有珠海农商银行分支网点宣传跟进\r\n</p>\r\n<p class=\"MsoNormal\" style=\"margin-left:72.0pt;text-indent:-18.0pt;\">\r\n&nbsp; 商户处易拉宝、海报、桌牌、门贴宣传跟进\r\n</p>\r\n<p class=\"MsoNormal\">\r\n<br />\r\n	</p>\r\n<p class=\"MsoNormal\">\r\n<b>分分通平台期待与各行业商家和合作，愿我们携手共创辉煌！</b>\r\n	</p>\r\n<p class=\"MsoNormal\">\r\n<span style=\"line-height:1.5;\"></span>\r\n	</p>\r\n	<p class=\"MsoNormal\" style=\"text-indent:24.0pt;\">\r\n		<br />\r\n	</p>\r\n</p>', '30', '2013-03-28|12:00:00', '2013-03-28|12:00:00', '分分通合作介绍');
+INSERT INTO `agreement` VALUES ('100001003', '2', '<p class=\"MsoNormal\" align=\"center\" style=\"text-align:center;\">\r\n<b>直接优惠合作介绍</b><b></b>\r\n</p>\r\n<p class=\"MsoNormal\" style=\"text-indent:24.0pt;\">\r\n直接优惠是珠海农商银行转为其珠海农商银行客户提供的专属优惠服务，凡珠海农商银行持卡客户，均可在分分通平台的直接\r\r\n优惠板块中查询相关合作商家的优惠信息，持卡至商家处刷卡消费即可享受相应折扣，客户更可在分分通平台积分兑换板块中\r\r\n的珠海农商银行兑换专区中，用珠海农商银行积分兑换相关产品\r\n</p>\r\n<p class=\"MsoNormal\">\r\n&nbsp;\r\n</p>\r\n<p class=\"MsoNormal\">\r\n<b>直接优惠合作的优势：</b><b></b>\r\n</p>\r\n<p class=\"MsoNormal\" style=\"text-indent:24.0pt;\">\n珠海农商银行随着多年的发展，在珠海拥有及120余万用户，仅比珠海常住户籍人口数略低，占总人口\r\r\n数280万人的三分之一以上，客户覆盖率极高。\r\n</p>\r\n<p class=\"MsoNormal\">\r\n在珠海本地银行当中，珠海农商银行以全市96家支行网点遥遥领先，占据绝对优势，是其他银行网点覆盖率的数倍\r\n</p>\r\n<p class=\"MsoNormal\">\r\n<b>&nbsp;</b>\r\n</p>\r\n<p class=\"MsoNormal\">\r\n<b>珠海农商银行客户量大，本地合作首选</b>\r\n</p>\r\n<p class=\"MsoNormal\" style=\"text-align:center;\">\r\n<b><img src=\"http://210.14.71.130:10002/zh_fenfentong/agreement/4277ade526f44490b235f7779b2452a7.jpg\" \r\r\nalt=\"\" /><br />\r\n</b>\r\n</p>\r\n<p class=\"MsoNormal\" style=\"text-indent:24.0pt;\">\r\n<br />', '30', '2013-03-28|12:00:00', '2013-03-28|12:00:00', '直接优惠合作介绍');
+
+
+----在goods表中添加字段,标识是否为自动添加的基础商品,默认为否.   0:否 1：是       20130621  lijinkui
+alter table goods add column is_auto varchar(1) default "0";
+
+-----新加门店表                         20130626   lijinkui
+CREATE TABLE `store` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `short_name` varchar(32) DEFAULT NULL,
+  `full_name` varchar(100) DEFAULT NULL,
+  `address` varchar(200) DEFAULT NULL,
+  `telephone1` varchar(20) DEFAULT NULL,
+  `telephone2` varchar(20) DEFAULT NULL,
+  `store_desc` varchar(1024) DEFAULT NULL,
+  `coordinate` varchar(32) DEFAULT NULL,
+  `merchant_id` int(11) DEFAULT NULL,
+  `state` varchar(2) DEFAULT NULL,
+  `create_time` varchar(32) DEFAULT NULL,
+  `update_time` varchar(32) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+)ENGINE=InnoDB AUTO_INCREMENT=100001001 DEFAULT CHARSET=utf8;
+
+
+--商户表添加字段              20130626   lijinkui
+alter table merchant add column preference_desc varchar(1024);
+
+-------------------------------------------- 20130628   zhaoxiaoyao   广告首页新增图片
+delete from `fenfentong`.`advert` where module = '0';
+INSERT INTO `advert` VALUES ('100001009', '3', '1', '活动宣传', '/zh_fenfentong/advert/ff6f5i0c9ec96c74ye2a8ea82l8f6p07.png', 'exchange_bankPoint_list.action', '1', '2013-03-08|12:00:00', '2013-04-08|12:00:00', '0', '30', '2013-03-08|12:00:00', '2013-03-08|12:00:00', null, '0');
+INSERT INTO `advert` VALUES ('100001019', '3', '1', '活动宣传', '/zh_fenfentong/advert/dedc89e74e8344ec98816238a690b587.png', 'rebate_index.action', '1', '2013-03-08|12:00:00', '2013-04-08|12:00:00', '0', '30', '2013-03-08|12:00:00', '2013-03-08|12:00:00', null, '0');
+INSERT INTO `advert` VALUES ('100001010', '3', '1', '活动宣传', '/zh_fenfentong/advert/9610b78bac0b4fa7a81f5ad04645fe7b.png', 'group_index.action', '1', '2013-03-08|12:00:00', '2013-04-08|12:00:00', '0', '30', '2013-03-08|12:00:00', '2013-03-08|12:00:00', null, '0');
+INSERT INTO `advert` VALUES ('100001011', '3', '1', '活动宣传', '/zh_fenfentong/advert/68ffa74757e041cdb992230ef579cd79.png', 'preferential_index.action', '1', '2013-03-08|12:00:00', '2013-04-08|12:00:00', '0', '30', '2013-03-08|12:00:00', '2013-03-08|12:00:00', null, '0');
+INSERT INTO `advert` VALUES ('100001012', '3', '1', '活动宣传', '/zh_fenfentong/advert/3108c03cba024547a54393f726626c47.png', 'new_exchange_index.action', '1', '2013-03-08|12:00:00', '2013-04-08|12:00:00', '0', '30', '2013-03-08|12:00:00', '2013-03-08|12:00:00', null, '0');
+
+--临时积分表添加新卡类型     20130716  zhaoxiaoyao
+alter table `fenfentong`.`temp_point` add column indentification_card_else varchar(32) default '' comment ' 其他证件号码';
+
+--用户表相关字段修改 20130722 zhaoxiaoyao
+alter table `froadmall`.`user` add  column registeredTime varchar(20) COMMENT '注册时间';
+alter table `froadmall`.`user` add  column memberID varchar(15) COMMENT '员工号，用于账户账务服务';
+alter table `froadmall`.`user` add  column createChannel varchar(15) COMMENT '创建渠道：FFT 分分通,MALL 商城，FFT_MC 分分通手机客户端，MAll_MC 商城手机客户端';
+alter table `froadmall`.`user` modify column `status` varchar(2) COMMENT '用户状态，是否被激活   1 未激活   0已激活   -1已废弃';
+
+
+-----活动中奖客户信息表  20130724 liqiaopeng  
+CREATE TABLE `fenfentong`.`activity_lottery_cust_info` (
+  `id` int NOT NULL AUTO_INCREMENT COMMENT '主键 自增100001001开始',
+  `account_name` varchar(32) NOT NULL COMMENT '姓名',
+  `account_number` varchar(100) NOT NULL COMMENT '卡号',
+  `identification_card` varchar(32) NOT NULL COMMENT '身份证号码',
+  `is_received` varchar(32) DEFAULT '0' COMMENT '是否领取 0-否 1-已经领取' ,
+  `type` varchar(32) NOT NULL COMMENT '类型 1-兑换券 2-商品(打折优惠) 3-积分赠送' ,
+  `name` varchar(32) DEFAULT NULL COMMENT '本次活动名称',
+  `batch_number` varchar(32) NOT NULL COMMENT '本次活动期号' ,
+  `start_time` varchar(32) DEFAULT NULL COMMENT '开始时间',
+  `end_time` varchar(32) DEFAULT NULL COMMENT '结束时间',
+  `state` varchar(2) DEFAULT NULL COMMENT '状态(10-创建，20-录入，30-启用，40-停用，50-删除)',
+  `create_time` varchar(32) DEFAULT NULL COMMENT '创建时间',
+  `update_time` varchar(32) DEFAULT NULL COMMENT '更新时间',
+  `remark`  varchar(255) DEFAULT NULL COMMENT '备注',
+  `field1` varchar(32) DEFAULT NULL COMMENT '备用字段1',
+  `field2` varchar(32) DEFAULT NULL COMMENT '备用字段2',
+  PRIMARY KEY (`id`)
+)ENGINE=InnoDB AUTO_INCREMENT=100001001 DEFAULT CHARSET=utf8;
+
+-----参加活动消费信息表   20130724 liqiaopeng
+CREATE TABLE `fenfentong`.`activity_lottery_result_info` (
+`id`  int(32) NOT NULL AUTO_INCREMENT COMMENT '主键 自增100001001开始' ,
+`user_id`  varchar(36) NOT NULL COMMENT '用户ID' ,
+`merchant_id`  varchar(32) DEFAULT NULL COMMENT '商户ID' ,
+`lottery_cust_id`  varchar(32) NOT NULL COMMENT '活动客户ID：对应activity_lottery_cust_info的主键id' ,
+`type` varchar(32) NOT NULL COMMENT '与activity_lottery_cust_info表中的type一致' ,
+`securities_no`  varchar(32) NOT NULL COMMENT '券号' ,
+`is_consume`  varchar(32) DEFAULT '0' COMMENT '是否消费 0-否 1-是' ,
+`consume_time`  varchar(32) DEFAULT NULL COMMENT '消费时间' ,
+`expire_time`  varchar(32) NOT NULL COMMENT '消费券或者打折优惠商品过期时间' ,
+`sms_number`  int(3) DEFAULT NULL COMMENT '短信次数' ,
+`sms_time`  varchar(32) DEFAULT NULL COMMENT '短信时间' ,
+`price`  varchar(32) DEFAULT NULL COMMENT '现金价' ,
+`point`  varchar(32) DEFAULT NULL COMMENT '积分' ,
+`goods_id`  varchar(32) DEFAULT NULL COMMENT '活动商品ID' ,
+`state`  varchar(32) DEFAULT '30' COMMENT '状态(10-创建，20-录入，30-启用，40-停用，50-删除)' ,
+`create_time`  varchar(32) DEFAULT NULL COMMENT '创建时间' ,
+`update_time`  varchar(32) DEFAULT NULL COMMENT '更新时间' ,
+`remark`  varchar(255) DEFAULT NULL COMMENT '备注' ,
+`field1` varchar(32) DEFAULT NULL COMMENT '备用字段1',
+`field2` varchar(32) DEFAULT NULL COMMENT '备用字段2',
+PRIMARY KEY (`id`) 
+)ENGINE=InnoDB AUTO_INCREMENT=100001001 DEFAULT CHARSET=utf8;
+-------分分通首页广告更改 20130724 zhaoxiaoyao
+delete from `fenfentong`.`advert` where module = '0';
+INSERT INTO `fenfentong`.`advert` VALUES ('100001009', '3', '1', '珠海农商银行“快乐仲夏”刷卡有礼赠影票活动', '/zh_fenfentong/advert/gh6f5i0c9ec96c74ye2a8eaho86f6pqo.jpg', 'activitshow.action', '1', '2013-03-08|12:00:00', '2013-04-08|12:00:00', '0', '30', '2013-03-08|12:00:00', '2013-03-08|12:00:00', null, '0');
+INSERT INTO `fenfentong`.`advert` VALUES ('100001010', '3', '1', '珠海农商银行积分享特惠', '/zh_fenfentong/advert/ff6f5i0c9ec96c74ye2a8ea82l8f6p07.png', 'exchange_bankPoint_list.action', '1', '2013-03-08|12:00:00', '2013-04-08|12:00:00', '0', '30', '2013-03-08|12:00:00', '2013-03-08|12:00:00', null, '0');
+INSERT INTO `fenfentong`.`advert` VALUES ('100001020', '3', '1', '分分通积分返利商家查询', '/zh_fenfentong/advert/dedc89e74e8344ec98816238a690b587.png', 'rebate_index.action', '1', '2013-03-08|12:00:00', '2013-04-08|12:00:00', '0', '30', '2013-03-08|12:00:00', '2013-03-08|12:00:00', null, '0');
+INSERT INTO `fenfentong`.`advert` VALUES ('100001011', '3', '1', '分分通团购商品特享', '/zh_fenfentong/advert/9610b78bac0b4fa7a81f5ad04645fe7b.png', 'group_index.action', '1', '2013-03-08|12:00:00', '2013-04-08|12:00:00', '0', '30', '2013-03-08|12:00:00', '2013-03-08|12:00:00', null, '0');
+INSERT INTO `fenfentong`.`advert` VALUES ('100001012', '3', '1', '分分通直接优惠商家查询', '/zh_fenfentong/advert/68ffa74757e041cdb992230ef579cd79.png', 'preferential_index.action', '1', '2013-03-08|12:00:00', '2013-04-08|12:00:00', '0', '30', '2013-03-08|12:00:00', '2013-03-08|12:00:00', null, '0');
+INSERT INTO `fenfentong`.`advert` VALUES ('100001019', '3', '1', '分分通多种积分兑换商品', '/zh_fenfentong/advert/3108c03cba024547a54393f726626c47.png', 'new_exchange_index.action', '1', '2013-03-08|12:00:00', '2013-04-08|12:00:00', '0', '30', '2013-03-08|12:00:00', '2013-03-08|12:00:00', null, '0');
+
+---------为参加活动消费信息表添加字段
+alter table `fenfentong`.`activity_lottery_result_info` add  column be_name varchar(32) COMMENT '操作员昵称';
+alter table `fenfentong`.`activity_lottery_result_info` add  column be_code varchar(32) COMMENT '操作员工号';
+
+--商户增加活动标识字段
+alter table `fenfentong`.`merchant` add column activity_id varchar(32) DEFAULT '0' COMMENT '商户参加的活动标识暂时只有两种0：未参加送影票活动 1:参加送影票活动';
+
+---商户管理平台资源增加
+insert into `fenfentong`.`merchant_clerk_url`(id,url_type,url,state,create_time,update_time,remark) values ('','1','activity_authentication.action','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),'商户活动认证消费券');
+
+-------分分通首页广告更改 20130812 lqp
+delete from `fenfentong`.`advert` where module = '0';
+INSERT INTO `fenfentong`.`advert` VALUES ('100001009', '3', '1', '珠海农商银行“快乐仲夏”刷卡有礼赠影票活动', '/zh_fenfentong/advert/gh6f5i0c9ec96c74ye2a8eaho86f6pqo.jpg', 'activitshow.action', '1', '2013-03-08|12:00:00', '2013-04-08|12:00:00', '0', '30', '2013-03-08|12:00:00', '2013-03-08|12:00:00', null, '0');
+INSERT INTO `fenfentong`.`advert` VALUES ('100001010', '3', '1', '水上童话王国，梦幻水城超值优惠票', '/zh_fenfentong/advert/651dc470e13d431e96ba6f339bd84318.jpg', 'exchange_local_info.action?id=100001092', '1', '2013-03-08|12:00:00', '2013-04-08|12:00:00', '0', '30', '2013-03-08|12:00:00', '2013-03-08|12:00:00', null, '0');
+INSERT INTO `fenfentong`.`advert` VALUES ('100001011', '3', '1', '夜场优惠畅玩，不一样的玩水体验', '/zh_fenfentong/advert/8fa9629af8e245cc96f7c741a55d73cf.jpg', 'exchange_local_info.action?id=100001093', '1', '2013-03-08|12:00:00', '2013-04-08|12:00:00', '0', '30', '2013-03-08|12:00:00', '2013-03-08|12:00:00', null, '0');
+INSERT INTO `fenfentong`.`advert` VALUES ('100001012', '3', '1', '珠海农商银行积分享特惠', '/zh_fenfentong/advert/ff6f5i0c9ec96c74ye2a8ea82l8f6p07.png', 'exchange_bankPoint_list.action', '1', '2013-03-08|12:00:00', '2013-04-08|12:00:00', '0', '30', '2013-03-08|12:00:00', '2013-03-08|12:00:00', null, '0');
+
+------trans表添加字段--------lijinkui  20130819
+alter table `fenfentong`.`trans` add column refund_order_id varchar(32) comment 'openaip返回订单号';
+
+------系统公告内容更改------------zhaoxiaoyao 20130829
+update `fenfentong`.`announcement` set state = '40';
+insert into `fenfentong`.`announcement` (title,content,release_date,end_date,type,important,releaser,state,create_time,update_time) values ('关于珠海农商银行业务升级期间分分通部分业务暂停服务的公告','<div style="font-size:14px; color:#333333;">尊敬的分分通用户：<br />&nbsp;&nbsp;&nbsp;&nbsp;由于珠海农商银行将在2013年9月5日15:00至2013年9月9日9:00进行业务系统升级，在此期间将暂停手机银行卡业务。<br />&nbsp;&nbsp;&nbsp;&nbsp;在暂停服务期间，<strong style="font-weight:900;">您仍然可以正常注册登录分分通激活银行积分，可以正常浏览分分通返利商户或直接优惠商户信息，可以使用现有银行积分或分分通积分全额换购商品，并可正常持验证码短信至商户处验证后消费使用。</strong><br /><br />&nbsp;&nbsp;&nbsp;&nbsp;另受此影响，分分通的现金业务届时将暂停服务，包括如下功能：<br />&nbsp;&nbsp;&nbsp;&nbsp;一、手机银行卡付款<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.积分兑换/团购-部分或全部使用现金支付的，届时将无法支付<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.到商户现场消费时使用手机银行卡支付消费金额的，届时将无法支付<br />&nbsp;&nbsp;&nbsp;&nbsp;二、赠送积分（到商户现场消费后要求商户赠送积分的，届时将无法完成积分赠送）<br />&nbsp;&nbsp;&nbsp;&nbsp;三、手机银行卡认证（在分分通上进行手机银行卡认证或提现认证的，升级期间将无法完成认证<br />&nbsp;&nbsp;&nbsp;&nbsp;手机银行卡业务恢复后我们将第一时间发出公告，敬请留意！</div>','','','0','60','admin','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"));
+
+------分分通首页广告更改及'欢乐仲夏活动下线' zhaoxiaoyao 20130911
+delete from `fenfentong`.`advert` where id = '100001010';
+insert into `fenfentong`.`advert` VALUES ('100001010', '3', '1', '包包惊喜大放送，最低优惠至4折', '/zh_fenfentong/advert/5k6f5i0c9uh96c74ye2a8taho86hlpqo.jpg', 'http://o2obill.mbaobao.com', '1', '2013-03-08|12:00:00', '2013-04-08|12:00:00', '0', '30', '2013-03-08|12:00:00', '2013-03-08|12:00:00', null, '0');
+update `fenfentong`.`activity_lottery_cust_info` set batch_number = 0;
+update `fenfentong`.`advert` set name = '珠海农商银行“快乐金秋”刷卡有礼赠影票活动第二期预告' where id = '100001009';
+update `fenfentong`.`announcement` set state = '40';
+update `fenfentong`.`announcement` set state = '30' where id='100001001';
+
+------分分通中奖名单相关修改 zhaoxiaoyao 20130916
+update `fenfentong`.`activity_lottery_cust_info` set batch_number = 1;
+
+
+------ auth_ticket表添加字段--------liuchao  20131016
+alter table `fenfentong`.`auth_ticket` add column belong_user_becode varchar(255) default null COMMENT '关联操作员信息';
+
+-------更新auth_ticket表的belong_user_becode字段  ------liuchao  20131016
+UPDATE `fenfentong`.`trans` t
+RIGHT JOIN `fenfentong`.`auth_ticket` a ON t.id = a.trans_id
+SET a.belong_user_becode = t.belong_user_becode;
+
+CREATE TABLE `fenfentong`.`userappend`
+(
+	`id` INT(20) NOT NULL AUTO_INCREMENT,
+	`userID` VARCHAR(36) NOT NULL COMMENT '关联账户账务平台用户基表userID',
+	`isPointActivateLock` VARCHAR(5) DEFAULT '1' COMMENT '激活积分 1-未锁定 0-锁定',
+	`pointActivateFailureTimes` INT (5) DEFAULT 0 COMMENT '激活积分连续错误次数',
+	`pointActivateLockTime` VARCHAR(36) DEFAULT '' COMMENT '激活积分锁定时间',
+	`pointActivateTryTime` VARCHAR(36) DEFAULT '' COMMENT '激活积分尝试时间',
+	`firstLogin` VARCHAR(5) DEFAULT '0' COMMENT '是否第一次登录系统 0-第一次 1-已经登录过',
+	`bank` VARCHAR(50)  DEFAULT '20081114000001' COMMENT '相关银行',
+	`activateCode` VARCHAR(36) DEFAULT NULL COMMENT '活码激',
+	`blance` VARCHAR(50) DEFAULT NULL COMMENT '用户余额',
+	`state` VARCHAR(32) DEFAULT NULL COMMENT '状态',
+  	`create_time` VARCHAR(32) DEFAULT NULL COMMENT '创建时间',
+  	`update_time` VARCHAR(32) DEFAULT NULL COMMENT '更新时间',
+  	`remark` VARCHAR(255) DEFAULT NULL COMMENT '备注',
+	PRIMARY KEY(`id`)
+) ENGINE=MYISAM AUTO_INCREMENT=100001001 DEFAULT CHARSET=UTF8;
+
+----------------------------------账户账务切换 20131127zhaoxiaoyao
+见《数据库初始化详细操作步骤(切换至账户账务服务).xlsx》
+
+----------------------------------权限系统20131208 zhaoxiaoyao
+
+alter table `fenfentong`.`merchant_user_set` add column belong_store_id varchar(32) default null comment '所属门店，如果为空则表示该商户没有分店，可查询所有门店信息';
+alter table `fenfentong`.`merchant_user_set` add column role_type varchar(32) default '0' comment '0普通操作员 1财务人员';
+----------------------------------商户添加参加春节活动签约标识20131216 zhaoxiaoyao
+alter table `fenfentong`.`merchant` add column is_spring_activity varchar(32) default '0' comment '是否为春节活动签约商户，0 不是1是'
+													
+create table `fenfentong`.`spring_festival_coupon`    
+(
+	id int(32) not null auto_increment comment '主键 自增100000001开始',
+	o2o_info_id varchar(255) unique comment 'o2o中奖信息id',
+	member_code varchar(32) default null comment '中奖人关联账户服务memberc_ode',
+	securities_no varchar(32) not null unique comment '券号',
+	worth_cash varchar(32) comment '面值',
+	award_level int(3) comment '奖品等级:从1到3',
+	type varchar(3) not null comment '1:电影票;2:抵用券',
+	is_got varchar(3)default '0' not null comment '0:该券未中奖;1:该券已中奖',
+	got_time varchar(32) default null comment '该券中奖时间',
+	is_consume varchar(3) default '0' not null comment '0:该券没有消费;1:该券已消费',
+	consume_time varchar(32) comment '消费时间',
+	merchant_id varchar(32) comment '验证商户id',
+	be_code varchar(32) comment '操作员工号',
+	be_name varchar(32) comment '操作员姓名',
+	state varchar(3) default '30' comment '状态',
+	expire_time varchar(32) comment '券过期时间',
+	update_time varchar(32) comment '数据修改时间', 
+	create_time varchar(32) comment '数据创建时间',
+	primary key (id)
+)ENGINE=MyISAM AUTO_INCREMENT=100000001 DEFAULT CHARSET=utf8;
+UPDATE fenfentong.advert SET state='40' where id= 100001012;
+INSERT INTO `advert` VALUES ('100001019', '3', '1', '新春大礼，现金送不停', '/zh_fenfentong/advert/ss2ff475auuf74ehhbbf9699234c025d1.jpg', 'spring_festival_index.action', '1', '2013-03-08|12:00:00', '2013-04-08|12:00:00', '0', '30', '2013-03-08|12:00:00', '2013-03-08|12:00:00', null, '0');
+INSERT INTO `advert` VALUES ('100001020', '3', '1', '年终大奖缤纷抽，中奖名单', '/zh_fenfentong/advert/ab2hyf47gguuf74ehhbbf9699234c025yy.jpg', 'spring_festival_static.action', '1', '2013-03-08|12:00:00', '2013-04-08|12:00:00', '0', '30', '2013-03-08|12:00:00', '2013-03-08|12:00:00', null, '0');
+INSERT INTO fenfentong.`advert` VALUES ('100001021', '3', '1', '珠海农商银行积分享特惠', '/zh_fenfentong/advert/ff6f5i0c9ec96c74ye2a8ea82l8f6p07.png', 'exchange_bankPoint_list.action', '1', '2013-03-08|12:00:00', '2013-04-08|12:00:00', '0', '30', '2013-03-08|12:00:00', '2013-03-08|12:00:00', null, '0');
+
+
+------积分兑换商品规则------liuchao
+DROP TABLE IF EXISTS `present_point_rule`;
+CREATE TABLE `present_point_rule` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `good_exchange_rack_id` varchar(32) NOT NULL COMMENT '积分兑换商品Id',
+  `good_name` varchar(255) NOT NULL COMMENT '积分兑换商品名称',
+  `state` int(11) NOT NULL COMMENT '状态0禁用 1启用',
+  `point_value` varchar(50) NOT NULL COMMENT '赠送积分值',
+  `active_time` varchar(50) NOT NULL COMMENT '起始日期',
+  `expire_time` varchar(50) NOT NULL COMMENT '过期日期',
+  `create_time` varchar(50) NOT NULL COMMENT '创建时间',
+  `update_time` varchar(50) DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=100000001 DEFAULT CHARSET=utf8;
+
+alter table `fenfentong`.`goods_exchange_rack` add column is_present_points INT(1) NOT NULL DEFAULT 0 comment '是否启用自动赠送积分功能:0否 1是';
+
+------提货点与预售商品关系对应表-----liuchao
+
+CREATE TABLE `fenfentong`.`presell_delivery_map` (
+  `id` int(11) NOT NULL  AUTO_INCREMENT COMMENT '主键',
+  `presell_rack_id` int(11) NOT NULL  COMMENT '预售商品ID',
+  `delivery_id` int(11) NOT NULL  COMMENT '提货点ID',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=100000001 DEFAULT CHARSET=utf8;
+
+-------购买预售商品的记录信息-----liuchao
+
+CREATE TABLE `fenfentong`.`presell_buy_info` (
+  	`id` int(11) NOT NULL  AUTO_INCREMENT COMMENT '主键',
+ 	 `member_code` VARCHAR(30) NOT NULL  COMMENT '用户ID',
+	`total_goods_num` VARCHAR(30) NOT NULL  COMMENT '购买的商品数量',
+	`delivery_point_id` int(11) NOT NULL  COMMENT '提货点ID',
+	`goods_presell_rack_id` int(11) NOT NULL  COMMENT '预售商品ID',
+	`trans_id` int(11) NOT NULL  COMMENT '交易ID',
+	`create_time` VARCHAR(50)   COMMENT '创建时间',
+	`update_time` VARCHAR(50)   COMMENT '更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=100000001 DEFAULT CHARSET=utf8;
+
+
+--------商品预设提货点------liuchao
+
+CREATE TABLE `fenfentong`.`presell_delivery` (
+  	`id` int(11) NOT NULL  AUTO_INCREMENT COMMENT '主键',
+  	`name` VARCHAR(50) NOT NULL  COMMENT '提货点名称',
+	`address` VARCHAR(50) NOT NULL  COMMENT '地址',
+	`telephone` VARCHAR(20) NOT NULL  COMMENT '电话',
+	`business_time` VARCHAR(32) NOT NULL  COMMENT '营业时间',
+	`coordinate`  VARCHAR(32) NOT NULL  COMMENT '地址坐标',
+	`state` VARCHAR(10) NOT NULL  COMMENT '状态 0停用   1启用  2 录入',
+	`create_time` VARCHAR(50)   COMMENT '创建时间',
+	`update_time` VARCHAR(50)   COMMENT '更新时间',
+  	PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=100000001 DEFAULT CHARSET=utf8;
+
+
+-----预售商品图片表------
+CREATE TABLE `fenfentong`.`goods_presell_rack_images` (
+  `id` int(32) NOT NULL AUTO_INCREMENT COMMENT '主键 自增100001001开始',
+  `goods_presell_rack_id` varchar(32) NOT NULL COMMENT '预售商品ID',
+  `images_url` varchar(255) NOT NULL COMMENT '图片路径',
+  `state` varchar(32) DEFAULT '30' COMMENT '状态(10-创建，20-录入，30-启用，40-停用，50-删除)',
+  `create_time` varchar(32) DEFAULT NULL COMMENT '创建时间',
+  `update_time` varchar(32) DEFAULT NULL COMMENT '更新时间',
+  `remark` varchar(255) DEFAULT NULL COMMENT '备注',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=100001001 DEFAULT CHARSET=utf8;
+
+trans表中添加字段present_points_value(赠送积分数)----lijinkui
+alter table trans add column present_points_value varchar(10);
+
+
+-----预售商品表------
+
+CREATE TABLE `fenfentong`.`goods_presell_rack` (
+  `id` int(32) NOT NULL auto_increment COMMENT '主键 自增100001001开始',
+  `goods_id` varchar(32) NOT NULL COMMENT '商品ID',
+  `merchant_id` varchar(32) default NULL,
+  `group_price` varchar(32) default '0' COMMENT '团购价',
+  `begin_time` varchar(32) default NULL COMMENT '团购开始时间',
+  `end_time` varchar(32) default NULL COMMENT '团购结束时间',
+  `is_allowrefund` varchar(32) default '0' COMMENT '是否同意退款 0-否 1-是',
+  `clustering_num` varchar(32) default NULL COMMENT '成功成团数量',
+  `true_buyer_num` varchar(32) default NULL COMMENT '实际购买数量',
+  `virtual_buyer_num` varchar(32) default NULL COMMENT '系统添加的虚拟购买数量',
+  `is_cluster` varchar(32) default NULL COMMENT '是否成功成团: 1-成团成功  ; 0-成团失败',
+  `cluster_type` varchar(32) default NULL COMMENT '成团类型:  1-成团成功  ; 0-未成团;2-成团失败',
+  `seo_title` varchar(255) default NULL COMMENT '推广标题',
+  `seo_keyword` varchar(255) default NULL COMMENT '推广关键字',
+  `seo_description` text COMMENT '推广描述',
+  `is_rack` varchar(32) default '0' COMMENT '是否上架 0-否 1-是',
+  `rack_time` varchar(32) default NULL COMMENT '上架时间',
+  `inspectors` varchar(32) default NULL COMMENT '审核人',
+  `is_cash` varchar(32) default '0' COMMENT '是否启用现金 0-否 1-是',
+  `is_fft_point` varchar(32) default '0' COMMENT '是否启用分分通积分 0-否 1-是',
+  `is_bank_point` varchar(32) default '0' COMMENT '是否启用银行积分 0-否 1-是',
+  `is_fftpoint_cash` varchar(32) default '0' COMMENT '是否启用分分通积分+现金 0-否 1-是',
+  `is_bankpoint_cash` varchar(32) default '0' COMMENT '是否启用银行积分+现金 0-否 1-是',
+  `is_fftpointcash_ratio_pricing` varchar(32) default '0' COMMENT '是否启用分分通积分+现金比例定价 0-否 1-是',
+  `is_bankpointcash_ratio_pricing` varchar(32) default '0' COMMENT '是否启用银行积分+现金比例定价 0-否 1-是',
+  `cash_pricing` varchar(32) default NULL COMMENT '现金定价',
+  `fft_point_pricing` varchar(32) default NULL COMMENT '分分通积分定价',
+  `bank_point_pricing` varchar(32) default NULL COMMENT '银行积分定价',
+  `fftpoint_cash_pricing` varchar(32) default NULL COMMENT '分分通积分和现金定价',
+  `bankpoint_cash_pricing` varchar(32) default NULL COMMENT '银行积分和现金定价',
+  `fftpointcash_ratio_pricing` varchar(32) default NULL COMMENT '分分通积分使用区间比例 如 10|50 最小可使用10%最大可使用50%',
+  `bankpointcash_ratio_pricing` varchar(32) default NULL COMMENT '银行积分使用区间比例 如 10|50 最小可使用10%最大可使用50%',
+  `state` varchar(32) default '10' COMMENT '状态(10-创建，20-录入，30-启用，40-停用，50-删除)',
+  `buy_know` text COMMENT '买家须知',
+  `seller_id` varchar(32) NOT NUll COMMENT '卖家ID',
+  `goods_rack_detail` text COMMENT '商品详情',
+  `delivery_start_time` varchar(32)  default NULL COMMENT '提货开始时间',
+  `delivery_end_time` varchar(32)  default NULL COMMENT '提货结束时间',
+  `create_time` varchar(32) default NULL COMMENT '创建时间',
+  `update_time` varchar(32) default NULL COMMENT '更新时间',
+  `remark` varchar(2048) default NULL COMMENT '备注',
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=100001001  DEFAULT CHARSET=utf8;
+
+--------公告排序-----liuchao
+alter table `fenfentong`.announcement add column sort INT(11) default 0 COMMENT '排列顺序';
+
+
+------------修改精品预售表里几个字段的数据类型2014-03-11-------------    李金魁
+ALTER TABLE `fenfentong`.goods_presell_rack  MODIFY COLUMN clustering_num int default 0;
+ALTER TABLE `fenfentong`.goods_presell_rack  MODIFY COLUMN true_buyer_num int default 0;
+ALTER TABLE `fenfentong`.goods_presell_rack  MODIFY COLUMN virtual_buyer_num int default 0;
+
+--------交易添加规则对应Id-----liuchao
+alter table `fenfentong`.trans add column present_rule_id int default NULL COMMENT '对应送分规则Id';
+
+
+------添加优先级排序-----
+alter table `fenfentong`.goods_presell_rack add column priority int default 0 COMMENT '优先级排序';
+alter table `fenfentong`.goods_exchange_rack add column priority int default 0 COMMENT '优先级排序';
+alter table `fenfentong`.goods_group_rack add column priority int default 0 COMMENT '优先级排序';
+alter table `fenfentong`.advert add column priority int default 0 COMMENT '优先级排序';
+
+
+
+alter table `fenfentong`.goods_presell_rack add column max_sale_num int default 0 COMMENT '最大销售数量';
+
+-----------添加卖家规则和内部卖家--------(预生产和线上需要查数据)
+INSERT into seller_rule(rule_type,state,create_time,update_time,remark ) VALUES('08','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),'精品预售');
+INSERT into seller (merchant_id,state,create_time,update_time,user_id,remark,is_internal,seller_type) VALUES('100001001','30',DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),'10000005607','精品预售','1','08');
+INSERT INTO seller_channel (
+		merchant_id,
+		seller_id,
+		seller_rule_id,
+		is_default,
+		account_name,
+		account_number,
+		state,
+		create_time,
+		update_time,
+		remark,
+		channel_id,
+		user_id
+	)
+VALUES
+	(
+		'100001001',
+		'100005656',
+		'100001052',
+		'1',
+		'上海方付通商务服务有限公司',
+		'0000065668995012',
+		'30',
+		DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),
+		DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),
+		'新加内部预售卖家渠道',
+		'100001001',
+		'65a9704d-fc80-411d-adff-256e1b7dd2e8'
+	);
+
+----------------添加是否推送首页，和排序字段-------------
+alter table `fenfentong`.goods_exchange_rack add column is_index_show int default 0 COMMENT '是否首页展示';
+alter table `fenfentong`.goods_exchange_rack add column index_priority int default 0 COMMENT '首页展示优先级排序';
+
+alter table `fenfentong`.goods_group_rack add column  is_index_show int default 0 COMMENT '是否首页展示';
+alter table `fenfentong`.goods_group_rack add column index_priority int default 0 COMMENT '首页展示优先级排序';
+
+
+------向funds_channel表里加入支付宝渠道
+insert into `fenfentong`.`funds_channel` 
+(`points_withdraw_poundage_account_name`, `points_withdraw_poundage_account_number`, `fft_points_poundage_account_number`, `points_withdraw_account_name`, `points_withdraw_account_number`, `fft_points_poundage_account_name`, `fft_allowance_account_number`, `fft_allowance_account_name`, `fft_points_account_number`, `fft_points_account_name`, `fft_gathering_account_number`, `fft_gathering_account_name`, `bank_gathering_account_number`, `bank_gathering_account_name`, `currency`, `channel_type`, `channel_short_name`, `channel_full_name`, `pay_org`, `funds_channel_no`, `remark`, `update_time`, `create_time`, `state`, `id`) 
+values
+('80020000005859093','上海方付通商务服务有限公司','80020000005859093','上海方付通商务服务有限公司','80020000005859093','上海方付通商务服务有限公司','80020000005859093','上海方付通商务服务有限公司','80020000005859093','上海方付通商务服务有限公司','80020000005859093','上海方付通商务服务有限公司',NULL,NULL,'RMB','20','支付宝','支付宝（中国）网络技术有限公司','700','100010002','预生产','2014-03-15|12:00:00','2014-03-15|12:00:00','30','100001002');
+
+-----修改presell_buy_info表的字段名         2014-03-18       李金魁
+alter table presell_buy_info change delivery_point_id presell_delivery_id int;
+
+------------merchant表中增加 isaffordpresellflag 2014-3-18 侯国权 
+alter table merchant add column isaffordpresellflag varchar(1) COMMENT '是否支持预售验证，1标识有权限，0为否';
+
+-----修改数据库广告标题字段长度-----
+ALTER TABLE `fenfentong`.announcement  MODIFY COLUMN  title varchar(255);
+ALTER TABLE `fenfentong`.advert  MODIFY COLUMN  name varchar(255);
+ALTER TABLE `fenfentong`.advert  MODIFY COLUMN  remark varchar(512);
+ALTER TABLE `fenfentong`.announcement  MODIFY COLUMN  important int;
+
+//绑定，添加身份证号
+alter table `fenfentong`.user_certification add column user_idcard varchar(255) not null COMMENT '身份证号';
+

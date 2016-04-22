@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="transGoodsAttribute">
+	<typeAlias alias="transGoodsAttribute" type="com.froad.CB.po.TransGoodsAttribute"/>
+	
+	<resultMap id="TransGoodsAttributeResult" class="transGoodsAttribute">
+		<result column="goods_rack_attribute_id" property="goodsRackAttributeId" jdbcType="VARCHAR" />
+		<result column="goods_rack_attribute_id" property="goodsRackAttribute" select="goodsRackAttribute.selectByPrimaryKey"/>
+		<result column="trans_id" property="transId" jdbcType="VARCHAR" />
+		<result column="element" property="element" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<insert id="insert" parameterClass="transGoodsAttribute">
+		insert into trans_goods_attribute (goods_rack_attribute_id,
+		trans_id, element) values (#goodsRackAttributeId:VARCHAR#,
+		#transId:VARCHAR#, #element:VARCHAR#)
+	</insert>
+	
+	<select id="getByTransId" resultMap="TransGoodsAttributeResult" parameterClass="string">
+		select * from trans_goods_attribute where trans_id=#value#
+	</select>
+	
+</sqlMap>

@@ -1,0 +1,511 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.chongqing.mappers.MerchantMapper">
+
+    <resultMap type="Merchant" id="merchantResultMap">
+    	<!-- baseEntity prop -->
+        <id property="id" column="id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+		<result property="clientId" column="client_id"/>
+		<!-- baseEntity prop -->
+		<result property="name" column="name"/>
+        <result property="fullName" column="full_name"/>
+        <result property="logo" column="logo"/>
+        <result property="address" column="address"/>
+        <result property="zip" column="zip"/>
+    	<result property="fax" column="fax"/>
+    	<result property="tel" column="tel"/>
+    	<result property="contactName" column="contact_name"/>
+    	<result property="contactPhone" column="contact_Phone"/>
+    	<result property="contactEmail" column="contact_Email"/>
+    	<result property="legalName" column="legal_Name"/>
+    	<result property="legalCredentType" column="legal_Credent_Type"/>
+    	<result property="legalCredentNo" column="legal_Credent_No"/>
+    	<result property="contractBegintime" column="contract_Begintime"/>
+    	<result property="contractEndtime" column="contract_Endtime"/>
+    	<result property="contractStaff" column="contract_Staff"/>
+    	<result property="reviewStaff" column="review_Staff"/>
+    	<result property="auditState" column="audit_State" typeHandler="com.froad.db.extend.EnumTypeHandler"/>
+    	<result property="auditTime" column="audit_Time"/>
+    	<result property="auditComment" column="audit_Comment"/>
+    	<result property="isDelete" column="is_Delete"/>
+    	<result property="orderValue" column="order_Value"/>
+    	<result property="isTop" column="is_top"/>
+    	<result property="merchantCategoryId" column="merchant_Category_Id"/>
+    	<result property="merchantCategoryName" column="merchant_Category_name"/>
+    	<result property="areaId" column="area_Id"/>
+    	<result property="areaName" column="area_name"/>
+    	<result property="introduced" column="introduced"/>
+    	<result property="license" column="license"/>
+    	<result property="taxReg" column="tax_Reg"/>
+    	<result property="orgCode" column="org_Code"/>
+    	<result property="interbankAgency" column="interbank_Agency"/>
+    	<result property="travelAgency" column="travel_Agency"/>
+    	<result property="latticePoint" column="lattice_Point"/>
+    	<result property="bankOrgName" column="bank_Org_Name"/>
+    	<result property="complaintCall" column="complaint_Call"/>
+    	<result property="orgLevel" column="org_Level"/>
+    	<result property="orgVerifyState" column="org_Verify_State"/>
+    	<result property="orgTreePath" column="org_tree_path"/>
+    
+    </resultMap>
+
+
+    <!-- 基础sql 数据新增 必须指明数据列  -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		insert into cb_merchant
+		(
+			create_time,update_time,client_id,name,full_name,logo,address,zip,fax,tel,contact_name
+			,contact_Phone,contact_Email,legal_Name,legal_Credent_Type,legal_Credent_No,contract_Begintime,contract_Endtime
+			,contract_Staff,review_Staff,audit_State
+			,audit_Time,audit_Comment,is_Delete,order_Value,merchant_Category_Id,area_Id,introduced,license,tax_Reg
+			,org_Code,interbank_Agency,travel_Agency,lattice_Point,complaint_Call,org_Level,org_Verify_State,bank_Org_Name,is_top
+			,area_name,merchant_Category_name,org_tree_path
+		)
+		values
+		(
+			#{createTime},#{updateTime},#{clientId},#{name},#{fullName},#{logo},#{address},#{zip},#{fax},#{tel},#{contactName}
+			,#{contactPhone},#{contactEmail},#{legalName},#{legalCredentType},#{legalCredentNo},#{contractBegintime},#{contractEndtime}
+			,#{contractStaff},#{reviewStaff},#{auditState,typeHandler=com.froad.db.extend.EnumTypeHandler}
+			,#{auditTime},#{auditComment},#{isDelete},#{orderValue},#{merchantCategoryId},#{areaId},#{introduced},#{license},#{taxReg}
+			,#{orgCode},#{interbankAgency},#{travelAgency},#{latticePoint},#{complaintCall},#{orgLevel},#{orgVerifyState},#{bankOrgName},#{isTop}
+			,#{areaName},#{merchantCategoryName},#{orgTreePath}
+		)
+	</insert>
+	
+	<!-- 基础sql 通过分页查询 -->
+	<select id="selectOfPage" parameterType="com.froad.cbank.persistent.entity.base.PageEntity" resultMap="merchantResultMap">
+		select * from cb_merchant
+		<where>
+			<if test="condition != null">
+				<if test="condition.name != null">
+					and (name like CONCAT('%',#{condition.name},'%' ) or full_Name like CONCAT('%',#{condition.name},'%' ))
+				</if>
+				<if test="condition.auditState != null">
+					and audit_State = #{condition.auditState,typeHandler=com.froad.db.extend.EnumTypeHandler}
+				</if>
+				<if test="condition.clientId != null">
+					and client_id = #{condition.clientId}
+				</if>
+				<if test="condition.areaId != null">
+					and area_id = #{condition.areaId}
+				</if>
+				<if test="condition.zip != null" >
+		       	 	and zip = #{condition.zip,jdbcType=VARCHAR}
+		      	</if>
+		      	<if test="condition.fax != null" >
+		        	and fax = #{condition.fax,jdbcType=VARCHAR}
+		      	</if>
+		      	<if test="condition.tel != null" >
+		        	and tel = #{condition.tel,jdbcType=VARCHAR}
+		      	</if>
+		      	<if test="condition.contactName != null" >
+		        	and contact_name = like CONCAT('%',#{condition.contactName},'%')
+		      	</if>
+		      	<if test="condition.contactPhone != null" >
+		        	and contact_phone = #{condition.contactPhone,jdbcType=VARCHAR}
+		      	</if>
+		      	<if test="condition.contactEmail != null" >
+		        	and contact_email = #{condition.contactEmail,jdbcType=VARCHAR}
+		      	</if>
+		      	<if test="condition.isDelete != null" >
+		        	and is_delete = #{condition.isDelete,jdbcType=BIT}
+		      	</if>
+		      	<if test="condition.orderValue != null" >
+		        	and order_value = #{condition.orderValue,jdbcType=INTEGER}
+		      	</if>
+		      	<if test="condition.travelAgency">
+		      	    and travel_Agency=#{condition.travelAgency,jdbcType=VARCHAR}
+		      	</if>
+		      	<if test="condition.latticePoint">
+		      	    and lattice_Point=#{condition.latticePoint,jdbcType=VARCHAR}
+		      	</if>
+		      	<if test="condition.merchantCategoryId != null" >
+		        	and merchant_category_id = #{condition.merchantCategoryId,jdbcType=BIGINT}
+		      	</if>
+		      	<if test="condition.areaId != null" >
+		        	and area_id in(select id from cb_area where tree_path like CONCAT('',#{condition.areaId,jdbcType=BIGINT},'%')) 
+		      	</if>
+		      	<if test="condition.isTop != null" >
+		        	and is_Top = #{condition.isTop,jdbcType=BIT}
+		      	</if>
+		      	<if test="condition.orgTreePath !=null ">
+		      		and org_tree_path like CONCAT('',#{condition.orgTreePath},'%')
+		      	</if>
+		      	<if test="condition.begDate !=null ">
+		      	 <![CDATA[ 
+		      		and ${condition.dateProperty} >= #{condition.begDate}
+		      	 ]]>
+		      	</if>
+		      	<if test="condition.endDate !=null ">
+		      	 <![CDATA[ 
+		      		and ${condition.dateProperty} <= #{condition.endDate}
+		      	 ]]>
+		      	</if>
+		      	   <if test="condition.merchantTypeList!=null">
+		      	   and id in (select merchant_id from cb_merchant_type_relation where merchant_type_id in
+		      	    	<foreach item="item" collection="condition.merchantTypeList"  separator="," open="(" close=")" index="">
+                   			#{item.id}      	
+		      			</foreach>
+		      		)
+				   </if>
+			</if>
+		</where>
+		 <if test="orderByColumn !=null">
+		       order by ${orderByColumn} 
+			    <if test="orderByType !=null">
+			     	${orderByType}
+			   </if>
+		   </if>
+	</select>
+	
+	<!-- 基础sql 通过主键查询 -->
+	<select id="selectById" parameterType="java.lang.Long" resultMap="merchantResultMap">
+		select * from cb_merchant where id = #{id}
+	</select>
+	
+	<!-- 通过主键更新数据 -->
+	<update id="updateById" parameterType="java.lang.Boolean" >
+		update cb_merchant set update_time = #{updateTime}
+			<if test="name != null" >
+        	,name = #{name,jdbcType=VARCHAR}
+	      </if>
+	      <if test="fullName != null" >
+	        ,full_name = #{fullName,jdbcType=VARCHAR}
+	      </if>
+	      <if test="logo != null" >
+	        ,logo = #{logo,jdbcType=VARCHAR}
+	      </if>
+	      <if test="address != null" >
+	        ,address = #{address,jdbcType=VARCHAR}
+	      </if>
+	      <if test="zip != null" >
+	        ,zip = #{zip,jdbcType=VARCHAR}
+	      </if>
+	      <if test="fax != null" >
+	        ,fax = #{fax,jdbcType=VARCHAR}
+	      </if>
+	      <if test="tel != null" >
+	        ,tel = #{tel,jdbcType=VARCHAR}
+	      </if>
+	      <if test="contactName != null" >
+	        ,contact_name = #{contactName,jdbcType=VARCHAR}
+	      </if>
+	      <if test="contactPhone != null" >
+	        ,contact_phone = #{contactPhone,jdbcType=VARCHAR}
+	      </if>
+	      <if test="contactEmail != null" >
+	        ,contact_email = #{contactEmail,jdbcType=VARCHAR}
+	      </if>
+	      <if test="legalName != null" >
+	        ,legal_name = #{legalName,jdbcType=VARCHAR}
+	      </if>
+	      <if test="legalCredentType != null" >
+	        ,legal_credent_type = #{legalCredentType,jdbcType=VARCHAR}
+	      </if>
+	      <if test="legalCredentNo != null" >
+	        ,legal_credent_no = #{legalCredentNo,jdbcType=VARCHAR}
+	      </if>
+	      <if test="contractBegintime != null" >
+	        ,contract_begintime = #{contractBegintime,jdbcType=TIMESTAMP}
+	      </if>
+	      <if test="contractEndtime != null" >
+	        ,contract_endtime = #{contractEndtime,jdbcType=TIMESTAMP}
+	      </if>
+	      <if test="contractStaff != null" >
+	        ,contract_staff = #{contractStaff,jdbcType=VARCHAR}
+	      </if>
+	      <if test="reviewStaff != null" >
+	        ,review_staff = #{reviewStaff,jdbcType=VARCHAR}
+	      </if>
+	      <if test="auditState != null" >
+	        ,audit_state = #{auditState,typeHandler=com.froad.db.extend.EnumTypeHandler}
+	      </if>
+	      <if test="auditTime != null" >
+	        ,audit_time = #{auditTime,jdbcType=TIMESTAMP}
+	      </if>
+	      <if test="auditComment != null" >
+	        ,audit_comment = #{auditComment,jdbcType=VARCHAR}
+	      </if>
+	      <if test="isDelete != null" >
+	        ,is_delete = #{isDelete,jdbcType=BIT}
+	      </if>
+	      <if test="orderValue != null" >
+	        ,order_value = #{orderValue,jdbcType=INTEGER}
+	      </if>
+	      <if test="merchantCategoryId != null" >
+	        ,merchant_category_id = #{merchantCategoryId,jdbcType=BIGINT}
+	      </if>
+	      <if test="areaId != null" >
+	        ,area_id = #{areaId,jdbcType=BIGINT}
+	      </if>
+	      <if test="introduced != null" >
+	        ,introduced = #{introduced,jdbcType=VARCHAR}
+	      </if>
+	      <if test="license != null" >
+	        ,license = #{license,jdbcType=VARCHAR}
+	      </if>
+	      <if test="taxReg != null" >
+	        ,tax_reg = #{taxReg,jdbcType=VARCHAR}
+	      </if>
+	      <if test="orgCode != null" >
+	        ,org_code = #{orgCode,jdbcType=VARCHAR}
+	      </if>
+	      <if test="interbankAgency != null" >
+	        ,interbank_agency = #{interbankAgency,jdbcType=VARCHAR}
+	      </if>
+	      <if test="travelAgency != null" >
+	        ,travel_agency = #{travelAgency,jdbcType=VARCHAR}
+	      </if>
+	      <if test="latticePoint != null" >
+	        ,lattice_point = #{latticePoint,jdbcType=VARCHAR}
+	      </if>
+	      <if test="complaintCall != null" >
+	        ,complaint_call = #{complaintCall,jdbcType=VARCHAR}
+	      </if>
+	      <if test="orgLevel != null" >
+	        ,org_level = #{orgLevel,jdbcType=VARCHAR}
+	      </if>
+	      <if test="orgVerifyState != null" >
+	        ,org_verify_state = #{orgVerifyState,jdbcType=VARCHAR}
+	      </if>
+	      <if test="bankOrgName != null" >
+	        ,bank_Org_Name = #{bankOrgName,jdbcType=VARCHAR}
+	      </if>
+	      <if test="isTop != null" >
+	        ,is_top = #{isTop,jdbcType=BIT}
+	      </if>
+	      <if test="merchantCategoryName != null" >
+	        ,merchant_Category_name = #{merchantCategoryName,jdbcType=VARCHAR}
+	      </if>
+	      <if test="areaName != null" >
+	        ,area_name = #{areaName,jdbcType=VARCHAR}
+	      </if>
+	      <if test="orgTreePath != null" >
+	        ,org_tree_path = #{orgTreePath}
+	      </if>
+		where id = #{id}
+	</update>
+	
+	<select id="selectByCondition" resultMap="merchantResultMap">
+		select * from cb_merchant
+	</select>
+	
+	<!-- 按商户用户ID查询商户信息 -->
+	<select id="selectByMerchantUserId" resultMap="merchantResultMap">
+		select m.* from cb_merchant m where m.id in(select merchant_id from cb_merchant_group_user where merchant_user_id =#{userId})
+	</select>
+	
+	
+		<!-- 通过主键更新数据 -->
+	<update id="updateByAudit" parameterType="Merchant" >
+		update cb_merchant set update_time = #{updateTime},audit_Time=#{updateTime}
+		  <if test="orgLevel != null" >
+	        ,org_level = #{orgLevel,jdbcType=VARCHAR}
+		  </if>
+    	  <if test="orgVerifyState != null" >
+	        ,org_verify_state = #{orgVerifyState,jdbcType=VARCHAR}
+	      </if>
+          <if test="auditState != null" >
+	        ,audit_state = #{auditState,typeHandler=com.froad.db.extend.EnumTypeHandler}
+	      </if>
+          <if test="auditComment != null" >
+	        ,audit_comment = #{auditComment,jdbcType=VARCHAR}
+	      </if>
+          <if test="reviewStaff != null" >
+	        ,review_staff = #{reviewStaff,jdbcType=VARCHAR}
+	      </if>
+		where id = #{id}
+	</update>
+		<!-- 通过主键对商户解约-->
+	<update id="updateByCancel" parameterType="Merchant" >
+		update cb_merchant set update_time = #{updateTime}
+		  <if test="isDelete != null" >
+	        ,is_Delete = #{isDelete,jdbcType=BIT}
+		  </if>
+		where id = #{id}
+	</update>
+	
+   <!-- 待审核商户数量 -->
+  <select id="selectofMerchantNumber" parameterType="com.froad.cbank.persistent.entity.base.PageEntity" resultType="java.lang.Integer" >
+   select count(0) from cb_merchant
+   <where>
+			<if test="condition != null">
+				<if test="condition.name != null">
+					and (name like CONCAT('%',#{condition.name},'%' ) or full_Name like CONCAT('%',#{condition.name},'%' ))
+				</if>
+				<if test="condition.auditState != null">
+					and audit_State = #{condition.auditState,typeHandler=com.froad.db.extend.EnumTypeHandler}
+				</if>
+				<if test="condition.clientId != null">
+					and client_id = #{condition.clientId}
+				</if>
+				<if test="condition.areaId != null">
+					and area_id = #{condition.areaId}
+				</if>
+				<if test="condition.zip != null" >
+		       	 	and zip = #{condition.zip,jdbcType=VARCHAR}
+		      	</if>
+		      	<if test="condition.fax != null" >
+		        	and fax = #{condition.fax,jdbcType=VARCHAR}
+		      	</if>
+		      	<if test="condition.tel != null" >
+		        	and tel = #{condition.tel,jdbcType=VARCHAR}
+		      	</if>
+		      	<if test="condition.contactName != null" >
+		        	and contact_name = like CONCAT('%',#{condition.contactName},'%')
+		      	</if>
+		      	<if test="condition.contactPhone != null" >
+		        	and contact_phone = #{condition.contactPhone,jdbcType=VARCHAR}
+		      	</if>
+		      	<if test="condition.contactEmail != null" >
+		        	and contact_email = #{condition.contactEmail,jdbcType=VARCHAR}
+		      	</if>
+		      	<if test="condition.isDelete != null" >
+		        	and is_delete = #{condition.isDelete,jdbcType=BIT}
+		      	</if>
+		      	<if test="condition.orderValue != null" >
+		        	and order_value = #{condition.orderValue,jdbcType=INTEGER}
+		      	</if>
+		      	<if test="condition.travelAgency">
+		      	    and travel_Agency=#{condition.travelAgency,jdbcType=VARCHAR}
+		      	</if>
+		      	<if test="condition.latticePoint">
+		      	    and lattice_Point=#{condition.latticePoint,jdbcType=VARCHAR}
+		      	</if>
+		      	<if test="condition.merchantCategoryId != null" >
+		        	and merchant_category_id = #{condition.merchantCategoryId,jdbcType=BIGINT}
+		      	</if>
+		      	<if test="condition.areaId != null" >
+		        	and area_id in(select id from cb_area where tree_path like CONCAT('',#{condition.areaId,jdbcType=BIGINT},'%')) 
+		      	</if>
+		      	<if test="condition.isTop != null" >
+		        	and is_Top = #{condition.isTop,jdbcType=BIT}
+		      	</if>
+		      	<if test="condition.orgTreePath !=null ">
+		      		and org_tree_path like CONCAT('',#{condition.orgTreePath},'%')
+		      	</if>
+		      	<if test="condition.begDate !=null ">
+		      	 <![CDATA[ 
+		      		and ${condition.dateProperty} >= #{condition.begDate}
+		      	 ]]>
+		      	</if>
+		      	<if test="condition.endDate !=null ">
+		      	 <![CDATA[ 
+		      		and ${condition.dateProperty} <= #{condition.endDate}
+		      	 ]]>
+		      	</if>
+		      	   <if test="condition.merchantTypeList!=null">
+		      	   and id in (select merchant_id from cb_merchant_type_relation where merchant_type_id in
+		      	    	<foreach item="item" collection="condition.merchantTypeList"  separator="," open="(" close=")" index="">
+                   			#{item.id}      	
+		      			</foreach>
+		      		)
+				   </if>
+			</if>
+		</where>
+		 <if test="orderByColumn !=null">
+		       order by ${orderByColumn} 
+			    <if test="orderByType !=null">
+			     	${orderByType}
+			   </if>
+		   </if>
+
+  </select>
+   <!-- 通过分页查询商户类型 -->
+	<select id="selectOfMerchantPage" parameterType="com.froad.cbank.persistent.entity.base.PageEntity" resultMap="merchantResultMap">
+		select c.* from cb_merchant c LEFT JOIN cb_merchant_type_relation cb on c.id=cb.merchant_id LEFT JOIN cb_merchant_type ct 
+           on cb.merchant_type_id = ct.id 
+		<where>
+			<if test="condition != null">
+				<if test="condition.name != null">
+					and (name like CONCAT('%',#{condition.name},'%' ) or full_Name like CONCAT('%',#{condition.name},'%' ))
+				</if>
+				<if test="condition.auditState != null">
+					and audit_State = #{condition.auditState,typeHandler=com.froad.db.extend.EnumTypeHandler}
+				</if>
+				<if test="condition.clientId != null">
+					and client_id = #{condition.clientId}
+				</if>
+				<if test="condition.areaId != null">
+					and area_id = #{condition.areaId}
+				</if>
+				<if test="condition.zip != null" >
+		       	 	and zip = #{condition.zip,jdbcType=VARCHAR}
+		      	</if>
+		      	<if test="condition.fax != null" >
+		        	and fax = #{condition.fax,jdbcType=VARCHAR}
+		      	</if>
+		      	<if test="condition.tel != null" >
+		        	and tel = #{condition.tel,jdbcType=VARCHAR}
+		      	</if>
+		      	<if test="condition.contactName != null" >
+		        	and contact_name = like CONCAT('%',#{condition.contactName},'%')
+		      	</if>
+		      	<if test="condition.contactPhone != null" >
+		        	and contact_phone = #{condition.contactPhone,jdbcType=VARCHAR}
+		      	</if>
+		      	<if test="condition.contactEmail != null" >
+		        	and contact_email = #{condition.contactEmail,jdbcType=VARCHAR}
+		      	</if>
+		      	<if test="condition.isDelete != null" >
+		        	and is_delete = #{condition.isDelete,jdbcType=BIT}
+		      	</if>
+		      	<if test="condition.orderValue != null" >
+		        	and order_value = #{condition.orderValue,jdbcType=INTEGER}
+		      	</if>
+		      	<if test="condition.travelAgency">
+		      	    and travel_Agency=#{condition.travelAgency,jdbcType=VARCHAR}
+		      	</if>
+		      	<if test="condition.latticePoint">
+		      	    and lattice_Point=#{condition.latticePoint,jdbcType=VARCHAR}
+		      	</if>
+		      	<if test="condition.merchantCategoryId != null" >
+		        	and merchant_category_id = #{condition.merchantCategoryId,jdbcType=BIGINT}
+		      	</if>
+		      	<if test="condition.areaId != null" >
+		        	and area_id in(select id from cb_area where tree_path like CONCAT('',#{condition.areaId,jdbcType=BIGINT},'%')) 
+		      	</if>
+		      	<if test="condition.isTop != null" >
+		        	and is_Top = #{condition.isTop,jdbcType=BIT}
+		      	</if>
+		      	<if test="condition.orgTreePath !=null ">
+		      		and org_tree_path like CONCAT('',#{condition.orgTreePath},'%')
+		      	</if>
+		      	<if test="condition.begDate !=null ">
+		      	 <![CDATA[ 
+		      		and ${condition.dateProperty} >= #{condition.begDate}
+		      	 ]]>
+		      	</if>
+		      	<if test="condition.endDate !=null ">
+		      	 <![CDATA[ 
+		      		and ${condition.dateProperty} <= #{condition.endDate}
+		      	 ]]>
+		      	</if>
+		      	<if test="condition.merchantTypeList!=null">
+		      	and ct.id in
+		      	<foreach item="item" collection="list"  separator="," open="(" close=")" index="">
+                   	#{item.id}      	
+		      	</foreach>
+		      	</if>
+			</if>
+		</where>
+		   <if test="orderByColumn !=null">
+		       order by ${orderByColumn} 
+			    <if test="orderByType !=null">
+			     	${orderByType}
+			   </if>
+		   </if>
+	</select>
+	
+	<select id="selectFroadCollect" parameterType="java.lang.Long" resultMap="merchantResultMap">
+		select mct.* from cb_merchant mct 
+			where mct.client_id=#{clientId} and mct.audit_state="1" and 
+			mct.is_delete="0" and mct.id in(
+			select rel.merchant_id from cb_merchant_type_relation rel where rel.merchant_type_id=(
+			select id from cb_merchant_type where is_enabled="1" and is_froad_type="1"
+			)) limit 1
+	</select>
+</mapper>

@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+	<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  		 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.fft.persistent.api.ReturnSaleMapper">
+
+	<resultMap type="ReturnSale" id="ReturnSaleResultMap">
+		<id property="id" column="id" />		
+		<result property="createTime" column="create_time" />
+		<result property="updateTime" column="update_time" />		
+		<result property="sn" column="sn" />
+		<result property="type" column="type" typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler" />
+		<result property="merchantOutletId" column="merchant_outlet_id" />
+		<result property="reason" column="reason" />
+		<result property="sysUserId" column="sys_user_id"  />
+		<result property="remark" column="remark"  />
+	</resultMap>
+	<!-- 插入 -->
+	<insert id="saveReturnSale" parameterType="ReturnSale" useGeneratedKeys="true" keyProperty="id" >
+		insert into fft_return_sale values(
+			#{id},#{createTime},#{updateTime},#{sn},
+			#{type,typeHandler=org.apache.ibatis.type.EnumOrdinalTypeHandler},#{merchantOutletId},#{reason},#{sysUserId},#{remark}
+		)
+	</insert>
+	
+	<select id="getReturnSaleById" parameterType="java.lang.Long" resultMap="ReturnSaleResultMap">
+		select * from fft_return_sale where id = #{id}
+	</select>
+
+<!-- 分页查询 -->
+	<select id="findReturnSaleByPage" parameterType="com.froad.fft.persistent.bean.page.Page" resultMap="ReturnSaleResultMap"> 
+		<![CDATA[ 
+			select * from fft_return_sale 
+		]]>
+		
+		<!-- 条件 -->
+		<if test="pageFilter != null">
+			<where>
+				<if test="pageFilter.filterEntity != null">
+					<if test="pageFilter.filterEntity.sn != null">
+						and sn like CONCAT('%',#{pageFilter.filterEntity.sn},'%' ) 
+					</if>
+					<if test="pageFilter.filterEntity.type != null">
+						and type = #{pageFilter.filterEntity.type,typeHandler=org.apache.ibatis.type.EnumOrdinalTypeHandler}
+					</if>
+					<if test="pageFilter.filterEntity.merchantOutletId != null">
+						and merchant_outlet_id = #{pageFilter.filterEntity.merchantOutletId}
+					</if>
+	        		<if test="pageFilter.filterEntity.sysUserIds!= null">
+						and sys_user_id in 
+						<foreach collection="pageFilter.filterEntity.sysUserIds" item="item" index="index" open="(" separator="," close=")" > 
+							#{item}
+   						</foreach>					
+					</if>
+					<if test="pageFilter.filterEntity.merchantOutletIds!=null">
+						and merchant_outlet_id in 
+					<foreach collection="pageFilter.filterEntity.merchantOutletIds" item="item" index="index" open="(" separator="," close=")" > 
+							#{item}
+   					</foreach>		
+				</if>	
+				</if>
+				<!-- 时间段条件 -->
+				<if test="pageFilter.property != null and pageFilter.startTime != null">
+					<![CDATA[
+					 and ${pageFilter.property} >= #{pageFilter.startTime}
+					]]>
+				</if>
+				<if test="pageFilter.property != null and pageFilter.endTime != null">
+					<![CDATA[
+					 and ${pageFilter.property} <= #{pageFilter.endTime}
+					]]>
+				</if>
+			</where>
+		</if>
+		
+		<!-- 排序 --> 
+		<if test="order != null">
+			<if test="order.property != null and order.direction != null">
+				order by ${order.property} ${order.direction} 
+			</if>
+		</if>
+		
+	</select>
+	
+	<!-- 分页总数 -->
+	<select id="findReturnSaleByPageCount" parameterType="com.froad.fft.persistent.bean.page.Page" resultType="java.lang.Integer"> 
+		<![CDATA[ 
+			select count(0) from fft_return_sale 
+		]]>
+		
+		<!-- 条件 -->
+		<if test="pageFilter != null">
+			<where>
+				<if test="pageFilter.filterEntity != null">
+					<if test="pageFilter.filterEntity.sn != null">
+						and sn like CONCAT('%',#{pageFilter.filterEntity.sn},'%' ) 
+					</if>
+					<if test="pageFilter.filterEntity.type != null">
+						and type = #{pageFilter.filterEntity.type,typeHandler=org.apache.ibatis.type.EnumOrdinalTypeHandler}
+					</if>
+					<if test="pageFilter.filterEntity.merchantOutletId != null">
+						and merchant_outlet_id = #{pageFilter.filterEntity.merchantOutletId}
+					</if>
+	        		<if test="pageFilter.filterEntity.sysUserIds!= null">
+						and sys_user_id in 
+						<foreach collection="pageFilter.filterEntity.sysUserIds" item="item" index="index" open="(" separator="," close=")" > 
+							#{item}
+   						</foreach>					
+					</if>
+					<if test="pageFilter.filterEntity.merchantOutletIds!=null">
+						and merchant_outlet_id in 
+					<foreach collection="pageFilter.filterEntity.merchantOutletIds" item="item" index="index" open="(" separator="," close=")" > 
+							#{item}
+   					</foreach>		
+				</if>	
+				</if>
+				<!-- 时间段条件 -->
+				<if test="pageFilter.property != null and pageFilter.startTime != null">
+					<![CDATA[
+					 and ${pageFilter.property} >= #{pageFilter.startTime}
+					]]>
+				</if>
+				<if test="pageFilter.property != null and pageFilter.endTime != null">
+					<![CDATA[
+					 and ${pageFilter.property} <= #{pageFilter.endTime}
+					]]>
+				</if>
+			</where>
+		</if>
+		
+		<!-- 排序 --> 
+		<if test="order != null">
+			<if test="order.property != null and order.direction != null">
+				order by ${order.property} ${order.direction} 
+			</if>
+		</if>
+		
+	</select>
+	
+	
+	<select id="selectByConditions" parameterType="ReturnSale" resultMap="ReturnSaleResultMap">
+		select * from fft_return_sale where 1=1
+			<if test="id != null">
+				and id=#{id} 
+			</if>
+			<if test="sn != null">
+				and sn=#{sn} 
+			</if>
+			<if test="type != null">
+				and type=#{type,typeHandler=org.apache.ibatis.type.EnumOrdinalTypeHandler} 
+			</if>
+			<if test="merchantOutletId != null">
+				and merchant_outlet_id=#{merchantOutletId} 
+			</if>
+			<if test="sysUserId != null">
+				and sys_user_id=#{sysUserId} 
+			</if>
+	</select>
+	
+	
+	
+</mapper>

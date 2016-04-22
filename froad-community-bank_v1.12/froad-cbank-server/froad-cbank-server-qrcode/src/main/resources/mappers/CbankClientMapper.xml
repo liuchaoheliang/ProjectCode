@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.mysql.mapper.CbankClientMapper">
+
+    <!-- 查询二维码 -->
+    <select id="getLogoUrl" parameterType="java.lang.String" resultType="java.lang.String">   
+        SELECT qr_logo FROM cb_client WHERE client_id=#{clientId}
+    </select>
+   
+</mapper>

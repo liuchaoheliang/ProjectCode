@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+	<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  		 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.ahui.mappers.ProductImageMapper">
+
+	<resultMap type="ProductImage" id="productImageResultMap">
+		<id property="id" column="id" />
+		<result property="createTime" column="create_time" />
+		<result property="updateTime" column="update_time" />
+
+		<result property="title" column="title" />
+		<result property="source" column="source" />
+		<result property="large" column="large" />
+		<result property="medium" column="medium" />
+		<result property="thumbnail" column="thumbnail" />
+		<result property="orderValue" column="order_value" />
+		<result property="productId" column="product_id" />
+	</resultMap>
+	<!-- 查询 -->
+	<select id="selectProductImageById" parameterType="java.lang.Long" resultMap="productImageResultMap">
+		select * from fft_product_image where id = #{id}
+	</select>
+	
+	<!-- 查询 -->
+	<select id="selectProductImageByProductId" parameterType="java.lang.Long" resultMap="productImageResultMap">
+		select * from fft_product_image where product_id = #{productId} limit 1
+	</select>
+	
+	<!-- 查询
+	 -->
+	<select id="selectByCondition" parameterType="ProductImage"  resultMap="productImageResultMap">
+		select * from fft_product_image 
+		<where>
+			<if test="productId!=null">
+				and product_id = #{productId}
+			</if>
+		</where>
+	</select>
+<select id="selectAllProductImage" resultMap="productImageResultMap">
+   select * from fft_product_image
+</select>
+	<!-- 查询 -->
+	<select id="selectAllProductImageByProductId" parameterType="java.lang.Long" resultMap="productImageResultMap">
+		select * from fft_product_image where product_id = #{id}
+	</select>
+</mapper>

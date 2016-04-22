@@ -1,0 +1,609 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.froad.db.mysql.mapper.MemberMapper">
+
+	<resultMap id="BaseRespResultMap" type="BaseResp">
+		<result column="day" property="day" jdbcType="VARCHAR" />
+		<result column="week" property="week" jdbcType="VARCHAR" />
+		<result column="month" property="month" jdbcType="VARCHAR" />
+		<result column="year" property="year" jdbcType="VARCHAR" />
+		<result column="client_id" property="clientId" jdbcType="VARCHAR" />
+		<result column="platform" property="platform" jdbcType="VARCHAR" />
+		<result column="org_code" property="orgCode" jdbcType="VARCHAR" />
+		<result column="org_name" property="orgName" jdbcType="VARCHAR" />
+		<result column="province_org_code" property="provinceOrgCode"
+			jdbcType="VARCHAR" />
+		<result column="city_org_code" property="cityOrgCode" jdbcType="VARCHAR" />
+		<result column="county_org_code" property="countyOrgCode"
+			jdbcType="VARCHAR" />
+		<result column="village_org_code" property="villageOrgCode"
+			jdbcType="VARCHAR" />
+		<result column="merchant_id" property="merchantId" jdbcType="VARCHAR" />
+		<result column="merchant_name" property="merchantName"
+			jdbcType="VARCHAR" />
+		<result column="merchant_category_id" property="merchantCategoryId"
+			jdbcType="VARCHAR" />
+		<result column="merchant_category_name" property="merchantCategoryName"
+			jdbcType="VARCHAR" />
+		<result column="order_type" property="orderType" jdbcType="VARCHAR" />
+		<result column="order_type_name" property="orderTypeName"
+			jdbcType="VARCHAR" />
+		<result column="pay_type" property="payType" jdbcType="VARCHAR" />
+		<result column="pay_type_name" property="payTypeName" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="MemberQuotaResultMap" type="MemberQuota">
+		<result column="member_amount" property="consumptionMemberCount" jdbcType="BIGINT" />
+		<result column="member_total_amount" property="consumptionMemberComulation" jdbcType="BIGINT" />
+	</resultMap>
+	
+	<resultMap id="MemberResultMap" type="Resp">
+	
+		 <result column="day" property="base.day" jdbcType="VARCHAR" />
+			<result column="week" property="base.week" jdbcType="VARCHAR" />
+			<result column="month" property="base.month" jdbcType="VARCHAR" />
+			<result column="year" property="base.year" jdbcType="VARCHAR" />
+			<result column="client_id" property="base.clientId" jdbcType="VARCHAR" />
+			<result column="platform" property="base.platform" jdbcType="VARCHAR" />
+			<result column="org_code" property="base.orgCode" jdbcType="VARCHAR" />
+			<result column="org_name" property="base.orgName" jdbcType="VARCHAR" />
+			<result column="province_org_code" property="base.provinceOrgCode"
+				jdbcType="VARCHAR" />
+			<result column="city_org_code" property="base.cityOrgCode" jdbcType="VARCHAR" />
+			<result column="county_org_code" property="base.countyOrgCode"
+				jdbcType="VARCHAR" />
+			<result column="village_org_code" property="base.villageOrgCode"
+				jdbcType="VARCHAR" />
+			<result column="merchant_id" property="base.merchantId" jdbcType="VARCHAR" />
+			<result column="merchant_name" property="base.merchantName"
+				jdbcType="VARCHAR" />
+			<result column="merchant_category_id" property="base.merchantCategoryId"
+				jdbcType="VARCHAR" />
+			<result column="merchant_category_name" property="base.merchantCategoryName"
+				jdbcType="VARCHAR" />
+			<result column="order_type" property="base.orderType" jdbcType="VARCHAR" />
+			<result column="order_type_name" property="base.orderTypeName"
+				jdbcType="VARCHAR" />
+			<result column="pay_type" property="base.payType" jdbcType="VARCHAR" />
+			<result column="pay_type_name" property="base.payTypeName" jdbcType="VARCHAR" />
+		
+		
+			<result column="member_amount" property="memberLat.consumptionMemberCount" jdbcType="BIGINT" />
+			<result column="member_total_amount" property="memberLat.consumptionMemberComulation" jdbcType="BIGINT" />
+		
+	</resultMap>
+	
+	
+	
+	
+	<select id="findReportMemberByPageCount" resultType="java.lang.Integer" parameterType="ReqPo">
+	   <if test="reqPo.countType=='month'">
+ 			<if test="reqPo.orgCode!=null"> 
+ 				<if test="reqPo.orgLevel==1">
+ 				     select COUNT(*) from (
+ 				     <include refid="month_level_1"/>
+ 				     ) as member_counts
+ 				</if> 
+ 				<if test="reqPo.orgLevel==2">
+ 				     select COUNT(*) from (
+ 				     <include refid="month_level_2"/>
+ 				     ) as member_counts
+ 				</if> 
+ 				<if test="reqPo.orgLevel==3">
+ 				     select COUNT(*) from (
+ 				     <include refid="month_level_3"/>
+ 				     ) as member_counts
+ 				</if> 
+ 			</if>
+ 		</if>	
+ 		 <if test="reqPo.countType=='week'">
+ 			<if test="reqPo.orgCode!=null"> 
+ 				<if test="reqPo.orgLevel==1">
+ 				     select COUNT(*) from (
+ 				     <include refid="week_level_1"/>
+ 				     ) as member_counts
+ 				</if> 
+ 				<if test="reqPo.orgLevel==2">
+ 				     select COUNT(*) from (
+ 				     <include refid="week_level_2"/>
+ 				     ) as member_counts
+ 				</if> 
+ 				<if test="reqPo.orgLevel==3">
+ 				     select COUNT(*) from (
+ 				     <include refid="week_level_3"/>
+ 				     ) as member_counts
+ 				</if> 
+ 			</if>
+ 		</if>	
+ 		<if test="reqPo.countType=='day'">
+ 			<if test="reqPo.orgCode!=null"> 
+ 				<if test="reqPo.orgLevel==1">
+ 				     select COUNT(*) from (
+ 				     <include refid="day_level_1"/>
+ 				     ) as member_counts
+ 				</if> 
+ 				<if test="reqPo.orgLevel==2">
+ 				     select COUNT(*) from (
+ 				     <include refid="day_level_2"/>
+ 				     ) as member_counts
+ 				</if> 
+ 				<if test="reqPo.orgLevel==3">
+ 				     select COUNT(*) from (
+ 				     <include refid="day_level_3"/>
+ 				     ) as member_counts
+ 				</if> 
+ 			</if>
+ 		</if>				
+	</select>
+	
+	<sql id="month_level_1">
+	   select report.client_id,report.platform,report.year as year,report.month as month,
+ 					<!-- 用户指标-消费用户数  按月查询 一级机构-->
+ 					<if test="reqPo.checkedMemberCount==true">
+						sum(report.buy_count) as member_amount,
+					</if>
+					<!-- 用户指标-累计消费用户数 -->
+					<if test="reqPo.checkedMemberComulationCount==true">
+						report.buy_counts as member_total_amount,
+					</if>
+						report.city_org_code as org_code ,org.org_name as org_name
+						
+ 						FROM bi_bank_month_sorg_buycount report ,vw_cb_org org
+ 					<where> 
+ 						report.city_org_code=org.org_code
+ 					<if test="reqPo.clientId!=null">
+						AND report.client_id=#{reqPo.clientId}
+					</if>
+					<if test="reqPo.startYear!=null">
+						AND report.year <![CDATA[ >= ]]>#{reqPo.startYear}
+					</if>
+					<if test="reqPo.endYear!=null">
+						AND report.year <![CDATA[ <= ]]>#{reqPo.endYear}
+					</if>
+					<if test="reqPo.startMonth!=null" >
+						AND report.month <![CDATA[ >= ]]>#{reqPo.startMonth}
+					</if>
+					<if test="reqPo.endMonth!=null">
+						AND report.month <![CDATA[ <= ]]>#{reqPo.endMonth}
+					</if> 
+					</where>
+						GROUP BY report.city_org_code
+ 						
+	</sql>
+	<sql id="month_level_2">
+	select member.client_id,member.platform,member.year,member.month,
+			<if test="reqPo.checkedMemberCount==true">
+			member.member_amount,
+			</if>
+			<if test="reqPo.checkedMemberComulationCount==true">
+			member.member_total_amount,
+		    </if>
+		    member.org_code as org_code,member.org_name as org_name   
+		    	 FROM(
+			
+				select report.client_id,report.platform,report.year as year,report.month as month,
+ 					<!-- 用户指标-消费用户数  按月查询  二级机构-->
+ 					<if test="reqPo.checkedMemberCount==true">
+						sum(report.buy_count) as member_amount,
+					</if>
+					<!-- 用户指标-累计消费用户数 -->
+					<if test="reqPo.checkedMemberComulationCount==true">
+						report.buy_counts as member_total_amount,
+					</if>
+						report.city_org_code as org_code ,org.org_name as org_name 
+ 						FROM bi_bank_month_sorg_buycount report,vw_cb_org org
+ 					<where> 
+ 						report.type=1 AND report.city_org_code=org.org_code
+ 					<if test="reqPo.clientId!=null">
+						AND report.client_id=#{reqPo.clientId}
+					</if>
+					<if test="reqPo.startYear!=null">
+						AND report.year <![CDATA[ >= ]]>#{reqPo.startYear}
+					</if>
+					<if test="reqPo.endYear!=null">
+						AND report.year <![CDATA[ <= ]]>#{reqPo.endYear}
+					</if>
+					<if test="reqPo.startMonth!=null" >
+						AND report.month <![CDATA[ >= ]]>#{reqPo.startMonth}
+					</if>
+					<if test="reqPo.endMonth!=null">
+						AND report.month <![CDATA[ <= ]]>#{reqPo.endMonth}
+					</if>
+ 					</where>
+ 						GROUP BY report.city_org_code
+ 					
+ 					UNION
+ 					
+ 					select re.client_id,re.platform,re.year as year,re.month as month,
+ 					
+ 					<if test="reqPo.checkedMemberCount==true">
+						sum(re.buy_count) as member_amount,
+					</if>
+					<!-- 用户指标-累计消费用户数 -->
+					<if test="reqPo.checkedMemberComulationCount==true">
+						re.buy_counts as member_total_amount,
+					</if>
+						re.county_org_code as org_code ,org.org_name as org_name
+						FROM bi_bank_month_storg_buycount re ,vw_cb_org org 
+					<where> 
+ 						re.county_org_code=org.org_code
+ 					<if test="reqPo.clientId!=null">
+						AND re.client_id=#{reqPo.clientId}
+					</if>
+					<if test="reqPo.startYear!=null">
+						AND re.year <![CDATA[ >= ]]>#{reqPo.startYear}
+					</if>
+					<if test="reqPo.endYear!=null">
+						AND re.year <![CDATA[ <= ]]>#{reqPo.endYear}
+					</if>
+					<if test="reqPo.startMonth!=null" >
+						AND re.month <![CDATA[ >= ]]>#{reqPo.startMonth}
+					</if>
+					<if test="reqPo.endMonth!=null">
+						AND re.month <![CDATA[ <= ]]>#{reqPo.endMonth}
+					</if>
+					</where>
+						GROUP BY re.county_org_code
+						)member
+	</sql>
+	<sql id="month_level_3">
+		select report.client_id,report.platform,report.year as year,report.month as month,
+ 					<!-- 用户指标-消费用户数  按月查询  三级机构-->
+ 					<if test="reqPo.checkedMemberCount==true">
+						sum(report.buy_count) as member_amount,
+					</if>
+					<!-- 用户指标-累计消费用户数 -->
+					<if test="reqPo.checkedMemberComulationCount==true">
+						report.buy_counts as member_total_amount,
+					</if>
+						report.county_org_code as org_code,org.org_name as org_name
+ 						FROM bi_bank_month_storg_buycount report ,vw_cb_org org 
+ 					<where> 
+ 						report.county_org_code=org.org_code
+ 					<if test="reqPo.clientId!=null">
+						AND report.client_id=#{reqPo.clientId}
+					</if>
+					<if test="reqPo.startYear!=null">
+						AND report.year <![CDATA[ >= ]]>#{reqPo.startYear}
+					</if>
+					<if test="reqPo.endYear!=null">
+						AND report.year <![CDATA[ <= ]]>#{reqPo.endYear}
+					</if>
+					<if test="reqPo.startMonth!=null" >
+						AND report.month <![CDATA[ >= ]]>#{reqPo.startMonth}
+					</if>
+					<if test="reqPo.endMonth!=null">
+						AND report.month <![CDATA[ <= ]]>#{reqPo.endMonth}
+					</if>
+					</where>
+						GROUP BY report.county_org_code
+	
+	</sql>
+	<sql id="week_level_1">
+		select report.client_id,report.platform,report.year as year,report.week as week,
+ 					<!-- 用户指标-消费用户数  按周查询 一级机构-->
+ 					<if test="reqPo.checkedMemberCount==true">
+						sum(report.buy_count) as member_amount,
+					</if>
+					<!-- 用户指标-累计消费用户数 -->
+					<if test="reqPo.checkedMemberComulationCount==true">
+						report.buy_counts as member_total_amount,
+					</if>
+						report.city_org_code as org_code,org.org_name as org_name
+						
+ 						FROM bi_bank_week_sorg_buycount report ,vw_cb_org org
+ 					<where> 
+ 						report.city_org_code=org.org_code
+ 					<if test="reqPo.clientId!=null">
+						AND report.client_id=#{reqPo.clientId}
+					</if>
+					<if test="reqPo.startYear!=null">
+						AND report.year <![CDATA[ >= ]]>#{reqPo.startYear}
+					</if>
+					<if test="reqPo.endYear!=null">
+						AND report.year <![CDATA[ <= ]]>#{reqPo.endYear}
+					</if>
+					<if test="reqPo.startWeek!=null" >
+						AND report.week <![CDATA[ >= ]]>#{reqPo.startWeek}
+					</if>
+					<if test="reqPo.endWeek!=null">
+						AND report.week <![CDATA[ <= ]]>#{reqPo.endWeek}
+					</if>
+					</where>
+						GROUP BY report.city_org_code
+		
+	</sql>
+	<sql id="week_level_2">
+	select member.client_id,member.platform,member.year,member.week,
+			<if test="reqPo.checkedMemberCount==true">
+			member.member_amount,
+			</if>
+			<if test="reqPo.checkedMemberComulationCount==true">
+			member.member_total_amount,
+		    </if>
+			member.org_code,member.org_name as org_name  
+			FROM(
+	
+				select report.client_id,report.platform,report.year as year,report.week as week,
+ 					<!-- 用户指标-消费用户数  按周查询  二级机构-->
+ 					<if test="reqPo.checkedMemberCount==true">
+						sum(report.buy_count) as member_amount,
+					</if>
+					<!-- 用户指标-累计消费用户数 -->
+					<if test="reqPo.checkedMemberComulationCount==true">
+						report.buy_counts as member_total_amount,
+					</if>
+						report.city_org_code as org_code ,org.org_name as org_name 
+ 						FROM bi_bank_week_sorg_buycount report ,vw_cb_org org
+ 					<where> 
+ 						report.type=1 and report.city_org_code=org.org_code
+ 					<if test="reqPo.clientId!=null">
+						AND report.client_id=#{reqPo.clientId}
+					</if>
+					<if test="reqPo.startYear!=null">
+						AND report.year <![CDATA[ >= ]]>#{reqPo.startYear}
+					</if>
+					<if test="reqPo.endYear!=null">
+						AND report.year <![CDATA[ <= ]]>#{reqPo.endYear}
+					</if>
+					<if test="reqPo.startWeek!=null" >
+						AND report.week <![CDATA[ >= ]]>#{reqPo.startWeek}
+					</if>
+					<if test="reqPo.endWeek!=null">
+						AND report.week <![CDATA[ <= ]]>#{reqPo.endWeek}
+					</if>
+ 					</where>
+ 						GROUP BY report.city_org_code
+ 					
+ 					UNION
+ 					
+ 					select re.client_id,re.platform,re.year as year,re.week as week,
+ 					
+ 					<if test="reqPo.checkedMemberCount==true">
+						sum(re.buy_count) as member_amount,
+					</if>
+					<!-- 用户指标-累计消费用户数 -->
+					<if test="reqPo.checkedMemberComulationCount==true">
+						re.buy_counts as member_total_amount
+					</if>
+						re.county_org_code as org_code ,org.org_name as org_name   
+						FROM bi_bank_week_storg_buycount re,vw_cb_org org
+					<where> 
+						re.county_org_code=org.org_code
+ 					<if test="reqPo.clientId!=null">
+						AND re.client_id=#{reqPo.clientId}
+					</if>
+					<if test="reqPo.startYear!=null">
+						AND re.year <![CDATA[ >= ]]>#{reqPo.startYear}
+					</if>
+					<if test="reqPo.endYear!=null">
+						AND re.year <![CDATA[ <= ]]>#{reqPo.endYear}
+					</if>
+					<if test="reqPo.startWeek!=null" >
+						AND re.week <![CDATA[ >= ]]>#{reqPo.startWeek}
+					</if>
+					<if test="reqPo.endWeek!=null">
+						AND re.week <![CDATA[ <= ]]>#{reqPo.endWeek}
+					</if>
+					</where>
+						GROUP BY re.county_org_code
+						)member
+	</sql>
+	<sql id="week_level_3">
+		select report.client_id,report.platform,report.year as year,report.week as week,
+ 					<!-- 用户指标-消费用户数  按月查询  三级机构-->
+ 					<if test="reqPo.checkedMemberCount==true">
+						sum(report.buy_count) as member_amount,
+					</if>
+					<!-- 用户指标-累计消费用户数 -->
+					<if test="reqPo.checkedMemberComulationCount==true">
+						report.buy_counts as member_total_amount,
+					</if>
+						report.county_org_code as org_code,org.org_name as org_name
+ 						FROM bi_bank_week_storg_buycount report ,vw_cb_org org
+ 					<where> 
+ 						report.county_org_code=org.org_code
+ 					<if test="reqPo.clientId!=null">
+						AND report.client_id=#{reqPo.clientId}
+					</if>
+					<if test="reqPo.startYear!=null">
+						AND report.year <![CDATA[ >= ]]>#{reqPo.startYear}
+					</if>
+					<if test="reqPo.endYear!=null">
+						AND report.year <![CDATA[ <= ]]>#{reqPo.endYear}
+					</if>
+					<if test="reqPo.startWeek!=null" >
+						AND report.week <![CDATA[ >= ]]>#{reqPo.startWeek}
+					</if>
+					<if test="reqPo.endWeek!=null">
+						AND report.week <![CDATA[ <= ]]>#{reqPo.endWeek}
+					</if>
+					</where>
+						GROUP BY report.county_org_code
+	
+	</sql>
+	<sql id="day_level_1">
+		select report.client_id,report.platform,DATE_FORMAT(report.day,'%Y-%m-%d') as day,
+ 					<!-- 用户指标-消费用户数  按天查询 一级机构-->
+ 					<if test="reqPo.checkedMemberCount==true">
+						sum(report.buy_count) as member_amount,
+					</if>
+					<!-- 用户指标-累计消费用户数 -->
+					<if test="reqPo.checkedMemberComulationCount==true">
+						report.buy_counts as member_total_amount,
+					</if>
+						report.city_org_code as org_code,org.org_name as org_name
+					
+ 						FROM bi_bank_day_sorg_buycount report ,vw_cb_org org
+ 					<where> 
+ 						report.city_org_code=org.org_code
+ 					<if test="reqPo.clientId!=null">
+						AND report.client_id=#{reqPo.clientId}
+					</if>
+					<if test="reqPo.startDate != null">
+						AND report.day  <![CDATA[ >= ]]>#{reqPo.startDate}
+					</if>
+					<if test="reqPo.endDate != null">
+						AND report.day  <![CDATA[ <= ]]>#{reqPo.endDate}
+					</if>
+					</where>
+						GROUP BY report.city_org_code
+	</sql>
+	<sql id="day_level_2">
+		select member.client_id,member.platform,member.day,
+			<if test="reqPo.checkedMemberCount==true">
+			member.member_amount,
+			</if>
+			<if test="reqPo.checkedMemberComulationCount==true">
+			member.member_total_amount,
+		    </if>
+			member.org_code,member.org_name as org_name   
+			FROM(
+	
+				select report.client_id,report.platform,DATE_FORMAT(report.day,'%Y-%m-%d') as day,
+ 					<!-- 用户指标-消费用户数  按周查询  二级机构-->
+ 					<if test="reqPo.checkedMemberCount==true">
+						sum(report.buy_count) as member_amount,
+					</if>
+					<!-- 用户指标-累计消费用户数 -->
+					<if test="reqPo.checkedMemberComulationCount==true">
+						report.buy_counts as member_total_amount
+					</if>
+						report.city_org_code as org_code ,org.org_name as org_name  
+ 						FROM bi_bank_day_sorg_buycount report,vw_cb_org org
+ 					<where> 
+ 						report.type=1 and report.city_org_code=org.org_code
+ 					<if test="reqPo.clientId!=null">
+						AND report.client_id=#{reqPo.clientId}
+					</if>
+					<if test="reqPo.startDate != null">
+						AND report.day  <![CDATA[ >= ]]>#{reqPo.startDate}
+					</if>
+					<if test="reqPo.endDate != null">
+						AND report.day  <![CDATA[ <= ]]>#{reqPo.endDate}
+					</if>
+ 					</where>
+ 					GROUP BY report.city_org_code
+ 					
+ 					UNION
+ 					
+ 					select re.client_id,re.platform,DATE_FORMAT(re.day,'%Y-%m-%d') as day,
+ 					
+ 					<if test="reqPo.checkedMemberCount==true">
+						sum(re.buy_count) as member_amount,
+					</if>
+					<!-- 用户指标-累计消费用户数 -->
+					<if test="reqPo.checkedMemberComulationCount==true">
+						re.buy_counts as member_total_amount
+					</if>
+						re.county_org_code as org_code ,org.org_name as org_name
+						FROM bi_bank_day_storg_buycount re,vw_cb_org org 
+					<where> 
+ 						re.county_org_code=org.org_code
+ 					<if test="reqPo.clientId!=null">
+						AND re.client_id=#{reqPo.clientId}
+					</if>
+					<if test="reqPo.startDate != null">
+						AND re.day  <![CDATA[ >= ]]>#{reqPo.startDate}
+					</if>
+					<if test="reqPo.endDate != null">
+						AND re.day  <![CDATA[ <= ]]>#{reqPo.endDate}
+					</if>
+					</where>
+						GROUP BY re.county_org_code
+						) member 
+	</sql>
+	<sql id="day_level_3">
+		select report.client_id,report.platform,DATE_FORMAT(re.day,'%Y-%m-%d') as day,
+ 					<!-- 用户指标-消费用户数  按月查询  三级机构-->
+ 					<if test="reqPo.checkedMemberCount==true">
+						sum(report.buy_count) as member_amount,
+					</if>
+					<!-- 用户指标-累计消费用户数 -->
+					<if test="reqPo.checkedMemberComulationCount==true">
+						report.buy_counts as member_total_amount
+					</if>
+						report.county_org_code as org_code,org.org_name as org_name   
+ 						FROM bi_bank_day_storg_buycount report ,vw_cb_org org 
+ 					<where> 
+ 						report.county_org_code=org.org_code
+ 					<if test="reqPo.clientId!=null">
+						AND report.client_id=#{reqPo.clientId}
+					</if>
+					<if test="reqPo.startDate != null">
+						AND report.day  <![CDATA[ >= ]]>#{reqPo.startDate}
+					</if>
+					<if test="reqPo.endDate != null">
+						AND report.day  <![CDATA[ <= ]]>#{reqPo.endDate}
+					</if>
+					</where>
+						GROUP BY report.county_org_code
+	</sql>
+	
+ 	<select id="findReportPageByMember" resultMap="MemberResultMap" parameterType="ReqPo">
+ 		<!-- 按月查询消费用户数 -->
+ 		<if test="reqPo.countType=='month'">
+ 			<if test="reqPo.orgCode!=null"> 
+ 				<if test="reqPo.orgLevel==1">
+ 				    <include refid="month_level_1"></include>
+ 					  ORDER BY report.month 
+ 					  limit #{reqPo.begNumber},#{reqPo.pageSize}	
+ 				</if>
+ 				<if test="reqPo.orgLevel==2">
+ 					<include refid="month_level_2"></include>
+ 					ORDER BY member.month
+ 					limit #{reqPo.begNumber},#{reqPo.pageSize}
+ 				</if>
+ 				<if test="reqPo.orgLevel==3">
+ 					<include refid="month_level_3"></include>
+ 					ORDER BY report.month
+ 					limit #{reqPo.begNumber},#{reqPo.pageSize}
+ 				</if>
+ 			</if>
+ 				
+ 		</if>
+ 		<!-- 按周查询消费用户数 -->
+ 		<if test="reqPo.countType=='week'">
+ 			<if test="reqPo.orgCode!=null"> 
+ 				<if test="reqPo.orgLevel==1">
+ 					<include refid="week_level_1"></include>
+ 					ORDER BY report.week
+ 					limit #{reqPo.begNumber},#{reqPo.pageSize}
+ 				</if>
+ 				<if test="reqPo.orgLevel==2">
+					<include refid="week_level_2"></include>
+ 					ORDER BY member.week
+ 					limit #{reqPo.begNumber},#{reqPo.pageSize}
+ 				</if>
+ 				<if test="reqPo.orgLevel==3">
+ 					<include refid="week_level_3"></include>
+ 					ORDER BY report.week
+ 					limit #{reqPo.begNumber},#{reqPo.pageSize}
+ 				</if>
+ 			</if>
+ 		
+ 		</if>
+ 		<!-- 按日查询消费用户数 -->
+ 		<if test="reqPo.countType=='day'">
+ 			<if test="reqPo.orgCode!=null"> 
+ 				<if test="reqPo.orgLevel==1">
+ 					<include refid="day_level_1"></include>
+ 					ORDER BY report.day
+ 					limit #{reqPo.begNumber},#{reqPo.pageSize}	
+ 				</if>
+ 				<if test="reqPo.orgLevel==2">
+ 					<include refid="day_level_2"></include>
+ 					ORDER BY member.day
+ 					limit #{reqPo.begNumber},#{reqPo.pageSize}	
+ 				</if>
+ 				<if test="reqPo.orgLevel==3">
+ 					<include refid="day_level_3"></include>
+ 					ORDER BY report.day
+ 					limit #{reqPo.begNumber},#{reqPo.pageSize}	
+ 				</if>
+ 			</if>
+ 			
+ 		</if>
+	</select>
+	
+</mapper>

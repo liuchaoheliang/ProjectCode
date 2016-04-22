@@ -1,0 +1,25 @@
+<requestPayPointsApi>
+	<partnerAccount>
+		<accountMarked>${accountMarked}</accountMarked>
+		<accountMarkedType>${accountMarkedType}</accountMarkedType>
+	</partnerAccount>
+	<payPoints>
+		<orgNo>${orgNo}</orgNo>
+		<objectNo>${objectNo}</objectNo>
+		<objectDes><![CDATA[${objectDes}]]></objectDes>
+		<objectType>${objectType}</objectType>
+		<accountId>${accountId}</accountId>
+		<points>${points}</points>
+		<orgPoints>${orgPoints}</orgPoints>
+		<businessType>${businessType!""}</businessType>
+		<remark><![CDATA[${remark}]]></remark>
+	</payPoints>
+	<system>
+		<requestNo>${requestNo}</requestNo>
+		<partnerNo>${partnerNo}</partnerNo>
+		<charset>${charset}</charset>
+		<signType>${signType}</signType>
+		<signMsg>${signMsg}</signMsg>
+		<requestTime>${requestTime}</requestTime>
+	</system>
+</requestPayPointsApi>

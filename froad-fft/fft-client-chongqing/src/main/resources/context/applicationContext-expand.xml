@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+	http://www.springframework.org/schema/context 
+	http://www.springframework.org/schema/context/spring-context-3.2.xsd
+	">
+
+	<!-- 设置需要进行Spring注解扫描的类包  -->
+	<context:component-scan base-package="com.froad.fft" />
+	
+		<!-- cacheManager工厂类，指定ehcache.xml的位置 -->
+	<bean id="ehCacheManager"
+		class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+		<property name="configLocation" value="classpath:ehcache.xml" />
+		<!-- 保证同一个缓存管理器 -->
+		<property name="shared" value="true" />
+	</bean>
+
+	<!-- 声明cacheManager -->
+	<bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
+		<property name="cacheManager" ref="ehCacheManager" />
+	</bean>
+	
+	<!-- FreeMarker的模板路径 -->
+	<bean id="freeMarkerConfigurer" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+		<property name="templateLoaderPaths" value="${template.loader_path}" />
+		<property name="freemarkerSettings">
+			<props>
+				<prop key="defaultEncoding">${template.encoding}</prop>
+				<prop key="url_escaping_charset">${url_escaping_charset}</prop>
+				<prop key="locale">${locale}</prop>
+				<!-- 检查模板更新 -->
+				<prop key="template_update_delay">${template.update_delay}</prop>
+				<prop key="tag_syntax">auto_detect</prop>
+				<prop key="whitespace_stripping">true</prop>
+				<!-- 开启默认容错，既null时，默认使用""代替 -->
+				<prop key="classic_compatible">true</prop>
+				<prop key="number_format">${template.number_format}</prop>
+				<prop key="boolean_format">${template.boolean_format}</prop>
+				<prop key="datetime_format">${template.datetime_format}</prop>
+				<prop key="date_format">${template.date_format}</prop>
+				<prop key="time_format">${template.time_format}</prop>
+				<prop key="object_wrapper">freemarker.ext.beans.BeansWrapper</prop>
+			</props>
+		</property>
+		<!-- 自定义的freemarker标签 -->
+		<property name="freemarkerVariables">
+			<map>
+				<entry key="base" value="#{servletContext.contextPath}" />
+				<!--  
+				<entry key="systemConfig" value="#{T(com.froad.fft.util.SystemConfigUtil).getSystemConfig()}" />
+				-->  
+				<entry key="systemConfigMethod" value-ref="systemConfigMethod" />
+				<entry key="currency" value-ref="currencyMethod" />
+				
+				<entry key="ad_position" value-ref="adPositionDirective" />
+				<entry key="product_presell_list" value-ref="productPresellListDirective" />
+				
+				<!-- 配置文件属性用于freemarker直接获取 -->
+				<entry key="SSO_SERVER_URL" value="#{T(com.froad.fft.bean.ThirdParty).SSO_SERVER_URL}" />
+				<entry key="LOCATION_URL" value="#{T(com.froad.fft.bean.ThirdParty).LOCATION_URL}" />
+				<!-- 配置文件属性用于freemarker直接获取 -->				
+			</map>
+		</property>
+		 
+	</bean>
+   
+   <!-- 配置JCaptcha验证码功能 -->
+	<bean id="imageCaptchaService" class="com.octo.captcha.service.image.DefaultManageableImageCaptchaService">
+		<property name="captchaEngine">
+			<bean class="com.froad.fft.bean.CaptchaEngine" />
+		</property>
+		<!-- 验证码过期时间 -->
+		<property name="minGuarantedStorageDelayInSeconds" value="600" />
+	</bean>
+   
+
+</beans>

@@ -1,0 +1,17 @@
+/*
+* Author:
+* pengling@f-road.com.cn 
+*/
+/*图片列表*/
+.imgList dd{width:98%; margin:0 auto; margin-top:5px; font-family:"微软雅黑"; font-size:14px;}
+
+.imgList dd li{width:190px; height:200px; float:left; margin:0 9px; text-align:center; display:inline;}
+
+.imgList dd li img{ border:1px solid #ccc; padding:4px; width:190px; height:130px;}
+
+.imgList dd li div{width:200px; height:20px; overflow:hidden; margin-top:3px;}
+
+.imgList dd li div.fanli{ color:#F00;}
+
+.jiazai{ background:#F2F2F2; text-align:center; height:30px; line-height:30px; margin-bottom:5px; cursor:pointer; color:#666; font-family:"微软雅黑"}
+

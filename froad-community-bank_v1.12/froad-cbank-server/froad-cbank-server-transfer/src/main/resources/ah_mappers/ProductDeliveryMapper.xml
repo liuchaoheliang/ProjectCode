@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.fft.persistent.api.ProductDeliveryMapper">
+    
+    <resultMap type="ProductDelivery" id="productDeliveryMap">
+        <id property="id" column="id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="productId" column="product_id"/>
+        <result property="presellDeliveryId" column="presell_delivery_id"/>
+    </resultMap>
+	
+	<insert id="saveProductDelivery" parameterType="ProductDelivery" useGeneratedKeys="true" keyProperty="id">
+		insert into fft_product_delivery values
+		(#{id},#{productId},#{presellDeliveryId},#{createTime},#{updateTime})
+	</insert>
+	
+	<delete id="deleteById" parameterType="java.lang.Long">
+		delete from fft_product_delivery where id=#{id}
+	</delete>
+	
+	<delete id="deleteByProductId" parameterType="java.lang.Long" >
+		delete from fft_product_delivery where product_id=#{ProductId}
+	</delete>
+
+
+	<select id="selectByCondition" parameterType="ProductDelivery" resultMap="productDeliveryMap">
+		select * from fft_product_delivery where 1=1
+		<if test="id != null">
+            and id = #{id}
+        </if>
+		<if test="productId != null">
+            and product_id = #{productId}
+        </if>
+        <if test="presellDeliveryId != null">
+            and presell_delivery_id = #{presellDeliveryId}
+        </if>
+	</select>
+</mapper>

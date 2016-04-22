@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.mysql.mapper.AdMapper">
+
+	<resultMap type="Ad" id="adResultMap">
+		<id property="id" column="id" />
+		<result property="clientId" column="client_id" />
+		<result property="title" column="title" />
+		<result property="type" column="type" />
+		<result property="beginTime" column="begin_time" />
+		<result property="endTime" column="end_time" />
+		<result property="content" column="content" />
+		<result property="path" column="path" />
+		<result property="link" column="link" />
+		<result property="isEnabled" column="is_enabled" />
+		<result property="isBlankTarge" column="is_blank_targe" />
+		<result property="clickCount" column="click_count" />
+		<result property="adPositionId" column="ad_position_id" />
+	</resultMap>
+
+
+	<!-- 添加  Ad -->
+	<insert id="addAd" parameterType="Ad" useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[
+			INSERT INTO cb_ad (
+				client_id,title,type,begin_time,end_time,content,path,link,is_enabled,is_blank_targe,click_count,ad_position_id
+			) VALUES (
+				#{clientId},#{title},#{type},#{beginTime},#{endTime},#{content},#{path},#{link},#{isEnabled},#{isBlankTarge},#{clickCount},#{adPositionId}
+			) 
+		]]>
+	</insert>
+
+
+	<!-- 批量添加  Ad -->
+	<insert id="addAdByBatch" parameterType="java.util.List">
+		INSERT INTO cb_ad (
+			client_id,title,type,begin_time,end_time,content,path,link,is_enabled,is_blank_targe,click_count,ad_position_id
+		) VALUES 
+		<foreach collection="adList" item="item" index="index" separator=",">
+			(#{clientId},#{title},#{type},#{beginTime},#{endTime},#{content},#{path},#{link},#{isEnabled},#{isBlankTarge},#{clickCount},#{adPositionId})
+		</foreach>
+	</insert>
+
+
+	<!-- 删除  Ad -->
+	<update id="deleteAd" parameterType="Ad">
+		UPDATE cb_ad  set  is_enabled = false where   id = #{id}
+	</update>
+
+
+	<!-- 修改  Ad -->
+	<update id="updateAd" parameterType="Ad">
+		UPDATE cb_ad  
+			<set>
+				<if test="clientId != null">
+					client_id = #{clientId},
+				</if>
+				 <if test="title != null">
+					 title = #{title},
+				</if>
+				  <if test="type != null">
+					 type = #{type},
+				</if>
+				  <if test="beginTime != null">
+					begin_time = #{beginTime},
+				</if>
+				  <if test="endTime != null">
+					 end_time = #{endTime},
+				</if>
+				 <if test="content != null">
+					 content = #{content},
+				</if>
+			 	<if test="path != null">
+					 path = #{path},
+				</if>
+				 <if test="link != null">
+					 link = #{link},
+				</if>
+				 <if test="isEnabled != null">
+					 is_enabled = #{isEnabled},
+				</if>
+				 <if test="isBlankTarge != null">
+					 is_blank_targe = #{isBlankTarge},
+				</if>
+				 <if test="clickCount != null">
+					 click_count = #{clickCount},
+				</if>
+				 <if test="adPositionId != null">
+					 ad_position_id = #{adPositionId},
+				</if>
+			</set>
+		   where id = #{id}
+	</update>
+
+
+	<!-- 查询  Ad -->
+	<select id="findAdById" parameterType="java.lang.Long" resultMap="adResultMap">
+		SELECT 
+            id,client_id,title,type,begin_time,end_time,content,path,link,is_enabled,is_blank_targe,click_count,ad_position_id 
+        FROM cb_ad 
+        WHERE 
+            id = #{id}
+
+	</select>
+
+	<!-- 查询  Ad -->
+	<select id="findAd" parameterType="Ad" resultMap="adResultMap">
+		SELECT 
+            id,client_id,title,type,begin_time,end_time,content,path,link,is_enabled,is_blank_targe,click_count,ad_position_id 
+        FROM cb_ad 
+		<where>
+			<if test="id != null">
+				 AND id = #{id}
+			</if>
+			<if test="clientId != null">
+				 AND client_id = #{clientId}
+			</if>
+			<if test="title != null">
+				 AND title like CONCAT('%',#{title},'%' )
+			</if>
+			<if test="type != null">
+				 AND type = #{type}
+			</if>
+			<if test="beginTime != null">
+				 AND begin_time <![CDATA[<=]]> #{beginTime}
+			</if>
+			<if test="endTime != null">
+				 AND end_time <![CDATA[>=]]> #{endTime}
+			</if>
+			<if test="content != null">
+				 AND content = #{content}
+			</if>
+			<if test="path != null">
+				 AND path = #{path}
+			</if>
+			<if test="link != null">
+				 AND link = #{link}
+			</if>
+			<if test="isEnabled != null">
+				 AND is_enabled = #{isEnabled}
+			</if>
+			<if test="isBlankTarge != null">
+				 AND is_blank_targe = #{isBlankTarge}
+			</if>
+			<if test="clickCount != null">
+				 AND click_count = #{clickCount}
+			</if>
+			<if test="adPositionId != null">
+				 AND ad_position_id = #{adPositionId}
+			</if>
+		</where>
+	</select>
+
+	<!-- 分页查询  Ad -->
+	<select id="findByPage" parameterType="java.util.HashMap" resultMap="adResultMap">
+		SELECT 
+            id,client_id,title,type,begin_time,end_time,content,path,link,is_enabled,is_blank_targe,click_count,ad_position_id 
+         from cb_ad 
+		<if test="ad != null">
+			<where>
+				<if test="ad.id != null">
+					 AND id = #{ad.id}
+				</if>
+				<if test="ad.clientId != null">
+					 AND client_id = #{ad.clientId}
+				</if>
+				<if test="ad.title != null">
+					 AND title like CONCAT('%',#{ad.title},'%' )
+				</if>
+				<if test="ad.type != null">
+					 AND type = #{ad.type}
+				</if>
+				<if test="ad.beginTime != null">
+					 AND begin_time <![CDATA[<=]]> #{ad.beginTime}
+				</if>
+				<if test="ad.endTime != null">
+					 AND end_time <![CDATA[>=]]> #{ad.endTime}
+				</if>
+				<if test="ad.content != null">
+					 AND content = #{ad.content}
+				</if>
+				<if test="ad.path != null">
+					 AND path = #{ad.path}
+				</if>
+				<if test="ad.link != null">
+					 AND link = #{ad.link}
+				</if>
+				<if test="ad.isEnabled != null">
+					 AND is_enabled = #{ad.isEnabled}
+				</if>
+				<if test="ad.isBlankTarge != null">
+					 AND is_blank_targe = #{ad.isBlankTarge}
+				</if>
+				<if test="ad.clickCount != null">
+					 AND click_count = #{ad.clickCount}
+				</if>
+				<if test="ad.adPositionId != null">
+					 AND ad_position_id = #{ad.adPositionId}
+				</if>
+			</where>
+		</if>
+	</select>
+
+
+</mapper>
+

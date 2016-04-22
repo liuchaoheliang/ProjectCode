@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.mysql.mapper.ProductTempMapper">
+
+	<resultMap type="ProductTemp" id="productTempResultMap">
+		<id property="id" column="id" />
+		<result property="clientId" column="client_id" />
+		<result property="merchantId" column="merchant_id" />
+		<result property="orgCode" column="org_code" />
+		<result property="productId" column="product_id" />
+		<result property="isMarketable" column="is_marketable" />
+		<result property="createTime" column="create_time" />
+		<result property="rackTime" column="rack_time" />
+		<result property="downTime" column="down_time" />
+		<result property="startTime" column="start_time" />
+		<result property="endTime" column="end_time" />
+		<result property="type" column="type" />
+		<result property="deliveryOption" column="delivery_option" />
+		<result property="name" column="name" />
+		<result property="fullName" column="full_name" />
+		<result property="price" column="price" />
+		<result property="cost" column="cost" />
+		<result property="marketPrice" column="market_price" />
+		<result property="weight" column="weight" />
+		<result property="weightUnit" column="weight_unit" />
+		<result property="store" column="store" />
+		<result property="isBest" column="is_best" />
+		<result property="isLimit" column="is_limit" />
+		<result property="point" column="point" />
+		<result property="briefIntroduction" column="brief_introduction" />
+		<result property="introduction" column="introduction" />
+		<result property="buyKnow" column="buy_know" />
+		<result property="auditState" column="audit_state" />
+		<result property="auditOrgCode" column="audit_org_code" />
+		<result property="auditStartOrgCode" column="audit_start_org_code" />
+		<result property="auditEndOrgCode" column="audit_end_org_code" /> 
+		<result property="auditStage" column="audit_stage" />
+		<result property="auditTime" column="audit_time" />
+		<result property="auditComment" column="audit_comment" />
+		<result property="reviewStaff" column="review_staff" />
+		<result property="auditStaff" column="audit_staff" />
+		<result property="orderValue" column="order_value" />
+		<result property="sellCount" column="sell_count" />
+		<result property="deliveryMoney" column="delivery_money" />
+		<result property="isSeckill" column="is_seckill" />
+		<result property="proOrgCode" column="province_agency" />
+		<result property="cityOrgCode" column="city_agency" />
+		<result property="countryOrgCode" column="county_agency" />
+		<result property="categoryTreePath" column="category_tree_path" />
+		<result property="merchantName" column="merchant_name" />
+		<result property="platType" column="plat_type" />
+		<result property="isPoint" column="is_point" />
+		<result property="roleId" column="role_id" />
+		<result property="productSupplier" column="product_supplier" />
+		<result property="maxPerOutlet" column="max_per_outlet" />
+		<result property="deliveryStartTime" column="delivery_start_time" />
+		<result property="deliveryEndTime" column="delivery_end_time" />
+		<result property="trueBuyerNumber" column="true_buyer_number" />
+		<result property="virtualBuyerNumber" column="virtual_buyer_number" />
+		<result property="clusterState" column="cluster_state" />
+		<result property="clusterType" column="cluster_type" />
+		<result property="expireStartTime" column="expire_start_time" />
+		<result property="expireEndTime" column="expire_end_time" />
+	</resultMap>
+
+	
+	<!-- 添加  ProductTemp -->
+	<insert id="addProductTemp" parameterType="ProductTemp" useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[
+			insert into cb_product_temp (
+				create_time,client_id,merchant_id,merchant_name,org_code,product_id,is_marketable,rack_time,down_time,type,delivery_option,name,full_name,price,cost,market_price,
+				weight,weight_unit,store,is_best,is_limit,point,brief_introduction,introduction,buy_know,audit_state,audit_time,audit_org_code,audit_stage,audit_comment,
+				review_staff,audit_staff,order_value,sell_count,start_time,end_time,delivery_money,is_seckill,province_agency,city_agency,county_agency,audit_start_org_code,audit_end_org_code,category_tree_path,plat_type,is_point, 
+				role_id,product_supplier,max_per_outlet,delivery_start_time,delivery_end_time,true_buyer_number,virtual_buyer_number,cluster_state,cluster_type,expire_start_time,expire_end_time
+			) values (
+				#{createTime},#{clientId},#{merchantId},#{merchantName},#{orgCode},#{productId},#{isMarketable},#{rackTime},#{downTime},#{type},#{deliveryOption},#{name},#{fullName},#{price},#{cost},#{marketPrice},
+				#{weight},#{weightUnit},#{store},#{isBest},#{isLimit},#{point},#{briefIntroduction},#{introduction},#{buyKnow},#{auditState},#{auditTime},#{auditOrgCode},#{auditStage},#{auditComment},
+				#{reviewStaff},#{auditStaff},#{orderValue},#{sellCount},#{startTime},#{endTime},#{deliveryMoney},#{isSeckill},#{proOrgCode},#{cityOrgCode},#{countryOrgCode},#{auditStartOrgCode},#{auditEndOrgCode},#{categoryTreePath},#{platType},#{isPoint},
+				#{roleId},#{productSupplier},#{maxPerOutlet},#{deliveryStartTime},#{deliveryEndTime},#{trueBuyerNumber},#{virtualBuyerNumber},#{clusterState},#{clusterType},#{expireStartTime},#{expireEndTime} 
+			) 
+		]]>
+	</insert>
+	
+	<!-- 查询  Product -->
+	<select id="getProductTempInfo" parameterType="ProductTemp" resultMap="productTempResultMap">
+			select 	create_time,client_id,merchant_id,merchant_name,org_code,product_id,is_marketable,rack_time,down_time,type,delivery_option,name,full_name,price,cost,market_price,
+				weight,weight_unit,store,is_best,is_limit,point,brief_introduction,introduction,buy_know,audit_state,audit_time,audit_org_code,audit_stage,audit_comment,
+				review_staff,audit_staff,order_value,sell_count,start_time,end_time,delivery_money,is_seckill,province_agency,city_agency,county_agency,audit_start_org_code,audit_end_org_code,category_tree_path,plat_type,is_point, 
+				role_id,product_supplier,max_per_outlet,delivery_start_time,delivery_end_time,true_buyer_number,virtual_buyer_number,cluster_state,cluster_type,expire_start_time,expire_end_time
+		FROM cb_product_temp  WHERE product_id = #{productId}
+			<if test="clientId != null and clientId !=''">
+				 AND client_id = #{clientId}
+			</if>
+
+			 LIMIT 1 
+	</select>
+	
+	
+	
+	<!-- 商品管理分页查询 -->
+	<select id="findProductTempByPage" parameterType="java.util.HashMap" resultMap="productTempResultMap" >
+		select 		create_time,client_id,merchant_id,merchant_name,product_id,type,name,full_name,price,market_price,
+				store,is_limit,plat_type,role_id,start_time,end_time,audit_state,org_code,delivery_option from cb_product_temp 
+		<where>
+		<if test="p.clientId != null and p.clientId !=''">
+			 AND client_id = #{p.clientId}
+		</if>
+		<if test="p.type != null and p.type != ''">
+			 AND type = #{p.type}
+		</if>
+		<if test="p.orgCode != null and p.orgCode != ''">
+			 AND org_code = #{p.orgCode}
+		</if>
+		<if test="p.auditState != null and p.auditState != ''">
+			 AND audit_state = #{p.auditState}
+		</if>
+		<if test="p.merchantId != null and p.merchantId != ''">
+			 AND merchant_id = #{p.merchantId}
+		</if>
+		<if test="p.merchantName != null and p.merchantName != ''">
+			 AND merchant_name LIKE CONCAT('%',#{p.merchantName},'%')
+		</if>
+		<if test="p.name != null and p.name != ''">
+			 AND name LIKE CONCAT('%',#{p.name},'%' )
+		</if>
+
+		<if test="p.startTimeStart != null and p.startTimeEnd!=null and p.endTimeStart != null and p.endTimeEnd != null" >
+			<![CDATA[
+			 AND (start_time <= #{p.startTimeStart} or start_time <= #{p.startTimeEnd})
+			]]>
+		</if>
+
+		<if test="p.startTimeStart != null and p.startTimeEnd!=null and p.endTimeStart != null and p.endTimeEnd != null">
+			<![CDATA[
+			 AND (end_time >= #{p.endTimeStart} or end_time >= #{p.endTimeEnd})
+			]]>
+		</if>
+		<if test="p.startTimeStart != null and p.startTimeEnd!=null and p.endTimeStart == null and p.endTimeEnd == null">
+			<![CDATA[
+			 AND start_time >= #{p.startTimeStart} AND start_time <= #{p.startTimeEnd}
+			]]>
+		</if>
+		<if test="p.priceStart != null">
+			<![CDATA[
+			 AND price >= #{p.priceStart}
+			]]>
+		</if>
+		<if test="p.priceEnd != null ">
+			<![CDATA[
+			 AND price <= #{p.priceEnd}
+			]]>
+		</if>
+		<if test="p.priceStart != null">
+			<![CDATA[
+			 AND price >= #{p.priceStart}
+			]]>
+		</if>
+		<if test="p.priceEnd != null ">
+			<![CDATA[
+			 AND price <= #{p.priceEnd}
+			]]>
+		</if>
+		<if test="p.typeList!=null and p.typeList.size>0">
+             AND type IN  
+             <foreach collection="p.typeList" item="item" open="(" separator="," close=")">
+                      #{item}
+             </foreach>
+        </if>
+        <if test="p.auditStartTime != null ">
+			<![CDATA[
+			 AND audit_time >= #{p.auditStartTime}
+			]]>
+		</if>
+		<if test="p.auditEndTime != null">
+			<![CDATA[
+			 AND audit_time <= #{p.auditEndTime}
+			]]>
+		</if>
+		</where>
+      	<if test="p.orderFileds != null and p.orderFileds.size >0">
+      	 order by
+          	<foreach collection="p.orderFileds" item="item" index="key" separator=",">
+               ${key} ${item} 
+          	</foreach>
+      	</if>
+	</select>
+	
+	
+
+
+	<!-- 审核信息 -->
+	<delete id="deleteProductTemp" parameterType="String" >
+		DELETE  
+		FROM cb_product_temp
+		WHERE product_id=#{productId} 
+	</delete>
+
+	
+	
+</mapper>
+

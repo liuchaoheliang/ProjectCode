@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.ahui.mappers.MerchantProductCommentMapper">
+
+    <resultMap type="MerchantProductComment" id="merchantProductCommentResultMap">
+        <id property="id" column="id"/>
+        <result property="id" column="id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="productCommentId" column="product_comment_id"/>
+        <result property="merchantId" column="merchant_id"/>
+        <result property="commentDescription" column="comment_description"/>
+    	<result property="memberCode" column="member_code"/>
+    </resultMap>
+
+	<!-- 通过product作为条件查询product -->
+	<select id="selectMerchantCommentAll" parameterType="MerchantProductComment" resultMap="merchantProductCommentResultMap">
+		select * from fft_merchant_product_comment  where merchant_id=#{merchantId}
+		 and product_comment_id=#{productCommentId}
+		
+	</select>
+    
+    
+   <delete id="dropMerchantCommentByCondition" parameterType="MerchantProductComment"  >
+      
+       delete from fft_merchant_product_comment
+       
+       <where>
+            <if  test="productCommentId != null">
+               and id = #{productCommentId}
+            </if>
+       </where>
+         
+   </delete>
+    
+</mapper>

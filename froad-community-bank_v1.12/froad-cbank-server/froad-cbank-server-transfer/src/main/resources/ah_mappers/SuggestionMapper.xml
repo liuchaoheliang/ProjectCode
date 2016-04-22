@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+	<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  		 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.fft.persistent.api.SuggestionMapper">
+
+	<resultMap type="Suggestion" id="suggestionResultMap">
+		<result column="create_time" property="createTime"/>
+		<result column="update_time" property="updateTime"/>
+		<result column="member_code" property="memberCode"/>
+		<result column="is_reply" property="isReply"/>
+		<result column="client_id" property="clientId"/>
+	</resultMap>
+	
+	<!-- 条件查询 -->
+	<select id="selectSuggestionByConditions" parameterType="Suggestion" resultMap="suggestionResultMap">
+		select * from fft_suggestion
+		<where>
+			<if test="id!=null">
+				id=#{id}
+			</if>
+			<if test="isReply!=null">
+				is_reply=#{isReply}
+			</if>
+			<if test="clientId!=null">
+				client_id=#{clientId}
+			</if>
+		</where>
+	</select>
+	
+	
+	
+	<!--分页数据-->
+    <select id="selectSuggestionByPage" parameterType="com.froad.fft.persistent.bean.page.Page" resultMap="suggestionResultMap">
+        select * from fft_suggestion
+        <if test="pageFilter != null">
+            <where>
+                <if test="pageFilter.filterEntity != null">
+                    <if test="pageFilter.filterEntity.id!= null">
+                        and id = #{pageFilter.filterEntity.id}
+                    </if>
+                    <if test="pageFilter.filterEntity.title!= null">
+                        and title like CONCAT('%',#{pageFilter.filterEntity.title},'%')
+                    </if>
+                    <if test="pageFilter.filterEntity.content!= null">
+                        and content like CONCAT('%',#{pageFilter.filterEntity.content},'%')
+                    </if>
+                     <if test="pageFilter.filterEntity.clientId!= null">
+                        and client_id =${pageFilter.filterEntity.clientId}
+                    </if>
+                     <if test="pageFilter.filterEntity.isReply!= null">
+                        and is_reply =${pageFilter.filterEntity.isReply}
+                    </if>
+                </if>
+
+                <!-- 时间段条件 -->
+                <if test="pageFilter.property != null and pageFilter.startTime != null">
+                    <![CDATA[
+     					 and ${pageFilter.property} >= #{pageFilter.startTime}
+     					]]>
+                </if>
+                <if test="pageFilter.property != null and pageFilter.endTime != null">
+                    <![CDATA[
+     					 and ${pageFilter.property} <= #{pageFilter.endTime}
+     					]]>
+                </if>
+            </where>
+        </if>
+        <!-- 排序 -->
+        <if test="order != null">
+            <if test="order.property != null and order.direction != null">
+                order by ${order.property} ${order.direction}
+            </if>
+        </if>
+    </select>
+
+    <select id="selectSuggestionByPageCount" parameterType="com.froad.fft.persistent.bean.page.Page" resultType="java.lang.Integer">
+        select count(*) from fft_suggestion
+        <if test="pageFilter != null">
+            <where>
+                  <if test="pageFilter.filterEntity != null">
+                    <if test="pageFilter.filterEntity.id!= null">
+                        and id = #{pageFilter.filterEntity.id}
+                    </if>
+                    <if test="pageFilter.filterEntity.title!= null">
+                        and title like CONCAT('%',#{pageFilter.filterEntity.title},'%')
+                    </if>
+                    <if test="pageFilter.filterEntity.content!= null">
+                        and content like CONCAT('%',#{pageFilter.filterEntity.content},'%')
+                    </if>
+                     <if test="pageFilter.filterEntity.clientId!= null">
+                        and client_id =${pageFilter.filterEntity.clientId}
+                    </if>
+                     <if test="pageFilter.filterEntity.isReply!= null">
+                        and is_reply =${pageFilter.filterEntity.isReply}
+                    </if>
+                </if>
+
+                <!-- 时间段条件 -->
+                <if test="pageFilter.property != null and pageFilter.startTime != null">
+                    <![CDATA[
+     					 and ${pageFilter.property} >= #{pageFilter.startTime}
+     					]]>
+                </if>
+                <if test="pageFilter.property != null and pageFilter.endTime != null">
+                    <![CDATA[
+     					 and ${pageFilter.property} <= #{pageFilter.endTime}
+     					]]>
+                </if>
+            </where>
+        </if>
+    </select>
+	
+	<insert id="saveSuggestion" useGeneratedKeys="true" parameterType="Suggestion" keyProperty="id">
+		insert into fft_suggestion values(#{id},#{createTime},#{updateTime},#{title},#{content},#{ip},#{memberCode},#{isReply},#{clientId})
+	</insert>
+	
+</mapper>

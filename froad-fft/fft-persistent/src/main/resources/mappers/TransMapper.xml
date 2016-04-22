@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.fft.persistent.api.TransMapper">
+
+    <resultMap type="Trans" id="transResultMap">
+        <id property="id" column="id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+
+        <result property="sn" column="sn"/>
+        <result property="createSource" column="create_source" typeHandler="com.froad.fft.persistent.extend.EnumTypeHandler"/>
+        <result property="type" column="type" typeHandler="com.froad.fft.persistent.extend.EnumTypeHandler"/>
+        <result property="payMethod" column="pay_method" typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"/>
+        <result property="payChannel" column="pay_channel" typeHandler="com.froad.fft.persistent.extend.EnumTypeHandler"/>
+        <result property="state" column="state" typeHandler="com.froad.fft.persistent.extend.EnumTypeHandler"/>
+        <result property="memberCode" column="member_code"/>
+        <result property="payState" column="pay_state" typeHandler="com.froad.fft.persistent.extend.EnumTypeHandler"/>
+        <result property="totalPrice" column="total_price"/>
+        <result property="realPrice" column="real_price"/>
+        <result property="fftPoints" column="fft_points"/>
+        <result property="bankPoints" column="bank_boints"/>
+        <result property="pointsAmountValue" column="points_amount_value"/>
+        <result property="pointsAmountRealValue" column="points_amount_real_value"/>
+        <result property="buyPoints" column="buy_points"/>
+        <result property="buyPointsFactorage" column="buy_points_factorage"/>
+        <result property="gatheringValue" column="gathering_value"/>
+        <result property="pointsWithdrawFactorage" column="points_withdraw_factorage"/>
+        <result property="merchantId" column="merchant_id"/>
+        <result property="reason" column="reason"/>
+        <result property="filmMobile" column="film_mobile"/>
+        <result property="phone" column="phone"/>
+        <result property="remark" column="remark"/>
+        <result property="clientId" column="client_id"/>
+
+        <result property="deliveryId" column="delivery_id"/>
+        <result property="deliveryName" column="delivery_name"/>
+        <association property="detailsList" column="id" select="com.froad.fft.persistent.api.TransDetailsMapper.selectTransDetailsByTransId"></association>
+   		<association property="payList" column="id" select="com.froad.fft.persistent.api.PayMapper.selectPayByTransId"></association>
+    </resultMap>
+
+    <!-- 插入 -->
+    <insert id="saveTrans" parameterType="Trans" useGeneratedKeys="true" keyProperty="id">
+		insert into fft_trans values
+		(
+			#{id},#{createTime},#{updateTime},#{sn},#{createSource,typeHandler=com.froad.fft.persistent.extend.EnumTypeHandler},
+			#{type,typeHandler=com.froad.fft.persistent.extend.EnumTypeHandler},#{payMethod,typeHandler=org.apache.ibatis.type.EnumOrdinalTypeHandler},
+			#{payChannel,typeHandler=com.froad.fft.persistent.extend.EnumTypeHandler},
+			#{state,typeHandler=com.froad.fft.persistent.extend.EnumTypeHandler},#{memberCode},
+			#{payState,typeHandler=com.froad.fft.persistent.extend.EnumTypeHandler},
+			#{totalPrice},#{realPrice},#{fftPoints},#{bankPoints},
+			#{pointsAmountValue},#{pointsAmountRealValue},#{buyPoints},#{buyPointsFactorage},#{gatheringValue},#{pointsWithdrawFactorage},
+			#{merchantId},#{reason},
+			#{filmMobile},
+			#{phone},#{remark},#{clientId},#{deliveryId},#{deliveryName}
+		)
+	</insert>
+
+    <!-- 更新 -->
+    <update id="updateTransById" parameterType="Trans">
+        update fft_trans set update_time = #{updateTime}
+        <if test="createSource != null">
+            ,create_source = #{createSource,typeHandler=com.froad.fft.persistent.extend.EnumTypeHandler}
+        </if>
+        <if test="type != null">
+            ,type = #{type,typeHandler=com.froad.fft.persistent.extend.EnumTypeHandler}
+        </if>
+        <if test="payMethod != null">
+            ,pay_method = #{payMethod,typeHandler=org.apache.ibatis.type.EnumOrdinalTypeHandler}
+        </if>
+        <if test="payChannel != null">
+            ,pay_channel = #{payChannel,typeHandler=com.froad.fft.persistent.extend.EnumTypeHandler}
+        </if>
+        <if test="state != null">
+            ,state = #{state,typeHandler=com.froad.fft.persistent.extend.EnumTypeHandler}
+        </if>
+        <if test="memberCode != null">
+            ,member_code = #{memberCode}
+        </if>
+        <if test="payState != null">
+            ,pay_state = #{payState,typeHandler=com.froad.fft.persistent.extend.EnumTypeHandler}
+        </if>
+        <if test="totalPrice != null">
+            ,total_price = #{totalPrice}
+        </if>
+        <if test="realPrice != null">
+            ,real_price = #{realPrice}
+        </if>
+        <if test="fftPoints != null">
+            ,fft_points = #{fftPoints}
+        </if>
+        <if test="bankPoints != null">
+            ,bank_points = #{bankPoints}
+        </if>
+        <if test="pointsAmountValue != null">
+            ,points_amount_value = #{pointsAmountValue}
+        </if>
+        <if test="pointsAmountRealValue != null">
+            ,points_amount_real_value = #{pointsAmountRealValue}
+        </if>
+        <if test="buyPoints != null">
+            ,buy_points = #{buyPoints}
+        </if>
+        <if test="buyPointsFactorage != null">
+            ,buy_points_factorage = #{buyPointsFactorage}
+        </if>
+
+        <if test="gatheringValue != null">
+            ,gathering_value = #{gatheringValue}
+        </if>
+        <if test="pointsWithdrawFactorage != null">
+            ,points_withdraw_factorage = #{pointsWithdrawFactorage}
+        </if>
+        <if test="merchantId != null">
+            ,merchant_id = #{merchantId}
+        </if>
+        <if test="reason != null">
+            ,reason = #{reason}
+        </if>
+        <if test="filmMobile != null">
+            ,film_mobile = #{filmMobile}
+        </if>
+        <if test="phone != null">
+            ,phone = #{phone}
+        </if>
+        <if test="remark != null">
+            ,remark = #{remark}
+        </if>
+        <if test="deliveryId != null">
+            ,delivery_id = #{deliveryId}
+        </if>
+        <if test="deliveryName != null">
+            ,delivery_name = #{deliveryName}
+        </if>
+        where id = #{id}
+    </update>
+
+    <!-- 查询 -->
+    <select id="selectTransById" parameterType="java.lang.Long" resultMap="transResultMap">
+		select * from fft_trans where id = #{id}
+	</select>
+
+    <!-- 查询 -->
+    <select id="selectBySn" parameterType="java.lang.String" resultMap="transResultMap">
+		select * from fft_trans where sn = #{sn}
+	</select>
+	
+	<!-- 查询 -->
+    <select id="selectByState" parameterType="java.lang.String" resultMap="transResultMap">
+		select * from fft_trans where state=#{state}
+	</select>
+	
+	<!-- 查询 -->
+    <select id="selectGroupAndPresellByMemberCode" parameterType="java.lang.Long" resultMap="transResultMap">
+		select * from fft_trans where (type="02" or type="08") and pay_state="30" and member_code=#{memberCode}
+	</select>
+	
+	
+	<!-- 按商品id查询处理中且支付成功的预售交易 -->
+	<select id="selectPresellTransByProductId" parameterType="java.lang.Long" resultMap="transResultMap">
+		select tr.* from fft_trans tr inner join fft_trans_details td on 
+			tr.id=td.trans_id where tr.state="20" and tr.type="08" and 
+			tr.pay_state="30" and td.product_id=#{productId}
+	</select>
+	
+	<!-- 查询所有处理中且支付成功的预售交易，已经到达预售结束时间，并且已经成团 -->
+    <select id="selectPresellTrans" resultMap="transResultMap">
+		<![CDATA[
+			select tr.* from fft_trans tr inner join fft_trans_details td on tr.id=td.trans_id inner join fft_product prod on td.product_id=prod.id
+			inner join fft_product_presell presell on prod.product_presell_id=presell.id where tr.state="20" and 
+			tr.type="08" and tr.pay_state="30" and presell.cluster_state="1" and UNIX_TIMESTAMP(presell.end_time)<=UNIX_TIMESTAMP()
+        ]]>
+	</select>
+	
+	<!-- 将指定交易的状态更新为成功 -->
+	<update id="updateStateToSuccessByIds" parameterType="java.util.List">
+		update fft_trans set update_time=now(),state="30" where id in
+		<foreach collection="list" item="item" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+	</update>
+	
+	<!-- 批量关闭交易，并将交易里的支付状态改为退款成功(用于部分支付执行完退分后关闭超时交易) -->
+	<update id="updateStateToCloseByIds" parameterType="java.util.List">
+		update fft_trans set update_time=now(),state="50",pay_state="50" where id in
+		<foreach collection="list" item="item" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+	</update>
+	
+	<!-- 关闭超过两小时未支付的交易 -->
+	<update id="updateTimeoutTransToClose">
+		<![CDATA[
+			update fft_trans set state="50" where state="20" and 
+			pay_state="10" and (type="01" or type="02" or type="08") and 
+			UNIX_TIMESTAMP()-UNIX_TIMESTAMP(create_time)>7200
+		]]>
+	</update>
+	
+	<!-- 查询超过两小时仍然是部分支付的交易 -->
+	<select id="selectTimeoutTrans" resultMap="transResultMap">
+		<![CDATA[
+			select * from fft_trans where state="20" and 
+			pay_state="20" and (type="01" or type="02" or type="08") and 
+			UNIX_TIMESTAMP()-UNIX_TIMESTAMP(create_time)>7200
+		]]>
+	</select>
+
+    <!--分页 -->
+    <select id="selectTransByPage" parameterType="com.froad.fft.persistent.bean.page.Page" resultMap="transResultMap">
+        select * from fft_trans
+        <if test="pageFilter != null">
+            <where>
+                <if test="pageFilter.filterEntity != null">
+                    <if test="pageFilter.filterEntity.id!= null  and pageFilter.filterEntity.id!=''">
+                        and id = #{pageFilter.filterEntity.id}
+                    </if>
+                    <if test="pageFilter.filterEntity.sn!= null  and pageFilter.filterEntity.sn!=''">
+                        and sn = #{pageFilter.filterEntity.sn}
+                    </if>
+                    <if test="pageFilter.filterEntity.memberCode!=null and pageFilter.filterEntity.memberCode!=''">
+                        and member_code = #{pageFilter.filterEntity.memberCode}
+                    </if>
+                    <if test="pageFilter.filterEntity.merchantId!=null and pageFilter.filterEntity.merchantId!='' ">
+                        and merchant_id = #{pageFilter.filterEntity.merchantId}
+                    </if>
+                    <if test="pageFilter.filterEntity.type!= null">
+                        and type = #{pageFilter.filterEntity.type,typeHandler=com.froad.fft.persistent.extend.EnumTypeHandler}
+                    </if>
+                    <if test="pageFilter.filterEntity.payMethod!= null">
+                        and pay_method = #{pageFilter.filterEntity.payMethod,typeHandler=org.apache.ibatis.type.EnumOrdinalTypeHandler}
+                    </if>
+                    <if test="pageFilter.filterEntity.state!= null">
+                        and state = #{pageFilter.filterEntity.state,typeHandler=com.froad.fft.persistent.extend.EnumTypeHandler}
+                    </if>
+                    <if test="pageFilter.filterEntity.payState!= null">
+                        and pay_state = #{pageFilter.filterEntity.payState,typeHandler=com.froad.fft.persistent.extend.EnumTypeHandler}
+                    </if>
+                    <if test="pageFilter.filterEntity.clientId!= null">
+                        and client_id = #{pageFilter.filterEntity.clientId}
+                    </if>
+                   	<if test="pageFilter.filterEntity.sysUserIds!= null">
+						and id in (select trans_id from fft_trans_security_ticket where is_consume='1' and sys_user_id in
+						<foreach collection="pageFilter.filterEntity.sysUserIds" item="item" index="index" open="(" separator="," close=")" > 
+							#{item}
+   						</foreach>	
+   						)				
+					</if>	
+					<if test="pageFilter.filterEntity.payStates!=null">
+						and pay_state in 
+						<foreach collection="pageFilter.filterEntity.payStates" item="item" index="index" open="(" separator="," close=")" > 
+							#{item,typeHandler=com.froad.fft.persistent.extend.EnumTypeHandler}
+   						</foreach>	
+					</if>	
+                </if>
+
+                <!-- 时间段条件 -->
+                <if test="pageFilter.property != null and pageFilter.startTime != null">
+                    <![CDATA[
+   					 and ${pageFilter.property} >= #{pageFilter.startTime}
+   					]]>
+                </if>
+                <if test="pageFilter.property != null and pageFilter.endTime != null">
+                    <![CDATA[
+   					 and ${pageFilter.property} <= #{pageFilter.endTime}
+   					]]>
+                </if>
+            </where>
+        </if>
+        <!-- 排序 -->
+        <if test="order != null">
+            <if test="order.property != null and order.direction != null">
+                order by ${order.property} ${order.direction}
+            </if>
+        </if>
+    </select>
+    <!-- 查询分页条数 -->
+    <select id="selectTransByPageCount" parameterType="com.froad.fft.persistent.bean.page.Page" resultType="java.lang.Integer">
+        select count(*) from fft_trans
+        <if test="pageFilter != null">
+            <where>
+                <if test="pageFilter.filterEntity != null">
+                    <if test="pageFilter.filterEntity.id!= null  and pageFilter.filterEntity.id!=''">
+                        and id = #{pageFilter.filterEntity.id}
+                    </if>
+                    <if test="pageFilter.filterEntity.sn!= null  and pageFilter.filterEntity.sn!=''">
+                        and sn = #{pageFilter.filterEntity.sn}
+                    </if>
+                    <if test="pageFilter.filterEntity.memberCode!=null and pageFilter.filterEntity.memberCode!=''">
+                        and member_code = #{pageFilter.filterEntity.memberCode}
+                    </if>
+                    <if test="pageFilter.filterEntity.merchantId!=null and pageFilter.filterEntity.merchantId!='' ">
+                        and merchant_id = #{pageFilter.filterEntity.merchantId}
+                    </if>
+                    <if test="pageFilter.filterEntity.type!= null">
+                        and type = #{pageFilter.filterEntity.type,typeHandler=com.froad.fft.persistent.extend.EnumTypeHandler}
+                    </if>
+                    <if test="pageFilter.filterEntity.payMethod!= null">
+                        and pay_method = #{pageFilter.filterEntity.payMethod,typeHandler=org.apache.ibatis.type.EnumOrdinalTypeHandler}
+                    </if>
+                    <if test="pageFilter.filterEntity.state!= null">
+                        and state = #{pageFilter.filterEntity.state,typeHandler=com.froad.fft.persistent.extend.EnumTypeHandler}
+                    </if>
+                    <if test="pageFilter.filterEntity.payState!= null">
+                        and pay_state = #{pageFilter.filterEntity.payState,typeHandler=com.froad.fft.persistent.extend.EnumTypeHandler}
+                    </if>
+                    <if test="pageFilter.filterEntity.clientId!= null">
+                        and client_id = #{pageFilter.filterEntity.clientId}
+                    </if>
+                   	<if test="pageFilter.filterEntity.sysUserIds!= null">
+						and id in (select trans_id from fft_trans_security_ticket where is_consume='1' and sys_user_id in
+						<foreach collection="pageFilter.filterEntity.sysUserIds" item="item" index="index" open="(" separator="," close=")" > 
+							#{item}
+   						</foreach>	
+   						)				
+					</if>	
+					<if test="pageFilter.filterEntity.payStates!=null">
+						and pay_state in 
+						<foreach collection="pageFilter.filterEntity.payStates" item="item" index="index" open="(" separator="," close=")" > 
+							#{item,typeHandler=com.froad.fft.persistent.extend.EnumTypeHandler}
+   						</foreach>	
+					</if>	
+                </if>
+
+                <!-- 时间段条件 -->
+                <if test="pageFilter.property != null and pageFilter.startTime != null">
+                    <![CDATA[
+   					 and ${pageFilter.property} >= #{pageFilter.startTime}
+   					]]>
+                </if>
+                <if test="pageFilter.property != null and pageFilter.endTime != null">
+                    <![CDATA[
+   					 and ${pageFilter.property} <= #{pageFilter.endTime}
+   					]]>
+                </if>
+            </where>
+        </if>
+        <!-- 排序 -->
+        <if test="order != null">
+            <if test="order.property != null and order.direction != null">
+                order by ${order.property} ${order.direction}
+            </if>
+        </if>
+    </select>
+	
+</mapper>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+	<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  		 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.fft.persistent.api.MerchantPreferentialMapper">
+
+	<resultMap type="MerchantPreferential" id="merchantPreferentialResultMap">
+		<id property="id" column="id" />
+		<result property="createTime" column="create_time" />
+		<result property="updateTime" column="update_time" />
+
+		<result property="title" column="title" />
+		<result property="content" column="content" />
+		<result property="orderValue" column="order_value" />
+		<result property="merchantOutletId" column="merchant_outlet_id" />
+	</resultMap>
+	
+	<!-- 插入 -->
+	<insert id="saveMerchantPreferential" parameterType="MerchantPreferential" useGeneratedKeys="true" keyProperty="id" >
+		insert into fft_merchant_preferential values
+		(
+			#{id},#{createTime},#{updateTime},#{title},#{content},#{orderValue},#{merchantOutletId}
+		)
+	</insert>
+	
+	<!-- 更新 -->
+	<update id="updateMerchantPreferentialById" parameterType="MerchantPreferential" >
+		update fft_merchant_preferential set update_time = #{updateTime}
+		<if test="title != null">
+			,title = #{title}
+		</if>
+		<if test="content != null">
+			,content = #{content}
+		</if>
+		<if test="orderValue != null">
+			,order_value = #{orderValue}
+		</if>
+		where id = #{id}
+	</update>
+	
+	<!-- 查询 -->
+	<select id="selectMerchantPreferentialById" parameterType="java.lang.Long" resultMap="merchantPreferentialResultMap">
+		select * from fft_merchant_preferential where id = #{id}
+	</select>
+</mapper>

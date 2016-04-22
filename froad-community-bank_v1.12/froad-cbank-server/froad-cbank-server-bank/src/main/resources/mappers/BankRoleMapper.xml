@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.mysql.mapper.BankRoleMapper">
+
+	<resultMap type="BankRole" id="bankRoleResultMap">
+		<id property="id" column="id"/>
+		<result property="clientId" column="client_id" />
+		<result property="roleName" column="role_name" />
+		<result property="status" column="status" />
+		<result property="remark" column="remark" />
+		<result property="isDelete" column="is_delete" />
+		<result property="tag" column="tag" />
+		<result property="orgCode" column="org_code" />
+	</resultMap>
+
+
+	<!-- 添加  BankRole -->
+	<insert id="addBankRole" parameterType="BankRole" useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[
+			insert into cb_bank_role (
+				id,client_id,role_name,status,remark,is_delete,tag,org_code 
+			) values (
+				#{id},#{clientId},#{roleName},#{status},#{remark},#{isDelete},#{tag},#{orgCode} 
+			) 
+		]]>
+	</insert>
+
+
+	<!-- 批量添加  BankRole -->
+	<insert id="addBankRoleByBatch" parameterType="java.util.List">
+		insert into cb_bank_role (
+		id,client_id,role_name,status,remark,is_delete,tag,org_code 
+		) values 
+		<foreach collection="bankRoleList" item="item" index="index" separator=",">
+			(#{id},#{clientId},#{roleName},#{status},#{remark},#{isDelete},#{tag},#{orgCode})
+		</foreach>
+	</insert>
+
+
+	<!-- 删除  BankRole -->
+	<update id="deleteBankRole" parameterType="BankRole">
+		update cb_bank_role set is_delete=1 where id=#{id}
+	</update>
+
+	<!-- 修改  BankRole -->
+	<update id="updateBankRole" parameterType="BankRole">
+		update cb_bank_role 
+		<set>
+			<if test="status != null">
+				status = #{status},
+			</if>
+			<if test="roleName != null">
+				role_name = #{roleName},
+			</if>
+			<if test="remark != null">
+				remark = #{remark},
+			</if>
+		</set> 
+		where  id = #{id} and is_delete=0
+	</update>
+
+
+	<!-- 查询  BankRole -->
+	<select id="findBankRole" parameterType="BankRole" resultMap="bankRoleResultMap">
+		select 
+			cr.id,cr.client_id,cr.role_name,cr.status,cr.remark,cr.is_delete,cr.tag,cr.org_code   
+		from cb_bank_role cr    
+			<if test="orgCode != null">
+				inner join (select org_code from cb_org where (province_agency=#{orgCode} 
+		 			or city_agency=#{orgCode}  
+		 			or county_agency=#{orgCode}  
+		 			or org_code=#{orgCode}) and client_id=#{clientId} and is_enable=true)  co  
+				on  cr.org_code=co.org_code  
+			</if>
+			<where>
+				<if test="id != null">
+					and cr.id = #{id}
+				</if>
+				<if test="clientId != null">
+					and cr.client_id = #{clientId}
+				</if>
+				<if test="roleName != null">
+					and cr.role_name = #{roleName}
+				</if>
+				<if test="status != null">
+					and cr.status = #{status}
+				</if>
+				<if test="remark != null">
+					and cr.remark = #{remark}
+				</if>
+				<if test="isDelete != null">
+					and cr.is_delete = #{isDelete}
+				</if>
+				<if test="tag != null">
+					and cr.tag=#{tag}  
+				</if>
+			</where>
+			order by id desc 
+	</select>
+
+	<!-- 查询  BankRole  只查询当前机构下的，不查下属机构对应的角色-->
+	<select id="findBankRoleInCurrentOrg" parameterType="BankRole" resultMap="bankRoleResultMap">
+		select 
+			cr.id,cr.client_id,cr.role_name,cr.status,cr.remark,cr.is_delete,cr.tag,cr.org_code   
+		from cb_bank_role cr    
+			<where>
+				<if test="id != null">
+					and cr.id = #{id}
+				</if>
+				<if test="clientId != null">
+					and cr.client_id = #{clientId}
+				</if>
+				<if test="orgCode != null">
+					and cr.org_code = #{orgCode}  
+				</if>
+				<if test="roleName != null">
+					and cr.role_name = #{roleName}
+				</if>
+				<if test="status != null">
+					and cr.status = #{status}
+				</if>
+				<if test="remark != null">
+					and cr.remark = #{remark}
+				</if>
+				<if test="isDelete != null">
+					and cr.is_delete = #{isDelete}
+				</if>
+				<if test="tag != null">
+					and cr.tag=#{tag}  
+				</if>
+			</where>
+			order by id desc 
+	</select>
+	
+	
+	<!-- 分页查询  BankRole -->
+	<select id="findByPage" parameterType="java.util.HashMap" resultMap="bankRoleResultMap">
+		select 
+			cr.id,cr.client_id,cr.role_name,cr.status,cr.remark,cr.is_delete,cr.tag,cr.org_code   
+		from cb_bank_role cr     
+		<if test="bankRole != null">
+			<if test="bankRole.orgCode != null">
+				inner join (select org_code from cb_org where (province_agency=#{bankRole.orgCode} 
+		 			or city_agency=#{bankRole.orgCode}  
+		 			or county_agency=#{bankRole.orgCode}  
+		 			or org_code=#{bankRole.orgCode}) and client_id=#{bankRole.clientId} and is_enable=true)  co  
+				on  cr.org_code=co.org_code  
+			</if>
+			<where>
+				<if test="bankRole.id != null">
+					and cr.role_id = #{bankRole.id} 
+				</if>
+				<if test="bankRole.clientId != null">
+					and cr.client_id = #{bankRole.clientId} 
+				</if>
+				<if test="bankRole.roleName != null">
+					and cr.role_name = #{bankRole.roleName} 
+				</if>
+				<if test="bankRole.status != null">
+					and cr.status = #{bankRole.status} 
+				</if>
+				<if test="bankRole.remark != null">
+					and cr.remark = #{bankRole.remark} 
+				</if>
+				<if test="bankRole.isDelete != null">
+					and cr.is_delete = #{bankRole.isDelete} 
+				</if>
+				<if test="bankRole.tag != null">
+					and cr.tag = #{bankRole.tag} 
+				</if>
+			</where>
+		</if>
+		order by id desc 
+	</select>
+
+</mapper>
+

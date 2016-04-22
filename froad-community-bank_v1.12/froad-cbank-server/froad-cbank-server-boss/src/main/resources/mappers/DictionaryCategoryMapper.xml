@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.mysql.mapper.DictionaryCategoryMapper">
+
+	<resultMap type="DictionaryCategory" id="dictionaryCategoryResultMap">
+		<id property="id" column="id" />
+		<result property="categoryCode" column="category_code" />
+		<result property="categoryName" column="category_name" />
+		<result property="depiction" column="depiction" />
+		<result property="categoryLevel" column="category_level" />
+		<result property="parentId" column="parent_id" />
+		<result property="treePath" column="tree_path" />
+		<result property="orderValue" column="order_value" />
+		<result property="isEnable" column="is_enable" />
+	</resultMap>
+
+
+	<!-- 添加  DictionaryCategory -->
+	<insert id="addDictionaryCategory" parameterType="DictionaryCategory" useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[
+			INSERT INTO cb_dictionary_category (
+				category_code,category_name,depiction,category_level,parent_id,tree_path,order_value,is_enable   
+			) VALUES (
+				#{categoryCode},#{categoryName},#{depiction},#{categoryLevel},#{parentId},#{treePath},#{orderValue},#{isEnable} 
+			) 
+		]]>
+	</insert>
+
+
+	<!-- 批量添加  DictionaryCategory -->
+	<insert id="addDictionaryCategoryByBatch" parameterType="java.util.List">
+		INSERT INTO cb_dictionary_category (
+			category_code,category_name,depiction,category_level,parent_id,tree_path,order_value,is_enable     
+		) VALUES 
+		<foreach collection="dictionaryItemList" item="item" index="index" separator=",">
+			(#{categoryCode},#{categoryName},#{depiction},#{categoryLevel},#{parentId},#{treePath},#{orderValue},#{isEnable})
+		</foreach>
+	</insert>
+
+
+	<!-- 删除  DictionaryCategory -->
+	<delete id="deleteDictionaryCategory" parameterType="java.lang.Long">
+		update cb_dictionary_category  set is_enable=false  where id = #{id} 
+	</delete>
+
+
+    <!-- 批量删除  DictionaryCategory -->
+	<delete id="deleteDictionaryCategoryBatch">
+		update cb_dictionary_category  set is_enable=false 
+		where  1=1      
+			<if test="categoryIdList != null">
+			 	 AND id IN 
+				<foreach collection="categoryIdList" item="id" open="(" close=")" separator=",">
+					#{id}
+			 	</foreach>
+			</if>
+	</delete>
+	
+	
+	<!-- 修改  DictionaryCategory -->
+	<update id="updateDictionaryCategory" parameterType="DictionaryCategory">
+		UPDATE cb_dictionary_category      
+		<set>
+				<if test="categoryCode != null">
+					  category_code = #{categoryCode}, 
+				</if>
+				<if test="categoryName != null">
+					  category_name = #{categoryName}, 
+				</if>
+				<if test="depiction != null">
+					  depiction = #{depiction}, 
+				</if>
+				<if test="categoryLevel != null">
+					  category_level = #{categoryLevel}, 
+				</if>
+				<if test="parentId != null">
+					  parent_id = #{parentId}, 
+				</if>
+				<if test="treePath != null">
+					  tree_path = #{treePath}, 
+				</if>
+				<if test="orderValue != null">
+					  order_value = #{orderValue}, 
+				</if>
+				<if test="isEnable != null">
+					  is_enable = #{isEnable}, 
+				</if>
+		</set>
+		<where>
+			<if test="id != null">
+				 AND id = #{id} 
+			</if>
+		</where>
+	</update>
+
+	<!-- 查询类别id的子类别信息 -->
+	<select id="findChildList"  resultMap="dictionaryCategoryResultMap">
+		SELECT 
+            id,category_code,category_name,depiction,category_level,parent_id,tree_path,order_value,is_enable   
+        FROM cb_dictionary_category   
+        WHERE  
+        	tree_path like CONCAT('%',#{id},'%')
+	</select>
+	
+
+	<!-- 查询  DictionaryCategory -->
+	<select id="findDictionaryCategoryById" parameterType="java.lang.Long" resultMap="dictionaryCategoryResultMap">
+		SELECT 
+            id,category_code,category_name,depiction,category_level,parent_id,tree_path,order_value,is_enable   
+        FROM cb_dictionary_category   
+        WHERE 
+            id = #{id}
+	</select>
+
+	<!-- 查询单个  DictionaryCategory -->
+	<select id="findOnlyDictionaryCategory" parameterType="DictionaryCategory" resultMap="dictionaryCategoryResultMap">
+		SELECT 
+            id,category_code,category_name,depiction,category_level,parent_id,tree_path,order_value,is_enable   
+        FROM cb_dictionary_category   
+       <where>
+			<if test="id != null">
+				 AND id = #{id} 
+			</if>
+			<if test="categoryCode != null">
+				 AND category_code = #{categoryCode} 
+			</if>
+			<if test="parentId != null">
+				 AND parent_id = #{parentId} 
+			</if>
+			<if test="isEnable != null">
+				 AND is_enable = #{isEnable} 
+			</if>
+		</where>
+	</select>
+	
+	
+	<!-- 查询  DictionaryCategory -->
+	<select id="findDictionaryCategory" parameterType="DictionaryCategory" resultMap="dictionaryCategoryResultMap">
+		SELECT 
+            id,category_code,category_name,depiction,category_level,parent_id,tree_path,order_value,is_enable    
+        FROM cb_dictionary_category   
+		<where>
+			<if test="id != null">
+				 AND id = #{id} 
+			</if>
+			<if test="categoryCode != null">
+				 AND category_code = #{categoryCode} 
+			</if>
+			<if test="categoryName != null">
+				 AND category_name = #{categoryName} 
+			</if>
+			<if test="depiction != null">
+				 AND depiction = #{depiction} 
+			</if>
+			<if test="categoryLevel != null">
+				 AND category_level = #{categoryLevel}
+			</if>
+			<if test="parentId != null">
+				 AND parent_id = #{parentId} 
+			</if>
+			<if test="treePath != null">
+				 AND tree_path = #{treePath}
+			</if>
+			<if test="orderValue != null">
+				 AND order_value = #{orderValue} 
+			</if>
+			<if test="isEnable != null">
+				 AND is_enable = #{isEnable} 
+			</if>
+		</where>
+	</select>
+
+	<!-- 分页查询  DictionaryCategory -->
+	<select id="findByPage" parameterType="java.util.HashMap" resultMap="dictionaryCategoryResultMap">
+		SELECT 
+             id,category_code,category_name,depiction,category_level,parent_id,tree_path,order_value,is_enable    
+        FROM cb_dictionary_category   
+		<if test="dictionaryCategory != null">
+			<where>
+				<if test="dictionaryCategory.id != null">
+					 AND id = #{dictionaryCategory.id} 
+				</if>
+				<if test="dictionaryCategory.categoryCode != null">
+					 AND category_code = #{dictionaryCategory.categoryCode} 
+				</if>
+				<if test="dictionaryCategory.categoryName != null">
+					 AND category_name = #{dictionaryCategory.categoryName} 
+				</if>
+				<if test="dictionaryCategory.depiction != null">
+					 AND depiction = #{dictionaryCategory.depiction} 
+				</if>
+				<if test="dictionaryCategory.categoryLevel != null">
+					 AND category_level = #{dictionaryCategory.categoryLevel}
+				</if>
+				<if test="dictionaryCategory.parentId != null">
+					 AND parent_id = #{dictionaryCategory.parentId} 
+				</if>
+				<if test="dictionaryCategory.treePath != null">
+					 AND tree_path = #{dictionaryCategory.treePath}
+				</if>
+				<if test="dictionaryCategory.orderValue != null">
+					 AND order_value = #{dictionaryCategory.orderValue} 
+				</if>
+				<if test="dictionaryCategory.isEnable != null">
+					 AND is_enable = #{dictionaryCategory.isEnable} 
+				</if>
+			</where>
+		</if>
+	</select>
+
+
+</mapper>
+

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.mysql.mapper.BossRoleMapper">
+
+  <resultMap id="BaseResultMap" type="Role" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="is_admin" property="isAdmin" jdbcType="BIT" />
+    <result column="platform" property="platform" jdbcType="VARCHAR" />
+    <result column="role_name" property="roleName" jdbcType="VARCHAR" />
+    <result column="is_delete" property="isDelete" jdbcType="BIT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  
+  </resultMap>
+
+	<!-- 添加  Role -->
+	<insert id="addRole" parameterType="Role" useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[
+			INSERT INTO cb_role (
+				is_admin,platform,role_name,is_delete,user_id,remark
+			) VALUES (
+				#{isAdmin},#{platform},#{roleName},#{isDelete},#{userId},#{remark}
+			) 
+		]]>
+	</insert>
+
+
+	<!-- 批量添加  Role -->
+	<insert id="addRoleByBatch" parameterType="java.util.List">
+		INSERT INTO cb_role (
+			is_admin,platform,role_name,is_delete,user_id,remark
+		) VALUES 
+		<foreach collection="roleList" item="item" index="index" separator=",">
+			(#{isAdmin},#{platform},#{roleName},#{isDelete},#{userId},#{remark})
+		</foreach>
+	</insert>
+
+
+	<!-- 删除  Role -->
+	<update id="deleteRole" parameterType="Role">
+		update cb_role set is_delete=1 where id=#{id} and platform = #{platform}
+	</update>
+
+
+	<!-- 修改  Role -->
+	<update id="updateRole" parameterType="Role">
+		UPDATE cb_role 
+		<set>
+				<if test="roleName != null">
+					  role_name = #{roleName}, 
+				</if>
+				<if test="remark != null">
+					  remark = #{remark}, 
+				</if>
+				<if test="platform != null">
+					  platform = #{platform}  
+				</if>
+		</set>
+		where  id = #{id} and is_delete=0
+	</update>
+
+
+	<!-- 查询  Role -->
+	<select id="findRoleById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+		SELECT 
+            id,is_admin,platform,role_name,is_delete,user_id,remark
+        FROM cb_role 
+        WHERE 
+            id = #{id}
+	</select>
+	
+	<!-- 查询 用户角色对象 -->
+	<select id="findUserRoleByUserId" resultMap="BaseResultMap">
+		select 
+			id,is_admin,platform,role_name,is_delete,user_id,remark 
+		FROM cb_role  
+		WHERE  
+			id in (select role_id from cb_fft_user_role where user_id=#{userId}) and platform=#{platform} and is_delete=false  
+	</select>
+	
+	
+	<!-- 查询  Role -->
+	<select id="findRoleByIds" parameterType="java.util.List" resultMap="BaseResultMap">
+		SELECT 
+            id,is_admin,platform,role_name,is_delete,user_id,remark
+        FROM cb_role 
+        WHERE 
+            id in
+            <foreach collection="roleIdList" item="item" open="(" separator="," close=")">
+              	#{item}
+       		</foreach>
+
+	</select>
+
+	<!-- 查找该用户下是否包含超级管理员的角色 -->
+	<select id="isAdminRole" parameterType="java.lang.Long"  resultType="java.lang.Integer">
+		select count(cr.id) from cb_role cr inner join cb_fft_user_role cf  
+			on cr.id=cf.role_id  
+			and cr.is_admin=true 
+			and cr.is_delete=false   
+			and cf.user_id=#{userId} 
+	</select>
+	
+	<!-- 查询  Role -->
+	<select id="findRole" parameterType="Role" resultMap="BaseResultMap">
+		select 
+			id,is_admin,platform,role_name,is_delete,user_id,remark   
+		from cb_role     
+			<where>
+				<if test="id != null">
+					and id = #{id} 
+				</if>
+				<if test="isAdmin != null">
+					 and is_admin = #{isAdmin}  
+				</if>
+				<if test="platform != null">
+					 and platform = #{platform} 
+				</if>
+				<if test="roleName != null">
+					 and  role_name = #{roleName} 
+				</if>
+				<if test="isDelete != null">
+					 and  is_delete = #{isDelete} 
+				</if>
+				<if test="userId != null">
+					  and user_id = #{userId} 
+				</if>
+				<if test="remark != null">
+					  and remark = #{remark} 
+				</if>
+			</where>
+	</select>
+	
+
+</mapper>
+

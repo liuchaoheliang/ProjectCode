@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.ahui.mappers.ReceiverMapper">
+
+    <resultMap type="Receiver" id="ReceiverResultMap">
+        <id property="id" column="id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="consignee" column="consignee"/>
+        <result property="address" column="address" />
+		<result property="zipCode" column="zip_code"/>
+		 <result property="phone" column="phone"/>
+		<result property="isDefault" column="is_default"/>
+		<result property="memberCode" column="member_code"/>
+		<result property="dataState" column="data_state" typeHandler="com.froad.db.extend.EnumTypeHandler"/>
+		<result property="areaId" column="area_id"/>
+		<result property="type"  column="type"/>
+    </resultMap>
+
+    <!-- 插入 -->
+    <insert id="saveReceiver" parameterType="Receiver" useGeneratedKeys="true" keyProperty="id">
+		insert into fft_receiver values
+		(
+			#{id},#{createTime},#{updateTime},#{consignee},#{address},#{zipCode},#{phone},#{isDefault},#{memberCode},30,#{areaId},#{type}
+		)
+	</insert>
+
+    <!-- 更新 -->
+    <update id="updateReceiver" parameterType="Receiver">
+        update fft_receiver set update_time = #{updateTime}
+        <if test="consignee!=null">
+        	,consignee = #{consignee}
+        </if>
+        <if test="address!=null">
+        	,address = #{address}
+        </if>
+        <if test="zipCode!=null">
+        	,zip_code = #{zipCode}
+        </if>
+        <if test="phone!=null">
+        	,phone = #{phone}
+        </if>
+        <if test="isDefault!=null">
+        	,is_default = #{isDefault}
+        </if>
+         <if test="areaId!=null">
+        	,area_id = #{areaId}
+        </if>
+        <if test="dataState!=null">
+        	,data_state = #{dataState,typeHandler=com.froad.db.extend.EnumTypeHandler}
+        </if>
+        <if test="type!=null">
+        	,type = #{type}
+        </if>
+        <if test="phone != null">
+        	,phone = #{phone}
+        </if>
+       
+        where id = #{id}
+    </update>
+    
+    <select id="findReceiverById" resultMap="ReceiverResultMap" parameterType="java.lang.Long">
+    	select * from fft_receiver where id=#{id}
+    </select>
+    
+    <select id="findReceiverByCondition" resultMap="ReceiverResultMap" parameterType="Receiver">
+    	select * from fft_receiver
+    		<!-- 默认查询启用的数据 -->
+    		where data_state = 30
+    	    <if test="id!=null">
+    			and id = #{id}
+    		</if>
+    		<if test="memberCode!=null">
+    			and member_code = #{memberCode}
+    		</if>
+    		<if test="isDefault!=null">
+    			and is_default = #{isDefault}
+    		</if>
+    		<if test="type!=null">
+    			and type = #{type}
+    		</if>
+    		 <if test="phone != null">
+        	    and phone = #{phone}
+       		</if>
+    		<if test="consignee!=null">
+        		and consignee = #{consignee}
+        	</if>
+        	<if test="areaId!=null">
+        		and area_id = #{areaId}
+        	</if>
+        	<if test="address!=null">
+        		and address = #{address}
+        	</if>
+        	<if test="zipCode!=null">
+        		and zip_code = #{zipCode}
+        	</if>
+    	order by is_default desc,update_time desc
+    </select>
+
+     <!-- 查询 -->
+    <select id="selectReceiverById" parameterType="java.lang.Long" resultMap="ReceiverResultMap">
+		select * from fft_trans where id = #{id}
+	</select>
+	
+	<select id="queryAllList" resultMap="ReceiverResultMap">
+		select * from fft_receiver 
+	</select>
+</mapper>

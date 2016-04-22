@@ -1,0 +1,183 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.froad.cbank</groupId>
+    <artifactId>froad-cbank-server</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+   <artifactId>froad-cbank-server-coremodule</artifactId>
+   <name>froad-cbank-server-coremodule</name>
+   <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+  <dependencies>
+
+		<!-- fraod-cbank-server-common -->
+		<dependency>
+			<groupId>com.froad.cbank</groupId>
+			<artifactId>froad-cbank-server-common</artifactId>
+		</dependency>
+	
+		<!-- beanutils -->
+		<dependency>
+			<groupId>commons-beanutils</groupId>
+			<artifactId>commons-beanutils</artifactId>
+		</dependency>
+		
+		<!-- apache -->
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+		</dependency>
+		
+		<!-- junit -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
+
+		<!-- logback -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-core</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-access</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+		</dependency>
+
+		<!-- mybatis -->
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis</artifactId>
+		</dependency>
+
+		<!-- mysql -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+		</dependency>
+
+		<!-- druid -->
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>druid</artifactId>
+		</dependency>
+
+		<!-- fastjson -->
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+		</dependency>
+
+		<!-- thrift -->
+		<dependency>
+			<groupId>org.apache.thrift</groupId>
+			<artifactId>libthrift</artifactId>
+		</dependency>
+
+		<!-- jedis -->
+		<dependency>
+			<groupId>redis.clients</groupId>
+			<artifactId>jedis</artifactId>
+		</dependency>
+
+	<dependency>
+			<groupId>net.sourceforge.jexcelapi</groupId>
+			<artifactId>jxl</artifactId>
+			<version>2.6</version>
+		</dependency>
+
+		<!-- mongo-java-driver -->
+		<!-- <dependency>
+			<groupId>org.mongodb</groupId>
+			<artifactId>mongo-java-driver</artifactId>
+		</dependency> -->
+
+	</dependencies>  
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-resources-plugin</artifactId>
+					<configuration>
+						<encoding>UTF-8</encoding>
+					</configuration>
+					<!-- 把到common中mapper/*.xml打包到本模块中 -->
+		            <executions>  
+		                <execution>  
+		                    <id>copy-xmls</id>  
+		                    <phase>process-sources</phase>  
+		                    <goals>  
+		                        <goal>copy-resources</goal>  
+		                    </goals>  
+		                    <configuration>  
+		                        <outputDirectory>${basedir}/target/classes</outputDirectory>  
+		                        <resources>  
+		                            <resource>  
+		                                <directory>../froad-cbank-server-common/target/classes</directory>  
+		                                <includes>  
+		                                    <include>**/*.xml</include>  
+		                                </includes>  
+		                            </resource>  
+		                        </resources>  
+		                    </configuration>  
+		                </execution>  
+		            </executions>  
+		        </plugin>
+				<!-- 选择性打包 -->
+				<plugin>
+					<artifactId>maven-assembly-plugin</artifactId>
+					<version>2.5.1</version>
+					<configuration>
+						<argLine>-Xms256M -Xmx1024M -XX:PermSize=512M
+							-XX:MaxPermSize=1024M -Dfile.encoding=UTF-8</argLine>
+						<inherited>false</inherited>
+						<appendAssemblyId>false</appendAssemblyId>
+						<descriptors>
+							<descriptor>coremodule-server.xml</descriptor>
+						</descriptors>
+					</configuration>
+					<executions>
+						<execution>
+							<id>make-assembly</id>
+							<phase>package</phase>
+							<goals>
+								<goal>single</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+				
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-jar-plugin</artifactId>
+					<version>2.4</version>
+					<configuration>
+						<archive>
+							<manifest>
+								<mainClass>com.froad.thrift.CoremoduleMain</mainClass>
+							</manifest>
+						</archive>
+					</configuration>
+				</plugin>
+				
+			</plugins>
+		</pluginManagement>
+	</build>
+</project>

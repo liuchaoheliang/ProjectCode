@@ -1,0 +1,170 @@
+/*
+* Author:
+* pengling@f-road.com.cn 
+*/
+/*弹出层对话框*/
+input.formText {
+    border-color: #999999 #E1E1E1 #E1E1E1 #999999;
+    border-style: solid;
+    border-width: 1px;
+    padding: 5px;
+    width: 180px;
+}
+input.formText:hover {
+    background-color: #FEFBF7;
+    border: 1px solid #FF9B1F;
+}
+input.formText:focus {
+    background-color: #FFF8EF;
+}
+textarea.formTextarea {
+    border-color: #999999 #E1E1E1 #E1E1E1 #999999;
+    border-style: solid;
+    border-width: 1px;
+    height: 120px;
+    padding: 5px;
+    width: 350px;
+}
+textarea.formTextarea:hover {
+    background-color: #FEFBF7;
+    border: 1px solid #FF9B1F;
+}
+textarea.formTextarea:focus {
+    background-color: #FFF8EF;
+}
+
+textarea.editor {
+    width: 100%;
+}
+
+
+* html .dialogOverlay {
+    position: absolute;
+    top: 0;
+}
+.baseDialog {
+    display: none;
+    left: 50%;
+    overflow: hidden;
+    padding: 5px;
+    position: fixed;
+    top: 25%;
+    z-index: 100;
+}
+* html .baseDialog {
+    position: absolute;
+}
+.baseDialog .dialogWrap {
+    background-color:#0066ff;
+    height: 1000px;
+    left: 0;
+    opacity: 0.9;
+    position: absolute;
+    top: 0;
+    width: 1000px;
+    z-index: -1;
+}
+.baseDialog .dialogMain {
+    background:#FFFFFF;
+    border: 2px solid #0066ff;
+}
+.baseDialog .dialogTitle {
+    background:#b3d9ff;
+	font-family:"微软雅黑";
+	font-size:16px;
+    clear: both;
+    color: #006699;
+    cursor: move;
+    font-weight: bold;
+    height: 40px;
+    line-height: 40px;
+    padding-left: 20px;
+}
+.baseDialog .dialogClose {
+    background: url("../images/cha.png");
+    cursor: pointer;
+    height: 12px;
+    position: absolute;
+    right: 15px;
+    top: 20px;
+    width: 12px;
+}
+.baseDialog .dialogClose:hover {
+    background: url("../images/hongcha.png");
+}
+.baseDialog .dialogContent {
+    clear: both;
+    line-height: 30px;
+    margin: 15px 30px;
+}
+
+.baseDialog .dialogContent .promptWindowRight{
+	 background:url(../images/success.png) no-repeat;
+	 height:40px;
+	 line-height:40px;
+     text-align:center;
+	 font-family:"微软雅黑";
+	  margin-left:50px;
+	 }
+	 
+.baseDialog .dialogContent .promptWindowWrong{
+	 background:url(../images/fail.png) no-repeat;
+	 height:40px;
+	 line-height:40px;
+     text-align:center;
+	 font-family:"微软雅黑";
+	 margin-left:50px;
+	 }	 
+	 
+
+.baseDialog .dialogButtonArea {
+    clear: both;
+    height: 54px;
+    padding-top: 6px;
+    text-align: center;
+}
+.baseDialog .dialogButtonArea input {
+    margin: 0 10px;
+}
+.baseDialog .dialogButtonArea .formButton {
+    color: #000000;
+	border:1px solid #00C;
+	background:#65a2fd;
+	font-family:"微软雅黑";
+    cursor: pointer;
+    font-size: 14px;
+    height: 28px;
+    line-height: 28px;
+    text-align: center;
+    width: 70px;
+}
+.baseDialog .dialogButtonArea .formButton:hover {
+    color: #FFF;
+	font-weight:bold;
+	background:#F90;
+}
+.baseDialog .dialogIframe {
+    left: 0;
+    position: absolute;
+    top: 0;
+    z-index: -1;
+}
+
+.agreementWindow .dialogContent {
+    margin: 0;
+    overflow: hidden;
+    padding: 5px;
+}
+.agreementWindow .agreementWindowContent {
+    border: 1px solid #ccc;
+    clear: both;
+    color: #6F6F6F;
+    height: 260px;
+    line-height: 20px;
+    overflow-y: scroll;
+    padding: 10px;
+    text-align: left;
+    width: 486px;
+}
+
+

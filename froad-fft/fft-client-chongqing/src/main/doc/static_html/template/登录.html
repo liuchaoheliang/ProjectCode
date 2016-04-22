@@ -1,0 +1,157 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+<link href="../resources/common/css/base.css" rel="stylesheet" type="text/css" />
+<link href="../resources/common/css/public.css" rel="stylesheet" type="text/css" />
+<link href="../resources/common/css/login.css" rel="stylesheet" type="text/css" />
+<link href="../resources/common/css/validate.css" rel="stylesheet" type="text/css" />
+<script src="../resources/common/js/jquery-1.8.3.min.js"></script>
+<script src="../resources/common/js/jquery.validate.js"></script>
+<script src="../resources/common/js/closeDialog.js"></script>
+</head>
+<body>
+<script type="text/javascript">
+	jQuery.validator.addMethod("admin", function(value, element, param) {
+	    var val = value.replace(/[\u4E00-\u9FA3]/g, "aa");
+	  return /^[0-9a-zA-Z_\\-]{4,20}$/.test(val);   
+	}, $.validator.format("用户名格式错误"));
+</script>
+<!--
+* Author:
+* pengling@f-road.com.cn 
+*/
+--> 
+<!--验证配置--> 
+<script type="text/javascript">
+  $(document).ready(function(){
+	$("#commentForm").validate({
+		rules: {			
+			admin: {
+				required: true,
+				minlength: 4,
+				admin: true
+			},
+
+			password: {
+				required: true,
+				minlength: 6,
+				pattern: /^\w{6,15}$/,
+			},
+
+		},
+		
+		messages: {
+			admin: {
+				required: '请填写帐号',
+				minlength: '帐号输入错误',
+			},
+
+			password: {
+				required: '请输入密码',
+				minlength: '密码输入错误',
+				pattern: '密码输入错误'
+			},
+			
+		},	
+		 
+		errorElement: "span",
+		focusInvalid:false, 		
+		focusCleanup:true,
+		onkeyup:false,
+
+	 });
+	  
+  });
+</script> 
+
+<!--顶部开始-->
+<div class="headtop">
+  <div class="headtopmain">
+  	<div class="headname fl">
+    	<p>您好：<b>凌统丶</b></p>   
+    </div>   
+    <!--<div class="heademail fl"><a href="#"><div class="mailBtn"><b>14</b></div></a></div>
+    <div class="headlist fl ml20">
+    <a href="#">商户申请合作</a><span>|</span>
+    <a href="#">用户帮助</a>
+    </div>-->
+    <div class="headphone fl ml10">客服电话：966866</div>
+    <div class="headlist fr">
+    <a href="#">商户登录</a><span>|</span>
+    <a href="#">用户登录</a><span>|</span>
+    <a href="#">注册</a>
+    </div>    
+  </div>
+</div>
+<!--顶部结束-->
+
+<!--头部开始-->
+<div class="navBox">
+  <div class="logo"><img src="../resources/common/images/logo.png"></div>
+
+  <!--头部结束--> 
+  
+  <!--导航开始-->
+  <div class="nav">
+    <ul>
+      <li><a href="#">首页</a></li>
+      <li><a href="#">个人中心</a></li>
+      <li><a href="#">帮助</a></li>
+    </ul>
+    <div class="bg"></div>
+  </div>
+</div>
+
+<!--导航结束-->
+
+<!--登录开始-->
+<div class="main">
+  <div class="loginbg">登录</div>
+  <div class="miss" id="show">
+    <h2>密码连续输入错误5次，暂不能登录。</h2>
+    <a href="#" onclick="closed()"></a> </div>
+  <div class="loginBox" >
+    <div class="all">
+      <div class="loginLeft" id="tab">
+        <form name="formregedit" action="#" method="post" id="commentForm">
+          <div class="loginBord">
+            <ul>
+              <dl>
+                <dt>用户名：</dt>
+                <dd>
+                  <div>
+                    <input type="text" name="admin"  class="loginText">
+                  </div>
+                </dd>
+              </dl>
+              <dl>
+                <dt>密码：</dt>
+                <dd>
+                  <div>
+                    <input type="password" name="password"  class="loginText"/>
+                  </div>
+                </dd>
+              </dl>
+              <div class="forgot">
+                <input name="" type="checkbox" value="" class="checkBox">
+                记住用户名</div>
+              <div class="login">
+                <input class="subBtn fl w150" value="登录" type="submit">
+                <a href="#" class="uline">忘记密码？</a> </div>
+            </ul>
+          </div>
+        </form>
+      </div>
+    </div>
+    <!--登录结束--> 
+  </div>
+</div>
+
+<!--底部开始-->
+<div class="foot"> 地址：重庆市江北区洋河东路10号 邮编：400020 客户服务热线：966866<br>
+  Copyrights @ 2010 重庆农村商业银行 版权所有 </div>
+<!--底部结束-->
+</body>
+</html>

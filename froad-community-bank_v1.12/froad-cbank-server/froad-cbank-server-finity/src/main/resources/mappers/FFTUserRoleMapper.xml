@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.mysql.mapper.FFTUserRoleMapper">
+
+	<resultMap type="FFTUserRole" id="fftUserRoleResultMap">
+		<id property="id" column="id" />
+		<result property="userId" column="user_id" />
+		<result property="roleId" column="role_id" />
+		<result property="source" column="source" />
+		<result property="orgId" column="org_id" />
+	</resultMap>
+
+	<sql id="selectColumn">
+		id,user_id,role_id,source,org_id  
+	</sql>
+
+	<!-- 添加  FFTUserRole -->
+	<insert id="addFFTUserRole" parameterType="FFTUserRole" useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[
+			INSERT INTO cb_fft_user_role (
+				user_id,role_id,source,org_id  
+			) VALUES (
+				#{userId},#{roleId},#{source},#{orgId}     
+			) 
+		]]>
+	</insert>
+
+
+	<!-- 批量添加  FFTUserRole -->
+	<insert id="addFFTUserRoleByBatch" parameterType="java.util.List">
+		INSERT INTO cb_fft_user_role (
+			user_id,role_id,source,org_id         
+		) VALUES 
+		<foreach collection="fftUserRoleList" item="item" index="index" separator=",">
+			(#{item.userId},#{item.roleId},#{item.source},#{item.orgId})
+		</foreach>
+	</insert>
+
+
+	<!-- 删除  FFTUserRole 根据用户Id-->
+	<delete id="deleteFFTUserRoleByUserId" parameterType="java.lang.Long">
+		delete from cb_fft_user_role  where user_id = #{userId} 
+	</delete>
+	
+	<!-- 删除  FFTUserRole 根据角色Id-->
+	<delete id="deleteFFTUserRoleByRoleId" parameterType="java.lang.Long">
+		delete from cb_fft_user_role  where role_id = #{roleId} 
+	</delete>
+	
+	<!-- 删除  FFTUserRole 根据组织Id删除继承得来的组织-->
+	<delete id="deleteFFTUserRoleByOrgId" parameterType="java.lang.String">
+		delete from cb_fft_user_role  where org_id = #{orgId} and source=0  
+	</delete>
+	
+	<!-- 查询  FFTUserRole -->
+	<select id="findFFTUserRoleById" parameterType="java.lang.Long" resultMap="fftUserRoleResultMap">
+		SELECT 
+            <include refid="selectColumn" />         
+        FROM cb_fft_user_role   
+        WHERE 
+            id = #{id}
+	</select>
+	
+
+	<!-- 查询  FFTUserRole -->
+	<select id="findFFTUserRoleByUserId" parameterType="java.lang.Long" resultMap="fftUserRoleResultMap">
+		SELECT 
+            <include refid="selectColumn" />          
+        FROM cb_fft_user_role   
+		 WHERE 
+            user_id = #{userId}
+	</select>
+	
+	
+	<!-- 查询  FFTUserRole -->
+	<select id="findFFTUserRoleByOrgId" resultMap="fftUserRoleResultMap">
+		SELECT 
+            <include refid="selectColumn" />          
+        FROM cb_fft_user_role   
+		 WHERE 
+            org_id = #{orgId}  AND source = #{source} 
+	</select>
+	
+	
+	<!-- 查询  FFTUserRole -->
+	<select id="findFFTUserRoleByUserIdPlatform" resultMap="fftUserRoleResultMap">
+		SELECT 
+            <include refid="selectColumn" />          
+        FROM cb_fft_user_role   
+		 WHERE 
+            user_id = #{userId} and role_id in (select id from cb_role where platform=#{platform} and is_delete=false)
+	</select>
+	
+	<!-- 查询  FFTUserRole -->
+	<select id="findFFTUserRole" parameterType="FFTUserRole" resultMap="fftUserRoleResultMap">
+		SELECT 
+            <include refid="selectColumn" />         
+        FROM cb_fft_user_role   
+		<where>
+			<if test="userId != null">
+				 AND user_id = #{userId}
+			</if>
+			<if test="roleId != null">
+				 AND role_id = #{roleId}
+			</if>
+			<if test="source != null">
+				 AND source = #{source}
+			</if>
+			<if test="orgId != null">
+				 AND org_id = #{orgId}
+			</if>
+		</where>
+	</select>
+
+
+	<!-- 分页查询  FFTUserRole -->
+	<select id="findByPage" parameterType="java.util.HashMap" resultMap="fftUserRoleResultMap">
+		SELECT 
+             <include refid="selectColumn" />          
+        FROM cb_fft_user_role   
+		<if test="fftUserRole != null">
+			<where>
+				<if test="fftUserRole.userId != null">
+					 AND user_id = #{fftUserRole.userId}
+				</if>
+				<if test="fftUserRole.roleId != null">
+					 AND role_id = #{fftUserRole.roleId}
+				</if>
+				<if test="fftUserRole.source != null">
+					 AND source = #{fftUserRole.source}
+				</if>
+				<if test="fftUserRole.orgId != null">
+					 AND org_id = #{fftUserRole.orgId}
+				</if>
+			</where>
+			order by id desc 
+		</if>
+	</select>
+
+
+</mapper>
+

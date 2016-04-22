@@ -1,0 +1,17 @@
+<requestFroadApi>
+	<card>
+		<bankCardNo>${bankCardNo}</bankCardNo>
+		<mobilePhone>${mobilePhone}</mobilePhone>
+		<type>${type}</type>
+		<remark><![CDATA[${remark}]]></remark>
+		<payOrg>${payOrg}</payOrg>
+	</card>
+	<system>
+		<reqID>${reqID}</reqID>
+		<version>${versions}</version>
+		<partnerID>${partnerID}</partnerID>
+		<charset>${charset}</charset>
+		<signType>${signType}</signType>
+		<signMsg>${signMsg}</signMsg>
+	</system>
+</requestFroadApi>

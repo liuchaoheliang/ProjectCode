@@ -1,0 +1,793 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.mysql.mapper.MerchantMapper">
+
+	<resultMap type="Merchant" id="merchantResultMap">
+		<id property="id" column="id" />
+		<result property="createTime" column="create_time" />
+		<result property="clientId" column="client_id" />
+		<result property="merchantId" column="merchant_id" />
+		<result property="proOrgCode" column="pro_org_code" />
+		<result property="cityOrgCode" column="city_org_code" />
+		<result property="countyOrgCode" column="county_org_code" />
+		<result property="orgCode" column="org_code" />
+		<result property="merchantName" column="merchant_name" />
+		<result property="merchantFullname" column="merchant_fullname" />
+		<result property="logo" column="logo" />
+		<result property="address" column="address" />
+		<result property="phone" column="phone" />
+		<result property="areaId" column="area_id" />
+		<result property="merchantStatus" column="merchant_status" />
+		<result property="isEnable" column="is_enable" />
+		<result property="disableStatus" column="disable_status" />
+		<result property="isTop" column="is_top" />
+		<result property="introduce" column="introduce" />
+		<result property="license" column="license" />
+		<result property="taxReg" column="tax_reg" />
+		<result property="contractBegintime" column="contract_begintime" />
+		<result property="contractEndtime" column="contract_endtime" />
+		<result property="contractStaff" column="contract_staff" />
+		<result property="auditStartOrgCode" column="audit_start_org_code" />
+		<result property="auditEndOrgCode" column="audit_end_org_code" />
+		<result property="auditState" column="audit_state" />
+		<result property="auditOrgCode" column="audit_org_code" />
+		<result property="auditStage" column="audit_stage" />
+		<result property="auditTime" column="audit_time" />
+		<result property="auditComment" column="audit_comment" />
+		<result property="auditStaff" column="audit_staff" />
+		<result property="reviewStaff" column="review_staff" />
+		<result property="contactName" column="contact_name" />
+		<result property="contactPhone" column="contact_phone" />
+		<result property="contactEmail" column="contact_email" />
+		<result property="legalName" column="legal_name" />
+		<result property="legalCredentType" column="legal_credent_type" />
+		<result property="legalCredentNo" column="legal_credent_no" />
+		<result property="userOrgCode" column="user_org_code" />
+		<result property="companyCredential" column="company_credential" />
+		<!-- <result property="monthMoney" column="month_money" />
+		<result property="groupOrderCount" column="group_order_count" />
+		<result property="sellOrderCount" column="sell_order_count" /> -->
+		
+		<!-- 商户用户表 		
+		<result property="merchantUserId" column="merchantUserId" />
+		<result property="merchantUserName" column="username" />
+		<result property="merchantRoleId" column="merchant_role_id" />
+		-->
+	</resultMap>
+
+
+	<!-- 添加  Merchant -->
+	<insert id="addMerchant" parameterType="Merchant" useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[
+			INSERT INTO cb_merchant (
+				create_time,client_id,merchant_id,pro_org_code,city_org_code,county_org_code,org_code,merchant_name,merchant_fullname,logo,address,phone,area_id,merchant_status,is_enable,disable_status,is_top,introduce,license,tax_reg,contract_begintime,contract_endtime,contract_staff,audit_start_org_code,audit_end_org_code,audit_state,audit_org_code,audit_stage,audit_time,audit_comment,audit_staff,review_staff,contact_name,contact_phone,contact_email,legal_name,legal_credent_type,legal_credent_no,user_org_code,company_credential
+			) VALUES (
+				#{createTime},#{clientId},#{merchantId},#{proOrgCode},#{cityOrgCode},#{countyOrgCode},#{orgCode},#{merchantName},#{merchantFullname},#{logo},#{address},#{phone},#{areaId},#{merchantStatus},#{isEnable},#{disableStatus},#{isTop},#{introduce},#{license},#{taxReg},#{contractBegintime},#{contractEndtime},#{contractStaff},#{auditStartOrgCode},#{auditEndOrgCode},#{auditState},#{auditOrgCode},#{auditStage},#{auditTime},#{auditComment},#{auditStaff},#{reviewStaff},#{contactName},#{contactPhone},#{contactEmail},#{legalName},#{legalCredentType},#{legalCredentNo},#{userOrgCode},#{companyCredential}
+			) 
+		]]>
+	</insert>
+
+
+	<!-- 批量添加  Merchant -->
+	<insert id="addMerchantByBatch" parameterType="java.util.List">
+		INSERT INTO cb_merchant (
+			create_time,client_id,merchant_id,pro_org_code,city_org_code,county_org_code,org_code,merchant_name,merchant_fullname,logo,address,phone,area_id,merchant_status,is_enable,disable_status,is_top,introduce,license,tax_reg,contract_begintime,contract_endtime,contract_staff,audit_start_org_code,audit_end_org_code,audit_state,audit_org_code,audit_stage,audit_time,audit_comment,audit_staff,review_staff,contact_name,contact_phone,contact_email,legal_name,legal_credent_type,legal_credent_no
+		) VALUES 
+		<foreach collection="merchantList" item="item" index="index" separator=",">
+			(#{createTime},#{clientId},#{merchantId},#{proOrgCode},#{cityOrgCode},#{countyOrgCode},#{orgCode},#{merchantName},#{merchantFullname},#{logo},#{address},#{phone},#{areaId},#{merchantStatus},#{isEnable},#{disableStatus},#{isTop},#{introduce},#{license},#{taxReg},#{contractBegintime},#{contractEndtime},#{contractStaff},#{auditStartOrgCode},#{auditEndOrgCode},#{auditState},#{auditOrgCode},#{auditStage},#{auditTime},#{auditComment},#{auditStaff},#{reviewStaff},#{contactName},#{contactPhone},#{contactEmail},#{legalName},#{legalCredentType},#{legalCredentNo})
+		</foreach>
+	</insert>
+
+
+	<!-- 删除  Merchant -->
+	<update id="deleteMerchant" parameterType="Merchant">
+		UPDATE cb_merchant SET is_enable = false 
+			<where>
+				<if test="id != null">
+					 AND id = #{id}
+				</if>
+				<if test="createTime != null">
+					 AND create_time = #{createTime}
+				</if>
+				<if test="clientId != null">
+					 AND client_id = #{clientId}
+				</if>
+				<if test="merchantId != null">
+					 AND merchant_id = #{merchantId}
+				</if>
+				<if test="proOrgCode != null">
+					 AND pro_org_code = #{proOrgCode}
+				</if>
+				<if test="cityOrgCode != null">
+					 AND city_org_code = #{cityOrgCode}
+				</if>
+				<if test="countyOrgCode != null">
+					 AND county_org_code = #{countyOrgCode}
+				</if>
+				<if test="orgCode != null">
+					 AND org_code = #{orgCode}
+				</if>
+				<if test="merchantName != null">
+					 AND merchant_name = #{merchantName}
+				</if>
+				<if test="merchantFullname != null">
+					 AND merchant_fullname = #{merchantFullname}
+				</if>
+				<if test="logo != null">
+					 AND logo = #{logo}
+				</if>
+				<if test="address != null">
+					 AND address = #{address}
+				</if>
+				<if test="phone != null">
+					 AND phone = #{phone}
+				</if>
+				<if test="areaId != null">
+					 AND area_id = #{areaId}
+				</if>
+				<if test="merchantStatus != null">
+					 AND merchant_status = #{merchantStatus}
+				</if>
+				<if test="isEnable != null">
+					 AND is_enable = #{isEnable}
+				</if>
+				<if test="disableStatus != null">
+					 AND disable_status = #{disableStatus}
+				</if>
+				<if test="isTop != null">
+					 AND is_top = #{isTop}
+				</if>
+				<if test="introduce != null">
+					 AND introduce = #{introduce}
+				</if>
+				<if test="license != null">
+					 AND license = #{license}
+				</if>
+				<if test="taxReg != null">
+					 AND tax_reg = #{taxReg}
+				</if>
+				<if test="contractBegintime != null">
+					 AND contract_begintime = #{contractBegintime}
+				</if>
+				<if test="contractEndtime != null">
+					 AND contract_endtime = #{contractEndtime}
+				</if>
+				<if test="contractStaff != null">
+					 AND contract_staff = #{contractStaff}
+				</if>
+				<if test="auditStartOrgCode != null">
+					 AND audit_start_org_code = #{auditStartOrgCode}
+				</if>
+				<if test="auditEndOrgCode != null">
+					 AND audit_end_org_code = #{auditEndOrgCode}
+				</if>
+				<if test="auditState != null">
+					 AND audit_state = #{auditState}
+				</if>
+				<if test="auditOrgCode != null">
+					 AND audit_org_code = #{auditOrgCode}
+				</if>
+				<if test="auditStage != null">
+					 AND audit_stage = #{auditStage}
+				</if>
+				<if test="auditTime != null">
+					 AND audit_time = #{auditTime}
+				</if>
+				<if test="auditComment != null">
+					 AND audit_comment = #{auditComment}
+				</if>
+				<if test="auditStaff != null">
+					 AND audit_staff = #{auditStaff}
+				</if>
+				<if test="reviewStaff != null">
+					 AND review_staff = #{reviewStaff}
+				</if>
+				<if test="contactName != null">
+					 AND contact_name = #{contactName}
+				</if>
+				<if test="contactPhone != null">
+					 AND contact_phone = #{contactPhone}
+				</if>
+				<if test="contactEmail != null">
+					 AND contact_email = #{contactEmail}
+				</if>
+				<if test="legalName != null">
+					 AND legal_name = #{legalName}
+				</if>
+				<if test="legalCredentType != null">
+					 AND legal_credent_type = #{legalCredentType}
+				</if>
+				<if test="legalCredentNo != null">
+					 AND legal_credent_no = #{legalCredentNo}
+				</if>
+				
+			</where>
+	</update>
+
+
+	<!-- 修改  Merchant -->
+	<update id="updateMerchant" parameterType="Merchant">
+		UPDATE cb_merchant 
+			<set>
+			
+				<if test="proOrgCode != null">
+					 pro_org_code = #{proOrgCode},
+				</if>
+				<if test="cityOrgCode != null">
+					 city_org_code = #{cityOrgCode},
+				</if>
+				<if test="countyOrgCode != null">
+					 county_org_code = #{countyOrgCode},
+				</if>
+				<if test="orgCode != null">
+					  org_code = #{orgCode}, 
+				</if>
+				<if test="merchantName != null">
+					  merchant_name = #{merchantName}, 
+				</if>
+				<if test="merchantFullname != null">
+					  merchant_fullname = #{merchantFullname}, 
+				</if>
+				<if test="logo != null">
+					  logo = #{logo}, 
+				</if>
+				<if test="address != null">
+					  address = #{address}, 
+				</if>
+				<if test="phone != null">
+					  phone = #{phone}, 
+				</if>
+				<if test="areaId != null">
+					  area_id = #{areaId}, 
+				</if>
+				<if test="merchantStatus != null">
+					  merchant_status = #{merchantStatus}, 
+				</if>
+				<if test="isEnable != null">
+					  is_enable = #{isEnable}, 
+				</if>
+				<if test="disableStatus != null">
+					 disable_status = #{disableStatus},
+				</if>
+				<if test="isTop != null">
+					  is_top = #{isTop}, 
+				</if>
+				<if test="introduce != null">
+					  introduce = #{introduce}, 
+				</if>
+				<if test="license != null">
+					  license = #{license}, 
+				</if>
+				<if test="taxReg != null">
+					  tax_reg = #{taxReg}, 
+				</if>
+				<if test="contractBegintime != null">
+					  contract_begintime = #{contractBegintime}, 
+				</if>
+				<if test="contractEndtime != null">
+					  contract_endtime = #{contractEndtime}, 
+				</if>
+				<if test="contractStaff != null">
+					  contract_staff = #{contractStaff}, 
+				</if>
+				<if test="auditStartOrgCode != null">
+					  audit_start_org_code = #{auditStartOrgCode}, 
+				</if>
+				<if test="auditEndOrgCode != null">
+					  audit_end_org_code = #{auditEndOrgCode}, 
+				</if>
+				<if test="auditState != null">
+					  audit_state = #{auditState}, 
+				</if>
+				<if test="auditOrgCode != null">
+					  audit_org_code = #{auditOrgCode}, 
+				</if>
+				<if test="auditStage != null">
+					  audit_stage = #{auditStage}, 
+				</if>
+				<if test="auditTime != null">
+					  audit_time = #{auditTime}, 
+				</if>
+				<if test="auditComment != null">
+					  audit_comment = #{auditComment}, 
+				</if>
+				<if test="auditStaff != null">
+					  audit_staff = #{auditStaff}, 
+				</if>
+				<if test="reviewStaff != null">
+					  review_staff = #{reviewStaff}, 
+				</if>
+				<if test="contactName != null">
+					  contact_name = #{contactName}, 
+				</if>
+				<if test="contactPhone != null">
+					  contact_phone = #{contactPhone}, 
+				</if>
+				<if test="contactEmail != null">
+					  contact_email = #{contactEmail}, 
+				</if>
+				<if test="legalName != null">
+					  legal_name = #{legalName}, 
+				</if>
+				<if test="legalCredentType != null">
+					  legal_credent_type = #{legalCredentType}, 
+				</if>
+				<if test="legalCredentNo != null">
+					  legal_credent_no = #{legalCredentNo}, 
+				</if>
+				
+			</set>
+
+			<where>
+				<if test="id != null">
+					 AND id = #{id}
+				</if>
+				
+				<if test="merchantId != null">
+					 AND merchant_id = #{merchantId}
+				</if>				
+			</where>
+	</update>
+
+
+	<!-- 查询  Merchant -->
+	<select id="findMerchantById" parameterType="java.lang.Long" resultMap="merchantResultMap">
+		SELECT 
+            cm.create_time,cm.client_id,cm.merchant_id,cm.pro_org_code,cm.city_org_code,cm.county_org_code,cm.org_code,cm.merchant_name,cm.merchant_fullname,cm.logo,cm.address,cm.phone,cm.area_id,cm.merchant_status,cm.is_enable,cm.disable_status,cm.is_top,cm.introduce,cm.license,cm.tax_reg,cm.contract_begintime,cm.contract_endtime,cm.contract_staff,cm.audit_start_org_code,cm.audit_end_org_code,cm.audit_state,cm.audit_org_code,cm.audit_stage,cm.audit_time,cm.audit_comment,cm.audit_staff,cm.review_staff,cm.contact_name,cm.contact_phone,cm.contact_email,cm.legal_name,cm.legal_credent_type,cm.legal_credent_no
+        FROM cb_merchant cm 
+        WHERE 
+            cm.id = #{id}
+
+	</select>
+	
+	<!-- 查询  Merchant -->
+	<select id="findMerchantByMerchantId" parameterType="java.lang.String" resultMap="merchantResultMap">
+		SELECT 
+            cm.create_time,cm.client_id,cm.merchant_id,cm.pro_org_code,cm.city_org_code,cm.county_org_code,cm.org_code,cm.merchant_name,cm.merchant_fullname,cm.logo,cm.address,cm.phone,cm.area_id,cm.merchant_status,cm.is_enable,cm.disable_status,cm.is_top,cm.introduce,cm.license,cm.tax_reg,cm.contract_begintime,cm.contract_endtime,cm.contract_staff,cm.audit_start_org_code,cm.audit_end_org_code,cm.audit_state,cm.audit_org_code,cm.audit_stage,cm.audit_time,cm.audit_comment,cm.audit_staff,cm.review_staff,cm.contact_name,cm.contact_phone,cm.contact_email,cm.legal_name,cm.legal_credent_type,cm.legal_credent_no
+        FROM cb_merchant cm 
+        WHERE 
+            cm.merchant_id = #{merchantId}
+
+	</select>
+
+
+	<!-- 查询  Merchant -->
+	<select id="findMerchant" parameterType="Merchant" resultMap="merchantResultMap">
+		SELECT 
+            cm.create_time,cm.client_id,cm.merchant_id,cm.pro_org_code,cm.city_org_code,cm.county_org_code,cm.org_code,cm.merchant_name,cm.merchant_fullname,cm.logo,cm.address,cm.phone,cm.area_id,cm.merchant_status,cm.is_enable,cm.disable_status,cm.is_top,cm.introduce,cm.license,cm.tax_reg,cm.contract_begintime,cm.contract_endtime,cm.contract_staff,cm.audit_start_org_code,cm.audit_end_org_code,cm.audit_state,cm.audit_org_code,cm.audit_stage,cm.audit_time,cm.audit_comment,cm.audit_staff,cm.review_staff,cm.contact_name,cm.contact_phone,cm.contact_email,cm.legal_name,cm.legal_credent_type,cm.legal_credent_no 
+        FROM cb_merchant cm 
+		<where>
+			<if test="id != null">
+				 AND cm.id = #{id}
+			</if>
+			<if test="createTime != null">
+				 AND cm.create_time = #{createTime}
+			</if>
+			<if test="startCreateTime != null">
+				 AND cm.create_time <![CDATA[ >= ]]> #{startCreateTime}
+			</if>
+			<if test="endCreateTime != null">				
+				 AND cm.create_time <![CDATA[ <= ]]> #.endCreateTime}
+			</if>
+			<if test="clientId != null">
+				 AND cm.client_id = #{clientId}
+			</if>
+			<if test="merchantId != null">
+				 AND cm.merchant_id = #{merchantId}
+			</if>
+			<if test="proOrgCode != null">
+				 AND cm.pro_org_code = #{proOrgCode}
+			</if>
+			<if test="cityOrgCode != null">
+				 AND cm.city_org_code = #{cityOrgCode}
+			</if>
+			<if test="countyOrgCode != null">
+				 AND cm.county_org_code = #{countyOrgCode}
+			</if>
+			<if test="orgCode != null">
+				 AND cm.org_code = #{orgCode}
+			</if>
+			<if test="merchantName != null">
+				 AND cm.merchant_name like CONCAT('%',#{merchantName},'%' )
+			</if>
+			<if test="merchantFullname != null">
+				 AND cm.merchant_fullname like CONCAT('%',#{merchantFullname},'%' )
+			</if>
+			<if test="logo != null">
+				 AND cm.logo = #{logo}
+			</if>
+			<if test="address != null">
+				 AND cm.address = #{address}
+			</if>
+			<if test="phone != null">
+				 AND cm.phone = #{phone}
+			</if>
+			<if test="areaId != null">
+				 AND cm.area_id = #{areaId}
+			</if>
+			<if test="merchantStatus != null">
+				 AND cm.merchant_status = #{merchantStatus}
+			</if>
+			<if test="isEnable != null">
+				 AND cm.is_enable = #{isEnable}
+			</if>
+			<if test="disableStatus != null">
+				 AND cm.disable_status = #{disableStatus}
+			</if>
+			<if test="isTop != null">
+				 AND cm.is_top = #{isTop}
+			</if>
+			<if test="introduce != null">
+				 AND cm.introduce = #{introduce}
+			</if>
+			<if test="license != null">
+				 AND cm.license = #{license}
+			</if>
+			<if test="taxReg != null">
+				 AND cm.tax_reg = #{taxReg}
+			</if>
+			<if test="contractBegintime != null">
+				 AND cm.contract_begintime <![CDATA[ >= ]]> #{contractBegintime}
+			</if>
+			<if test="contractEndtime != null">
+				 AND cm.contract_endtime <![CDATA[ <= ]]> #{contractEndtime}
+			</if>
+			<if test="contractStaff != null">
+				 AND cm.contract_staff = #{contractStaff}
+			</if>
+			<if test="auditStartOrgCode != null">
+				 AND cm.audit_start_org_code = #{auditStartOrgCode}
+			</if>
+			<if test="auditEndOrgCode != null">
+				 AND cm.audit_end_org_code = #{auditEndOrgCode}
+			</if>
+			<if test="auditState != null">
+				 AND cm.audit_state = #{auditState}
+			</if>
+			<if test="auditOrgCode != null">
+				 AND cm.audit_org_code = #{auditOrgCode}
+			</if>
+			<if test="auditStage != null">
+				 AND cm.audit_stage = #{auditStage}
+			</if>
+			<if test="auditTime != null">
+				 AND cm.audit_time = #{auditTime}
+			</if>
+			<if test="auditComment != null">
+				 AND cm.audit_comment = #{auditComment}
+			</if>
+			<if test="startAuditTime != null">
+				 AND cm.audit_time <![CDATA[ >= ]]> #{startAuditTime}
+			</if>
+			<if test="endAuditTime != null">				
+				 AND cm.audit_time <![CDATA[ <= ]]> #{endAuditTime}
+			</if>
+			<if test="auditStaff != null">
+				 AND cm.audit_staff = #{auditStaff}
+			</if>
+			<if test="reviewStaff != null">
+				 AND cm.review_staff = #{reviewStaff}
+			</if>
+			<if test="contactName != null">
+				 AND cm.contact_name = #{contactName}
+			</if>
+			<if test="contactPhone != null">
+				 AND cm.contact_phone = #{contactPhone}
+			</if>
+			<if test="contactEmail != null">
+				 AND cm.contact_email = #{contactEmail}
+			</if>
+			<if test="legalName != null">
+				 AND cm.legal_name = #{legalName}
+			</if>
+			<if test="legalCredentType != null">
+				 AND cm.legal_credent_type = #{legalCredentType}
+			</if>
+			<if test="legalCredentNo != null">
+				 AND cm.legal_credent_no = #{legalCredentNo}
+			</if>
+			
+			<!-- <if test="merchantUserId != null">
+				 AND cmu.id = #{merchantUserId}
+			</if>
+			<if test="merchantUserName != null">
+				 AND cmu.username LIKE CONCAT('%',#{merchantUserName},'%' )
+			</if>
+			<if test="merchantRoleId != null">
+				 AND cmu.merchant_role_id = #{merchantRoleId}
+			</if>
+			 AND cmu.is_delete = false  -->
+			<if test="merchantIdList != null and merchantIdList.size > 0">
+				 AND cm.merchant_id IN 
+				 <foreach collection="merchantIdList" item="merchantId" open="(" close=")" separator=",">
+					#{merchantId}
+				 </foreach>
+			</if>
+			<if test="orgCodeList != null and orgCodeList.size > 0">
+				 AND cm.org_code IN 
+				 <foreach collection="orgCodeList" item="orgCode" open="(" close=")" separator=",">
+					#{orgCode}
+				 </foreach>
+			</if>
+		</where>
+	</select>
+	
+	<!-- 统计 Merchant -->
+	<select id="countMerchant" parameterType="Merchant" resultType="java.lang.Integer">
+		SELECT 
+            COUNT(cm.id) 
+        FROM cb_merchant cm 
+		<where>
+			<if test="id != null">
+				 AND cm.id = #{id}
+			</if>
+			<if test="clientId != null">
+				 AND cm.client_id = #{clientId}
+			</if>
+			<if test="merchantId != null">
+				 AND cm.merchant_id = #{merchantId}
+			</if>
+			<if test="proOrgCode != null">
+				 AND cm.pro_org_code = #{proOrgCode}
+			</if>
+			<if test="cityOrgCode != null">
+				 AND cm.city_org_code = #{cityOrgCode}
+			</if>
+			<if test="countyOrgCode != null">
+				 AND cm.county_org_code = #{countyOrgCode}
+			</if>
+			<if test="orgCode != null">
+				 AND cm.org_code = #{orgCode}
+			</if>
+			<if test="merchantName != null">
+				 AND cm.merchant_name = #{merchantName}
+			</if>
+			<if test="merchantFullname != null">
+				 AND cm.merchant_fullname = #{merchantFullname}
+			</if>
+			<if test="address != null">
+				 AND cm.address = #{address}
+			</if>
+			<if test="phone != null">
+				 AND cm.phone = #{phone}
+			</if>
+			<if test="areaId != null">
+				 AND cm.area_id = #{areaId}
+			</if>
+			<if test="merchantStatus != null">
+				 AND cm.merchant_status = #{merchantStatus}
+			</if>
+			<if test="isEnable != null">
+				 AND cm.is_enable = #{isEnable}
+			</if>
+			<if test="disableStatus != null">
+				 AND cm.disable_status = #{disableStatus}
+			</if>
+			<if test="isTop != null">
+				 AND cm.is_top = #{isTop}
+			</if>
+			<if test="license != null">
+				 AND cm.license = #{license}
+			</if>
+			<if test="taxReg != null">
+				 AND cm.tax_reg = #{taxReg}
+			</if>
+			<if test="auditStartOrgCode != null">
+				 AND cm.audit_start_org_code = #{auditStartOrgCode}
+			</if>
+			<if test="auditEndOrgCode != null">
+				 AND cm.audit_end_org_code = #{auditEndOrgCode}
+			</if>
+			<if test="auditState != null">
+				 AND cm.audit_state = #{auditState}
+			</if>
+			<if test="auditOrgCode != null">
+				 AND cm.audit_org_code = #{auditOrgCode}
+			</if>
+			<if test="auditStage != null">
+				 AND cm.audit_stage = #{auditStage}
+			</if>
+			<if test="contactName != null">
+				 AND cm.contact_name = #{contactName}
+			</if>
+			<if test="contactPhone != null">
+				 AND cm.contact_phone = #{contactPhone}
+			</if>
+			<if test="contactEmail != null">
+				 AND cm.contact_email = #{contactEmail}
+			</if>
+			<if test="legalName != null">
+				 AND cm.legal_name = #{legalName}
+			</if>
+			<if test="legalCredentType != null">
+				 AND cm.legal_credent_type = #{legalCredentType}
+			</if>
+			<if test="legalCredentNo != null">
+				 AND cm.legal_credent_no = #{legalCredentNo}
+			</if>
+			
+		</where>
+	</select>
+
+	<!-- 分页查询  Merchant -->
+	<select id="findByPage" parameterType="java.util.HashMap" resultMap="merchantResultMap">
+		SELECT 
+            cm.create_time,cm.client_id,cm.merchant_id,cm.pro_org_code,cm.city_org_code,cm.county_org_code,cm.org_code,cm.merchant_name,cm.merchant_fullname,cm.logo,cm.address,cm.phone,cm.area_id,cm.merchant_status,cm.is_enable,cm.disable_status,cm.is_top,cm.introduce,cm.license,cm.tax_reg,cm.contract_begintime,cm.contract_endtime,cm.contract_staff,cm.audit_start_org_code,cm.audit_end_org_code,cm.audit_state,cm.audit_org_code,cm.audit_stage,cm.audit_time,cm.audit_comment,cm.audit_staff,cm.review_staff,cm.contact_name,cm.contact_phone,cm.contact_email,cm.legal_name,cm.legal_credent_type,cm.legal_credent_no
+        FROM cb_merchant cm 
+		<if test="merchant != null">
+			<where>
+				<if test="merchant.id != null">
+					 AND cm.id = #{merchant.id}
+				</if>
+				<if test="merchant.createTime != null">
+					 AND cm.create_time = #{merchant.createTime}
+				</if>
+				<if test="merchant.startCreateTime != null">
+					 AND cm.create_time <![CDATA[ >= ]]> #{merchant.startCreateTime}
+				</if>
+				<if test="merchant.endCreateTime != null">				
+					 AND cm.create_time <![CDATA[ <= ]]> #{merchant.endCreateTime}
+				</if>
+				<if test="merchant.clientId != null">
+					 AND cm.client_id = #{merchant.clientId}
+				</if>
+				<if test="merchant.merchantId != null">
+					 AND cm.merchant_id = #{merchant.merchantId}
+				</if>
+				<if test="merchant.proOrgCode != null">
+					 AND cm.pro_org_code = #{merchant.proOrgCode}
+				</if>
+				<if test="merchant.cityOrgCode != null">
+					 AND cm.city_org_code = #{merchant.cityOrgCode}
+				</if>
+				<if test="merchant.countyOrgCode != null">
+					 AND cm.county_org_code = #{merchant.countyOrgCode}
+				</if>
+				<if test="merchant.orgCode != null">
+					 AND cm.org_code = #{merchant.orgCode}
+				</if>
+				<if test="merchant.merchantName != null">
+					 AND cm.merchant_name like CONCAT('%',#{merchant.merchantName},'%' )
+				</if>
+				<if test="merchant.merchantFullname != null">
+					 AND cm.merchant_fullname like CONCAT('%',#{merchant.merchantFullname},'%' )
+				</if>
+				<if test="merchant.logo != null">
+					 AND cm.logo = #{merchant.logo}
+				</if>
+				<if test="merchant.address != null">
+					 AND cm.address = #{merchant.address}
+				</if>
+				<if test="merchant.phone != null">
+					 AND cm.phone = #{merchant.phone}
+				</if>
+				<if test="merchant.areaId != null">
+					 AND cm.area_id = #{merchant.areaId}
+				</if>
+				<if test="merchant.merchantStatus != null">
+					 AND cm.merchant_status = #{merchant.merchantStatus}
+				</if>
+				<if test="merchant.isEnable != null">
+					 AND cm.is_enable = #{merchant.isEnable}
+				</if>
+				<if test="merchant.disableStatus != null">
+					 AND cm.disable_status = #{merchant.disableStatus}
+				</if>
+				<if test="merchant.isTop != null">
+					 AND cm.is_top = #{merchant.isTop}
+				</if>
+				<if test="merchant.introduce != null">
+					 AND cm.introduce = #{merchant.introduce}
+				</if>
+				<if test="merchant.license != null">
+					 AND cm.license = #{merchant.license}
+				</if>
+				<if test="merchant.taxReg != null">
+					 AND cm.tax_reg = #{merchant.taxReg}
+				</if>
+				<if test="merchant.contractBegintime != null">
+					 AND cm.contract_begintime <![CDATA[ >= ]]> #{merchant.contractBegintime}
+				</if>
+				<if test="merchant.contractEndtime != null">
+					 AND cm.contract_endtime <![CDATA[ <= ]]> #{merchant.contractEndtime}
+				</if>
+				<if test="merchant.contractStaff != null">
+					 AND cm.contract_staff = #{merchant.contractStaff}
+				</if>
+				<if test="merchant.auditStartOrgCode != null">
+					 AND cm.audit_start_org_code = #{merchant.auditStartOrgCode}
+				</if>
+				<if test="merchant.auditEndOrgCode != null">
+					 AND cm.audit_end_org_code = #{merchant.auditEndOrgCode}
+				</if>
+				<if test="merchant.auditState != null">
+					 AND cm.audit_state = #{merchant.auditState}
+				</if>
+				<if test="merchant.auditOrgCode != null">
+					 AND cm.audit_org_code = #{merchant.auditOrgCode}
+				</if>
+				<if test="merchant.auditStage != null">
+					 AND cm.audit_stage = #{merchant.auditStage}
+				</if>
+				<if test="merchant.auditTime != null">
+					 AND cm.audit_time = #{merchant.auditTime}
+				</if>
+				<if test="merchant.startAuditTime != null">
+					 AND cm.audit_time <![CDATA[ >= ]]> #{merchant.startAuditTime}
+				</if>
+				<if test="merchant.endAuditTime != null">				
+					 AND cm.audit_time <![CDATA[ <= ]]> #{merchant.endAuditTime}
+				</if>
+				<if test="merchant.auditComment != null">
+					 AND cm.audit_comment = #{merchant.auditComment}
+				</if>
+				<if test="merchant.auditStaff != null">
+					 AND cm.audit_staff = #{merchant.auditStaff}
+				</if>
+				<if test="merchant.reviewStaff != null">
+					 AND cm.review_staff = #{merchant.reviewStaff}
+				</if>
+				<if test="merchant.contactName != null">
+					 AND cm.contact_name = #{merchant.contactName}
+				</if>
+				<if test="merchant.contactPhone != null">
+					 AND cm.contact_phone = #{merchant.contactPhone}
+				</if>
+				<if test="merchant.contactEmail != null">
+					 AND cm.contact_email = #{merchant.contactEmail}
+				</if>
+				<if test="merchant.legalName != null">
+					 AND cm.legal_name = #{merchant.legalName}
+				</if>
+				<if test="merchant.legalCredentType != null">
+					 AND cm.legal_credent_type = #{merchant.legalCredentType}
+				</if>
+				<if test="merchant.legalCredentNo != null">
+					 AND cm.legal_credent_no = #{merchant.legalCredentNo}
+				</if>
+				
+				
+				<!-- <if test="merchant.merchantUserId != null">
+					 AND cmu.id = #{merchant.merchantUserId}
+				</if>
+				<if test="merchant.merchantUserName != null">
+					 AND cmu.username LIKE CONCAT('%',#{merchant.merchantUserName},'%' )
+				</if>				
+				<if test="merchant.merchantRoleId != null">
+					 AND cmu.merchant_role_id = #{merchant.merchantRoleId}
+				</if>
+				 AND cmu.is_delete = false  -->
+				<if test="merchant.merchantIdList != null and merchant.merchantIdList.size > 0">
+				 	 AND cm.merchant_id IN 
+					<foreach collection="merchant.merchantIdList" item="merchantId" open="(" close=")" separator=",">
+						#{merchantId}
+				 	</foreach>
+				</if>
+			</where>
+		</if>
+		 ORDER BY cm.create_time DESC
+	</select>
+
+
+	<!-- 查询  Merchant -->
+	<select id="findBankMerchant"  resultMap="merchantResultMap">
+		SELECT 
+            cm.create_time,cm.client_id,cm.merchant_id,cm.pro_org_code,cm.city_org_code,cm.county_org_code,cm.org_code,cm.merchant_name,cm.merchant_fullname,cm.logo,cm.address,cm.phone,cm.area_id,cm.merchant_status,cm.is_enable,cm.disable_status,cm.is_top,cm.introduce,cm.license,cm.tax_reg,cm.contract_begintime,cm.contract_endtime,cm.contract_staff,cm.audit_start_org_code,cm.audit_end_org_code,cm.audit_state,cm.audit_org_code,cm.audit_stage,cm.audit_time,cm.audit_comment,cm.audit_staff,cm.review_staff,cm.contact_name,cm.contact_phone,cm.contact_email,cm.legal_name,cm.legal_credent_type,cm.legal_credent_no
+        FROM cb_merchant cm 
+		<where>
+			 is_enable = true
+			 AND merchant_status = true
+			<if test="clientId != null">
+				 AND client_id = #{clientId}
+			</if>
+			<if test="orgCodeList != null and orgCodeList.size > 0">
+			 	 AND org_code IN 
+				<foreach collection="orgCodeList" item="orgCode" open="(" close=")" separator=",">
+					#{orgCode}
+			 	</foreach>
+			</if>
+		</where>
+	</select>
+</mapper>
+

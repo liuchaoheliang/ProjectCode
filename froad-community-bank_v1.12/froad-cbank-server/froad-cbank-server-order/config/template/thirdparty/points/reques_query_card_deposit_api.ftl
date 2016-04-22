@@ -1,0 +1,13 @@
+<requestQueryCardDepositApi>
+	<pointsCard>
+		<cardPassword>${cardPassword!""}</cardPassword>
+		<cardNo>${cardNo!""}</cardNo>
+	</pointsCard>	
+	<system>
+		<partnerNo>${partnerNo}</partnerNo>
+		<charset>${charset}</charset>
+		<signType>${signType}</signType>
+		<signMsg>${signMsg}</signMsg>
+		<requestTime>${requestTime}</requestTime>
+	</system>
+</requestQueryCardDepositApi>

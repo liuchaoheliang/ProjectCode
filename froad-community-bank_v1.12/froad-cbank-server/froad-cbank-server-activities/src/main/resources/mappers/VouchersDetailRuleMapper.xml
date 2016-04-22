@@ -1,0 +1,535 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.mysql.mapper.VouchersDetailRuleMapper">
+
+	<resultMap type="VouchersDetailRule" id="vouchersDetailRuleResultMap">
+		<id property="id" column="id" />
+		<result property="clientId" column="client_id" />
+		<result property="activeId" column="active_id" />
+		<result property="minMoney" column="min_money" />
+		<result property="maxMoney" column="max_money" />
+		<result property="totalMoney" column="total_money" />
+		<result property="isTotalDay" column="is_total_day" />
+		<result property="totalDay" column="total_day" />
+		<result property="totalCount" column="total_count" />
+		<result property="orderMinMoney" column="order_min_money" />
+		<result property="isPerDay" column="is_per_day" />
+		<result property="perDay" column="per_day" />
+		<result property="perCount" column="per_count" />
+		<result property="isRepeat" column="is_repeat" />
+		<result property="isOtherActive" column="is_other_active" />
+		<result property="isPrePay" column="is_pre_pay" />
+		<result property="isFtof" column="if_ftof" />
+		<result property="payMethod" column="pay_method" />
+		<result property="isOnlyNewUsers" column="is_only_new_users" />		
+	</resultMap>
+
+
+	<!-- 所有字段list -->
+	<sql id="Base_Column_List">
+		id,client_id,active_id,min_money,max_money,total_money,is_total_day,total_day,total_count,order_min_money,is_per_day,per_day,per_count,is_repeat,is_other_active,is_pre_pay,if_ftof,pay_method,is_only_new_users
+	</sql>
+
+
+	<!-- 不包含ID字段list -->
+	<sql id="Not_ID_Column_List">
+		client_id,active_id,min_money,max_money,total_money,is_total_day,total_day,total_count,order_min_money,is_per_day,per_day,per_count,is_repeat,is_other_active,is_pre_pay,if_ftof,pay_method,is_only_new_users
+	</sql>
+
+
+	<!-- 添加  VouchersDetailRule -->
+	<insert id="addVouchersDetailRule" parameterType="VouchersDetailRule" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO cb_vouchers_detail_rule (
+			<include refid="Not_ID_Column_List" />
+		) VALUES (
+			#{clientId},#{activeId},#{minMoney},#{maxMoney},#{totalMoney},#{isTotalDay},#{totalDay},#{totalCount},#{orderMinMoney},#{isPerDay},#{perDay},#{perCount},#{isRepeat},#{isOtherActive},#{isPrePay},#{isFtof},#{payMethod},#{isOnlyNewUsers}
+		) 
+	</insert>
+
+
+	<!-- 批量添加  VouchersDetailRule -->
+	<insert id="addVouchersDetailRuleByBatch" parameterType="java.util.List">
+		INSERT INTO cb_vouchers_detail_rule (
+			<include refid="Not_ID_Column_List" />
+		) VALUES 
+		<foreach collection="vouchersDetailRuleList" item="item" index="index" separator=",">
+			(#{item.clientId},#{item.activeId},#{item.minMoney},#{item.maxMoney},#{item.totalMoney},#{item.isTotalDay},#{item.totalDay},#{item.totalCount},#{item.orderMinMoney},#{item.isPerDay},#{item.perDay},#{item.perCount},#{item.isRepeat},#{item.isOtherActive},#{item.isPrePay},#{item.isFtof},#{item.payMethod},#{isOnlyNewUsers})
+		</foreach>
+	</insert>
+
+
+	<!-- 删除  VouchersDetailRule -->
+	<delete id="deleteVouchersDetailRule" parameterType="VouchersDetailRule">
+		DELETE FROM cb_vouchers_detail_rule 
+		<where>
+			<if test="id != null">
+				AND id = #{id}
+			</if>
+			<if test="clientId != null">
+				AND client_id = #{clientId}
+			</if>
+			<if test="activeId != null">
+				AND active_id = #{activeId}
+			</if>
+			<if test="minMoney != null">
+				AND min_money = #{minMoney}
+			</if>
+			<if test="maxMoney != null">
+				AND max_money = #{maxMoney}
+			</if>
+			<if test="totalMoney != null">
+				AND total_money = #{totalMoney}
+			</if>
+			<if test="isTotalDay != null">
+				AND is_total_day = #{isTotalDay}
+			</if>
+			<if test="totalDay != null">
+				AND total_day = #{totalDay}
+			</if>
+			<if test="totalCount != null">
+				AND total_count = #{totalCount}
+			</if>
+			<if test="orderMinMoney != null">
+				AND order_min_money = #{orderMinMoney}
+			</if>
+			<if test="isPerDay != null">
+				AND is_per_day = #{isPerDay}
+			</if>
+			<if test="perDay != null">
+				AND per_day = #{perDay}
+			</if>
+			<if test="perCount != null">
+				AND per_count = #{perCount}
+			</if>
+			<if test="isRepeat != null">
+				AND is_repeat = #{isRepeat}
+			</if>
+			<if test="isOtherActive != null">
+				AND is_other_active = #{isOtherActive}
+			</if>
+			<if test="isPrePay != null">
+				AND is_pre_pay = #{isPrePay}
+			</if>
+			<if test="isFtof != null">
+				AND if_ftof = #{isFtof}
+			</if>
+			<if test="payMethod != null">
+				AND pay_method = #{payMethod}
+			</if>
+		</where>
+	</delete>
+
+
+	<!-- 根据id删除  VouchersDetailRule -->
+	<delete id="deleteVouchersDetailRuleById" parameterType="java.lang.Long">
+		DELETE FROM cb_vouchers_detail_rule 
+		 WHERE 
+			 id = #{id} 
+	</delete>
+
+
+	<!-- 修改  VouchersDetailRule -->
+	<update id="updateVouchersDetailRule" parameterType="VouchersDetailRule">
+		UPDATE cb_vouchers_detail_rule 
+		<set>
+			<if test="clientId != null">
+				client_id = #{clientId}, 
+			</if>
+			<if test="activeId != null">
+				active_id = #{activeId}, 
+			</if>
+			<if test="minMoney != null">
+				min_money = #{minMoney}, 
+			</if>
+			<if test="maxMoney != null">
+				max_money = #{maxMoney}, 
+			</if>
+			<if test="totalMoney != null">
+				total_money = #{totalMoney}, 
+			</if>
+			<if test="isTotalDay != null">
+				is_total_day = #{isTotalDay}, 
+			</if>
+			<if test="totalDay != null">
+				total_day = #{totalDay}, 
+			</if>
+			<if test="totalCount != null">
+				total_count = #{totalCount}, 
+			</if>
+			<if test="orderMinMoney != null">
+				order_min_money = #{orderMinMoney}, 
+			</if>
+			<if test="isPerDay != null">
+				is_per_day = #{isPerDay}, 
+			</if>
+			<if test="perDay != null">
+				per_day = #{perDay}, 
+			</if>
+			<if test="perCount != null">
+				per_count = #{perCount}, 
+			</if>
+			<if test="isRepeat != null">
+				is_repeat = #{isRepeat}, 
+			</if>
+			<if test="isOtherActive != null">
+				is_other_active = #{isOtherActive}, 
+			</if>
+			<if test="isPrePay != null">
+				is_pre_pay = #{isPrePay}, 
+			</if>
+			<if test="isFtof != null">
+				if_ftof = #{isFtof}, 
+			</if>
+			<if test="isOnlyNewUsers != null">
+				is_only_new_users = #{isOnlyNewUsers}
+			</if>
+		</set>
+
+		<where>
+			<if test="clientId != null">
+				AND client_id = #{clientId}
+			</if>
+			<if test="activeId != null">
+				AND active_id = #{activeId}
+			</if>	
+		</where>
+	</update>
+
+
+	<!-- 根据id修改  VouchersDetailRule -->
+	<update id="updateVouchersDetailRuleById" parameterType="VouchersDetailRule">
+		UPDATE cb_vouchers_detail_rule 
+		<set>
+			<if test="clientId != null">
+				client_id = #{clientId}, 
+			</if>
+			<if test="activeId != null">
+				active_id = #{activeId}, 
+			</if>
+			<if test="minMoney != null">
+				min_money = #{minMoney}, 
+			</if>
+			<if test="maxMoney != null">
+				max_money = #{maxMoney}, 
+			</if>
+			<if test="totalMoney != null">
+				total_money = #{totalMoney}, 
+			</if>
+			<if test="isTotalDay != null">
+				is_total_day = #{isTotalDay}, 
+			</if>
+			<if test="totalDay != null">
+				total_day = #{totalDay}, 
+			</if>
+			<if test="totalCount != null">
+				total_count = #{totalCount}, 
+			</if>
+			<if test="orderMinMoney != null">
+				order_min_money = #{orderMinMoney}, 
+			</if>
+			<if test="isPerDay != null">
+				is_per_day = #{isPerDay}, 
+			</if>
+			<if test="perDay != null">
+				per_day = #{perDay}, 
+			</if>
+			<if test="perCount != null">
+				per_count = #{perCount}, 
+			</if>
+			<if test="isRepeat != null">
+				is_repeat = #{isRepeat}, 
+			</if>
+			<if test="isOtherActive != null">
+				is_other_active = #{isOtherActive}, 
+			</if>
+			<if test="isPrePay != null">
+				is_pre_pay = #{isPrePay}, 
+			</if>
+			<if test="isFtof != null">
+				if_ftof = #{isFtof}, 
+			</if>
+			<if test="payMethod != null">
+				pay_method = #{payMethod}, 
+			</if>
+			<if test="isOnlyNewUsers != null">
+				is_only_new_users = #{isOnlyNewUsers}
+			</if>
+		</set>
+
+		 WHERE 
+            id = #{id} 
+	</update>
+
+
+	<!-- 根据id查询  VouchersDetailRule -->
+	<select id="findVouchersDetailRuleById" parameterType="java.lang.Long" resultMap="vouchersDetailRuleResultMap">
+		SELECT 
+			<include refid="Base_Column_List" />
+        FROM cb_vouchers_detail_rule 
+        WHERE 
+            id = #{id}
+
+	</select>
+
+	<!-- 查询一个  VouchersDetailRule -->
+	<select id="findOneVouchersDetailRule" parameterType="VouchersDetailRule" resultMap="vouchersDetailRuleResultMap">
+		SELECT 
+			<include refid="Base_Column_List" />
+        FROM cb_vouchers_detail_rule 
+		<where>
+			<if test="id != null">
+				 AND id = #{id}
+			</if>
+			<if test="clientId != null">
+				 AND client_id = #{clientId}
+			</if>
+			<if test="activeId != null">
+				 AND active_id = #{activeId}
+			</if>
+			<if test="minMoney != null">
+				 AND min_money = #{minMoney}
+			</if>
+			<if test="maxMoney != null">
+				 AND max_money = #{maxMoney}
+			</if>
+			<if test="totalMoney != null">
+				 AND total_money = #{totalMoney}
+			</if>
+			<if test="isTotalDay != null">
+				 AND is_total_day = #{isTotalDay}
+			</if>
+			<if test="totalDay != null">
+				 AND total_day = #{totalDay}
+			</if>
+			<if test="totalCount != null">
+				 AND total_count = #{totalCount}
+			</if>
+			<if test="orderMinMoney != null">
+				 AND order_min_money = #{orderMinMoney}
+			</if>
+			<if test="isPerDay != null">
+				 AND is_per_day = #{isPerDay}
+			</if>
+			<if test="perDay != null">
+				 AND per_day = #{perDay}
+			</if>
+			<if test="perCount != null">
+				 AND per_count = #{perCount}
+			</if>
+			<if test="isRepeat != null">
+				 AND is_repeat = #{isRepeat}
+			</if>
+			<if test="isOtherActive != null">
+				 AND is_other_active = #{isOtherActive}
+			</if>
+			<if test="isPrePay != null">
+				 AND is_pre_pay = #{isPrePay}
+			</if>
+			<if test="isFtof != null">
+				 AND if_ftof = #{isFtof}
+			</if>
+			<if test="payMethod != null">
+				 AND pay_method = #{payMethod}
+			</if>
+		 LIMIT 1 
+		</where>
+	</select>
+
+	<!-- 统计  VouchersDetailRule -->
+	<select id="countVouchersDetailRule" parameterType="VouchersDetailRule" resultType="java.lang.Integer">
+		SELECT COUNT(0) FROM cb_vouchers_detail_rule 
+		<where>
+			<if test="id != null">
+				 AND id = #{id}
+			</if>
+			<if test="clientId != null">
+				 AND client_id = #{clientId}
+			</if>
+			<if test="activeId != null">
+				 AND active_id = #{activeId}
+			</if>
+			<if test="minMoney != null">
+				 AND min_money = #{minMoney}
+			</if>
+			<if test="maxMoney != null">
+				 AND max_money = #{maxMoney}
+			</if>
+			<if test="totalMoney != null">
+				 AND total_money = #{totalMoney}
+			</if>
+			<if test="isTotalDay != null">
+				 AND is_total_day = #{isTotalDay}
+			</if>
+			<if test="totalDay != null">
+				 AND total_day = #{totalDay}
+			</if>
+			<if test="totalCount != null">
+				 AND total_count = #{totalCount}
+			</if>
+			<if test="orderMinMoney != null">
+				 AND order_min_money = #{orderMinMoney}
+			</if>
+			<if test="isPerDay != null">
+				 AND is_per_day = #{isPerDay}
+			</if>
+			<if test="perDay != null">
+				 AND per_day = #{perDay}
+			</if>
+			<if test="perCount != null">
+				 AND per_count = #{perCount}
+			</if>
+			<if test="isRepeat != null">
+				 AND is_repeat = #{isRepeat}
+			</if>
+			<if test="isOtherActive != null">
+				 AND is_other_active = #{isOtherActive}
+			</if>
+			<if test="isPrePay != null">
+				 AND is_pre_pay = #{isPrePay}
+			</if>
+			<if test="isFtof != null">
+				 AND if_ftof = #{isFtof}
+			</if>
+			<if test="payMethod != null">
+				 AND pay_method = #{payMethod}
+			</if>
+		</where>
+	</select>
+
+	<!-- 查询  VouchersDetailRule -->
+	<select id="findVouchersDetailRule" parameterType="VouchersDetailRule" resultMap="vouchersDetailRuleResultMap">
+		SELECT 
+			<include refid="Base_Column_List" />
+        FROM cb_vouchers_detail_rule 
+		<if test="vouchersDetailRule != null">
+			<where>
+				<if test="vouchersDetailRule.id != null">
+					 AND id = #{vouchersDetailRule.id}
+				</if>
+				<if test="vouchersDetailRule.clientId != null">
+					 AND client_id = #{vouchersDetailRule.clientId}
+				</if>
+				<if test="vouchersDetailRule.activeId != null">
+					 AND active_id = #{vouchersDetailRule.activeId}
+				</if>
+				<if test="vouchersDetailRule.minMoney != null">
+					 AND min_money = #{vouchersDetailRule.minMoney}
+				</if>
+				<if test="vouchersDetailRule.maxMoney != null">
+					 AND max_money = #{vouchersDetailRule.maxMoney}
+				</if>
+				<if test="vouchersDetailRule.totalMoney != null">
+					 AND total_money = #{vouchersDetailRule.totalMoney}
+				</if>
+				<if test="vouchersDetailRule.isTotalDay != null">
+					 AND is_total_day = #{vouchersDetailRule.isTotalDay}
+				</if>
+				<if test="vouchersDetailRule.totalDay != null">
+					 AND total_day = #{vouchersDetailRule.totalDay}
+				</if>
+				<if test="vouchersDetailRule.totalCount != null">
+					 AND total_count = #{vouchersDetailRule.totalCount}
+				</if>
+				<if test="vouchersDetailRule.orderMinMoney != null">
+					 AND order_min_money = #{vouchersDetailRule.orderMinMoney}
+				</if>
+				<if test="vouchersDetailRule.isPerDay != null">
+					 AND is_per_day = #{vouchersDetailRule.isPerDay}
+				</if>
+				<if test="vouchersDetailRule.perDay != null">
+					 AND per_day = #{vouchersDetailRule.perDay}
+				</if>
+				<if test="vouchersDetailRule.perCount != null">
+					 AND per_count = #{vouchersDetailRule.perCount}
+				</if>
+				<if test="vouchersDetailRule.isRepeat != null">
+					 AND is_repeat = #{vouchersDetailRule.isRepeat}
+				</if>
+				<if test="vouchersDetailRule.isOtherActive != null">
+					 AND is_other_active = #{vouchersDetailRule.isOtherActive}
+				</if>
+				<if test="vouchersDetailRule.isPrePay != null">
+					 AND is_pre_pay = #{vouchersDetailRule.isPrePay}
+				</if>
+				<if test="vouchersDetailRule.isFtof != null">
+					 AND if_ftof = #{vouchersDetailRule.isFtof}
+				</if>
+				<if test="vouchersDetailRule.payMethod != null">
+					 AND pay_method = #{vouchersDetailRule.payMethod}
+				</if>
+			</where>
+		</if>
+		<if test="order != null">
+		 ORDER BY ${order} 
+		</if>
+	</select>
+
+	<!-- 分页查询  VouchersDetailRule -->
+	<select id="findByPage" parameterType="java.util.HashMap" resultMap="vouchersDetailRuleResultMap">
+		SELECT 
+			<include refid="Base_Column_List" />
+        FROM cb_vouchers_detail_rule 
+		<if test="vouchersDetailRule != null">
+			<where>
+				<if test="vouchersDetailRule.id != null">
+					 AND id = #{vouchersDetailRule.id}
+				</if>
+				<if test="vouchersDetailRule.clientId != null">
+					 AND client_id = #{vouchersDetailRule.clientId}
+				</if>
+				<if test="vouchersDetailRule.activeId != null">
+					 AND active_id = #{vouchersDetailRule.activeId}
+				</if>
+				<if test="vouchersDetailRule.minMoney != null">
+					 AND min_money = #{vouchersDetailRule.minMoney}
+				</if>
+				<if test="vouchersDetailRule.maxMoney != null">
+					 AND max_money = #{vouchersDetailRule.maxMoney}
+				</if>
+				<if test="vouchersDetailRule.totalMoney != null">
+					 AND total_money = #{vouchersDetailRule.totalMoney}
+				</if>
+				<if test="vouchersDetailRule.isTotalDay != null">
+					 AND is_total_day = #{vouchersDetailRule.isTotalDay}
+				</if>
+				<if test="vouchersDetailRule.totalDay != null">
+					 AND total_day = #{vouchersDetailRule.totalDay}
+				</if>
+				<if test="vouchersDetailRule.totalCount != null">
+					 AND total_count = #{vouchersDetailRule.totalCount}
+				</if>
+				<if test="vouchersDetailRule.orderMinMoney != null">
+					 AND order_min_money = #{vouchersDetailRule.orderMinMoney}
+				</if>
+				<if test="vouchersDetailRule.isPerDay != null">
+					 AND is_per_day = #{vouchersDetailRule.isPerDay}
+				</if>
+				<if test="vouchersDetailRule.perDay != null">
+					 AND per_day = #{vouchersDetailRule.perDay}
+				</if>
+				<if test="vouchersDetailRule.perCount != null">
+					 AND per_count = #{vouchersDetailRule.perCount}
+				</if>
+				<if test="vouchersDetailRule.isRepeat != null">
+					 AND is_repeat = #{vouchersDetailRule.isRepeat}
+				</if>
+				<if test="vouchersDetailRule.isOtherActive != null">
+					 AND is_other_active = #{vouchersDetailRule.isOtherActive}
+				</if>
+				<if test="vouchersDetailRule.isPrePay != null">
+					 AND is_pre_pay = #{vouchersDetailRule.isPrePay}
+				</if>
+				<if test="vouchersDetailRule.isFtof != null">
+					 AND if_ftof = #{vouchersDetailRule.isFtof}
+				</if>
+				<if test="vouchersDetailRule.payMethod != null">
+					 AND pay_method = #{vouchersDetailRule.payMethod}
+				</if>
+			</where>
+		</if>
+	</select>
+
+
+</mapper>
+

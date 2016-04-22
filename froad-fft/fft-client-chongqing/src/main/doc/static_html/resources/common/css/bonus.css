@@ -1,0 +1,247 @@
+/*
+* Author:
+* pengling@f-road.com.cn 
+* QQ:4753953
+*/
+
+/*活动主体*/
+
+.bonusbg {
+	width:1033px;
+	margin:0 auto;
+	clear:both;
+	background:url(../images/bonusbg.jpg) no-repeat;
+	height:690px;
+	font-size:12px;
+}
+.bonusarea {
+	margin:177px 0 0 65px;
+	float:left;
+	background: url(../images/bonusarea.png) no-repeat;
+	width:598px;
+	height:338px;
+	padding:17px 0 0 20px
+}
+.bonusarea td {
+	width:144px;
+	height:100px;
+	text-align:center;
+	vertical-align:middle
+}
+
+.bonusarea td img{
+	width:144px;
+	height:100px;
+}
+
+.bonusarea table {
+	width:575px
+}
+.bonuspoints {
+	float:left;
+	font:14px/24px "宋体",Verdana;
+	margin:180px auto auto 50px;
+	font-family:Arial, Helvetica, sans-serif;
+	color:#570313;
+}
+
+.bonuspoints span{ margin:0 5px; color:#fbffa2; font-weight:bold; font-size:18px;}
+
+.bonustext {
+	width:255px;
+	margin-left:50px;
+	font-family:Verdana;
+	color:#fff;
+	float:left;
+	border-top:1px groove #b60129;
+	padding:5px 0 15px 0;
+}
+.bonustext dt {
+	float:left;
+	font-size:14px;
+	font-weight:bold;
+	line-height:30px
+}
+.bonustext li {
+	float:left;
+	line-height:22px;
+	font-size:12px;
+	font-family:Verdana;
+	font-weight:normal;
+	width:100%
+}
+.bonustext .namelist {
+	float:left;
+	width:245px;
+	margin-top:10px;
+	height:105px;
+    overflow:hidden;
+	padding-top:10px;
+	padding-left:10px;
+}
+.bonustext .namelist ul {
+	float:Left;
+	width:232px;
+	display:block;
+	font-size:12px;
+	font-weight:normal;
+	padding:2px
+}
+.bonustext .namelist ul li {
+	color:#fff;
+	float:left;
+	width:95%;
+	text-align:left;
+	font-family:Verdana;
+	line-height:25px;
+	height:25px;
+	overflow:hidden;
+}
+.bonusproducts {
+	padding:44px 0 0 56px;
+	float:left;
+	width:100%
+}
+.bonusbg1 {
+	width:1033px;
+	margin:0 auto;
+}
+.bonusbtn img {
+	padding:148px 0 0 540px
+}
+.bonusbg1 .redbg {
+	background:url(../images/bonusbg2.jpg);
+	width:960px;
+	height:392px;
+	margin:70px auto
+}
+.bonusbg1 .bonusarea1 {
+	float:left;
+	width:50%;
+	margin:45px 0px 0 60px;
+	background:none
+}
+.bonusbg1 .bonusarea1 img {
+	width:100%;
+	
+}
+.bonusbg1 .bonusarea1 td {
+	text-align:center;
+	vertical-align:middle;
+	
+}
+*+html .bonusbg1 .bonusarea1 img{width:84px;}
+
+
+.bonusbg1 .bonusarea1 table {
+	width:340px;
+	height:189px;margin:20px 0 0 10px
+}
+.bonusbg1 .ad {
+	padding:50px 0 0 0px;
+}
+.bonuslist {
+	background:#ec0029;
+	width:960px;
+	margin:-70px auto 20px auto;
+	height:518px;
+	font-family:Verdana;
+}
+*+html .bonuslist {margin:-70px auto 0px auto;}
+.bonuslist h5 {
+	font-family:"微软雅黑";
+	font-size:24px;
+	color:#fff;
+	font-weight:bold;
+	padding:0 0 10px 20px;
+	line-height:56px;
+	float:Left;
+	display:inline-block;
+	width:900px
+}
+.bonuslist .list {
+	background:#f6efe9;
+	width:918px;
+	margin-left:12px;
+	padding:8px;
+	height:390px;
+	float:left
+}
+.bonuslist .list a {
+	margin-top:0px;
+	font-size:14px;
+	color:#0066CC;
+	line-height:150%;
+	text-decoration: none;
+}
+.bonuslist .list a.font-lj {
+	margin-top:0px;
+	font-size:14px;
+	color:#0066CC;
+	text-decoration: none;
+	margin-top:10px;
+}
+.bonuslist .list a.font-lj:hover {
+	color:#FF0000;
+}
+.bonuslist .list ul {
+	padding:0px;
+	margin:0px;
+	list-style:none;
+	font-size:12px
+}
+.bonuslist .list ul li {
+	float:left;
+	width:218px;
+	text-align:center;
+	height:376px;
+	border-bottom:1px solid #eee;
+	margin:5px;
+	background:#f0e3d2;
+	color:#363636;
+	margin:0 5px 0 6px
+}
+.bonuslist .list ul li img {
+	margin:4px
+}
+.bonuslist .list ul li span {
+	width:190px;
+	float:left;
+	margin-left:25px;
+	line-height:28px;
+	text-align:left;
+}
+.bonuslist .list ul li div {
+	background:#f6efe9;
+	height:180px
+}
+.bonuslist .list ul li a {
+	display:block;
+}
+.bonuslist .list ul li .fb {
+	height:56px; overflow:hidden
+}
+.bonuslist .list ul li b {
+	text-decoration:line-through;font-family: Verdana, Geneva, sans-serif;
+}
+.bonuslist .list ul li .red {
+	color:red;
+	font-size:24px;
+	font-family: Verdana, Geneva, sans-serif;
+	margin-right:5px;font-weight:bold
+}
+.bonuslist .list .cle {
+	clear:both;
+}
+.bonuslist .list ul li .img-lj {
+	border:1px solid #dcc8ad;
+	padding:2px;
+}
+.bonuslist .list ul li .img-lj img{height:185px;width:205px}
+.bonuslist .list ul li .img-lj:hover {
+	border:1px solid #ff0000;
+}
+
+.table{ position:relative;}
+
+.table a{ position:absolute; top:100px; left:143px; z-index:3; background:url(../images/bonus/btn.png); width:289px; height:102px;

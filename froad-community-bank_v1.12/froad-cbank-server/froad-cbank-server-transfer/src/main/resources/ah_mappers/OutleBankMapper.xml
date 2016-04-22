@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.ahui.mappers.OutletBankMapper">
+	<resultMap type="OutleBank" id="outleBankResultMap">
+		<id property="id" column="id" />
+		<result property="createTime" column="create_time" />
+		<result property="updateTime" column="update_time" />
+		<result property="merchatId" column="merchat_id" />
+		<result property="outleId" column="outle_id" />
+		<result property="deliveryId" column="delivery_id" />
+		<result property="moType" column="mo_type" typeHandler="com.froad.db.extend.EnumTypeHandler" />
+		<result property="bankOrg" column="bank_org" />
+		<result property="orgName" column="org_name" />
+		<result property="parentBankOrg" column="parent_bank_org" />
+		<result property="orgType" column="org_type" typeHandler="com.froad.db.extend.EnumTypeHandler" />
+	</resultMap>
+
+	<!-- 按门店ID查询 -->
+	<select id="queryByOutletId" parameterType="java.lang.Long" resultMap="outleBankResultMap">
+		<![CDATA[
+			select * from fft_outlet_bank where outle_id=#{outletId}
+        ]]>
+	</select>
+	
+	
+	<select id="findByOutletId" parameterType="java.lang.Long" resultType="java.lang.Integer">
+		<![CDATA[
+			SELECT COUNT(1) FROM fft_outlet_bank WHERE merchat_id=#{merchatId}
+        ]]>
+	</select>
+	
+	<select id="queryByBankOrg" parameterType="java.lang.String" resultMap="outleBankResultMap">
+		select * from fft_outlet_bank where bank_org=#{bankOrg}
+	</select>
+	
+	<!-- 根据交易ID获取提货门店 -->
+	<select id="selectByTransId" parameterType="java.lang.Long" resultMap="outleBankResultMap">
+		SELECT o.* FROM fft_trans tr LEFT JOIN fft_presell_delivery d ON tr.delivery_id = d.id LEFT JOIN fft_outlet_bank o ON o.bank_org=d.bank_org_no WHERE tr.type='08' and tr.id=#{id}
+	</select>
+	<!-- 根据门店ID获取parentId -->
+	<select id="selectByOutletId" parameterType="java.lang.Long" resultMap="outleBankResultMap">
+	    SELECT * FROM fft_outlet_bank WHERE outle_id=#{id}
+	</select>
+	<select id="queryAllList"  resultMap="outleBankResultMap">
+			SELECT
+			t.bank_org,
+			t.merchat_id
+		FROM
+			fft_outlet_bank t GROUP BY t.merchat_id
+	</select>
+	
+</mapper>

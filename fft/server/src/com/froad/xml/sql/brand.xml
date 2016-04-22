@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="brand">
+	<typeAlias alias="brand" type="com.froad.CB.po.Brand" />
+	
+	<resultMap class="brand" id="brandResult">
+		<result property="id" column="id"/>
+		<result property="name" column="name"/>
+		<result property="logo" column="logo"/>
+		<result property="url" column="url"/>
+		<result property="brandDesc" column="brand_desc"/>
+		<result property="orderList" column="order_list"/>
+		
+		<result property="state" column="state"/>
+		<result property="createTime" column="create_time"/>
+		<result property="updateTime" column="update_time"/>
+		<result property="remark" column="remark"/>
+	</resultMap>
+		
+	 <!-- 增加品牌 -->	
+	<insert id="addBrand" parameterClass="brand">
+		insert into brand
+		(id,name,logo,url,brand_desc,order_list,state,create_time,update_time,remark) 
+		values
+		(#id#,#name#,#logo#,#url#,#brandDesc#,#orderList#,#state#,DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),#remark#)
+		<selectKey keyProperty="id" resultClass="int">
+			select last_insert_id() as id
+		</selectKey>
+	</insert>
+	
+	<!-- 根据ID 查找品牌 -->
+	<select id="getBrandById" parameterClass="java.lang.Integer" resultMap="brandResult">
+		select * from brand where id=#id#
+	</select>
+	
+	 <!-- 更新品牌 -->
+	<update id="updateBrand" parameterClass="brand">
+		update brand set update_time = DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s")
+		<dynamic prepend="">
+			<isNotEmpty prepend="," property="name">
+				name = #name#
+		      </isNotEmpty>
+			<isNotEmpty prepend="," property="logo">
+				logo = #logo#
+		      </isNotEmpty>
+			<isNotEmpty prepend="," property="url">
+				url = #url#
+		      </isNotEmpty>
+			<isNotEmpty prepend="," property="brandDesc">
+				brand_desc = #brandDesc#
+		      </isNotEmpty>
+			<isNotEmpty prepend="," property="orderList">
+				order_list = #orderList#
+		      </isNotEmpty>
+			<isNotEmpty prepend="," property="state">
+				state = #state#
+		      </isNotEmpty>
+			<isNotEmpty prepend="," property="remark">
+				remark = #remark#
+		      </isNotEmpty>
+		</dynamic>
+		where id = #id#
+	</update>
+	
+	 <!-- 查找所有品牌-->
+	<select id="getAllBrand" resultMap="brandResult">
+		select * from brand
+	</select>
+    
+    <!-- 根据 Brand条件查找品牌 -->
+	<select id="getBrandList" parameterClass="brand" resultMap="brandResult">
+		select * from brand
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="id">
+				id = #id#
+      	  </isNotEmpty>
+			<isNotEmpty prepend="and" property="name">
+				name like concat('%',#name#,'%')
+	      </isNotEmpty>
+			<isNotEmpty prepend="and" property="logo">
+				logo like concat('%',#logo#,'%')
+	      </isNotEmpty>
+			<isNotEmpty prepend="and" property="url">
+				url like concat('%',#url#,'%')
+	      </isNotEmpty>
+			<isNotEmpty prepend="and" property="brandDesc">
+				brand_desc like concat('%',#brandDesc#,'%')
+	      </isNotEmpty>
+			<isNotEmpty prepend="and" property="orderList">
+				order_list = #orderList#
+	      </isNotEmpty>
+			<isNotEmpty prepend="and" property="state">
+				state = #state#
+	      </isNotEmpty>
+			<isNotEmpty prepend="and" property="remark">
+				remark like concat('%',#remark#,'%')
+	      </isNotEmpty>
+		</dynamic>
+		order by create_time desc
+	</select>
+</sqlMap>

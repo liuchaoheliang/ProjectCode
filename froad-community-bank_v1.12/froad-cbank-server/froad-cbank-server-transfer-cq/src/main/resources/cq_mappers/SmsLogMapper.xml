@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.chongqing.mappers.SmsLogMapper">
+
+	<resultMap type="SmsLog" id="smsLogResultMap">
+    	<!-- baseEntity prop -->
+        <id property="id" column="id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="clientId" column="client_id"/>
+		<!-- baseEntity prop -->
+		<result property="smsType" column="sms_type" 
+		typeHandler="com.froad.db.extend.EnumTypeHandler"/>
+		<result property="mobile" column="mobile"/>
+		<result property="content" column="content"/>
+		<result property="isSuccess" column="is_success"/>
+		<result property="sendUser" column="send_user"/>
+		<result property="sendIp" column="send_ip"/>
+		<result property="isUsed" column="is_used"/>
+		<result property="validTime" column="valid_time"/>
+		<result property="code" column="code"/>
+		<result property="token" column="token"/>
+		<result property="isLimited" column="is_limited"/>
+		<result property="isReSend" column="is_re_send"/>
+		<result property="remark" column="remark"/>
+    </resultMap>
+    
+  <select id="findSmsLog" resultMap="smsLogResultMap" parameterType="SmsLog" >
+		select * from cb_sms_log
+		<where>
+			<if test="smsType != null">
+				 AND sms_type = #{smsType,typeHandler=com.froad.db.extend.EnumTypeHandler}
+			</if>
+		</where>
+	</select>
+	 <select id="findALLSms" resultMap="smsLogResultMap">
+		select * from cb_sms_log
+	</select>
+</mapper>

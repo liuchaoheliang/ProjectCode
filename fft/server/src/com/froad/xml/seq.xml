@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="seq">
+	<typeAlias alias="seq" type="com.froad.CB.po.user.Seq" />
+
+	<insert id="addSeq" parameterClass="seq">
+		insert into seq(seq,type) values(#seq#,#type#) 
+	</insert>
+	
+	<insert id="addseqno" parameterClass="seq">
+		insert into st_seqno(Seq_type,Seq_no) values(#Seq_type#,#Seq_no#) 
+	</insert>
+	
+	<select id="queryMaxID" resultClass="String" parameterClass="String">
+		select seq from seq where type=#type#
+	</select>
+	
+	<select id="querySeqnoMaxID" resultClass="String" parameterClass="String">
+		select Seq_no from st_seqno where Seq_type=#Seq_type#
+	</select>
+	
+	<update id="updMaxID" parameterClass="seq"  >
+		update seq set seq=#seq# where type=#type#
+	</update>
+	<update id="updSeqnoMaxID" parameterClass="seq"  >
+		update st_seqno set Seq_no=#Seq_no# where Seq_type=#Seq_type#
+	</update>
+
+</sqlMap>

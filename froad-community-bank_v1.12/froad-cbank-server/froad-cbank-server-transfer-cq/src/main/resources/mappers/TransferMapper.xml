@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.chonggou.mappers.TransferMapper">
+
+	<resultMap type="Transfer" id="TransferResultMap">
+		<id property="id" column="id" />
+		<result property="oldId" column="old_id" />
+		<result property="newId" column="new_id" />
+		<result property="type" column="type" typeHandler="com.froad.db.extend.EnumTypeHandler"/>
+	</resultMap>
+
+
+	<!-- 添加 -->
+	<insert id="insert" parameterType="Transfer" useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[
+			insert into cb_transfer_cq (old_id,new_id,type) values (#{oldId},#{newId},#{type,typeHandler=com.froad.db.extend.EnumTypeHandler})
+		]]>
+	</insert>
+		
+		
+		
+	<!-- 查询  -->
+	<select id="queryNewId" resultMap="TransferResultMap">
+		select * from cb_transfer_cq where old_id=#{oldId} and type=#{type,typeHandler=com.froad.db.extend.EnumTypeHandler}
+	</select>
+	<!-- 查询旧ID -->
+	<select id="queryOId" resultMap="TransferResultMap">
+		select * from cb_transfer_cq where new_id=#{newId} and type=#{type,typeHandler=com.froad.db.extend.EnumTypeHandler}
+	</select>
+	
+	<select id="queryGroupList" resultMap="TransferResultMap">
+		select * from cb_transfer_cq where type=#{type,typeHandler=com.froad.db.extend.EnumTypeHandler}
+	</select>
+	
+	<insert id="addTransferBatch" useGeneratedKeys ="true" parameterType="java.util.List">
+		<selectKey resultType="long" keyProperty="id" order="AFTER">  
+	        SELECT  
+	        LAST_INSERT_ID()  
+	    </selectKey>  
+	    insert into cb_transfer_cq (old_id,new_id, type)   
+	    values  
+	    <foreach collection="list" item="item" index="index" separator="," >  
+	        (#{item.oldId},#{item.newId}, #{item.type, typeHandler=com.froad.db.extend.EnumTypeHandler})  
+	    </foreach>  
+	</insert>
+	<delete id="deleteFormType" >
+	  delete from cb_transfer_cq where type=#{type}
+	
+	</delete>
+</mapper>
+

@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="advert">
+	<typeAlias alias="advert" type="com.froad.CB.po.Advert" />
+	
+	<resultMap id="AdvertResult" class="advert">
+		<result column="id" property="id" jdbcType="INT" />
+		<result column="type" property="type" jdbcType="VARCHAR" />
+		<result column="position" property="position" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="images" property="images" jdbcType="VARCHAR" />
+		<result column="link" property="link" jdbcType="VARCHAR" />
+		<result column="is_blank_targe" property="isBlankTarge" jdbcType="VARCHAR" />
+		<result column="start_time" property="startTime" jdbcType="VARCHAR" />
+		<result column="end_time" property="endTime" jdbcType="VARCHAR" />
+		<result column="click_count" property="clickCount" jdbcType="VARCHAR" />
+		<result column="state" property="state" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="VARCHAR" />
+		<result column="update_time" property="updateTime" jdbcType="VARCHAR" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+		<result column="module" property="module" jdbcType="VARCHAR" />
+		<result column="priority" property="priority" jdbcType="INT" />
+	</resultMap>
+	
+	<select id="selectByPrimaryKey" resultMap="AdvertResult"
+		parameterClass="java.lang.Integer">
+		select * from advert where id = #id:INT#
+	</select>
+	
+	<delete id="deleteByPrimaryKey" parameterClass="java.lang.Integer">
+		delete from advert where id = #id:INT#
+	</delete>
+	
+	<insert id="insert" parameterClass="advert">
+		insert into advert (id, module,type, position, name, images, link,
+		is_blank_targe, start_time, end_time, click_count, state,
+		create_time, update_time, remark,priority) values (#id:INT#,#module#,
+		#type:VARCHAR#, #position:VARCHAR#, #name:VARCHAR#,
+		#images:VARCHAR#, #link:VARCHAR#, #isBlankTarge:VARCHAR#,
+		#startTime:VARCHAR#, #endTime:VARCHAR#, #clickCount:VARCHAR#,
+		#state:VARCHAR#, DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),
+		#remark:VARCHAR#,#priority#)
+		<selectKey resultClass="int" keyProperty="id">
+			select last_insert_id() as id
+		</selectKey>
+	</insert>
+	
+	<update id="updateByPrimaryKeySelective" parameterClass="advert">
+		update advert set update_time = DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s")
+		<dynamic prepend="">
+			<isNotEmpty prepend="," property="module">
+				module = #module:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="type">
+				type = #type:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="position">
+				position = #position:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="name">
+				name = #name:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="images">
+				images = #images:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="link">
+				link = #link:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="isBlankTarge">
+				is_blank_targe = #isBlankTarge:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="startTime">
+				start_time = #startTime:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="endTime">
+				end_time = #endTime:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="clickCount">
+				click_count = #clickCount:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="state">
+				state = #state:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="remark">
+				remark = #remark:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="priority">
+				priority = #priority:VARCHAR#
+			</isNotEmpty>
+		</dynamic>
+		where id = #id:INT#
+	</update>
+
+	<select id="selectAdverts" parameterClass="advert"
+		resultMap="AdvertResult">
+		select * from advert
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="module">
+				module = #module:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="id">
+				id = #id:INT#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="type">
+				type = #type:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="position">
+				position = #position:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="name">
+				name = #name:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="images">
+				images = #images:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="link">
+				link = #link:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="isBlankTarge">
+				is_blank_targe = #isBlankTarge:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="startTime">
+				start_time = #startTime:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="clickCount">
+				click_count = #clickCount:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="state">
+				state = #state:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="createTime">
+				create_time = #createTime:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="updateTime">
+				update_time = #updateTime:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="remark">
+				remark = #remark:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="priority">
+				priority = #priority:VARCHAR#
+			</isNotEmpty>
+		</dynamic>
+		order by priority asc ,update_time desc
+	</select>
+
+	<!-- 分页查询 -->
+	<select id="getAdvertsByPager" parameterClass="advert" resultMap="AdvertResult">
+		select * from advert
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="module">
+				module = #module:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="id">
+				id = #id:INT#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="type">
+				type = #type:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="position">
+				position = #position:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="name">
+				remark like concat('%',#remark#,'%')
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="images">
+				images = #images:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="link">
+				link = #link:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="isBlankTarge">
+				is_blank_targe = #isBlankTarge:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="startTime">
+				start_time = #startTime:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="clickCount">
+				click_count = #clickCount:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="state">
+				state = #state:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="remark">
+				remark like concat('%',#remark#,'%')
+			</isNotEmpty>
+			<isNotEmpty property="beginTime">
+    			<isNotEmpty property="endTime" prepend="and">
+    				create_time between #beginTime# and #endTime#
+    			</isNotEmpty>
+    		</isNotEmpty>
+    	</dynamic>
+         <![CDATA[ 
+         order by $orderBy$ $orderType$ 
+         limit #startRow#,#pageSize#  
+         ]]>
+	</select>
+	
+	<select id="getAdvertsByPagerCount" parameterClass="advert" resultClass="java.lang.Integer">
+		select count(*) from advert
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="module">
+				module = #module:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="id">
+				id = #id:INT#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="type">
+				type = #type:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="position">
+				position = #position:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="name">
+				remark like concat('%',#remark#,'%')
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="images">
+				images = #images:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="link">
+				link = #link:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="isBlankTarge">
+				is_blank_targe = #isBlankTarge:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="startTime">
+				start_time = #startTime:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="endTime">
+				end_time = #endTime:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="clickCount">
+				click_count = #clickCount:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="state">
+				state = #state:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="remark">
+				remark like concat('%',#remark#,'%')
+			</isNotEmpty>
+			<isNotEmpty property="beginTime">
+    			<isNotEmpty property="endTime" prepend="and">
+    				create_time between #beginTime# and #endTime#
+    			</isNotEmpty>
+    		</isNotEmpty>
+    	</dynamic>
+	</select>
+</sqlMap>

@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+	http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+
+	<context-param>  
+        <param-name>log4jConfigLocation</param-name>  
+        <param-value>classpath:log4j.properties</param-value>  
+    </context-param>  
+      
+    <context-param>  
+        <param-name>log4jRefreshInterval</param-name>  
+        <param-value>60000</param-value>  
+    </context-param>  
+    <listener>  
+        <listener-class>  
+            org.springframework.web.util.Log4jConfigListener  
+        </listener-class>  
+    </listener>  
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+        <param-value>classpath:applicationContext.xml</param-value>
+<!--        <param-value>classpath:dataSource.xml</param-value>-->
+<!--		<param-value>classpath:META-INF/cxf/server-beans.xml</param-value>-->
+	</context-param>
+
+	<listener>
+		<listener-class>
+			org.springframework.web.context.ContextLoaderListener	
+		</listener-class>
+	</listener>
+	
+	<!-- 接收账单平台通知的servlet(代收|代扣) -->
+	<servlet>
+		<servlet-name>BillInformServlet</servlet-name>
+		<servlet-class>com.froad.CB.servlet.BillInformServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>BillInformServlet</servlet-name>
+		<url-pattern>/BillInformServlet</url-pattern>
+	</servlet-mapping>
+	
+	<!-- 接收账单平台通知的servlet(退款) -->
+	<servlet>
+		<servlet-name>RefundServlet</servlet-name>
+		<servlet-class>com.froad.CB.servlet.RefundServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>RefundServlet</servlet-name>
+		<url-pattern>/RefundServlet</url-pattern>
+	</servlet-mapping>
+
+    	<!-- 接收订单合并通知servlet(订单合并) -->
+	<servlet>
+		<servlet-name>CombineOrderServlet</servlet-name>
+		<servlet-class>com.froad.CB.servlet.CombineOrderServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>CombineOrderServlet</servlet-name>
+		<url-pattern>/CombineOrderServlet</url-pattern>
+	</servlet-mapping>
+	
+	<!-- 接收话费充值的通知的servlet -->
+	<servlet>
+		<servlet-name>HFCZServlet</servlet-name>
+		<servlet-class>com.froad.CB.servlet.HFCZServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>HFCZServlet</servlet-name>
+		<url-pattern>/HFCZServlet</url-pattern>
+	</servlet-mapping>
+	
+	<!-- 接收彩票发货通知的servlet -->
+	<servlet>
+		<servlet-name>LotteryShipmentsServlet</servlet-name>
+		<servlet-class>com.froad.CB.servlet.LotteryShipmentsServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>LotteryShipmentsServlet</servlet-name>
+		<url-pattern>/LotteryShipmentsServlet</url-pattern>
+	</servlet-mapping>
+	
+	<!-- 接收彩票中奖通知的servlet -->
+	<servlet>
+		<servlet-name>LotteryWinServlet</servlet-name>
+		<servlet-class>com.froad.CB.servlet.LotteryWinServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>LotteryWinServlet</servlet-name>
+		<url-pattern>/LotteryWinServlet</url-pattern>
+	</servlet-mapping>
+	
+	<!-- 接收提现申请结果的servlet -->
+	<servlet>
+		<servlet-name>WithdrawPointsServlet</servlet-name>
+		<servlet-class>com.froad.CB.servlet.WithdrawPointsServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>WithdrawPointsServlet</servlet-name>
+		<url-pattern>/WithdrawPointsServlet</url-pattern>
+	</servlet-mapping>
+
+	<!-- cxf配置 -->
+	<servlet>
+		<servlet-name>CXFServlet</servlet-name>
+		<servlet-class>
+			org.apache.cxf.transport.servlet.CXFServlet
+		</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>CXFServlet</servlet-name>
+		<url-pattern>/*</url-pattern>
+	</servlet-mapping>
+  
+  
+  	<filter>
+        <filter-name>log4jNestedDiagnosticContextFilter</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>log4jNestedDiagnosticContextFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+  	</filter-mapping>
+  	
+  	<!-- Druid -->
+	<servlet>
+		<servlet-name>DruidStatView</servlet-name>
+		<servlet-class>com.alibaba.druid.support.http.StatViewServlet</servlet-class>
+		<!-- 
+		<init-param> 
+			<param-name>allow</param-name> 
+			<param-value>192.168.30.9,192.168.30.14</param-value> 
+		</init-param> 
+		
+		<init-param> 
+			<param-name>deny</param-name> 
+			<param-value>192.168.30.9</param-value> 
+		</init-param> 
+		-->
+		
+		<init-param>
+        	<param-name>resetEnable</param-name>
+        	<param-value>false</param-value>
+    	</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>DruidStatView</servlet-name>
+		<url-pattern>/druid/*</url-pattern>
+	</servlet-mapping>
+
+	<filter>
+		<filter-name>DruidWebStatFilter</filter-name>
+		<filter-class>com.alibaba.druid.support.http.WebStatFilter</filter-class>
+		<init-param>
+			<param-name>exclusions</param-name>
+			<param-value>*.js,*.gif,*.jpg,*.png,*.css,*.ico,*.json,*.html,/communityBusiness/druid/*</param-value>
+		</init-param>
+		<init-param>
+			<param-name>sessionStatEnable</param-name>
+			<param-value>true</param-value>
+		</init-param>
+		<init-param>
+			<param-name>profileEnable</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>DruidWebStatFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+		<!-- 测定定时任务 -->
+	  <servlet>
+    	<servlet-name>AutoTask</servlet-name>
+    	<servlet-class>com.froad.CB.servlet.AutoTask</servlet-class>
+  	</servlet>
+	<servlet-mapping>
+   		<servlet-name>AutoTask</servlet-name>
+   		<url-pattern>/AutoTask</url-pattern>
+ 	</servlet-mapping>
+ 	
+</web-app>

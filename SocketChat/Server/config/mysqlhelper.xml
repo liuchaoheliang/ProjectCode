@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mysqlhelper>
+	<db>		
+		<dirver>com.mysql.jdbc.Driver</dirver>
+		<url><![CDATA[jdbc:mysql://127.0.0.1:3306/test?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8]]></url>		 
+		<uname>root</uname>
+		<upwd></upwd>
+	</db>
+	<beans>
+		<bean>bean/Login.xml</bean>
+		<bean>bean/UserInfo.xml</bean>
+		<bean>bean/Friend.xml</bean>
+	</beans>
+</mysqlhelper>

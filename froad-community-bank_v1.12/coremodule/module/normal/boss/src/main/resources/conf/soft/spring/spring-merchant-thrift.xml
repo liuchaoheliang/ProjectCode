@@ -1,0 +1,141 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans   
+           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd  
+           http://www.springframework.org/schema/context   
+           http://www.springframework.org/schema/context/spring-context-3.0.xsd
+           http://www.springframework.org/schema/mvc
+           http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd"
+	default-autowire="byName">
+	
+	
+	<bean id="merchantUserService"  class="com.froad.cbank.coremodule.normal.boss.common.thrift.DynamicClientProxyFactory"  factory-method="createIface" scope="prototype">
+		<constructor-arg>
+			<value>com.froad.thrift.service.MerchantUserService</value>
+		</constructor-arg>
+		<constructor-arg>
+			<value>${thrift.merchant.host}</value>
+		</constructor-arg>
+		<constructor-arg>
+			<value>MerchantUserService</value>
+		</constructor-arg>
+	</bean>
+	<bean id="outletService"  class="com.froad.cbank.coremodule.normal.boss.common.thrift.DynamicClientProxyFactory"  factory-method="createIface" scope="prototype">
+		<constructor-arg>
+			<value>com.froad.thrift.service.OutletService</value>
+		</constructor-arg>
+		<constructor-arg>
+			<value>${thrift.merchant.host}</value>
+		</constructor-arg>
+		<constructor-arg>
+			<value>OutletService</value>
+		</constructor-arg>
+	</bean>
+	
+	<bean id="merchantOutletPhotoService"  class="com.froad.cbank.coremodule.normal.boss.common.thrift.DynamicClientProxyFactory"  factory-method="createIface" scope="prototype">
+		<constructor-arg>
+			<value>com.froad.thrift.service.MerchantOutletPhotoService</value>
+		</constructor-arg>
+		<constructor-arg>
+			<value>${thrift.merchant.host}</value>
+		</constructor-arg>
+		<constructor-arg>
+			<value>MerchantOutletPhotoService</value>
+		</constructor-arg>
+	</bean>
+	
+	<bean id="merchantService"  class="com.froad.cbank.coremodule.normal.boss.common.thrift.DynamicClientProxyFactory"  factory-method="createIface" scope="prototype">
+		<constructor-arg>
+			<value>com.froad.thrift.service.MerchantService</value>
+		</constructor-arg>
+		<constructor-arg>
+			<value>${thrift.merchant.host}</value>
+		</constructor-arg>
+		<constructor-arg>
+			<value>MerchantService</value>
+		</constructor-arg>
+	</bean>
+	
+	<bean id="merchantTypeService"  class="com.froad.cbank.coremodule.normal.boss.common.thrift.DynamicClientProxyFactory"  factory-method="createIface" scope="prototype">
+		<constructor-arg>
+			<value>com.froad.thrift.service.MerchantTypeService</value>
+		</constructor-arg>
+		<constructor-arg>
+			<value>${thrift.merchant.host}</value>
+		</constructor-arg>
+		<constructor-arg>
+			<value>MerchantTypeService</value>
+		</constructor-arg>
+	</bean>
+	<bean id="outletCommentService"  class="com.froad.cbank.coremodule.normal.boss.common.thrift.DynamicClientProxyFactory"  factory-method="createIface" scope="prototype">
+		<constructor-arg>
+			<value>com.froad.thrift.service.OutletCommentService</value>
+		</constructor-arg>
+		<constructor-arg>
+			<value>${thrift.merchant.host}</value>
+		</constructor-arg>
+		<constructor-arg>
+			<value>OutletCommentService</value>
+		</constructor-arg>
+	</bean>
+	<bean id="merchantRoleResourceService"  class="com.froad.cbank.coremodule.normal.boss.common.thrift.DynamicClientProxyFactory"  factory-method="createIface" scope="prototype">
+		<constructor-arg>
+			<value>com.froad.thrift.service.MerchantRoleResourceService</value>
+		</constructor-arg>
+		<constructor-arg>
+			<value>${thrift.merchant.host}</value>
+		</constructor-arg>
+		<constructor-arg>
+			<value>MerchantRoleResourceService</value>
+		</constructor-arg>
+	</bean>	
+	
+	<bean id="merchantRoleService"  class="com.froad.cbank.coremodule.normal.boss.common.thrift.DynamicClientProxyFactory"  factory-method="createIface" scope="prototype">
+		<constructor-arg>
+			<value>com.froad.thrift.service.MerchantRoleService</value>
+		</constructor-arg>
+		<constructor-arg>
+			<value>${thrift.merchant.host}</value>
+		</constructor-arg>
+		<constructor-arg>
+			<value>MerchantRoleService</value>
+		</constructor-arg>
+	</bean>	
+	
+	<bean id="merchantResourceService"  class="com.froad.cbank.coremodule.normal.boss.common.thrift.DynamicClientProxyFactory"  factory-method="createIface" scope="prototype">
+		<constructor-arg>
+			<value>com.froad.thrift.service.MerchantResourceService</value>
+		</constructor-arg>
+		<constructor-arg>
+			<value>${thrift.merchant.host}</value>
+		</constructor-arg>
+		<constructor-arg>
+			<value>MerchantResourceService</value>
+		</constructor-arg>
+	</bean>
+	
+	<bean id="merchantAccountService"  class="com.froad.cbank.coremodule.normal.boss.common.thrift.DynamicClientProxyFactory"  factory-method="createIface" scope="prototype">
+		<constructor-arg>
+			<value>com.froad.thrift.service.MerchantAccountService</value>
+		</constructor-arg>
+		<constructor-arg>
+			<value>${thrift.merchant.host}</value>
+		</constructor-arg>
+		<constructor-arg>
+			<value>MerchantAccountService</value>
+		</constructor-arg>
+	</bean>	
+	<bean id="merchantCategoryService"  class="com.froad.cbank.coremodule.normal.boss.common.thrift.DynamicClientProxyFactory"  factory-method="createIface" scope="prototype">
+		<constructor-arg>
+			<value>com.froad.thrift.service.MerchantCategoryService</value>
+		</constructor-arg>
+		<constructor-arg>
+			<value>${thrift.merchant.host}</value>
+		</constructor-arg>
+		<constructor-arg>
+			<value>MerchantCategoryService</value>
+		</constructor-arg>
+	</bean>
+</beans>  

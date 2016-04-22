@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.mysql.mapper.MerchantResourceMapper">
+
+	<resultMap type="MerchantResource" id="merchantResourceResultMap">
+		<id property="id" column="id" />
+		<result property="clientId" column="client_id" />
+		<result property="name" column="name" />
+		<result property="icon" column="icon" />
+		<result property="url" column="url" />
+		<result property="api" column="api" />
+		<result property="type" column="type" />
+		<result property="parentId" column="parent_id" />
+		<result property="treePath" column="tree_path" />
+		<result property="isEnabled" column="is_enabled" />
+		<result property="sn" column="sn" />
+		<result property="rightSn" column="right_sn" />
+		<result property="isParent" column="is_parent" />
+		<result property="orderValue" column="order_value" />
+	</resultMap>
+
+
+	<!-- 添加  MerchantResource -->
+	<insert id="addMerchantResource" parameterType="MerchantResource" useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[
+			INSERT INTO cb_merchant_resource (
+				client_id,name,icon,url,api,type,parent_id,tree_path,is_enabled,sn,right_sn,is_parent,order_value
+			) VALUES (
+				#{clientId},#{name},#{icon},#{url},#{api},#{type},#{parentId},#{treePath},#{isEnabled},#{sn},#{rightSn},#{isParent},#{orderValue}
+			) 
+		]]>
+	</insert>
+
+
+	<!-- 批量添加  MerchantResource -->
+	<insert id="addMerchantResourceByBatch" parameterType="java.util.List">
+		INSERT INTO cb_merchant_resource (
+			client_id,name,icon,url,api,type,parent_id,tree_path,is_enabled,sn,right_sn,is_parent,order_value
+		) VALUES 
+		<foreach collection="merchantResourceList" item="item" index="index" separator=",">
+			(#{clientId},#{name},#{icon},#{url},#{api},#{type},#{parentId},#{treePath},#{isEnabled},#{sn},#{rightSn},#{isParent},#{orderValue})
+		</foreach>
+	</insert>
+
+
+	<!-- 删除  MerchantResource -->
+	<delete id="deleteMerchantResource" parameterType="MerchantResource">
+		UPDATE cb_merchant_resource SET is_enabled = false WHERE tree_path LIKE CONCAT('%',#{id},'%' )
+	</delete>
+
+
+	<!-- 修改  MerchantResource -->
+	<update id="updateMerchantResource" parameterType="MerchantResource">
+		UPDATE cb_merchant_resource 
+		<set>
+				<if test="clientId != null">
+					  client_id = #{clientId}, 
+				</if>
+				<if test="name != null">
+					  name = #{name}, 
+				</if>
+				<if test="icon != null">
+					  icon = #{icon}, 
+				</if>
+				<if test="url != null">
+					  url = #{url}, 
+				</if>
+				<if test="api != null">
+					  api = #{api}, 
+				</if>
+				<if test="type != null">
+					  type = #{type}, 
+				</if>
+<!-- 				<if test="parentId != null"> -->
+<!-- 					  parent_id = #{parentId},  -->
+<!-- 				</if> -->
+				<if test="treePath != null">
+					  tree_path = #{treePath}, 
+				</if>
+				<if test="isEnabled != null">
+					  is_enabled = #{isEnabled}, 
+				</if>
+				<if test="sn != null">
+					  sn = #{sn}, 
+				</if>
+				<if test="rightSn != null">
+					  right_sn = #{rightSn}, 
+				</if>
+				<if test="isParent != null">
+					  is_parent = #{isParent}, 
+				</if>
+				<if test="orderValue != null">
+					  order_value = #{orderValue}, 
+				</if>
+		</set>
+		<where>
+			<if test="id != null">
+				  AND id = #{id} 
+			</if>
+			<if test="parentId != null">
+				  AND parent_id = #{parentId} 
+			</if>
+		</where>
+	</update>
+	
+	<update id="addOrderValue">
+		UPDATE cb_merchant_resource SET order_value = order_value + (${inc}) 
+		<where>
+			<if test="startOrderValue != null">
+				 AND order_value  <![CDATA[>=]]> #{startOrderValue} 
+			</if>
+			<if test="endOrderValue != null">
+				 AND order_value <![CDATA[<=]]> #{endOrderValue} 
+			</if>
+		</where>
+	</update>
+	
+	<update id="addOrderValueByTreePath">
+		UPDATE cb_merchant_resource SET order_value = order_value + (${inc}) 
+		<where>
+			<if test="id != null">
+				 AND tree_path LIKE CONCAT('%',#{id},'%' )
+			</if>
+		</where>
+	</update>
+
+	<select id="countByTreePath"  parameterType="java.lang.Long" resultType="java.lang.Integer">
+		SELECT 
+           COUNT(id)  
+        FROM cb_merchant_resource 
+        <where>
+			<if test="id != null">
+				 AND tree_path LIKE CONCAT('%',#{id},'%' )
+			</if>
+		</where>
+	</select>
+	
+	<select id="maxOrderVallueByTreePath" parameterType="java.lang.Long" resultType="java.lang.Integer">
+		SELECT 
+           MAX(order_value)  
+        FROM cb_merchant_resource 
+        WHERE 
+			 tree_path LIKE CONCAT('%',#{id},'%' )
+	</select>
+
+	<!-- 查询  MerchantResource -->
+	<select id="findMerchantResourceIdByTreePath"  parameterType="java.lang.Long" resultType="java.lang.Long">
+		SELECT 
+            id 
+        FROM cb_merchant_resource 
+        WHERE 
+			 tree_path LIKE CONCAT('%',#{id},'%' ) 
+		 ORDER BY order_value ASC 
+	</select>
+	
+	<!-- 查询  MerchantResource -->
+	<select id="findMerchantResourceById" parameterType="java.lang.Long" resultMap="merchantResourceResultMap">
+		SELECT 
+            id,client_id,name,icon,url,api,type,parent_id,tree_path,is_enabled,sn,right_sn,is_parent,order_value 
+        FROM cb_merchant_resource 
+        WHERE 
+            id = #{id} 
+	    LIMIT 1 
+	</select>
+
+	<!-- 查询  MerchantResource -->
+	<select id="findMerchantResource" parameterType="MerchantResource" resultMap="merchantResourceResultMap">
+		SELECT 
+            id,client_id,name,icon,url,api,type,parent_id,tree_path,is_enabled,sn,right_sn,is_parent,order_value 
+        FROM cb_merchant_resource 
+		<where>
+			<if test="id != null">
+				 AND id = #{id}
+			</if>
+			<if test="clientId != null">
+				 AND client_id = #{clientId}
+			</if>
+			<if test="name != null">
+				 AND name like CONCAT('%',#{name},'%')
+			</if>
+			<if test="icon != null">
+				 AND icon = #{icon}
+			</if>
+			<if test="url != null">
+				 AND url = #{url}
+			</if>
+			<if test="type != null">
+				 AND type = #{type}
+			</if>
+			<if test="parentId != null">
+				 AND parent_id = #{parentId}
+			</if>
+			<if test="treePath != null">
+				 AND tree_path = #{treePath}
+			</if>
+			<if test="isEnabled != null">
+				 AND is_enabled = #{isEnabled}
+			</if>
+			<if test="sn != null">
+				 AND sn = #{sn}
+			</if>
+			<if test="rightSn != null">
+				 AND right_sn = #{rightSn}
+			</if>
+			<if test="isParent != null">
+				 AND is_parent = #{isParent}
+			</if>
+			<if test="orderValue != null">
+				 AND order_value = #{orderValue}
+			</if>
+		</where>
+		 ORDER BY order_value ASC 
+	</select>	
+	
+	<select id="countMerchantResource" parameterType="MerchantResource" resultType="java.lang.Integer">
+		SELECT 
+            COUNT(id) 
+        FROM cb_merchant_resource 
+		<where>
+			<if test="id != null">
+				 AND id = #{id}
+			</if>
+			<if test="clientId != null">
+				 AND client_id = #{clientId}
+			</if>
+			<if test="name != null">
+				 AND name = #{name}
+			</if>
+			<if test="icon != null">
+				 AND icon = #{icon}
+			</if>
+			<if test="url != null">
+				 AND url = #{url}
+			</if>
+			<if test="type != null">
+				 AND type = #{type}
+			</if>
+			<if test="parentId != null">
+				 AND parent_id = #{parentId}
+			</if>
+			<if test="treePath != null">
+				 AND tree_path = #{treePath}
+			</if>
+			<if test="isEnabled != null">
+				 AND is_enabled = #{isEnabled}
+			</if>
+			<if test="sn != null">
+				 AND sn = #{sn}
+			</if>
+			<if test="rightSn != null">
+				 AND right_sn = #{rightSn}
+			</if>
+			<if test="isParent != null">
+				 AND is_parent = #{isParent}
+			</if>
+			<if test="orderValue != null">
+				 AND order_value = #{orderValue}
+			</if>
+		</where>
+	</select>
+
+	<!-- 分页查询  MerchantResource -->
+	<select id="findByPage" parameterType="java.util.HashMap" resultMap="merchantResourceResultMap">
+		SELECT 
+            id,client_id,name,icon,url,api,type,parent_id,tree_path,is_enabled,sn,right_sn,is_parent,order_value 
+        FROM cb_merchant_resource 
+		<if test="merchantResource != null">
+			<where>
+				<if test="merchantResource.id != null">
+					 AND id = #{merchantResource.id}
+				</if>
+				<if test="merchantResource.clientId != null">
+					 AND client_id = #{merchantResource.clientId}
+				</if>
+				<if test="merchantResource.name != null">
+					 AND name like CONCAT('%',#{merchantResource.name},'%')
+				</if>
+				<if test="merchantResource.icon != null">
+					 AND icon = #{merchantResource.icon}
+				</if>
+				<if test="merchantResource.url != null">
+					 AND url = #{merchantResource.url}
+				</if>
+				<if test="merchantResource.type != null">
+					 AND type = #{merchantResource.type}
+				</if>
+				<if test="merchantResource.parentId != null">
+					 AND parent_id = #{merchantResource.parentId}
+				</if>
+				<if test="merchantResource.treePath != null">
+					 AND tree_path = #{merchantResource.treePath}
+				</if>
+				<if test="merchantResource.isEnabled != null">
+					 AND is_enabled = #{merchantResource.isEnabled}
+				</if>
+				<if test="merchantResource.sn != null">
+					 AND sn = #{merchantResource.sn}
+				</if>
+				<if test="merchantResource.rightSn != null">
+					 AND right_sn = #{merchantResource.rightSn}
+				</if>
+				<if test="merchantResource.isParent != null">
+					 AND is_parent = #{merchantResource.isParent}
+				</if>
+				<if test="merchantResource.orderValue != null">
+					 AND order_value = #{merchantResource.orderValue}
+				</if>
+			</where>
+		</if>
+		 ORDER BY order_value ASC 
+	</select>
+
+
+</mapper>
+

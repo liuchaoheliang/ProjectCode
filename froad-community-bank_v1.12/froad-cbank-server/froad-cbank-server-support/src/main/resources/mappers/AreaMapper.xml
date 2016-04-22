@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.mysql.mapper.AreaMapper">
+
+	<resultMap type="Area" id="areaResultMap">
+		<id property="id" column="id" />
+		<result property="clientId" column="client_id" />
+		<result property="name" column="name" />
+		<result property="vagueLetter" column="vague_letter" />
+		<result property="treePath" column="tree_path" />
+		<result property="parentId" column="parent_id" />
+		<result property="treePathName" column="tree_path_name" />
+		<result property="isEnable" column="is_enable" />
+		<result property="areaCode" column="area_code" />
+	</resultMap>
+
+
+	<!-- 添加  Area -->
+	<insert id="addArea" parameterType="Area" useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[
+			INSERT INTO cb_area (
+				name,client_id,vague_letter,tree_path,parent_id,is_enable,tree_path_name,area_code
+			) VALUES (
+				#{name},#{clientId},#{vagueLetter},#{treePath},#{parentId},#{isEnable},#{treePathName},#{areaCode}
+			) 
+		]]>
+	</insert>
+
+
+	<!-- 批量添加  Area -->
+	<insert id="addAreaByBatch" parameterType="java.util.List">
+		INSERT INTO cb_area (
+			name,client_id,vague_letter,tree_path,parent_id,is_enable,tree_path_name,area_code
+		) VALUES 
+		<foreach collection="areaList" item="item" index="index" separator=",">
+			(#{name},#{clientId},#{vagueLetter},#{treePath},#{parentId},#{isEnable},#{treePathName},#{areaCode})
+		</foreach>
+	</insert>
+
+
+	<!-- 删除  Area -->
+	<update id="deleteArea" parameterType="Area">
+		UPDATE cb_area  SET is_enable = false where id = #{id}
+			
+	</update>
+
+
+	<!-- 修改  Area -->
+	<update id="updateArea" parameterType="Area">
+		UPDATE cb_area  
+			<set>
+				<if test="name != null">
+					 name = #{name},
+				</if>
+				<if test="clientId != null">
+					client_id = #{clientId},
+				</if>
+				<if test="vagueLetter != null">
+					 vague_letter = #{vagueLetter},
+				</if>
+				<if test="treePath != null">
+					 tree_path = #{treePath},
+				</if>
+				<if test="parentId != null">
+					 parent_id = #{parentId},
+				</if>
+				<if test="isEnable != null">
+					 is_enable = #{isEnable},
+				</if>
+				<if test="treePathName != null">
+					 tree_path_name = #{treePathName},
+				</if>
+				<if test="areaCode != null">
+					 area_code = #{areaCode},
+				</if>
+				
+			</set>
+			 where id = #{id}
+	</update>
+
+
+	<!-- 查询  Area -->
+	<select id="findAreaById" parameterType="java.lang.Long" resultMap="areaResultMap">
+		SELECT 
+            id,client_id,name,vague_letter,tree_path,parent_id,is_enable,tree_path_name,area_code
+        FROM cb_area 
+        WHERE 
+            id = #{id}
+
+	</select>
+	
+	<!-- 查询  Area -->
+	<select id="findAreaByAreaCode" parameterType="java.lang.String" resultMap="areaResultMap">
+		SELECT 
+            id,client_id,name,vague_letter,tree_path,parent_id,is_enable,tree_path_name,area_code
+        FROM cb_area 
+        WHERE 
+            area_code = #{areaCode}
+		LIMIT 1
+	</select>
+	
+	<!-- 根据clientId获取省级地区 -->
+	<select id="findProvinceAreaByClientId" parameterType="java.lang.String" resultMap="areaResultMap">
+		SELECT 
+            id,client_id,name,vague_letter,tree_path,parent_id,is_enable,tree_path_name,area_code
+        FROM cb_area 
+        WHERE 
+            client_id = #{clientId} and parent_id = 0
+		
+	</select>
+	
+	<!-- 查询  Area 子级 -->
+	<select id="findChildrenInfoById" parameterType="java.lang.Long" resultMap="areaResultMap">
+		SELECT 
+            id,client_id,name,vague_letter,tree_path,parent_id,is_enable,tree_path_name,area_code
+        FROM cb_area where parent_id = #{id} AND is_enable = 1
+	</select>
+	
+	<!-- 查询  Area 子级 -->
+	<select id="findChildrenInfoByIdAndClientId" resultMap="areaResultMap">
+		SELECT 
+            id,client_id,name,vague_letter,tree_path,parent_id,is_enable,tree_path_name,area_code
+        FROM cb_area where parent_id = #{id} AND client_id = #{clientId} AND is_enable = 1
+	</select>
+	
+	
+	<!-- 查询 area 父级 -->
+	<!-- <select id="findParentInfoById" parameterType="java.util.Map" resultMap="areaResultMap">
+		SELECT 
+            id,client_id,name,vague_letter,tree_path,parent_id,is_enable 
+        FROM cb_area 
+        <where>
+        	<if test="id != null">
+        		AND id = #{id}
+        	</if>
+        	<if test="parentId != null">
+        		AND id = #{parentId}
+        	</if>
+        	<if test="parentId == null">
+        		AND parent_id = null
+        	</if>
+        </where>
+	</select> -->
+	
+	
+	<!-- 查询  Area -->
+	<select id="findArea" parameterType="Area" resultMap="areaResultMap">
+		SELECT 
+            id,client_id,name,vague_letter,tree_path,parent_id,is_enable,tree_path_name,area_code
+        FROM cb_area 
+		<where>
+			<if test="id != null">
+				AND id = #{id}
+			</if>
+			<if test="clientId != null">
+				AND client_id = #{clientId}
+			</if>
+			<if test="name != null">
+				 AND name like CONCAT('%',#{name},'%' )
+			</if>
+			<if test="vagueLetter != null">
+				 AND vague_letter = #{vagueLetter}
+			</if>
+			<if test="treePath != null">
+				 AND tree_path = #{treePath}
+			</if>
+			<if test="parentId != null">
+				 AND parent_id = #{parentId}
+			</if>
+			<if test="isEnable != null">
+				 AND is_enable = #{isEnable}
+			</if>
+			<if test="treePathName != null">
+					AND tree_path_name = #{treePathName}
+			</if>
+			<if test="areaCode != null">
+				   AND area_code = #{areaCode}
+			</if>
+		</where>
+	</select>
+
+	<!-- 分页查询  Area -->
+	<select id="findByPage" parameterType="java.util.HashMap" resultMap="areaResultMap">
+		SELECT 
+            id,client_id,name,vague_letter,tree_path,parent_id,is_enable,tree_path_name,area_code
+        from cb_area 
+		<if test="area != null">
+			<where>
+				<if test="area.id != null">
+					AND id = #{area.id}
+				</if>
+				<if test="area.clientId != null">
+					AND client_id = #{area.clientId}
+				</if>
+				<if test="area.name != null">
+					 AND name like CONCAT('%',#{area.name},'%' )
+				</if>
+				<if test="area.vagueLetter != null">
+					 AND vague_letter = #{area.vagueLetter}
+				</if>
+				<if test="area.treePath != null">
+					 AND tree_path = #{area.treePath}
+				</if>
+				<if test="area.parentId != null">
+					 AND parent_id = #{area.parentId}
+				</if>
+				<if test="area.isEnable != null">
+					 AND is_enable = #{area.isEnable}
+				</if>
+				<if test="area.treePathName != null">
+					 AND tree_path_name = #{area.treePathName}
+				</if>
+				<if test="area.areaCode != null">
+					 AND area_code = #{area.areaCode}
+			</if>
+			</where>
+		</if>
+	</select>
+
+
+</mapper>
+

@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.mysql.mapper.AdPositionMapper">
+
+	<resultMap type="AdPosition" id="adPositionResultMap">
+		<id property="id" column="id" />
+		<result property="clientId" column="client_id" />
+		<result property="name" column="name" />
+		<result property="width" column="width" />
+		<result property="height" column="height" />
+		<result property="terminalType" column="terminal_type" />
+		<result property="positionStyle" column="position_style" />
+		<result property="positionPage" column="position_page" />
+		<result property="positionPoint" column="position_point" />
+		<result property="sizeLimit" column="size_limit" />
+		<result property="description" column="description" />
+		<result property="isEnable" column="is_enable" />
+	</resultMap>
+
+
+	<!-- 添加  AdPosition -->
+	<insert id="addAdPosition" parameterType="AdPosition" useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[
+			INSERT INTO cb_ad_position (
+				client_id,name,width,height,terminal_type,position_style,position_page,position_point,size_limit,description,is_enable
+			) VALUES (
+				#{clientId},#{name},#{width},#{height},#{terminalType},#{positionStyle},#{positionPage},#{positionPoint},#{sizeLimit},#{description},#{isEnable}
+			) 
+		]]>
+	</insert>
+
+
+	<!-- 批量添加  AdPosition -->
+	<insert id="addAdPositionByBatch" parameterType="java.util.List">
+		INSERT INTO cb_ad_position (
+			client_id,name,width,height,terminal_type,position_style,position_page,position_point,size_limit,description,is_enable
+		) VALUES 
+		<foreach collection="adPositionList" item="item" index="index" separator=",">
+			(#{clientId},#{name},#{width},#{height},#{terminalType},#{positionStyle},#{positionPage},#{positionPoint},#{sizeLimit},#{description},#{isEnable})
+		</foreach>
+	</insert>
+
+
+	<!-- 删除  AdPosition -->
+	<update id="deleteAdPosition" parameterType="AdPosition">
+		UPDATE cb_ad_position SET is_enable = false where id = #{id}
+	</update>
+
+
+	<!-- 修改  AdPosition -->
+	<update id="updateAdPosition" parameterType="AdPosition">
+		UPDATE cb_ad_position  
+			<set>
+				<if test="clientId != null">
+					 client_id = #{clientId},
+				</if>
+				 <if test="name != null">
+					  name = #{name},
+				</if>
+				 <if test="width != null">
+					 width = #{width},
+				</if>
+				 <if test="height != null">
+					 height = #{height},
+				</if>
+				<if test="terminalType != null">
+					terminal_type = #{terminalType},
+				</if>
+				 <if test="positionStyle != null">
+					position_style = #{positionStyle},
+				</if>
+				 <if test="positionPage != null">
+					 position_page = #{positionPage},
+				</if>
+				 <if test="positionPoint != null">
+					position_point = #{positionPoint},
+				</if>
+				<if test="sizeLimit != null">
+					size_limit = #{sizeLimit},
+				</if>
+				 <if test="description != null">
+					 description = #{description},
+				</if>
+				 <if test="isEnable != null">
+					is_enable = #{isEnable},
+				</if>	
+			</set>
+			 where id = #{id}
+	</update>
+
+
+	<!-- 查询  AdPosition -->
+	<select id="findAdPositionById" parameterType="java.lang.Long" resultMap="adPositionResultMap">
+		SELECT 
+            id,client_id,name,width,height,terminal_type,position_style,position_page,position_point,size_limit,description,is_enable 
+        FROM cb_ad_position 
+        WHERE 
+            id = #{id}
+
+	</select>
+
+	<!-- 查询  AdPosition -->
+	<select id="findAdPosition" parameterType="AdPosition" resultMap="adPositionResultMap">
+		SELECT 
+            id,client_id,name,width,height,terminal_type,position_style,position_page,position_point,size_limit,description,is_enable 
+        FROM cb_ad_position 
+		<where>
+			<if test="id != null">
+				 AND id = #{id}
+			</if>
+			<if test="clientId != null">
+				 AND client_id = #{clientId}
+			</if>
+			<if test="name != null">
+				 AND name like CONCAT('%',#{name},'%' )
+			</if>
+			<if test="width != null">
+				 AND width = #{width}
+			</if>
+			<if test="height != null">
+				 AND height = #{height}
+			</if>
+			<if test="terminalType != null">
+				 AND terminal_type = #{terminalType}
+			</if>
+			<if test="positionStyle != null">
+				 AND position_style = #{positionStyle}
+			</if>
+			<if test="positionPage != null">
+				 AND position_page = #{positionPage}
+			</if>
+			<if test="positionPoint != null">
+				 AND position_point = #{positionPoint}
+			</if>
+			<if test="sizeLimit != null">
+				 AND size_limit = #{sizeLimit}
+			</if>
+			<if test="description != null">
+				 AND description = #{description}
+			</if>
+			<if test="isEnable != null">
+				 AND is_enable = #{isEnable}
+			</if>
+		</where>
+		 ORDER BY id DESC 
+	</select>
+
+	<!-- 分页查询  AdPosition -->
+	<select id="findByPage" parameterType="java.util.HashMap" resultMap="adPositionResultMap">
+		SELECT 
+            id,client_id,name,width,height,terminal_type,position_style,position_page,position_point,size_limit,description,is_enable 
+        from cb_ad_position 
+		<if test="adPosition != null">
+			<where>
+				<if test="adPosition.id != null">
+					 AND id = #{adPosition.id}
+				</if>
+				<if test="adPosition.clientId != null">
+					 AND client_id = #{adPosition.clientId}
+				</if>
+				<if test="adPosition.name != null">
+					 AND name like CONCAT('%',#{adPosition.name},'%' )
+				</if>
+				<if test="adPosition.width != null">
+					 AND width = #{adPosition.width}
+				</if>
+				<if test="adPosition.height != null">
+					 AND height = #{adPosition.height}
+				</if>
+				<if test="adPosition.terminalType != null">
+				 AND terminal_type = #{adPosition.terminalType}
+				</if>
+				<if test="adPosition.positionStyle != null">
+					 AND position_style = #{adPosition.positionStyle}
+				</if>
+				<if test="adPosition.positionPage != null">
+					 AND position_page = #{adPosition.positionPage}
+				</if>
+				<if test="adPosition.positionPoint != null">
+					 AND position_point = #{adPosition.positionPoint}
+				</if>
+				<if test="adPosition.sizeLimit != null">
+					 AND size_limit = #{adPosition.sizeLimit}
+				</if>
+				<if test="adPosition.description != null">
+					 AND description = #{adPosition.description}
+				</if>
+				<if test="adPosition.isEnable != null">
+					 AND is_enable = #{adPosition.isEnable}
+				</if>
+			</where>
+		</if>
+		 ORDER BY id DESC 
+	</select>
+
+
+</mapper>
+

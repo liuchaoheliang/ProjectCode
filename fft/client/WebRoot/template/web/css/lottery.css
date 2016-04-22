@@ -1,0 +1,86 @@
+/*
+* Author:
+* pengling@f-road.com.cn 
+*/
+/*内容详细介绍*/
+.lottery{width:758px; border:1px solid #b7b7b7; overflow:hidden; padding-bottom:10px; background:#FFF;}
+
+.lottery .win{width:94%; border:1px solid #F30; background:#fdeef4; padding:10px; margin:10px auto; clear:both; overflow:hidden; font-family:"微软雅黑",Arial, Helvetica, sans-serif;}
+
+.lottery .win .leftball{ float:left; width:200px; margin-left:20px; display:inline;}
+
+.lottery .win .rightPeriods{ float:left; font-size:12px;}
+
+.lottery .win .rightPeriods dt{ font-weight:bold; color:#F00; height:30px; margin-top:10px; font-size:14px;}
+
+.lottery .win .rightPeriods dd{ color:#F60; font-weight:bold; font-size:12px; line-height:30px;}
+
+.lottery .win .thirdright{ float:left; margin-left:20px; color:#F03; width:200px; text-align:center; margin-top:20px;}
+
+.lottery .win .thirdright p{ line-height:50px;  font-weight:bold; font-size:25px;}
+
+.lottery .redbox{width:440px;  border:1px solid #f77909; background:#fce1c9; float:left; margin-left:10px; display:inline; padding:5px 0 10px 10px;}
+
+.lottery #redbox a{ color:#000; text-decoration:none;}
+
+.lottery #redbox li{ background:url(../images/ball.png); background-position:0 0; width:35px; height:35px; font:18px/35px Arial, Helvetica, sans-serif; text-align:center; float:left; margin:5px 2px 5px 2px; cursor:pointer;}
+
+.lottery #redbox li.redclick{background:url(../images/ball.png); background-position:0 -35px; color:#FFF; font-weight:bold;}
+
+.select{ font:bold 14px/24px "微软雅黑"; padding-top:10px; clear:both; margin-left:10px;}
+
+.select .wenzi{ float:left; color:#F00; font-size:12px;}
+
+.select img{  margin-left:5px; display:inline;}
+
+.select a{ font:normal 12px/26px "宋体"; color:#090; float:left; text-decoration:none; margin-left:15px; display:inline;}
+
+.select a:hover{ color:#F30; text-decoration:underline;}
+
+.select span{ margin-left:10px; float:left; display:inline; font-size:14px;}
+
+.select b{ margin:0px 2px; color:#F00;}
+
+.lottery .bluebox{width:263px; border:1px solid #73b0fc; background:#e8ecfb; float:left;margin-left:10px; display:inline; padding:5px 0 10px 10px;}
+
+.lottery .bluebox a{ color:#000; text-decoration:none;}
+
+.lottery .bluebox li{ background:url(../images/ball.png); background-position:0 0; width:35px; height:35px; font:18px/35px Arial, Helvetica, sans-serif; text-align:center; float:left; margin:5px 4px 5px 3px; }
+
+.lottery .bluebox li.blueclick{background:url(../images/ball.png); background-position:0 -72px; color:#FFF; font-weight:bold;}
+
+.lottery  a .touzhu{width:182px; height:58px; margin:20px auto 5px; background:url(../images/addtouzhu.gif); cursor:pointer;}
+
+.lottery  a:hover .touzhu{background:url(../images/addtouzhuhover.gif)}
+
+.lottery .areawidth{width:735px; height:100px; margin:0 auto; clear:both; border:1px solid #F30; font: bold 14px/24px "微软雅黑"}
+
+.lottery .areawidth .widthball{ text-align:center; line-height:100px; font-size:35px; color:#666; font-family:"微软雅黑"; color:#009;}
+
+.lottery .areawidth .redFont{ float:left; margin-left:60px; display:inline;}
+
+.lottery .areawidth .blueFont{ float:left; display:inline;}
+
+.lottery .areawidth #choseRedBall{ float:left; margin-top:30px; *margin-top:32px; display:inline;}
+
+.lottery .areawidth #blueB{ float:left; margin-top:30px; *margin-top:32px; display:inline;}
+
+.lottery .areawidth #ball{ float:right; display:inline; margin-right:50px; margin-top:40px;}
+
+.lottery .areawidth .widthball span{ margin-left:20px; font-family:"微软雅黑";}
+
+.lottery .areawidth .widthball u{ color:#F00; text-decoration:none; font-family:"微软雅黑";}
+
+.lottery .areawidth .widthball a{ font:12px/20px "宋体"; margin-left:20px; display:inline; color:#777;}
+
+.lottery .chose{width:300px; margin:20px auto 0; font:12px/24px "宋体";}
+
+.inputRed{ height:42px; width:330px; border:0; font: bold 39px/39px Arial; color:#F00;}
+
+.inputBlue{height:42px; width:50px; border:0; font: bold 39px/39px Arial; color:#00F;}
+
+
+
+
+
+

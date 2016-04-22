@@ -1,0 +1,415 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.fft.persistent.api.TransStatisticMapper">
+
+	<resultMap type="TransStatistic" id="baseStatisticResultMap">
+		<result property="memberCode" column="member_code" />
+		<result property="orderTime" column="order_time" />
+		<result property="totalPrice" column="total_price" />
+		<result property="product.id" column="productId" />
+		<result property="product.name" column="productName" />
+		<result property="product.isEnableGroup" column="is_enable_group" />
+		<result property="product.isEnablePresell" column="is_enable_presell" />
+		<result property="product.isEnableFamous" column="is_enable_famous" />
+		<result property="product.specialProductType" column="special_product_type" typeHandler="com.froad.db.extend.EnumTypeHandler" />
+		<result property="product.bankPoints" column="bank_points" />
+		<result property="product.price" column="price" />
+		<result property="merchant.name" column="merchantName" />
+		<result property="merchant.id" column="merchantId" />
+		<result property="isConsume" column="is_consume" />
+		<result property="bankPointsAmount" column="bankPointsAmount" />
+		<result property="fftPointsAmount" column="fftPointsAmount" />
+		<result property="filmCardPayAmount" column="filmCardAmount" />
+		<result property="alipayAmount" column="alipayAmount" />
+		<result property="internetBankPayAmount" column="internetBankAmount" />
+		<result property="easyPayAmount" column="easyPayAmount" />
+		<result property="posPayAmount" column="posPayAmount" />
+		<result property="timelyPayAmount" column="timelypayAmount" />
+		<result property="quantity" column="quantity" />
+		<result property="transType" column="type" typeHandler="com.froad.db.extend.EnumTypeHandler" />
+	</resultMap>
+
+	<resultMap id="outletStatisticResultMap" type="OutletStatistic">
+		<result property="deliveryId" column="deliveryid" />
+		<result property="deliveryName" column="deliveryname" />
+		<result property="outletId" column="outletid" />
+		<result property="outletName" column="outletname" />
+		<result property="price" column="price" />
+		<result property="quantity" column="quantity" />
+		<result property="orderNum" column="ordernum" />
+	</resultMap>
+
+	<!--根据分店统计商品销售情况，故写在分店实体中 -->
+	<select id="selectOutletStatistic" resultMap="outletStatisticResultMap" parameterType="java.util.Map">
+
+		SELECT d.* ,o.name AS outletname FROM
+		(SELECT c.*, od.merchant_outlet_id AS outletid FROM
+		(SELECT b.price, b.quantity, pd.id AS deliveryid ,pd.name AS deliveryname, b.ordernum FROM fft_presell_delivery pd LEFT JOIN
+		(SELECT SUM(a.quantity) AS quantity, SUM(a.price) AS price,COUNT(a.quantity) AS ordernum, t.delivery_id FROM
+		(SELECT de.trans_id,de.quantity,de.price FROM fft_trans_details de
+		<!-- 添加统计时间范围 -->
+        	<![CDATA[
+        		where de.create_time >= #{startTime}  AND de.create_time<=  #{endTime}
+        	]]>
+		)a
+		LEFT JOIN fft_trans t ON a.trans_id = t.id WHERE
+		t.state ='30' AND t.pay_state = '30' AND t.type=#{transType,typeHandler=com.froad.db.extend.EnumTypeHandler}
+		and t.id in ( select tst.trans_id from fft_trans_security_ticket tst where tst.is_consume ='1')
+		GROUP BY t.delivery_id )b ON b.delivery_id = pd.id WHERE pd.client_id = #{clientId} AND pd.data_state = '30' )c
+		LEFT JOIN fft_outlet_presell_delivery od ON c.deliveryId = od.presell_delivery_id )d
+		LEFT JOIN fft_merchant_outlet o ON d.outletid =o.id WHERE o.merchant_id = #{merchantId}
+		ORDER BY d.price DESC
+	</select>
+
+	<!--根据分店统计商品销售情况分页 -->
+	<select id="selectOutletStatisticByPage" parameterType="com.froad.fft.persistent.bean.page.Page" resultMap="outletStatisticResultMap">
+
+		SELECT d.* ,o.name AS outletname FROM
+		(SELECT c.*, od.merchant_outlet_id AS outletid FROM
+		(SELECT b.price, b.quantity, pd.id AS deliveryid ,pd.name AS deliveryname, b.ordernum FROM fft_presell_delivery pd LEFT JOIN
+		(SELECT SUM(a.quantity) AS quantity, SUM(a.price) AS price,COUNT(a.quantity) AS ordernum, t.delivery_id FROM
+		(SELECT de.trans_id,de.quantity,de.price FROM fft_trans_details de
+		<!-- 添加统计时间范围 -->
+        	<![CDATA[
+        		where de.create_time >= #{pageFilter.filterEntity.beginTime}  AND de.create_time<=  #{pageFilter.filterEntity.endTime}
+        	]]>
+		)a
+		LEFT JOIN fft_trans t ON a.trans_id = t.id WHERE
+		t.state ='30' AND t.pay_state = '30'
+		<if test="pageFilter.filterEntity.transTypes != null">
+			AND t.type in
+			<foreach collection="pageFilter.filterEntity.transTypes" item="item" open="(" close=")" separator=",">
+				#{item,typeHandler=com.froad.db.extend.EnumTypeHandler}
+			</foreach>
+		</if>
+		and t.id in ( select tst.trans_id from fft_trans_security_ticket tst where tst.is_consume ='1')
+		GROUP BY t.delivery_id )b ON b.delivery_id = pd.id WHERE pd.data_state = '30'
+		<if test="pageFilter.filterEntity.clientId!=null">
+			AND pd.client_id = #{pageFilter.filterEntity.clientId}
+		</if>
+		<if test="pageFilter.filterEntity.pdids!=null">
+			AND pd.id in
+			<foreach collection="pageFilter.filterEntity.pdids" item="item" open="(" close=")" separator=",">
+				#{item}
+			</foreach>
+		</if>
+		)c
+		LEFT JOIN fft_outlet_presell_delivery od ON c.deliveryId = od.presell_delivery_id )d
+		LEFT JOIN fft_merchant_outlet o ON d.outletid =o.id WHERE 1=1
+		<if test="pageFilter.filterEntity.merchantId!=null">
+			and o.merchant_id = #{pageFilter.filterEntity.merchantId}
+		</if>
+		ORDER BY d.price DESC,d.quantity ,d.deliveryname
+	</select>
+	<select id="selectOutletStatisticByPageCount" parameterType="com.froad.fft.persistent.bean.page.Page" resultType="java.lang.Integer">
+		SELECT count(1) FROM
+		(SELECT c.*, od.merchant_outlet_id AS outletid FROM
+		(SELECT b.price, b.quantity, pd.id AS deliveryid ,pd.name AS deliveryname, b.ordernum FROM fft_presell_delivery pd LEFT JOIN
+		(SELECT SUM(a.quantity) AS quantity, SUM(a.price) AS price,COUNT(a.quantity) AS ordernum, t.delivery_id FROM
+		(SELECT de.trans_id,de.quantity,de.price FROM fft_trans_details de
+		<!-- 添加统计时间范围 -->
+        	<![CDATA[
+        		where de.create_time >= #{pageFilter.filterEntity.beginTime}  AND de.create_time<=  #{pageFilter.filterEntity.endTime}
+        	]]>
+		)a
+		LEFT JOIN fft_trans t ON a.trans_id = t.id WHERE
+		t.state ='30' AND t.pay_state = '30'
+		<if test="pageFilter.filterEntity.transTypes!=null">
+			AND t.type in
+			<foreach collection="pageFilter.filterEntity.transTypes" item="item" open="(" close=")" separator=",">
+				#{item,typeHandler=com.froad.db.extend.EnumTypeHandler}
+			</foreach>
+		</if>
+		and t.id in ( select tst.trans_id from fft_trans_security_ticket tst where tst.is_consume ='1')
+		GROUP BY t.delivery_id )b ON b.delivery_id = pd.id WHERE pd.data_state = '30'
+		<if test="pageFilter.filterEntity.clientId!=null">
+			AND pd.client_id = #{pageFilter.filterEntity.clientId}
+		</if>
+		<if test="pageFilter.filterEntity.pdids!=null">
+			AND pd.id in
+			<foreach collection="pageFilter.filterEntity.pdids" item="item" open="(" close=")" separator=",">
+				#{item}
+			</foreach>
+		</if>
+		)c
+		LEFT JOIN fft_outlet_presell_delivery od ON c.deliveryId = od.presell_delivery_id )d
+		LEFT JOIN fft_merchant_outlet o ON d.outletid =o.id WHERE 1=1
+		<if test="pageFilter.filterEntity.merchantId!=null">
+			and o.merchant_id = #{pageFilter.filterEntity.merchantId}
+		</if>
+		ORDER BY d.price DESC
+	</select>
+
+	<!--基本交易价格排行 -->
+	<select id="selectTransStatistic" resultMap="baseStatisticResultMap" parameterType="java.util.Map">
+		SELECT SUM(de.price) AS total_price ,tr.member_code , MIN( de.create_time ) AS order_time FROM fft_trans_details de LEFT JOIN fft_trans tr ON de.trans_id = tr.id WHERE
+		1=1 
+	    <![CDATA[
+	         AND de.create_time >= #{startTime}  AND de.create_time<=  #{endTime}
+	       	]]>
+		<if test="productId != null">
+			AND de.product_id = #{productId}
+		</if>
+		<if test="transType != null">
+			AND tr.type = #{transType,typeHandler=com.froad.db.extend.EnumTypeHandler}
+		</if>
+		AND tr.client_id = #{clientId} AND tr.pay_state = '30' AND (tr.state='20' OR tr.state = '30') GROUP BY tr.member_code
+
+		<if test="orderby != null and orderby==0 ">
+			ORDER BY total_price DESC,order_time ASC
+		</if>
+		<if test="orderby != null and orderby==1">
+			ORDER BY order_time ASC
+		</if>
+	</select>
+
+	<!-- 查询门店总销售额 -->
+	<select id="selectOutletTotalSales" resultType="java.lang.String" parameterType="java.util.Map">
+		select sum(td.price) from fft_outlet_presell_delivery opd
+		INNER JOIN fft_trans trans
+		on opd.presell_delivery_id= trans.delivery_id
+		INNER JOIN fft_trans_details td
+		on trans.id = td.trans_id
+		<!-- 门店Id -->
+		where opd.merchant_outlet_id=#{id}
+		<!-- 添加统计时间范围 -->
+        	<![CDATA[
+        		and td.create_time >= #{startTime}  AND td.create_time<=  #{endTime}
+        	]]>
+		<!-- 交易状态：(交易成功,交易处理中)支付状态：已支付，交易类型：? -->
+		and (trans.state ='30' or trans.state='20') AND trans.pay_state = '30' AND trans.type=#{transType,typeHandler=com.froad.db.extend.EnumTypeHandler}
+	</select>
+
+	<!-- 查询总销售量 -->
+	<select id="selectTotalSales" resultType="java.util.HashMap" parameterType="java.util.Map">
+		SELECT p.id AS pid, a.product_id AS productId, IFNULL(a.quantity, 0)+'' AS quantity, a.product_name AS productName
+			FROM fft_presell_delivery p LEFT JOIN (SELECT d.product_id, t.delivery_id, SUM(d.quantity) AS quantity, MAX(d.product_name) AS product_name
+				FROM fft_trans_details d LEFT JOIN fft_trans t ON t.id = d.trans_id
+				WHERE (t.state = '30' or t.state = '20') 
+					AND t.pay_state = '30'
+					<![CDATA[ 
+					AND d.create_time >= #{beginTime}  
+					AND d.create_time <= #{endTime}
+					]]>
+				GROUP BY d.product_id, t.delivery_id
+				) a ON a.delivery_id = p.id
+		<if test="pids != null">
+			where p.id in	
+			<foreach collection="pids" item="item" open="(" close=")" separator=",">
+				#{item}
+			</foreach>
+		</if>	
+	</select>
+	
+	<select id="selectTranStatisticByPage" resultMap="baseStatisticResultMap" parameterType="com.froad.fft.persistent.bean.page.Page">
+				SELECT p.id as productId, 
+				       p.`name` as productName,
+					   p.is_enable_group,
+					   p.is_enable_presell,
+					   p.is_enable_famous,
+					   p.special_product_type,
+				       p.bank_points, 
+				       p.price, 
+				       m.`name` as merchantName, 
+				       m.id as merchantId, 
+				       t.*  
+			FROM   fft_product p 
+			       LEFT JOIN fft_merchant m 
+			              ON p.merchant_id = m.id 
+			       LEFT JOIN (SELECT t.product_id, 
+			                         t.is_consume,
+			                         t.type,
+			                         Sum(t.bank_points)  AS bankPointsAmount, 
+			                         Sum(t.fft_points)   AS fftPointsAmount, 
+			                         Sum(t.filmcard)     AS filmCardAmount, 
+			                         Sum(t.alipay)       AS alipayAmount, 
+			                         Sum(t.internetbank) AS internetBankAmount, 
+			                         Sum(t.easypay)      AS easyPayAmount, 
+			                         Sum(t.pos)          AS posPayAmount, 
+			                         Sum(t.timelypay)    AS timelypayAmount,
+									 Sum(t.quantity)     AS quantity
+			                  FROM   (SELECT t.id, 
+			                  				 t.type,
+			                                 bank_points,
+			                                 fft_points, 
+			                                 real_price, 
+			                                 CASE 
+			                                   WHEN pay_channel = '20' THEN real_price 
+			                                   ELSE 0 
+			                                 end filmCard, 
+			                                 CASE 
+			                                   WHEN pay_channel = '53' THEN real_price 
+			                                   ELSE 0 
+			                                 end alipay, 
+			                                 CASE 
+			                                   WHEN pay_channel = '50' THEN real_price 
+			                                   ELSE 0 
+			                                 end internetBank, 
+			                                 CASE 
+			                                   WHEN pay_channel = '51' THEN real_price 
+			                                   ELSE 0 
+			                                 end easyPay, 
+			                                 CASE 
+			                                   WHEN pay_channel = '54' THEN real_price 
+			                                   ELSE 0 
+			                                 end pos, 
+			                                 CASE 
+			                                   WHEN pay_channel = '55' THEN real_price 
+			                                   ELSE 0 
+			                                 end timelypay,
+			                                 delivery_id, 
+			                                 outlet_id, 
+			                                 d.product_id, 
+			                                 d.quantity, 
+			                                  0 is_consume 
+			                          FROM   fft_trans t 
+			                                 LEFT JOIN fft_trans_details d 
+			                                        ON d.trans_id = t.id 
+			                                 LEFT JOIN fft_presell_delivery p
+			                                 		ON p.id = t.delivery_id
+			                          WHERE  pay_state = 30 
+			                                 AND ( t.state = 30 
+			                                        OR t.state = 20 ) 
+		<if test="pageFilter.filterEntity.startTime !=null">
+									<![CDATA[AND t.create_time >= #{pageFilter.filterEntity.startTime}]]> 
+		</if>			                                        
+			                                        
+		<if test="pageFilter.filterEntity.endTime !=null">	                                 
+			                        <![CDATA[AND t.create_time <= #{pageFilter.filterEntity.endTime}]]> 
+		</if>
+		<if test="pageFilter.filterEntity.deliveryName !=null">
+											 AND p.name  like CONCAT('%',#{pageFilter.filterEntity.deliveryName},'%' )
+		</if>
+		<if test="pageFilter.filterEntity.transType !=null">
+											 AND t.type = #{pageFilter.filterEntity.transType,typeHandler=com.froad.db.extend.EnumTypeHandler}
+		</if>
+		<if test="pageFilter.filterEntity.deliveryIds !=null">
+											 AND t.delivery_id in 
+			<foreach collection="pageFilter.filterEntity.deliveryIds" item="item" open="(" close=")" separator=",">
+				#{item}
+			</foreach>
+											 
+		</if>
+			                        ) t 
+			                  GROUP  BY t.product_id, t.is_consume, t.type)t 
+			              ON p.id = t.product_id 
+			WHERE  t.product_id IS NOT NULL
+		<if test="pageFilter.filterEntity.product !=null"> 	
+			<if test="pageFilter.filterEntity.product.name !=null">
+				   AND p.name like CONCAT('%',#{pageFilter.filterEntity.product.name},'%' )
+			</if>
+			<if test="pageFilter.filterEntity.product.isEnableGroup !=null">
+				   AND p.is_enable_group = #{pageFilter.filterEntity.product.isEnableGroup}  
+			</if>
+			<if test="pageFilter.filterEntity.product.isEnablePresell !=null">
+				   AND p.is_enable_presell = #{pageFilter.filterEntity.product.isEnablePresell}  
+			</if>
+			<if test="pageFilter.filterEntity.product.isEnableFamous !=null">
+				   AND p.is_enable_famous = #{pageFilter.filterEntity.product.isEnableFamous}  
+			</if>
+			<if test="pageFilter.filterEntity.product.specialProductType !=null">
+				   AND p.special_product_type = #{pageFilter.filterEntity.product.specialProductType,typeHandler=com.froad.db.extend.EnumTypeHandler}  
+			</if>
+		</if>
+		<if test="pageFilter.filterEntity.merchant !=null"> 
+			<if test="pageFilter.filterEntity.merchant.id !=null">
+				   AND m.id = #{pageFilter.filterEntity.merchant.id}  
+			</if>
+			<if test="pageFilter.filterEntity.merchant.name !=null">
+				   AND m.name like CONCAT('%',#{pageFilter.filterEntity.merchant.name},'%' )
+			</if>
+			<if test="pageFilter.filterEntity.merchant.interbankAgency!= null and pageFilter.filterEntity.merchant.interbankAgency!=''">
+                and m.interbank_agency = #{pageFilter.filterEntity.merchant.interbankAgency}
+            </if>
+             <if test="pageFilter.filterEntity.merchant.travelAgency!= null and pageFilter.filterEntity.merchant.travelAgency!=''">
+                and m.travel_agency = #{pageFilter.filterEntity.merchant.travelAgency}
+            </if>
+             <if test="pageFilter.filterEntity.merchant.latticPoint!= null and pageFilter.filterEntity.merchant.latticPoint!=''">
+                and m.lattice_point = #{pageFilter.filterEntity.merchant.latticPoint}
+            </if>		
+		</if>
+		<if test="pageFilter.filterEntity.isConsume !=null">
+				   AND t.is_consume = #{pageFilter.filterEntity.isConsume}
+		</if>
+	</select>
+	
+	
+	
+	<select id="selectTranStatisticByPageCount" resultType="java.lang.Integer" parameterType="com.froad.fft.persistent.bean.page.Page">
+				SELECT count(0) 
+			FROM   fft_product p 
+			       LEFT JOIN fft_merchant m 
+			              ON p.merchant_id = m.id 
+			       LEFT JOIN (SELECT t.product_id
+			                  FROM   (SELECT t.id, 
+			                  				 d.product_id ,
+			                  				 t.type,
+			                                 0 is_consume 
+			                          FROM   fft_trans t 
+			                                 LEFT JOIN fft_trans_details d 
+			                                        ON d.trans_id = t.id 
+			                                 LEFT JOIN fft_presell_delivery p
+			                                 		ON p.id = t.delivery_id 
+			                          WHERE  pay_state = 30 
+			                                 AND ( t.state = 30 
+			                                        OR t.state = 20 ) 
+		<if test="pageFilter.filterEntity.startTime !=null">
+									<![CDATA[AND t.create_time >= #{pageFilter.filterEntity.startTime}]]> 
+		</if>			                                        
+			                                        
+		<if test="pageFilter.filterEntity.endTime !=null">	                                 
+			                        <![CDATA[AND t.create_time <= #{pageFilter.filterEntity.endTime}]]> 
+		</if>
+		<if test="pageFilter.filterEntity.deliveryName !=null">
+											 AND p.name  like CONCAT('%',#{pageFilter.filterEntity.deliveryName},'%' )
+		</if>
+		<if test="pageFilter.filterEntity.transType !=null">
+											 AND t.type = #{pageFilter.filterEntity.transType,typeHandler=com.froad.db.extend.EnumTypeHandler}
+		</if>
+		<if test="pageFilter.filterEntity.deliveryIds !=null">
+											 AND t.delivery_id in 
+			<foreach collection="pageFilter.filterEntity.deliveryIds" item="item" open="(" close=")" separator=",">
+				#{item}
+			</foreach>
+		</if>
+			                        ) t 
+			                  GROUP  BY t.product_id, t.is_consume, t.type)t 
+			              ON p.id = t.product_id 
+			WHERE  t.product_id IS NOT NULL 	
+		<if test="pageFilter.filterEntity.product !=null"> 	
+			<if test="pageFilter.filterEntity.product.name !=null">
+				   AND p.name like CONCAT('%',#{pageFilter.filterEntity.product.name},'%' )
+			</if>
+			<if test="pageFilter.filterEntity.product.isEnableGroup !=null">
+				   AND p.is_enable_group = #{pageFilter.filterEntity.product.isEnableGroup}  
+			</if>
+			<if test="pageFilter.filterEntity.product.isEnablePresell !=null">
+				   AND p.is_enable_presell = #{pageFilter.filterEntity.product.isEnablePresell}  
+			</if>
+			<if test="pageFilter.filterEntity.product.isEnableFamous !=null">
+				   AND p.is_enable_famous = #{pageFilter.filterEntity.product.isEnableFamous}  
+			</if>
+			<if test="pageFilter.filterEntity.product.specialProductType !=null">
+				   AND p.special_product_type = #{pageFilter.filterEntity.product.specialProductType,typeHandler=com.froad.db.extend.EnumTypeHandler}  
+			</if>
+		</if>
+		<if test="pageFilter.filterEntity.merchant !=null"> 
+			<if test="pageFilter.filterEntity.merchant.id !=null">
+				   AND m.id = #{pageFilter.filterEntity.merchant.id}  
+			</if>
+			<if test="pageFilter.filterEntity.merchant.name !=null">
+				   AND m.name like CONCAT('%',#{pageFilter.filterEntity.merchant.name},'%' )
+			</if>
+            <if test="pageFilter.filterEntity.merchant.interbankAgency!= null and pageFilter.filterEntity.merchant.interbankAgency!=''">
+                and m.interbank_agency = #{pageFilter.filterEntity.merchant.interbankAgency}
+            </if>
+             <if test="pageFilter.filterEntity.merchant.travelAgency!= null and pageFilter.filterEntity.merchant.travelAgency!=''">
+                and m.travel_agency = #{pageFilter.filterEntity.merchant.travelAgency}
+            </if>
+             <if test="pageFilter.filterEntity.merchant.latticPoint!= null and pageFilter.filterEntity.merchant.latticPoint!=''">
+                and m.lattice_point = #{pageFilter.filterEntity.merchant.latticPoint}
+            </if>	
+		</if>
+	</select>
+</mapper>

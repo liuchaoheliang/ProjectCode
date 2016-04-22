@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="searches">
+
+	<typeAlias alias="searches" type="com.froad.CB.po.searches.Searches" />
+	
+	<resultMap class="searches" id="searchesResult">
+		<result property="id" column="id" jdbcType="java.lang.Integer"/>
+		<result property="mPreferentialType" column="m_preferential_type"/>
+		<result property="tagClassifyAId" column="tag_classify_a_id"/>
+		<result property="tagDistrictAId" column="tag_district_a_id"/>
+		<result property="tagClassifyBId" column="tag_classify_b_id"/>
+		<result property="tagDistrictBId" column="tag_district_b_id"/>
+		<result property="searchKeywords" column="search_keywords"/>
+		<result property="searchCount" column="search_count"/>
+		<result property="state" column="state"/>
+		<result property="createTime" column="create_time"/>
+		<result property="updateTime" column="update_time"/>
+		<result property="remark" column="remark"/>
+	</resultMap>
+		
+	<!-- 增加热门搜索 -->	
+	<insert id="addSearches" parameterClass="searches">
+		insert into searches
+		(id,m_preferential_type,tag_classify_a_id,tag_district_a_id,tag_classify_b_id,tag_district_b_id,search_keywords,search_count,state,create_time,update_time,remark) 
+		values
+		(#id:INT#,#mPreferentialType#,#tagClassifyAId#,#tagDistrictAId#,#tagClassifyBId#,#tagDistrictBId#,#searchKeywords#,#searchCount#,#state#,DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),#remark#)
+		<selectKey keyProperty="id" resultClass="java.lang.Integer">
+			select last_insert_id() as id
+		</selectKey>
+	</insert>
+	
+	<!-- 根据ID 查找热门搜索 -->
+	<select id="getSearchesById" parameterClass="java.lang.String" resultMap="searchesResult">
+		select * from searches where id=#id#
+	</select>
+		
+	
+	 <!-- 分页 查询热门搜索  -->
+	<select id="getSearchesListByPager"  parameterClass="java.util.HashMap" resultMap="searchesResult">
+		<![CDATA[ 
+			SELECT * 
+			FROM searches
+			where state='30'
+		]]>
+         <dynamic>
+         		<isPropertyAvailable property ="property" prepend="AND">
+         			$property$=#keyword#
+         		</isPropertyAvailable>
+         </dynamic>
+       
+        <![CDATA[
+         order by $orderBy$ $orderType$ 
+         limit #startRow#,#pageSize#   
+         ]]>
+	</select>
+	<select id="getSearchesListByPagerCount"  parameterClass="java.util.HashMap" resultClass="java.lang.Integer">
+		<![CDATA[ SELECT count(*) FROM searches where state='30']]>
+        <dynamic>
+      		<isPropertyAvailable property ="property" prepend="AND">
+      			$property$=#keyword#
+      		</isPropertyAvailable>
+        </dynamic>
+	</select>
+	<!-- 分页 查询热门搜索 -->
+	
+	<!-- 查找所有热门搜索 -->
+	<select id="FIND-ALL-SEARCH-HISTORY" resultMap="searchesResult">
+		select * from searches
+	</select>
+	
+	
+	<!-- 查找分类1的tagvalue值 -->
+	<select id="getSearchesTagClassifyAValueByTagId" parameterClass="java.util.HashMap" resultClass="searches">
+					select a.id as id,
+						a.tag_value as tagClassifyAValue					
+					from tag_classify_a a
+					where a.id = #tagClassifyAId# 
+	</select>
+	<!-- 查找商圈2的tagvalue值 -->
+	<select id="getSearchesTagDistrictBValueByTagId" parameterClass="java.util.HashMap" resultClass="searches">
+					select a.id as id,
+						a.tag_value as tagDistrictBValue					
+					from tag_district_b a
+					where a.id = #tagDistrictBId#
+	</select>
+	
+	<!-- 查找相同热门搜索 -->
+	<select id="FIND-SAME-SEARCH-HISTORY" parameterClass="searches" resultMap="searchesResult">
+		select * from searches b
+		<dynamic prepend="WHERE">
+             <isNotEmpty prepend=" AND " property="mPreferentialType">
+               <![CDATA[  b.m_preferential_type = #mPreferentialType# ]]>
+		     </isNotEmpty> 
+		     <isNotEmpty prepend=" AND " property="tagClassifyAId">
+		         <![CDATA[  b.tag_classify_a_id = #tagClassifyAId# ]]>
+		     </isNotEmpty> 
+		     <isNotEmpty prepend=" AND " property="tagDistrictAId">
+		         <![CDATA[  b.tag_district_a_id = #tagDistrictAId# ]]>
+		     </isNotEmpty> 
+		     <isNotEmpty prepend=" AND " property="tagClassifyBId">
+		         <![CDATA[  b.tag_classify_b_id = #tagClassifyBId# ]]>
+		     </isNotEmpty> 
+		     <isNotEmpty prepend=" AND " property="tagDistrictBId">
+		         <![CDATA[  b.tag_district_b_id = #tagDistrictBId# ]]>
+		     </isNotEmpty> 
+		     <isNotEmpty prepend=" AND " property="searchKeywords">
+	         	<![CDATA[  b.search_keywords = #searchKeywords# ]]>
+	         </isNotEmpty> 
+	     </dynamic>
+	</select>
+	
+	<!-- 更新搜索条件历史记录 -->
+	<update id="UPDATE-SEARCH-HISTORY" parameterClass="searches" >
+	    <![CDATA[ 
+	    		update searches b set b.update_time = DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s") 
+	    ]]>
+		<dynamic prepend="" >
+		  <isNotEmpty prepend="," property="mPreferentialType">
+		           <![CDATA[  b.m_preferential_type = #mPreferentialType# ]]>
+		     </isNotEmpty> 
+		     <isNotEmpty prepend="," property="tagClassifyAId">
+		         <![CDATA[  b.tag_classify_a_id = #tagClassifyAId# ]]>
+		     </isNotEmpty> 
+		     <isNotEmpty prepend="," property="tagDistrictAId">
+		         <![CDATA[  b.tag_district_a_id = #tagDistrictAId# ]]>
+		     </isNotEmpty> 
+		     <isNotEmpty prepend="," property="tagClassifyBId">
+		         <![CDATA[  b.tag_classify_b_id = #tagClassifyBId# ]]>
+		     </isNotEmpty> 
+		     <isNotEmpty prepend="," property="tagDistrictBId">
+		         <![CDATA[  b.tag_district_b_id = #tagDistrictBId# ]]>
+		     </isNotEmpty> 
+		     <isNotEmpty prepend="," property="searchKeywords">
+		         <![CDATA[  b.search_keywords = #searchKeywords# ]]>
+		     </isNotEmpty> 
+		     <isNotEmpty prepend="," property="searchCount">
+		         <![CDATA[  b.search_count = #searchCount# ]]>
+		     </isNotEmpty> 
+		     <isNotEmpty prepend="," property="state">
+		         <![CDATA[  b.state = #state# ]]>
+		     </isNotEmpty> 
+		     <isNotEmpty prepend="," property="remark">
+		         <![CDATA[  b.remark = #remark# ]]>
+		      </isNotEmpty> 
+		</dynamic>
+		<![CDATA[ where b.id = #id# ]]>
+	</update>
+</sqlMap>

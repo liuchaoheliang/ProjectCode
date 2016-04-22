@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.bps.mappers.BankOperatorMapper">
+	<resultMap type="BankOperator" id="bankOperatorResultMap">
+		<id column="OPERATOR_ID" property="operatorId" />
+		<result column="BANK_ID" property="bankId" />
+		<result column="LOGIN_NAME" property="loginName" />
+		<result column="ORG_CODE" property="orgCode" />
+		<result column="MOBILE" property="mobile" />
+		<result column="EMAIL" property="email" />
+		<result column="OPERATOR_NAME" property="operatorName" />
+		<result column="LOGIN_PASSWD" property="loginPasswd" />
+		<result column="PAY_PASSWD" property="payPasswd" />
+		<result column="DEPARTMENT" property="department" />
+		<result column="POSITION" property="position" />
+		<result column="STATUS" property="status" />
+		<result column="REMARK" property="remark" />
+		<result column="TYPE" property="type" />
+		<result column="CREATE_TIME" property="createTime" />
+		<result column="UPDATE_TIME" property="updateTime" />
+		<result column="FAILURES" property="failures" />
+		<result column="IS_RESET" property="isReset" />
+		<result column="is_main" property="isMain" />
+		<result column="is_res" property="isRes" />
+		<result column="LAST_FIX_TIME" property="lastFixTime" />
+	</resultMap>
+	
+	<select id="selectAllOperators" resultMap="bankOperatorResultMap">
+		SELECT
+			tr_bank_operator.OPERATOR_ID,
+			tr_bank_operator.BANK_ID,
+			tr_bank_operator.LOGIN_NAME,
+			tr_bank_operator.ORG_CODE,
+			tr_bank_operator.MOBILE,
+			tr_bank_operator.EMAIL,
+			tr_bank_operator.OPERATOR_NAME,
+			tr_bank_operator.LOGIN_PASSWD,
+			tr_bank_operator.PAY_PASSWD,
+			tr_bank_operator.DEPARTMENT,
+			tr_bank_operator.POSITION,
+			tr_bank_operator.`STATUS`,
+			tr_bank_operator.REMARK,
+			tr_bank_operator.TYPE,
+			tr_bank_operator.CREATE_TIME,
+			tr_bank_operator.UPDATE_TIME,
+			tr_bank_operator.FAILURES,
+			tr_bank_operator.IS_RESET,
+			tr_bank_operator.is_main,
+			tr_bank_operator.is_res,
+			tr_bank_operator.LAST_FIX_TIME
+		FROM
+			tr_bank_operator
+	</select>
+	
+</mapper>

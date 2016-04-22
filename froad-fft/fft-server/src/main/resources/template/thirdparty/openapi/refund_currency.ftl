@@ -1,0 +1,22 @@
+<requestFroadApi>
+	<refund>
+		<refundOrderID>${refundOrderID}</refundOrderID>
+		<orderID>${orderID}</orderID>
+		<orderAmount>${orderAmount}</orderAmount>
+		<refundAmount>${refundAmount}</refundAmount>
+		<refundType>${refundType}</refundType>
+		<refundReason>${refundReason}</refundReason>
+		<orderSupplier>${orderSupplier!""}</orderSupplier>		
+	</refund>
+	<notification>
+		<noticeUrl>${noticeUrl}</noticeUrl>
+	</notification>
+	<system>
+		<reqID>${reqID}</reqID>
+		<version>${versions}</version>
+		<partnerID>${partnerID}</partnerID>
+		<charset>${charset}</charset>
+		<signType>${signType}</signType>
+		<signMsg>${signMsg}</signMsg>
+	</system>
+</requestFroadApi>

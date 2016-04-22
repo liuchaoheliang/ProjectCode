@@ -1,0 +1,18 @@
+<requestFroadApi>
+	<checkParam>
+		<checkOrg>${checkOrg}</checkOrg>
+		<accountName>${accountName}</accountName>
+		<accountNo>${accountNo}</accountNo>
+		<certificateType>${certificateType}</certificateType>
+		<certificateNo>${certificateNo}</certificateNo>
+		<checkTime>${queryTime}</checkTime>
+	</checkParam>
+	<system>
+		<reqID>${reqID}</reqID>
+		<version>${versions}</version>
+		<partnerID>${partnerID}</partnerID>
+		<charset>${charset}</charset>
+		<signType>${signType}</signType>
+		<signMsg>${signMsg}</signMsg>
+	</system>
+</requestFroadApi>

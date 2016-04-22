@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.mysql.mapper.TerminalStartMapper">
+
+	<resultMap type="TerminalStart" id="terminalStartResultMap">
+		<id property="id" column="id" />
+		<result property="createTime" column="create_time" />
+		<result property="clientId" column="client_id" />
+		<result property="appType" column="app_type" />
+		<result property="terminalType" column="terminal_type" />
+		<result property="imageId" column="image_id" />
+		<result property="imagePath" column="image_path" />
+		<result property="beginTime" column="begin_time" />
+		<result property="endTime" column="end_time" />
+		<result property="isEnabled" column="is_enabled" />
+	</resultMap>
+
+
+	<!-- 添加  TerminalStart -->
+	<insert id="addTerminalStart" parameterType="TerminalStart" useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[
+			insert into cb_terminal_start (
+				create_time,client_id,app_type,terminal_type,image_id,image_path,begin_time,end_time,is_enabled 
+			) values (
+				#{createTime},#{clientId},#{appType},#{terminalType},#{imageId},#{imagePath},#{beginTime},#{endTime},#{isEnabled}  
+			) 
+		]]>
+	</insert>
+
+
+	<!-- 修改  TerminalStart -->
+	<update id="updateTerminalStart" parameterType="TerminalStart">
+		update cb_terminal_start 
+		<set>
+			<if test="imagePath != null">
+				 image_path = #{imagePath},
+			</if>
+			<if test="beginTime != null">
+				 begin_time = #{beginTime},
+			</if>
+			<if test="endTime != null">
+				 end_time = #{endTime},
+			</if>
+		</set> 
+		<where>
+			<if test="id != null">
+				and id = #{id} 
+			</if>
+			<if test="imageId != null">
+				 and image_id = #{imageId}  
+			</if>
+		</where>
+	</update>
+
+
+	<!-- 查询  SmsLog -->
+	<select id="findTerminalStart" parameterType="TerminalStart" resultMap="terminalStartResultMap">
+		select 
+            id,create_time,client_id,app_type,terminal_type,image_id,image_path,begin_time,end_time,is_enabled   
+        from cb_terminal_start  
+		<where>
+			<if test="clientId != null"> 
+				and client_id = #{clientId} 
+			</if>
+			<if test="appType != null">
+				and app_type = #{appType} 
+			</if>
+			<if test="terminalType != null">
+				and terminal_type = #{terminalType} 
+			</if>
+			<if test="beginTime != null">
+				and begin_time <![CDATA[ <= ]]> #{beginTime}  and end_time <![CDATA[ >= ]]> #{beginTime}   
+			</if>
+			<if test="isEnabled != null">  
+				and is_enabled = #{isEnabled} 
+			</if>
+		</where>
+		 ORDER BY create_time DESC limit 1
+	</select>
+
+
+</mapper>
+

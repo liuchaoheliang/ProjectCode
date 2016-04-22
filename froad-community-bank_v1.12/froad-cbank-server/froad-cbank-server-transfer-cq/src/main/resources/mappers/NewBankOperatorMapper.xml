@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+       <mapper namespace="com.froad.db.chonggou.mappers.OrgUserRoleMapper">
+    <resultMap type="OrgUserRole" id="OrgUserRoleResultMap">
+		<id column="id" property="id" />
+		<result column="CLIENT_ID" property="clientId" />
+		<result column="ROLE_NAME" property="roleName" />
+		<result column="ROLE_ID" property="roleId" />
+		<result column="USER_ID" property="userId" />
+		<result column="ORG_CODE" property="orgCode" />
+		<result column="USERNAME" property="userName" />
+		<result column="ORG_LEVEL" property="orgLevel" />
+	</resultMap>
+       
+       <insert id="addOrgUserRole" parameterType="OrgUserRole" useGeneratedKeys="true" keyProperty="id">
+       <![CDATA[
+			INSERT INTO cb_org_user_role (
+				client_id,role_name,role_id,user_id,org_code,username,org_level
+			) VALUES (
+				#{clientId},#{roleName},#{roleId},#{userId},#{orgCode},#{userName},#{orgLevel}
+			) 
+		]]>
+       
+       
+       
+       </insert>
+       
+     	<delete id="deleteOrgUserRole"  parameterType="java.lang.String">
+		delete FROM cb_org_user_role where client_id=#{id}
+	     </delete>
+       <select id="selectAll" resultMap="OrgUserRoleResultMap">
+         select * from cb_org_user_role
+       </select>
+       
+       </mapper>

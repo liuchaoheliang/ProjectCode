@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+
+<sqlMap namespace="goodsCarryRackImages">
+	<typeAlias alias="goodsCarryRackImages" type="com.froad.CB.po.GoodsCarryRackImages" />
+
+	<resultMap class="goodsCarryRackImages" id="goodsCarryRackImagesResultMap">
+		<result property="id" column="id" jdbcType="INT" />
+		<result property="goodsCarryRackId"
+			column="goods_carry_rack_id" jdbcType="VARCHAR" />
+		<result property="imagesUrl" column="images_url"
+			jdbcType="VARCHAR" />
+		<result property="state" column="state" jdbcType="VARCHAR" />
+		<result property="createTime" column="create_time"
+			jdbcType="VARCHAR" />
+		<result property="updateTime" column="update_time"
+			jdbcType="VARCHAR" />
+		<result property="remark" column="remark" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<insert id="insertObject" parameterClass="goodsCarryRackImages">
+		insert into goods_carry_rack_images (
+		id,goods_carry_rack_id,images_url,state,create_time,update_time,remark
+		) values (
+		#id:INTEGER#,#goodsCarryRackId:VARCHAR#,#imagesUrl:VARCHAR#,#state:VARCHAR#,
+		DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),#remark:VARCHAR#)
+
+		<selectKey keyProperty="id" resultClass="int">
+			select last_insert_id() as id
+		</selectKey>
+	</insert>
+	
+	<delete id="UpdateObject" parameterClass="goodsCarryRackImages">
+		update goods_carry_rack_images 
+      	set state = #state:VARCHAR#
+      	where id = #id:INT#
+	</delete>
+	
+	<update id="updateObject" parameterClass="goodsCarryRackImages">
+		update goods_carry_rack_images
+		set goods_carry_rack_id = #goodsCarryRackId:VARCHAR#,images_url = #imagesUrl:VARCHAR#,
+		state = #state:VARCHAR#,update_time = DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),remark = #remark:VARCHAR#
+      	where id = #id:INT#
+	</update>
+	
+	<select id="getByPrimaryKey" parameterClass="java.lang.Integer" resultMap="goodsCarryRackImagesResultMap">
+		select * from goods_carry_rack_images where id = #id:INT#
+	</select>
+	
+	<select id="getAll" resultMap="goodsCarryRackImagesResultMap">
+		select * from goods_carry_rack_images
+	</select>
+	
+	<select id="getByGoodsCarryRackId" parameterClass="java.lang.String" resultMap="goodsCarryRackImagesResultMap">
+		select * from goods_carry_rack_images where goods_carry_rack_id = #goodsCarryRackId:VARCHAR#
+	</select>	
+	
+	
+	
+	
+
+
+</sqlMap>

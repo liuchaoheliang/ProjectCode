@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.mysql.rp_mappers.ReportOrderRefundMapper">
+
+	<resultMap type="ReportOrderRefund" id="reportRefundMap">
+		<id property="id" column="id" />
+		<result property="createDate" column="create_date" />
+		<result property="clientId" column="client_id" />
+		<result property="refundId" column="refund_id" />
+		<result property="subOrderId" column="sub_order_id" />
+		<result property="orderId" column="order_id" />
+		<result property="orderType" column="order_type" />
+		<result property="memberCode" column="member_code" />
+		<result property="merchantId" column="merchant_id" />
+		<result property="refundTime" column="refund_time" />
+		<result property="refundAmount" column="refund_amount" />
+		<result property="refundPoint" column="refund_point" />
+		<result property="pointRate" column="point_rate" />
+	</resultMap>
+	
+	<sql id="selectColumn">
+		create_date,client_id,refund_id,sub_order_id,order_id,order_type,member_code,merchant_id,refund_time,
+		refund_amount,refund_point,point_rate 
+	</sql>
+	
+	<insert id="addRefund" parameterType="ReportOrderRefund">
+		INSERT INTO cb_report_order_refund(
+			<include refid="selectColumn" /> 
+		) VALUES (
+			#{createDate},#{clientId},#{refundId},#{subOrderId},#{orderId},#{orderType},#{memberCode},#{merchantId},
+			#{refundTime},#{refundAmount},#{refundPoint},#{pointRate}
+		)
+	</insert>
+	
+	
+	<insert id="addRefundByBatch">
+		INSERT INTO cb_report_order_refund(
+			<include refid="selectColumn" /> 
+		) VALUES 
+		<foreach collection="refunds" item="refund" index="index" separator=",">
+			(#{refund.createDate},#{refund.clientId},#{refund.refundId},#{refund.subOrderId},#{refund.orderId},#{refund.orderType},
+			#{refund.memberCode},#{refund.merchantId},#{refund.refundTime},#{refund.refundAmount},#{refund.refundPoint},#{refund.pointRate}) 
+		</foreach>
+	</insert>
+	
+	<select id="findByMerchantId" resultMap="reportRefundMap">
+		SELECT <include refid="selectColumn" /> 
+		FROM cb_report_order_refund 
+		<where>
+			<if test="clientId != null">
+				AND client_id = #{clientId} 
+			</if>
+			<if test="merchantId != null">
+				AND merchant_id = #{merchantId} 
+			</if>
+			<if test="createDate != null">
+				AND create_date = #{createDate} 
+			</if>
+			<if test="orderType != null">
+				AND order_type = #{orderType} 
+			</if>				
+		</where>
+	</select>	
+	
+	
+	<select id="findByMemberCode" parameterType="ReportOrderRefund" resultMap="reportRefundMap">
+		SELECT <include refid="selectColumn" /> 
+		FROM cb_report_order_refund 
+		<where>
+			<if test="clientId != null">
+				AND client_id = #{clientId} 
+			</if>
+			<if test="memberCode != null">
+				AND member_code = #{memberCode} 
+			</if>
+			<if test="createDate != null">
+				AND create_date = #{createDate} 
+			</if>
+			<if test="orderType != null">
+				AND order_type = #{orderType} 
+			</if>
+		</where>
+	</select>
+	
+	<select id="findByMemberCodeByPage" resultMap="reportRefundMap">
+		SELECT <include refid="selectColumn" /> 
+		FROM cb_report_order_refund 
+		<where>
+			<if test="createDate != null">
+				AND create_date = #{createDate} 
+			</if>
+		</where>
+	</select>	
+	
+</mapper>

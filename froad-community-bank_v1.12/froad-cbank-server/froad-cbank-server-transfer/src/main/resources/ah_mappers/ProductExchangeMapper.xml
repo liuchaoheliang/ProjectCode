@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.fft.persistent.api.ProductExchangeMapper">
+	<resultMap type="ProductExchange" id="productExchangeMap">
+		<id property="id" column="id" />
+		<result property="createTime" column="create_time" />
+		<result property="updateTime" column="update_time" />
+		<result property="effectTime" column="effect_time" />
+		<result property="expireTime" column="expire_time" />
+		<result property="productId" column="product_id" />
+	</resultMap>
+
+	<!-- 插入 -->
+	<insert id="save" parameterType="ProductExchange" useGeneratedKeys="true" keyProperty="id">
+		insert into fft_product_exchange
+		(id,expire_time,product_id,create_time,update_time,effect_time)
+		values
+		(#{id},#{expireTime},#{productId},#{createTime},#{updateTime},#{effectTime})
+	</insert>
+
+	<!-- 更新 -->
+	<update id="updateProductExchange" parameterType="ProductExchange">
+		update fft_product_exchange set update_time=#{updateTime}
+		<if test="expireTime!=null">
+			,expire_time=#{expireTime}
+		</if>
+		<if test="effectTime!=null">
+			,effect_time=#{effectTime}
+		</if>
+		where product_id=#{productId}
+	</update>
+
+	<!-- 查询 -->
+	<select id="selectByProductId" parameterType="java.lang.Long" resultMap="productExchangeMap">
+		select * from fft_product_exchange where product_id=#{productId}
+	</select>
+
+	<!-- 按條件查詢 -->
+	<select id="selectByCondition" parameterType="ProductExchange" resultMap="productExchangeMap">
+		select * from fft_product_exchange where 1=1
+		<if test="productId!=null">
+			and product_id=#{productId}
+		</if>
+		<if test="effectTime!=null">
+			<![CDATA[and effect_time< #{effectTime}]]>
+		</if>
+		<if test="expireTime!=null">
+			<![CDATA[and expire_time >#{expireTime}]]>
+		</if>
+	</select>
+</mapper>

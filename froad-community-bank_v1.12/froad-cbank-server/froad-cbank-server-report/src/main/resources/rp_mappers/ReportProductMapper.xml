@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.mysql.rp_mappers.ReportProductMapper">
+	<resultMap type="ReportMerchantSale" id="reportMerchantSaleResultMap">
+		<id property="id" column="id" />
+		<result property="createTime" column="create_time" />
+		<result property="newsProductNumber" column="news_product_number" />
+		<result property="saleProductNumber" column="sale_product_number" />
+		<result property="saleProductAmount" column="sale_product_amount" />
+		<result property="totalOrder" column="total_order" />
+		<result property="totalAmount" column="total_amount" />
+		<result property="cash" column="cash" />
+		<result property="bankPoint" column="bank_point" />
+		<result property="fftPoint" column="fft_point" />
+		<result property="refundAmount" column="refund_amount" />
+		<result property="buyTrips" column="buy_trips" />
+		<result property="paymentMethod" column="payment_method" />
+		<result property="week" column="week" />
+	</resultMap>
+	
+	<resultMap type="ProductTypeCount" id="productTypeCount">
+		<result property="saleProductNumber" column="sale_product_number" />
+		<result property="type" column="type" />
+	</resultMap>
+	
+	<resultMap type="ProductCategoryCount" id="productCategoryCount">
+		<result property="saleProductAmount" column="sale_product_amount" />
+		<result property="type" column="type" />
+		<result property="typeName" column="typename" />
+	</resultMap>
+	
+	<resultMap type="ProductSaleDetail" id="productSaleDetail">
+		<result property="type" column="type" />
+		<result property="addProductCount" column="news_product_number" />
+		<result property="faceProductCount" column="face_products" />
+		<result property="productCount" column="total_products" />
+		<result property="productSaleCount" column="sale_product_number" />
+		<result property="productSaleAmount" column="sale_product_amount" />
+		<result property="refundAmount" column="refund_amount" />
+		<result property="forgCode" column="forg_code" />
+		<result property="forgName" column="forg_name" />
+		<result property="sorgCode" column="sorg_code" />
+		<result property="sorgName" column="sorg_name" />
+		<result property="torgCode" column="torg_code" />
+		<result property="torgName" column="torg_name" />
+		<result property="lorgCode" column="lorg_code" />
+		<result property="lorgName" column="lorg_name" />
+		<result property="orgCode" column="org_code" />
+		<result property="orgName" column="org_name" />
+	</resultMap>
+	
+	
+	<select id="findSaleTrend" resultMap="reportMerchantSaleResultMap">
+		select WEEKOFYEAR(create_time) week, sum(sale_count) sale_product_number 
+		FROM cb_report_merchant_product 
+		<where>
+			create_time >= DATE_SUB(NOW(),INTERVAL 3 MONTH) and sale_count!=0 
+			<if test="user.clientId != null">
+				AND client_id=#{user.clientId} 
+			</if>
+			<if test="orgCode != null">
+				AND org_code=#{orgCode} 
+			</if>				
+			<if test="orgCode == null and user.forgCode != null">
+				AND forg_code=#{user.forgCode} 
+			</if>
+			<if test="orgCode == null and user.sorgCode != null">
+				AND sorg_code=#{user.sorgCode} 
+			</if>
+			<if test="orgCode == null and user.torgCode != null">
+				AND torg_code=#{user.torgCode} 
+			</if>
+			<if test="orgCode == null and user.lorgCode != null">
+				AND lorg_code=#{user.lorgCode} 
+			</if>
+		</where>
+		group by WEEKOFYEAR(create_time) 
+		order by WEEKOFYEAR(create_time) 
+	</select>
+	
+	
+	<select id="findProductTypeCount" resultMap="productTypeCount">
+		SELECT 
+			type,sum(sale_count) sale_product_number 
+		FROM 
+			cb_report_merchant_product  
+		<where>
+			<if test="begDate != null">
+				AND create_time >= #{begDate} 
+			</if>
+			<if test="endDate != null">
+			<![CDATA[
+				AND create_time <= #{endDate} 
+			]]>
+			</if>
+			<if test="user.clientId != null">
+				AND client_id=#{user.clientId} 
+			</if>
+			<if test="orgCode != null">
+				AND org_code=#{orgCode} 
+			</if>			
+			<if test="orgCode == null and user.forgCode != null">
+				AND forg_code=#{user.forgCode} 
+			</if>
+			<if test="orgCode == null and user.sorgCode != null">
+				AND sorg_code=#{user.sorgCode} 
+			</if>
+			<if test="orgCode == null and user.torgCode != null">
+				AND torg_code=#{user.torgCode} 
+			</if>
+			<if test="orgCode == null and user.lorgCode != null">
+				AND lorg_code=#{user.lorgCode} 
+			</if>
+		</where>
+		group by type 
+	</select>
+	
+	
+	<select id="findProductCategoryCount" resultMap="productCategoryCount">
+		SELECT 
+			category type,category_name typename,sum(sale_amount) sale_product_amount 
+		FROM 
+			cb_report_merchant_product    
+		<where>
+			<if test="begDate != null">
+				AND create_time >= #{begDate} 
+			</if>
+			<if test="endDate != null">
+			<![CDATA[
+				AND create_time <= #{endDate} 
+			]]>
+			</if>
+			<if test="user.clientId != null">
+				AND client_id=#{user.clientId} 
+			</if>
+			<if test="orgCode != null">
+				AND org_code=#{orgCode} 
+			</if>			
+			<if test="orgCode == null and user.forgCode != null">
+				AND forg_code=#{user.forgCode} 
+			</if>
+			<if test="orgCode == null and user.sorgCode != null">
+				AND sorg_code=#{user.sorgCode} 
+			</if>
+			<if test="orgCode == null and user.torgCode != null">
+				AND torg_code=#{user.torgCode} 
+			</if>
+			<if test="orgCode == null and user.lorgCode != null">
+				AND lorg_code=#{user.lorgCode} 
+			</if>
+			AND type = '1' AND category is not null AND category_name is not null 
+		</where>
+		group by category 
+	</select>
+	
+	
+	<select id="findProductSaleDetail" resultMap="productSaleDetail">
+		select 
+		forg_code,forg_name,sorg_code,sorg_name,org_code,org_name, 
+		torg_code,torg_name,lorg_code,lorg_name,
+		sum(CASE type WHEN '0' THEN 0 ELSE new_count END) news_product_number,
+		count(distinct product_id) total_products,
+		sum(sale_count) sale_product_number,
+		sum(sale_amount) sale_product_amount,
+		sum(refund_amount) refund_amount 
+		FROM cb_report_merchant_product   
+		<where>
+			<if test="begDate != null">
+				AND create_time >= #{begDate} 
+			</if>
+			<if test="endDate != null">
+			<![CDATA[
+				AND create_time <= #{endDate} 
+			]]>
+			</if>
+			<if test="user.clientId != null">
+				AND client_id=#{user.clientId} 
+			</if>
+			<if test="orgCode != null">
+				AND org_code=#{orgCode} 
+			</if>			
+			<if test="orgCode == null and user.forgCode != null">
+				AND forg_code=#{user.forgCode} 
+			</if>
+			<if test="orgCode == null and user.sorgCode != null">
+				AND sorg_code=#{user.sorgCode} 
+			</if>
+			<if test="orgCode == null and user.torgCode != null">
+				AND torg_code=#{user.torgCode} 
+			</if>
+			<if test="orgCode == null and user.lorgCode != null">
+				AND lorg_code=#{user.lorgCode} 
+			</if>			
+		</where>
+		GROUP BY org_code  
+	</select>		
+	
+	<select id="findInvalidProductList" resultMap="productSaleDetail">
+		select 
+		org_code, count(distinct product_id) total_products 
+		FROM cb_report_merchant_product  
+		<where>
+			<if test="begDate != null">
+				AND create_time >= #{begDate} 
+			</if>
+			<if test="endDate != null">
+			<![CDATA[
+				AND create_time <= #{endDate} 
+			]]>
+			</if>
+			<if test="user.clientId != null">
+				AND client_id=#{user.clientId} 
+			</if>
+			<if test="orgCode != null">
+				AND org_code=#{orgCode} 
+			</if>			
+			<if test="orgCode == null and user.forgCode != null">
+				AND forg_code=#{user.forgCode} 
+			</if>
+			<if test="orgCode == null and user.sorgCode != null">
+				AND sorg_code=#{user.sorgCode} 
+			</if>
+			<if test="orgCode == null and user.torgCode != null">
+				AND torg_code=#{user.torgCode} 
+			</if>
+			<if test="orgCode == null and user.lorgCode != null">
+				AND lorg_code=#{user.lorgCode} 
+			</if>	
+			AND (total_products = 0 OR type = '0')  		
+		</where>
+		GROUP BY org_code  
+	</select>	
+	
+	<select id="findProductSaleDetailListByPage" resultMap="productSaleDetail">
+		select 
+		forg_code,forg_name,sorg_code,sorg_name,org_code,org_name,
+		torg_code,torg_name,lorg_code,lorg_name,
+		sum(CASE type WHEN '0' THEN 0 ELSE new_count END) news_product_number,
+		count(distinct product_id) total_products,
+		sum(sale_count) sale_product_number,
+		sum(sale_amount) sale_product_amount,
+		sum(refund_amount) refund_amount 
+		FROM cb_report_merchant_product  
+		<where>
+			<if test="begDate != null">
+				AND create_time >= #{begDate} 
+			</if>
+			<if test="endDate != null">
+			<![CDATA[
+				AND create_time <= #{endDate} 
+			]]>
+			</if>
+			<if test="user.clientId != null">
+				AND client_id=#{user.clientId} 
+			</if>
+			<if test="orgCode != null">
+				AND org_code=#{orgCode} 
+			</if>			
+			<if test="orgCode == null and user.forgCode != null">
+				AND forg_code=#{user.forgCode} 
+			</if>
+			<if test="orgCode == null and user.sorgCode != null">
+				AND sorg_code=#{user.sorgCode} 
+			</if>
+			<if test="orgCode == null and user.torgCode != null">
+				AND torg_code=#{user.torgCode} 
+			</if>
+			<if test="orgCode == null and user.lorgCode != null">
+				AND lorg_code=#{user.lorgCode} 
+			</if>			
+		</where>
+		GROUP BY org_code  
+	</select>		
+	
+	<select id="findInvalidProductListByPage" resultMap="productSaleDetail">
+		select 
+		org_code, count(distinct product_id) total_products 
+		FROM cb_report_merchant_product  
+		<where>
+			<if test="begDate != null">
+				AND create_time >= #{begDate} 
+			</if>
+			<if test="endDate != null">
+			<![CDATA[
+				AND create_time <= #{endDate} 
+			]]>
+			</if>
+			<if test="user.clientId != null">
+				AND client_id=#{user.clientId} 
+			</if>
+			<if test="orgCode != null">
+				AND org_code=#{orgCode} 
+			</if>			
+			<if test="orgCode == null and user.forgCode != null">
+				AND forg_code=#{user.forgCode} 
+			</if>
+			<if test="orgCode == null and user.sorgCode != null">
+				AND sorg_code=#{user.sorgCode} 
+			</if>
+			<if test="orgCode == null and user.torgCode != null">
+				AND torg_code=#{user.torgCode} 
+			</if>
+			<if test="orgCode == null and user.lorgCode != null">
+				AND lorg_code=#{user.lorgCode} 
+			</if>
+			AND (total_products = 0 OR type = '0') 
+		</where>
+		GROUP BY org_code  
+	</select>	
+	
+</mapper>

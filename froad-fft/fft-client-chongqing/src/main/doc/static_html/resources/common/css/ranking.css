@@ -1,0 +1,44 @@
+/*
+* Author:
+* pengling@f-road.com.cn 
+* QQ:4753953
+*/
+
+
+
+.rank{width:1008px; margin:0 auto; clear:both;}
+
+.rank01{ background:url(../images/paihang_03.jpg);  width:1008px; height:101px;}
+
+.rank02{ background:url(../images/paihang_05.jpg); width:1008px; height:115px;}
+
+.rank03{ background:url(../images/paihang_06.jpg); width:1008px; height:119px;}
+
+.rank04{ background:url(../images/paihang_07.jpg); width:1008px; height:142px;}
+
+.rank05{ background:url(../images/paihang_08.jpg); width:1008px; height:167px;}
+
+.rank06{ background:url(../images/paihang_09.jpg); width:1008px; height:118px;}
+
+.rank07{ background:url(../images/paihang_10.jpg); width:1008px; height:213px;}
+
+.rank08{ background:url(../images/rank08bg.gif); width:1008px; overflow:hidden;}
+
+.rank09{ background:url(../images/bank09.gif); width:1008px; height:66px;}
+
+.rank ul{ padding-left:45px; padding-top:14px; *padding-top:20px;}
+
+.rank li {width:305px; height:47px; line-height:47px; font-family:Verdana; float:left; border-bottom:1px dashed #eee; *height:30px; *line-height:30px;}
+
+.rank li span{ display:block; float:left; height:16px; background:#7f7f7f; padding:2px 5px; font-size:12px; color:#FFF; font-weight:bold; line-height:16px; margin-top:13px; *margin-top:3px;}
+
+.rank li span.red{ background:#F00;}
+
+.rank li span.orange{ background:#F60}
+
+.rank li b{ font-size:14px; color:#F00; margin-left:5px;}
+
+.rank li u{ text-decoration:none; font-size:12px; margin-left:10px; color:#333;}
+
+.rank li u p{ display:inline; margin-right:3px;}
+

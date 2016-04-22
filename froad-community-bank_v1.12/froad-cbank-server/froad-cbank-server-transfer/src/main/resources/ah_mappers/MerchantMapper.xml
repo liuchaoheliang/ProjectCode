@@ -1,0 +1,543 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.ahui.mappers.MerchantExMapper">
+
+    <resultMap type="Merchant" id="merchantResultMap">
+        <id property="id" column="id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+
+        <result property="name" column="name"/>
+        <result property="fullName" column="full_name"/>
+        <result property="logo" column="logo"/>
+        <result property="address" column="address"/>
+        <result property="zip" column="zip"/>
+        <result property="fax" column="fax"/>
+        <result property="tel" column="tel"/>
+        <result property="contactName" column="contact_name"/>
+        <result property="contactPhone" column="contact_phone"/>
+        <result property="contactEmail" column="contact_email"/>
+        <result property="legalName" column="legal_name"/>
+        <result property="legalCredentType" column="legal_credent_type"/>
+        <result property="legalCredentNo" column="legal_credent_no"/>
+        <result property="contractBegintime" column="contract_begintime"/>
+        <result property="contractEndtime" column="contract_endtime"/>
+        <result property="contractStaff" column="contract_staff"/>
+        <result property="reviewStaff" column="review_staff"/>
+        <result property="auditState" column="audit_state" typeHandler="com.froad.db.extend.EnumTypeHandler" />
+        <result property="auditTime" column="audit_time"/>
+		
+        <result property="orderValue" column="order_value"/>
+     
+        <result property="type" column="type" />
+         
+        <result property="areaId" column="area_id"/>
+        <result property="merchantCategoryId" column="merchant_category_id"/>
+        <result property="clientId" column="client_id"/>
+        <result property="dataState" column="data_state" typeHandler="com.froad.db.extend.EnumTypeHandler"/>
+		<result property="interbankAgency" column="interbank_agency"/>
+		<result property="travelAgency" column="travel_agency"/>
+		<result property="latticPoint" column="lattice_point"/>
+		
+		<result property="introduced" column="introduced"/>
+		<result property="license" column="license"/>
+		<result property="taxReg" column="tax_reg"/>
+		<result property="orgCode" column="org_code"/>
+		<result property="complaintCall" column="complaint_call"/>
+		<result property="agencyrgName" column="agencyrg_name"/>
+		<result property="category.name" column="category_name"/>
+		
+		<result property="openingBankOrg" column="opening_bank_org"/>
+		<result property="openingBankAccount" column="opening_bank_account"/>
+		<result property="auditComment" column="audit_comment"/>
+		<result property="typeName" column="type_name"/>
+		<result property="orgLevel" column="org_level"/>
+		<result property="orgVerifyState" column="org_verify_state"/>
+ 
+		
+    </resultMap>
+    <resultMap type="OutleBank" id="outleBankResultMap">
+		<id property="id" column="id" />
+		<result property="createTime" column="create_time" />
+		<result property="updateTime" column="update_time" />
+		<result property="merchatId" column="merchat_id" />
+		<result property="outleId" column="outle_id" />
+		<result property="deliveryId" column="delivery_id" />
+		<result property="moType" column="mo_type" typeHandler="com.froad.db.extend.EnumTypeHandler" />
+		<result property="bankOrg" column="bank_org" />
+		<result property="orgName" column="org_name" />
+		<result property="parentBankOrg" column="parent_bank_org" />
+		<result property="orgType" column="org_type" typeHandler="com.froad.db.extend.EnumTypeHandler" />
+	</resultMap>
+	
+	<resultMap type="Merchant" id="licenseResultMap">
+		<result property="license" column="license"/>
+	</resultMap>
+	
+    <!-- 插入 -->
+    <insert id="saveMerchant" parameterType="Merchant" useGeneratedKeys="true" keyProperty="id">
+		insert into fft_merchant values
+		(
+			#{id},#{createTime},#{updateTime},#{name},#{fullName},#{logo},#{address},#{zip},#{fax},#{tel},#{contactName},#{contactPhone}
+			,#{contactEmail},#{legalName},#{legalCredentType},#{legalCredentNo},#{contractBegintime},#{contractEndtime},
+			#{contractStaff},#{reviewStaff},#{auditState,typeHandler=com.froad.db.extend.EnumTypeHandler},#{auditTime},#{orderValue},null,
+			#{areaId},#{merchantCategoryId},#{clientId},30,#{interbankAgency},#{travelAgency},#{latticPoint},#{introduced},#{license},
+			#{taxReg},#{orgCode},#{complaintCall},#{openingBankOrg},#{openingBankAccount},#{auditComment},#{orgLevel},#{orgVerifyState}
+		)
+	</insert>
+
+    <!-- 更新 -->
+    <update id="updateMerchantById" parameterType="Merchant">
+        update fft_merchant set update_time = #{updateTime}
+        <if test="auditTime !=null">
+        	,audit_time = #{auditTime}
+        </if>
+        <if test="name != null">
+            ,name = #{name}
+        </if>
+        <if test="fullName != null">
+            ,full_name = #{fullName}
+        </if>
+        <if test="logo != null">
+            ,logo = #{logo}
+        </if>
+        <if test="address != null">
+            ,address = #{address}
+        </if>
+        <if test="zip != null">
+            ,zip = #{zip}
+        </if>
+        <if test="fax != null">
+            ,fax = #{fax}
+        </if>
+        <if test="tel != null">
+            ,tel = #{tel}
+        </if>
+        <if test="contactName != null">
+            ,contact_name = #{contactName}
+        </if>
+        <if test="contactPhone != null">
+            ,contact_phone = #{contactPhone}
+        </if>
+        <if test="contactEmail != null">
+            ,contact_email = #{contactEmail}
+        </if>
+        <if test="legalName != null">
+            ,legal_name = #{legalName}
+        </if>
+        <if test="legalCredentType != null">
+            ,legal_credent_type = #{legalCredentType}
+        </if>
+        <if test="legalCredentNo != null">
+            ,legal_credent_no = #{legalCredentNo}
+        </if>
+        <if test="contractBegintime != null">
+            ,contract_begintime = #{contractBegintime}
+        </if>
+        <if test="contractEndtime != null">
+            ,contract_endtime = #{contractEndtime}
+        </if>
+        <if test="contractStaff != null">
+            ,contract_staff = #{contractStaff}
+        </if>
+        <if test="reviewStaff != null">
+            ,review_staff = #{reviewStaff}
+        </if>
+        <if test="auditState != null">
+            ,audit_state = #{auditState,typeHandler=com.froad.db.extend.EnumTypeHandler}
+        </if>
+        <if test="orderValue != null">
+            ,order_value = #{orderValue}
+        </if>
+        <!-- 
+        <if test="type != null">
+            ,type = #{type,typeHandler=com.froad.db.extend.EnumTypeHandler}
+        </if>
+         -->
+        <if test="areaId != null">
+            ,area_id = #{areaId}
+        </if>
+        <if test="merchantCategoryId != null">
+            ,merchant_category_id = #{merchantCategoryId}
+        </if>
+        <if test="clientId != null">
+            ,client_id = #{clientId}
+        </if>
+        <if test="dataState != null">
+            ,data_state = #{dataState,typeHandler=com.froad.db.extend.EnumTypeHandler}
+        </if>
+        <if test="interbankAgency != null">
+            ,interbank_agency = #{interbankAgency}
+        </if>
+        <if test="travelAgency != null">
+            ,travel_agency = #{travelAgency}
+        </if>
+        <if test="latticPoint != null">
+            ,lattice_point = #{latticPoint}
+        </if>
+        <if test="introduced != null">
+            ,introduced = #{introduced}
+        </if>
+        <if test="license != null">
+            ,license = #{license}
+        </if>
+        <if test="taxReg != null">
+            ,tax_reg = #{taxReg}
+        </if>
+        <if test="orgCode != null">
+            ,org_code = #{orgCode}
+        </if>
+        <if test="complaintCall != null">
+            ,complaint_call = #{complaintCall}
+        </if>
+        <if test="openingBankOrg != null">
+            ,opening_bank_org = #{openingBankOrg}
+        </if>
+        <if test="openingBankAccount != null">
+            ,opening_bank_account = #{openingBankAccount}
+        </if>
+        <if test="auditComment != null">
+            ,audit_comment = #{auditComment}
+        </if>
+        <if test="orgLevel != null">
+            ,org_level = #{orgLevel}
+        </if>
+        <if test="orgVerifyState != null">
+            ,org_verify_state = #{orgVerifyState}
+        </if>
+        where id = #{id}
+    </update>
+
+    <!-- 查询 -->
+    <select id="selectMerchantById" parameterType="java.lang.Long" resultMap="merchantResultMap">
+		select m.*,b.org_name as agencyrg_name,c.name as category_name from fft_merchant m left join fft_outlet_bank b on m.lattice_point  = b.bank_org left join fft_merchant_category c on c.id = m.merchant_category_id where m.id = #{id}
+	</select>
+
+    <!-- 查询 -->
+    <select id="selectMerchantByClientId" parameterType="java.lang.Long" resultMap="merchantResultMap">
+		select * from fft_merchant where client_id=#{clientId}
+	</select>
+
+    <!--分页 -->
+    <select id="selectMerchantByPage" parameterType="com.froad.fft.persistent.bean.page.Page" resultMap="merchantResultMap">
+        SELECT m.*, 
+		       b.org_name  AS agencyrg_name, 
+		       c.NAME      AS category_name, 
+		       r.type_name AS type_name 
+		FROM   fft_merchant m 
+		       LEFT JOIN fft_outlet_bank b 
+		              ON m.lattice_point = b.bank_org 
+		       LEFT JOIN fft_merchant_category c 
+		              ON c.id = m.merchant_category_id 
+		       LEFT JOIN (SELECT r.merchant_id           AS m_id, 
+		                         Group_concat(type_name) AS type_name 
+		                  FROM   fft_merchant_type_relation r 
+		                         LEFT JOIN fft_merchant_type y 
+		                                ON y.id = r.merchant_type_id 
+		                  GROUP  BY r.merchant_id) r 
+		              ON m.id = r.m_id 
+        <if test="pageFilter != null">
+            <where>
+                <if test="pageFilter.filterEntity != null">
+                    <if test="pageFilter.filterEntity.id!= null">
+                        and m.id = #{pageFilter.filterEntity.id}
+                    </if>
+                    <if test="pageFilter.filterEntity.name!= null">
+                        and m.name like CONCAT('%',#{pageFilter.filterEntity.name},'%')
+                    </if>
+                    <if test="pageFilter.filterEntity.fullName!= null">
+                        and m.full_name = #{pageFilter.filterEntity.fullName}
+                    </if>
+                    <if test="pageFilter.filterEntity.logo!= null">
+                        and m.logo = #{pageFilter.filterEntity.logo}
+                    </if>
+                    <if test="pageFilter.filterEntity.address!= null">
+                        and m.address = #{pageFilter.filterEntity.address}
+                    </if>
+                    <if test="pageFilter.filterEntity.contactName!= null">
+                        and m.contact_name = #{pageFilter.filterEntity.contactName}
+                    </if>
+                    <if test="pageFilter.filterEntity.contactPhone!= null">
+                        and m.contact_phone = #{pageFilter.filterEntity.contactPhone}
+                    </if>
+                    <if test="pageFilter.filterEntity.legalName!= null">
+                        and m.legal_name = #{pageFilter.filterEntity.legalName}
+                    </if>
+                    <if test="pageFilter.filterEntity.legalCredentType!= null">
+                        and m.legal_credent_type = #{pageFilter.filterEntity.legalCredentType}
+                    </if>
+                    <if test="pageFilter.filterEntity.legalCredentNo!= null">
+                        and m.legal_credent_no = #{pageFilter.filterEntity.legalCredentNo}
+                    </if>
+                    <if test="pageFilter.filterEntity.contractStaff!= null">
+                        and m.contract_staff = #{pageFilter.filterEntity.contractStaff}
+                    </if>
+                    <if test="pageFilter.filterEntity.reviewStaff!= null">
+                        and m.review_staff = #{pageFilter.filterEntity.reviewStaff}
+                    </if>
+                    <if test="pageFilter.filterEntity.auditState!= null">
+                        and m.audit_state = #{pageFilter.filterEntity.auditState,typeHandler=com.froad.db.extend.EnumTypeHandler}
+                    </if>
+                    <!-- 
+                    <if test="pageFilter.filterEntity.type!= null">
+                        and m.type = #{pageFilter.filterEntity.type,typeHandler=com.froad.db.extend.EnumTypeHandler}
+                    </if>
+                     -->
+                    <if test="pageFilter.filterEntity.areaId!= null">
+                        and m.area_id = #{pageFilter.filterEntity.areaId}
+                    </if>
+                    <if test="pageFilter.filterEntity.merchantCategoryId!= null">
+                        and m.merchant_category_id = #{pageFilter.filterEntity.merchantCategoryId}
+                    </if>
+                    <if test="pageFilter.filterEntity.dataState!= null">
+                        and m.data_state = #{pageFilter.filterEntity.dataState,typeHandler=com.froad.db.extend.EnumTypeHandler}
+                    </if>
+                    <if test="pageFilter.filterEntity.clientId!= null">
+                        and m.client_id = #{pageFilter.filterEntity.clientId}
+                    </if>
+                    <if test="pageFilter.filterEntity.interbankAgency!= null and pageFilter.filterEntity.interbankAgency!=''">
+                        and m.interbank_agency = #{pageFilter.filterEntity.interbankAgency}
+                    </if>
+                     <if test="pageFilter.filterEntity.travelAgency!= null and pageFilter.filterEntity.travelAgency!=''">
+                        and m.travel_agency = #{pageFilter.filterEntity.travelAgency}
+                    </if>
+                     <if test="pageFilter.filterEntity.latticPoint!= null and pageFilter.filterEntity.latticPoint!=''">
+                        and m.lattice_point = #{pageFilter.filterEntity.latticPoint}
+                    </if>
+	                <if test="pageFilter.filterEntity.orgLevel != null">
+			            and m.org_level = #{pageFilter.filterEntity.orgLevel}
+			        </if>
+			        <if test="pageFilter.filterEntity.orgVerifyState != null">
+			            and m.org_verify_state = #{pageFilter.filterEntity.orgVerifyState}
+			        </if>
+	                 <if test="pageFilter.filterEntity.auditStates!= null">
+                    	and m.audit_state in
+                    	<foreach collection="pageFilter.filterEntity.auditStates" item="item" open="(" close=")" separator=",">
+							#{item,typeHandler=com.froad.db.extend.EnumTypeHandler}
+						</foreach>
+                    </if>
+					<if test="pageFilter.filterEntity.merchantTypeList != null">
+							and EXISTS (select 0 from fft_merchant_type_relation k where k.merchant_id = m.id and k.merchant_type_id in
+								<foreach collection="pageFilter.filterEntity.merchantTypeList" item="item" open="(" close=")" separator=",">
+									#{item.id}
+								</foreach> 
+							)
+                    </if>
+                </if>
+
+                <!-- 时间段条件 -->
+                <if test="pageFilter.property != null and pageFilter.startTime != null">
+                    <![CDATA[
+					 and ${pageFilter.property} >= #{pageFilter.startTime}
+					]]>
+                </if>
+                <if test="pageFilter.property != null and pageFilter.endTime != null">
+                    <![CDATA[
+					 and ${pageFilter.property} <= #{pageFilter.endTime}
+					]]>
+                </if>
+            </where>
+        </if>
+        <!-- 排序 -->
+        <if test="order != null">
+            <if test="order.property != null and order.direction != null">
+                order by ${order.property} ${order.direction}
+            </if>
+        </if>
+    </select>
+    <!-- 查询分页条数 -->
+    <select id="selectMerchantByPageCount" parameterType="com.froad.fft.persistent.bean.page.Page" resultType="java.lang.Integer">
+        select count(*) from fft_merchant m
+        <if test="pageFilter != null">
+            <where>
+                <if test="pageFilter.filterEntity != null">
+                    <if test="pageFilter.filterEntity.id!= null">
+                        and id = #{pageFilter.filterEntity.id}
+                    </if>
+                    <if test="pageFilter.filterEntity.name!= null">
+                        and name like CONCAT('%',#{pageFilter.filterEntity.name},'%')
+                    </if>
+                    <if test="pageFilter.filterEntity.fullName!= null">
+                        and full_name = #{pageFilter.filterEntity.fullName}
+                    </if>
+                    <if test="pageFilter.filterEntity.logo!= null">
+                        and logo = #{pageFilter.filterEntity.logo}
+                    </if>
+                    <if test="pageFilter.filterEntity.address!= null">
+                        and address = #{pageFilter.filterEntity.address}
+                    </if>
+                    <if test="pageFilter.filterEntity.contactName!= null">
+                        and contact_name = #{pageFilter.filterEntity.contactName}
+                    </if>
+                    <if test="pageFilter.filterEntity.contactPhone!= null">
+                        and contact_phone = #{pageFilter.filterEntity.contactPhone}
+                    </if>
+                    <if test="pageFilter.filterEntity.legalName!= null">
+                        and legal_name = #{pageFilter.filterEntity.legalName}
+                    </if>
+                    <if test="pageFilter.filterEntity.legalCredentType!= null">
+                        and legal_credent_type = #{pageFilter.filterEntity.legalCredentType}
+                    </if>
+                    <if test="pageFilter.filterEntity.legalCredentNo!= null">
+                        and legal_credent_no = #{pageFilter.filterEntity.legalCredentNo}
+                    </if>
+                    <if test="pageFilter.filterEntity.contractStaff!= null">
+                        and contract_staff = #{pageFilter.filterEntity.contractStaff}
+                    </if>
+                    <if test="pageFilter.filterEntity.reviewStaff!= null">
+                        and review_staff = #{pageFilter.filterEntity.reviewStaff}
+                    </if>
+                    <if test="pageFilter.filterEntity.auditState!= null">
+                        and audit_state = #{pageFilter.filterEntity.auditState,typeHandler=com.froad.db.extend.EnumTypeHandler}
+                    </if>
+                   <!-- 
+                    <if test="pageFilter.filterEntity.type!= null">
+                        and type = #{pageFilter.filterEntity.type,typeHandler=com.froad.db.extend.EnumTypeHandler}
+                    </if>
+                     
+                    <if test="pageFilter.filterEntity.merchantTypes!= null">
+                    	and type in
+                    	<foreach collection="pageFilter.filterEntity.merchantTypes" item="item" open="(" close=")" separator=",">
+							#{item,typeHandler=com.froad.db.extend.EnumTypeHandler}
+						</foreach>
+                    </if>
+                    -->
+                    <if test="pageFilter.filterEntity.areaId!= null">
+                        and area_id = #{pageFilter.filterEntity.areaId}
+                    </if>
+                    <if test="pageFilter.filterEntity.merchantCategoryId!= null">
+                        and merchant_category_id = #{pageFilter.filterEntity.merchantCategoryId}
+                    </if>
+                    <if test="pageFilter.filterEntity.dataState!= null">
+                        and data_state = #{pageFilter.filterEntity.dataState,typeHandler=com.froad.db.extend.EnumTypeHandler}
+                    </if>
+                    <if test="pageFilter.filterEntity.clientId!= null">
+                        and client_id = #{pageFilter.filterEntity.clientId}
+                    </if>
+                    <if test="pageFilter.filterEntity.interbankAgency!= null and pageFilter.filterEntity.interbankAgency!=''">
+                        and interbank_agency = #{pageFilter.filterEntity.interbankAgency}
+                    </if>
+                     <if test="pageFilter.filterEntity.travelAgency!= null and pageFilter.filterEntity.travelAgency!=''">
+                        and travel_agency = #{pageFilter.filterEntity.travelAgency}
+                    </if>
+                     <if test="pageFilter.filterEntity.latticPoint!= null and pageFilter.filterEntity.latticPoint!=''">
+                        and lattice_point = #{pageFilter.filterEntity.latticPoint}
+                    </if>
+                    <if test="pageFilter.filterEntity.orgLevel != null">
+			            and m.org_level = #{pageFilter.filterEntity.orgLevel}
+			        </if>
+			        <if test="pageFilter.filterEntity.orgVerifyState != null">
+			            and m.org_verify_state = #{pageFilter.filterEntity.orgVerifyState}
+			        </if>
+                    <if test="pageFilter.filterEntity.auditStates!= null">
+                    	and m.audit_state in
+                    	<foreach collection="pageFilter.filterEntity.auditStates" item="item" open="(" close=")" separator=",">
+							#{item,typeHandler=com.froad.db.extend.EnumTypeHandler}
+						</foreach>
+                    </if>
+					<if test="pageFilter.filterEntity.merchantTypeList != null">
+							and EXISTS (select 0 from fft_merchant_type_relation k where k.merchant_id = m.id and k.merchant_type_id in
+								<foreach collection="pageFilter.filterEntity.merchantTypeList" item="item" open="(" close=")" separator=",">
+									#{item.id}
+								</foreach> 
+							)
+                    </if>
+                </if>
+
+                <!-- 时间段条件 -->
+                <if test="pageFilter.property != null and pageFilter.startTime != null">
+                    <![CDATA[
+					 and ${pageFilter.property} >= #{pageFilter.startTime}
+					]]>
+                </if>
+                <if test="pageFilter.property != null and pageFilter.endTime != null">
+                    <![CDATA[
+					 and ${pageFilter.property} <= #{pageFilter.endTime}
+					]]>
+                </if>
+            </where>
+        </if>
+        <!-- 排序 -->
+        <if test="order != null">
+            <if test="order.property != null and order.direction != null">
+                order by ${order.property} ${order.direction}
+            </if>
+        </if>
+    </select>
+
+    <!-- 查询所有已限定规则商品 -->
+    <select id="selectAllOutletMerchant"  resultMap="merchantResultMap" parameterType="java.util.Map">
+      SELECT * FROM fft_merchant t WHERE  EXISTS (SELECT 1 FROM fft_merchant_outlet o WHERE o.merchant_id=t.id)
+        <if test="clientId != null">
+            and t.client_id = #{clientId}
+        </if>
+        order by t.id desc
+    </select>
+
+	<select id="selectByConditions" parameterType="Merchant" resultMap="merchantResultMap">
+		select * from fft_merchant 
+	</select>
+
+    <!-- 查询 -->
+    <select id="selectFroadMerchant" parameterType="Merchant" resultMap="merchantResultMap">
+		select m.* from fft_merchant m 
+		LEFT JOIN fft_merchant_type_relation fmtr on m.id = fmtr.merchant_id
+		LEFT JOIN fft_merchant_type fmt on fmtr.merchant_type_id = fmt.id
+		
+		where m.client_id = #{clientId} and m.data_state= #{dataState,typeHandler=com.froad.db.extend.EnumTypeHandler}
+		 and m.audit_state = #{auditState,typeHandler=com.froad.db.extend.EnumTypeHandler} and fmt.is_froad_type=1
+	</select>
+	
+	<select id="selectFroadMerchantId" resultType="java.lang.Long">
+		select 
+		  merchant.id 
+		from
+		  fft_merchant merchant 
+		  inner join fft_merchant_type_relation tr 
+		    on merchant.id = tr.merchant_id 
+		  inner join fft_merchant_type mt 
+		    on tr.merchant_type_id = mt.id 
+		where mt.is_froad_type = 1 
+		  and mt.is_enabled = 1 
+		  and merchant.data_state = '30' 
+		limit 1 
+	</select>
+	
+	
+	 <!-- 查询 -->
+    <select id="selectById" parameterType="java.lang.Long" resultMap="merchantResultMap">
+		select m.* from fft_merchant m where m.id = #{id}
+	</select>
+	
+	
+	<select id="findMerchantById" parameterType="java.lang.Long" resultType="java.lang.Integer" >
+		SELECT
+				count(1)
+			FROM
+				fft_merchant t
+			WHERE
+				t.id IN (
+					SELECT
+						a.merchant_id
+					FROM
+						fft_merchant_type_relation a
+					WHERE
+						a.merchant_id = t.id
+					AND a.merchant_type_id IN (
+						'100000004',
+						'100000005',
+						'100000002'
+					)
+				) and id = #{id}
+	</select>
+	
+	<select id="selectOrgCodeOfPresell" resultType="java.lang.Long" resultMap="outleBankResultMap">
+	  select bank_org from fft_merchant m left join fft_outlet_bank ob on m.id=ob.merchat_id where merchat_id=#{id}
+	</select>
+	
+	
+	<select id="findAllMerchantLicense"  resultMap="licenseResultMap">
+	  SELECT license FROM fft_merchant GROUP BY license HAVING COUNT(license) >1
+	</select>
+</mapper>

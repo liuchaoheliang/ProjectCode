@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="merchantTrafficMAP">
+	
+	<typeAlias alias="merchantTrafficMAP" type="com.froad.CB.po.merchant.MerchantTrafficMAP"/>
+
+	<resultMap id="MerchantTrafficMAPResult" class="merchantTrafficMAP" >
+	  <result column="id" property="id" jdbcType="INT" />
+	  <result column="Merchant_id" property="merchantId" jdbcType="VARCHAR" />
+	  <result column="ServiceProvider" property="serviceProvider" jdbcType="VARCHAR" />
+	  <result column="coordinate" property="coordinate" jdbcType="VARCHAR" />
+	  <result column="staffgauge" property="staffgauge" jdbcType="VARCHAR" />
+	  <result column="state" property="state" jdbcType="VARCHAR" />
+	  <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+	  <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
+	  <result column="remark" property="remark" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<select id="selectByPrimaryKey" resultMap="MerchantTrafficMAPResult" parameterClass="java.lang.Integer" >
+	    select * from merchant_traffic_map where id = #id#
+	</select>
+	
+	<select id="selectByMerchantId" resultMap="MerchantTrafficMAPResult" parameterClass="string" >
+	    select * from merchant_traffic_map where Merchant_id=#merchantId#
+	</select>
+	
+	<select id="selectByUserId" resultMap="MerchantTrafficMAPResult" parameterClass="string" >
+	    select * from merchant_traffic_map where Merchant_id=(
+	    select id from merchant where user_id=#value#)
+	</select>
+	
+	<delete id="deleteByPrimaryKey" parameterClass="java.lang.Integer" >
+	    delete from merchant_traffic_map where id = #id:INT#
+	</delete>
+	
+	<insert id="insert" parameterClass="merchantTrafficMAP" >
+	   insert into merchant_traffic_map (id, Merchant_id, ServiceProvider, coordinate, staffgauge,
+	   state, create_time, update_time, remark)
+	   values(#id:INT#, #merchantId:VARCHAR#, #serviceProvider:VARCHAR#, #coordinate:VARCHAR#,
+	    #staffgauge:VARCHAR#, #state:VARCHAR#, DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"), DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),
+	    #remark:VARCHAR#)
+	   <selectKey keyProperty="id" resultClass="int">
+		 select last_insert_id() as id
+	   </selectKey>
+	</insert>
+	
+	<update id="updateByPrimaryKeySelective" parameterClass="merchantTrafficMAP" >
+	  update merchant_traffic_map set update_time = DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s")
+	  <dynamic prepend="" >
+	    <isNotEmpty prepend="," property="merchantId" >
+	      Merchant_id = #merchantId:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="serviceProvider" >
+	      ServiceProvider = #serviceProvider:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="coordinate" >
+	      coordinate = #coordinate:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="staffgauge" >
+	      staffgauge = #staffgauge:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="state" >
+	      state = #state:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="remark" >
+	      remark = #remark:VARCHAR#
+	    </isNotEmpty>
+	  </dynamic>
+	  <dynamic  prepend="where">
+			<isNotEmpty prepend="and" property="id">
+				<![CDATA[ id = #id:INTEGER# ]]>
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="merchantId">
+				<![CDATA[ Merchant_id = #merchantId:VARCHAR# ]]>
+			</isNotEmpty>
+		</dynamic>
+	</update>
+	
+	<select id="selectMerchantTrafficMAPs" resultMap="MerchantTrafficMAPResult" parameterClass="merchantTrafficMAP">
+	  select * from merchant_traffic_map
+	  <dynamic prepend="where" >
+	   <isNotEmpty prepend="and" property="id" >
+	     id = #id:INT#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="and" property="merchantId" >
+	      Merchant_id = #merchantId:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="and" property="serviceProvider" >
+	      ServiceProvider = #serviceProvider:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="and" property="coordinate" >
+	      coordinate = #coordinate:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="and" property="staffgauge" >
+	      staffgauge = #staffgauge:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="and" property="state" >
+	      state = #state:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="and" property="createTime" >
+	      create_time = #createTime:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="and" property="updateTime" >
+	      update_time = #updateTime:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="and" property="remark" >
+	      remark = #remark:VARCHAR#
+	    </isNotEmpty>
+	  </dynamic>
+	</select>
+</sqlMap>

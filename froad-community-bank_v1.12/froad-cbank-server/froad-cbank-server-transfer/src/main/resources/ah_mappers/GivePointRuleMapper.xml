@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.fft.persistent.api.GivePointRuleMapper">
+
+    <resultMap type="GivePointRule" id="GivePointRuleResultMap">
+        <id property="id" column="id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+
+        <result property="name" column="name"/>
+        <result property="type" column="type" typeHandler="com.froad.db.extend.EnumTypeHandler"/>
+        <result property="pointValue" column="point_value"/>
+        <result property="activeTime" column="active_time"/>
+        <result property="expireTime" column="expire_time"/>
+        <result property="remark" column="remark"/>
+    </resultMap>
+
+    <!-- 插入 -->
+    <insert id="saveGivePointRule" parameterType="GivePointRule" useGeneratedKeys="true" keyProperty="id">
+		insert into fft_give_point_rule values
+		(
+			#{id},#{createTime},#{updateTime},
+			#{name}, #{type,typeHandler=com.froad.db.extend.EnumTypeHandler},#{pointValue},#{activeTime},#{expireTime},#{remark}
+		)
+	</insert>
+    <!-- 更新 -->
+    <update id="updateGivePointRuleById" parameterType="GivePointRule">
+        update fft_give_point_rule set update_time = #{updateTime}
+        <if test="name != null">
+            ,name = #{name}
+        </if>
+        <if test="type != null">
+            ,type = #{type,typeHandler=com.froad.db.extend.EnumTypeHandler}
+        </if>
+        <if test="pointValue != null">
+            ,point_value = #{pointValue}
+        </if>
+        <if test="activeTime != null">
+            ,active_time = #{activeTime}
+        </if>
+        <if test="expireTime != null">
+            ,expire_time = #{expireTime}
+        </if>
+        <if test="remark != null">
+            ,remark = #{remark}
+        </if>
+        where id = #{id}
+    </update>
+
+    <!-- 查询 -->
+    <select id="selectGivePointRuleById" parameterType="java.lang.Long" resultMap="GivePointRuleResultMap">
+		select * from fft_give_point_rule where id = #{id}
+	</select>
+
+    <select id="selectGivePointRuleByPage" parameterType="com.froad.fft.persistent.bean.page.Page" resultMap="GivePointRuleResultMap">
+        select * from fft_give_point_rule
+        <if test="pageFilter != null">
+            <where>
+                <if test="pageFilter.filterEntity != null">
+                    <if test="pageFilter.filterEntity.id!= null">
+                        and id = #{pageFilter.filterEntity.id}
+                    </if>
+                    <if test="pageFilter.filterEntity.type!= null">
+                        and type = #{pageFilter.filterEntity.type,typeHandler=com.froad.db.extend.EnumTypeHandler}
+                    </if>
+                    <if test="pageFilter.filterEntity.name!= null">
+                        and name like CONCAT('%',#{pageFilter.filterEntity.name},'%')
+                    </if>
+                </if>
+
+                <!-- 时间段条件 -->
+                <if test="pageFilter.property != null and pageFilter.startTime != null">
+                    <![CDATA[
+         					 and ${pageFilter.property} >= #{pageFilter.startTime}
+         					]]>
+                </if>
+                <if test="pageFilter.property != null and pageFilter.endTime != null">
+                    <![CDATA[
+         					 and ${pageFilter.property} <= #{pageFilter.endTime}
+         					]]>
+                </if>
+            </where>
+        </if>
+        <!-- 排序 -->
+        <if test="order != null">
+            <if test="order.property != null and order.direction != null">
+                order by ${order.property} ${order.direction}
+            </if>
+        </if>
+    </select>
+
+    <select id="selectGivePointRuleByPageCount" parameterType="com.froad.fft.persistent.bean.page.Page" resultType="java.lang.Integer">
+        select count(*) from fft_give_point_rule
+        <if test="pageFilter != null">
+            <where>
+                <if test="pageFilter.filterEntity != null">
+                    <if test="pageFilter.filterEntity.id!= null">
+                        and id = #{pageFilter.filterEntity.id}
+                    </if>
+                    <if test="pageFilter.filterEntity.type!= null">
+                        and type = #{pageFilter.filterEntity.type,typeHandler=com.froad.db.extend.EnumTypeHandler}
+                    </if>
+                    <if test="pageFilter.filterEntity.name!= null">
+                        and name like CONCAT('%',#{pageFilter.filterEntity.name},'%')
+                    </if>
+                </if>
+
+                <!-- 时间段条件 -->
+                <if test="pageFilter.property != null and pageFilter.startTime != null">
+                    <![CDATA[
+         					 and ${pageFilter.property} >= #{pageFilter.startTime}
+         					]]>
+                </if>
+                <if test="pageFilter.property != null and pageFilter.endTime != null">
+                    <![CDATA[
+         					 and ${pageFilter.property} <= #{pageFilter.endTime}
+         					]]>
+                </if>
+            </where>
+        </if>
+    </select>
+
+
+</mapper>

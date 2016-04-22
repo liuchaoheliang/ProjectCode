@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.chongqing.mappers.OrderMapper">
+
+	<resultMap type="Order" id="baseMap">
+		<id property="id" column="id" />
+		<result property="createTime" column="create_time" />
+		<result property="updateTime" column="update_time" />
+		<result property="clientId" column="client_id" />
+		<result property="sn" column="sn" />
+		<result property="paymentMethod" column="payment_method" />
+		<result property="paymentTime" column="payment_time" />
+		<result property="refundTime" column="refund_time" />
+		<result property="shippingTime" column="shipping_time"/>
+		<result property="memberCode" column="member_code" />
+		<result property="memberName" column="member_name" />
+		<result property="memberMobile" column="member_mobile" />
+		<result property="totalPrice" column="total_price" />
+		<result property="realPrice" column="real_price" />
+		<result property="fftPoints" column="fft_points" />
+		<result property="bankPoints" column="bank_points" />
+		<result property="gatheringValue" column="gathering_value" />
+		<result property="fee" column="fee" />
+		<result property="cardNO" column="card_no" />
+		<result property="cardBindMobile" column="card_bind_mobile" />
+		<result property="merchantId" column="merchant_id" />
+		<result property="merchantName" column="merchant_name" />
+		<result property="reason" column="reason" />
+		<result property="filmMobile" column="film_mobile" />
+		<result property="phone" column="phone" />
+		<result property="merchantOutletId" column="merchant_outlet_id" />
+		<result property="merchantOutletName" column="merchant_outlet_name" />
+		<result property="buyerName" column="buyer_name" />
+		<result property="receiverId" column="receiver_id" />
+		<result property="address" column="address" />
+		<result property="pointRate" column="point_rate" />
+		<result property="givePoints" column="give_points" />
+		<result property="merchantUserId" column="merchant_user_id" />
+		<result property="noticeCode" column="notice_code" />
+		<result property="noticeMsg" column="notice_msg" />
+		<result property="gatherMerchantId" column="gather_merchant_id" />
+		<result property="cancelRemark" column="cancel_remark" />
+		<result property="pointsOrgNo" column="points_org_no" />
+		<result property="financeOrgNo" column="finance_org_no" />
+		<result property="remark" column="remark" />
+
+		<result property="createSource" column="create_source"
+			typeHandler="com.froad.db.extend.EnumTypeHandler" />
+		<result property="type" column="type"
+			typeHandler="com.froad.db.extend.EnumTypeHandler" />
+		<result property="paymentChannelType" column="payment_channel_type"
+			typeHandler="com.froad.db.extend.EnumTypeHandler" />
+		<result property="orderStatus" column="order_status"
+			typeHandler="com.froad.db.extend.EnumTypeHandler" />
+		<result property="shippingStatus" column="shipping_status"
+			typeHandler="com.froad.db.extend.EnumTypeHandler" />
+		<result property="paymentStatus" column="payment_status"
+			typeHandler="com.froad.db.extend.EnumTypeHandler" />
+		<result property="refundStatus" column="refund_status"
+			typeHandler="com.froad.db.extend.EnumTypeHandler" />
+		<result property="deliveryType" column="delivery_type" />
+		<result property="settleState" column="settle_state"
+			typeHandler="com.froad.db.extend.EnumTypeHandler" />
+		<result property="deleteStatus" column="delete_status"
+			typeHandler="com.froad.db.extend.EnumTypeHandler" />
+		<result property="clusterState" column="clusterState"
+			typeHandler="com.froad.db.extend.EnumTypeHandler" />
+			
+		<result property="ticketInfo.securitiesNo" column="securities_no"/>
+		<result property="ticketInfo.isConsume" column="is_consume"/>
+		<result property="ticketInfo.consumeTime" column="consume_time"/>
+		<result property="ticketInfo.expireTime" column="expire_time"/>
+		<result property="ticketInfo.merchantUserId" column="ticketmerchant_user_id"/>
+		<result property="ticketInfo.productFullName" column="Product_full_name"/>
+		<result property="ticketInfo.merchantOutletId" column="ticketmerchant_outlet_id"/> 
+		<result property="ticketInfo.settleState" column="ticket_settle_state" javaType="java.lang.Boolean"/>
+		<result property="ticketInfo.refundState" column="refund_state" typeHandler="com.froad.db.extend.EnumTypeHandler" />
+	
+		<result property="detail.productId" column="product_id"/>
+		<result property="detail.productName" column="product_name"/>
+		<result property="detail.productSn" column="product_sn"/>
+		<result property="detail.quantity" column="quantity"/>
+		<result property="detail.price" column="price"/>
+		<result property="detail.single" column="single"/>
+	
+	</resultMap>
+	
+	<resultMap type="OrderProduct" id="productInfoResultMap">
+		<result property="orderId" column="order_id" />
+		<result property="memberCode" column="member_code" />
+		<result property="memberName" column="member_name" />
+		<result property="memberMobile" column="member_mobile" />
+		<result property="merchantId" column="merchant_id" />
+		<result property="merchantName" column="merchant_name" />
+		<result property="buyerName" column="buyer_name" />
+		<result property="phone" column="phone" />
+		<result property="productId" column="product_id" />
+		<result property="productName" column="product_name" />
+		<result property="productSn" column="product_sn" />
+		<result property="quantity" column="quantity" />
+		<result property="singlePrice" column="single" />
+		<result property="vipQuantity" column="vip_quantity" />
+		<result property="vipSinglePrice" column="vip_single" />
+	</resultMap>
+
+
+	<!-- 基础sql 通过主键查询 -->
+	<select id="selectById" parameterType="java.lang.Long" resultMap="baseMap">
+		SELECT 
+			o.*,
+			od.`product_id`,
+			od.`product_name`,
+			od.`product_sn`,
+			od.`quantity`,
+			od.`price`,
+			od.`single`
+			FROM cb_order o INNER JOIN cb_order_details od  ON o.`id`=od.`order_id` where o.id = #{id}
+	</select>
+
+	<!-- 基础sql 通过编号查询 -->
+	<select id="selectBySN" parameterType="java.lang.String" resultMap="baseMap">
+		SELECT 
+			o.*,
+			od.`product_id`,
+			od.`product_name`,
+			od.`product_sn`,
+			od.`quantity`,
+			od.`price`,
+			od.`single` 
+			FROM cb_order o INNER JOIN cb_order_details od  ON o.`id`=od.`order_id` where o.sn = #{sn}
+	</select>
+	
+	<select id="selectAll"  resultMap="baseMap">
+		SELECT 
+			o.*,
+			od.`product_id`,
+			od.`product_name`,
+			od.`product_sn`,
+			od.`quantity`,
+			od.`price`,
+			od.`single` 
+			FROM cb_order o INNER JOIN cb_order_details od  ON o.`id`=od.`order_id`
+	</select>
+	
+	<select id="selectFaceSettelment"  resultMap="baseMap">
+		SELECT * FROM cb_order WHERE TYPE ='03' AND order_status='20'
+	</select>
+	
+	<select id="selectPointAll"  resultMap="baseMap">
+		SELECT id,point_rate FROM cb_order WHERE point_rate IS NOT NULL AND point_rate !=''
+	</select>
+	
+	<!-- select order product information by SN -->
+	<select id="selectProductInfoBySN" parameterType="java.lang.String"	resultMap="productInfoResultMap">
+		select a.member_code, a.member_name, a.merchant_id, a.merchant_name, a.member_mobile, a.buyer_name, a.phone, 
+		b.product_id, b.product_name, b.product_sn, b.order_id, b.quantity, b.single, b.vip_quantity, b.vip_single 
+		from cb_order as a, cb_order_details as b 
+		where a.sn = #{sn} and a.id = b.order_id 
+	</select>
+	
+	<!-- select order product information by order id -->
+	<select id="selectProductInfoByOrderId" parameterType="java.lang.Long"	resultMap="productInfoResultMap">
+		select a.member_code, a.member_name, a.merchant_id, a.merchant_name, a.member_mobile, a.buyer_name, a.phone, 
+		b.product_id, b.product_name, b.product_sn, b.order_id, b.quantity, b.single, b.vip_quantity, b.vip_single 
+		from cb_order as a, cb_order_details as b 
+		where a.id = #{order_id} and a.id = b.order_id
+	</select>	
+	
+	<select id="selectPresellProduct" resultMap="baseMap">
+		SELECT o.*,od.`product_id`,od.`product_name`,od.`product_sn`,od.`quantity`,od.`price`,od.`single` 
+		FROM cb_order o INNER JOIN cb_order_details od  ON o.`id`=od.`order_id` 
+		LEFT JOIN cb_ticket t ON t.`order_id`=o.`id` WHERE t.id IS NULL 
+		AND o.`type` IN('01','02') AND o.`order_status`='20' AND o.`payment_status`='30'
+	</select>
+</mapper>

@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cb_bank_resource">
+  <resultMap id="BaseResultMap" type="com.froad.db.mysql.po.Resource">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="client_id" jdbcType="VARCHAR" property="clientId" />
+    <result column="resource_name" jdbcType="VARCHAR" property="resourceName" />
+    <result column="resource_type" jdbcType="BIT" property="resourceType" />
+    <result column="parent_resource_id" jdbcType="BIGINT" property="parentResourceId" />
+    <result column="status" jdbcType="BIT" property="status" />
+    <result column="resource_url" jdbcType="VARCHAR" property="resourceUrl" />
+    <result column="resource_icon" jdbcType="VARCHAR" property="resourceIcon" />
+    <result column="tree_path" jdbcType="CHAR" property="treePath" />
+    <result column="is_delete" jdbcType="BIT" property="isDelete" />
+    <result column="api" jdbcType="VARCHAR" property="api" />
+    <result column="order_value" jdbcType="INTEGER" property="orderValue" />
+    <result column="resource_key" jdbcType="VARCHAR" property="resourceKey" />
+    <result column="platform" jdbcType="VARCHAR" property="platform" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, client_id, resource_name, resource_type, parent_resource_id, status, resource_url, 
+    resource_icon, tree_path, is_delete, api, order_value, resource_key, platform
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from cb_bank_resource
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from cb_bank_resource
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.froad.db.mysql.po.Resource">
+    insert into cb_bank_resource (id, client_id, resource_name, 
+      resource_type, parent_resource_id, status, 
+      resource_url, resource_icon, tree_path, 
+      is_delete, api, order_value, 
+      resource_key, platform)
+    values (#{id,jdbcType=BIGINT}, #{clientId,jdbcType=VARCHAR}, #{resourceName,jdbcType=VARCHAR}, 
+      #{resourceType,jdbcType=BIT}, #{parentResourceId,jdbcType=BIGINT}, #{status,jdbcType=BIT}, 
+      #{resourceUrl,jdbcType=VARCHAR}, #{resourceIcon,jdbcType=VARCHAR}, #{treePath,jdbcType=CHAR}, 
+      #{isDelete,jdbcType=BIT}, #{api,jdbcType=VARCHAR}, #{orderValue,jdbcType=INTEGER}, 
+      #{resourceKey,jdbcType=VARCHAR}, #{platform,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.froad.db.mysql.po.Resource">
+    insert into cb_bank_resource
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="clientId != null">
+        client_id,
+      </if>
+      <if test="resourceName != null">
+        resource_name,
+      </if>
+      <if test="resourceType != null">
+        resource_type,
+      </if>
+      <if test="parentResourceId != null">
+        parent_resource_id,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="resourceUrl != null">
+        resource_url,
+      </if>
+      <if test="resourceIcon != null">
+        resource_icon,
+      </if>
+      <if test="treePath != null">
+        tree_path,
+      </if>
+      <if test="isDelete != null">
+        is_delete,
+      </if>
+      <if test="api != null">
+        api,
+      </if>
+      <if test="orderValue != null">
+        order_value,
+      </if>
+      <if test="resourceKey != null">
+        resource_key,
+      </if>
+      <if test="platform != null">
+        platform,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="clientId != null">
+        #{clientId,jdbcType=VARCHAR},
+      </if>
+      <if test="resourceName != null">
+        #{resourceName,jdbcType=VARCHAR},
+      </if>
+      <if test="resourceType != null">
+        #{resourceType,jdbcType=BIT},
+      </if>
+      <if test="parentResourceId != null">
+        #{parentResourceId,jdbcType=BIGINT},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=BIT},
+      </if>
+      <if test="resourceUrl != null">
+        #{resourceUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="resourceIcon != null">
+        #{resourceIcon,jdbcType=VARCHAR},
+      </if>
+      <if test="treePath != null">
+        #{treePath,jdbcType=CHAR},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=BIT},
+      </if>
+      <if test="api != null">
+        #{api,jdbcType=VARCHAR},
+      </if>
+      <if test="orderValue != null">
+        #{orderValue,jdbcType=INTEGER},
+      </if>
+      <if test="resourceKey != null">
+        #{resourceKey,jdbcType=VARCHAR},
+      </if>
+      <if test="platform != null">
+        #{platform,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.froad.db.mysql.po.Resource">
+    update cb_bank_resource
+    <set>
+      <if test="clientId != null">
+        client_id = #{clientId,jdbcType=VARCHAR},
+      </if>
+      <if test="resourceName != null">
+        resource_name = #{resourceName,jdbcType=VARCHAR},
+      </if>
+      <if test="resourceType != null">
+        resource_type = #{resourceType,jdbcType=BIT},
+      </if>
+      <if test="parentResourceId != null">
+        parent_resource_id = #{parentResourceId,jdbcType=BIGINT},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=BIT},
+      </if>
+      <if test="resourceUrl != null">
+        resource_url = #{resourceUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="resourceIcon != null">
+        resource_icon = #{resourceIcon,jdbcType=VARCHAR},
+      </if>
+      <if test="treePath != null">
+        tree_path = #{treePath,jdbcType=CHAR},
+      </if>
+      <if test="isDelete != null">
+        is_delete = #{isDelete,jdbcType=BIT},
+      </if>
+      <if test="api != null">
+        api = #{api,jdbcType=VARCHAR},
+      </if>
+      <if test="orderValue != null">
+        order_value = #{orderValue,jdbcType=INTEGER},
+      </if>
+      <if test="resourceKey != null">
+        resource_key = #{resourceKey,jdbcType=VARCHAR},
+      </if>
+      <if test="platform != null">
+        platform = #{platform,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.froad.db.mysql.po.Resource">
+    update cb_bank_resource
+    set client_id = #{clientId,jdbcType=VARCHAR},
+      resource_name = #{resourceName,jdbcType=VARCHAR},
+      resource_type = #{resourceType,jdbcType=BIT},
+      parent_resource_id = #{parentResourceId,jdbcType=BIGINT},
+      status = #{status,jdbcType=BIT},
+      resource_url = #{resourceUrl,jdbcType=VARCHAR},
+      resource_icon = #{resourceIcon,jdbcType=VARCHAR},
+      tree_path = #{treePath,jdbcType=CHAR},
+      is_delete = #{isDelete,jdbcType=BIT},
+      api = #{api,jdbcType=VARCHAR},
+      order_value = #{orderValue,jdbcType=INTEGER},
+      resource_key = #{resourceKey,jdbcType=VARCHAR},
+      platform = #{platform,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <resultMap id="BaseResultMap" type="com.froad.db.mysql.po.Resource">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="client_id" jdbcType="VARCHAR" property="clientId" />
+    <result column="resource_name" jdbcType="VARCHAR" property="resourceName" />
+    <result column="resource_type" jdbcType="BIT" property="resourceType" />
+    <result column="parent_resource_id" jdbcType="BIGINT" property="parentResourceId" />
+    <result column="status" jdbcType="BIT" property="status" />
+    <result column="resource_url" jdbcType="VARCHAR" property="resourceUrl" />
+    <result column="resource_icon" jdbcType="VARCHAR" property="resourceIcon" />
+    <result column="tree_path" jdbcType="CHAR" property="treePath" />
+    <result column="is_delete" jdbcType="BIT" property="isDelete" />
+    <result column="api" jdbcType="VARCHAR" property="api" />
+    <result column="order_value" jdbcType="INTEGER" property="orderValue" />
+    <result column="resource_key" jdbcType="VARCHAR" property="resourceKey" />
+    <result column="platform" jdbcType="VARCHAR" property="platform" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, client_id, resource_name, resource_type, parent_resource_id, status, resource_url, 
+    resource_icon, tree_path, is_delete, api, order_value, resource_key, platform
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from cb_bank_resource
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from cb_bank_resource
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.froad.db.mysql.po.Resource">
+    insert into cb_bank_resource (id, client_id, resource_name, 
+      resource_type, parent_resource_id, status, 
+      resource_url, resource_icon, tree_path, 
+      is_delete, api, order_value, 
+      resource_key, platform)
+    values (#{id,jdbcType=BIGINT}, #{clientId,jdbcType=VARCHAR}, #{resourceName,jdbcType=VARCHAR}, 
+      #{resourceType,jdbcType=BIT}, #{parentResourceId,jdbcType=BIGINT}, #{status,jdbcType=BIT}, 
+      #{resourceUrl,jdbcType=VARCHAR}, #{resourceIcon,jdbcType=VARCHAR}, #{treePath,jdbcType=CHAR}, 
+      #{isDelete,jdbcType=BIT}, #{api,jdbcType=VARCHAR}, #{orderValue,jdbcType=INTEGER}, 
+      #{resourceKey,jdbcType=VARCHAR}, #{platform,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.froad.db.mysql.po.Resource">
+    insert into cb_bank_resource
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="clientId != null">
+        client_id,
+      </if>
+      <if test="resourceName != null">
+        resource_name,
+      </if>
+      <if test="resourceType != null">
+        resource_type,
+      </if>
+      <if test="parentResourceId != null">
+        parent_resource_id,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="resourceUrl != null">
+        resource_url,
+      </if>
+      <if test="resourceIcon != null">
+        resource_icon,
+      </if>
+      <if test="treePath != null">
+        tree_path,
+      </if>
+      <if test="isDelete != null">
+        is_delete,
+      </if>
+      <if test="api != null">
+        api,
+      </if>
+      <if test="orderValue != null">
+        order_value,
+      </if>
+      <if test="resourceKey != null">
+        resource_key,
+      </if>
+      <if test="platform != null">
+        platform,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="clientId != null">
+        #{clientId,jdbcType=VARCHAR},
+      </if>
+      <if test="resourceName != null">
+        #{resourceName,jdbcType=VARCHAR},
+      </if>
+      <if test="resourceType != null">
+        #{resourceType,jdbcType=BIT},
+      </if>
+      <if test="parentResourceId != null">
+        #{parentResourceId,jdbcType=BIGINT},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=BIT},
+      </if>
+      <if test="resourceUrl != null">
+        #{resourceUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="resourceIcon != null">
+        #{resourceIcon,jdbcType=VARCHAR},
+      </if>
+      <if test="treePath != null">
+        #{treePath,jdbcType=CHAR},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=BIT},
+      </if>
+      <if test="api != null">
+        #{api,jdbcType=VARCHAR},
+      </if>
+      <if test="orderValue != null">
+        #{orderValue,jdbcType=INTEGER},
+      </if>
+      <if test="resourceKey != null">
+        #{resourceKey,jdbcType=VARCHAR},
+      </if>
+      <if test="platform != null">
+        #{platform,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.froad.db.mysql.po.Resource">
+    update cb_bank_resource
+    <set>
+      <if test="clientId != null">
+        client_id = #{clientId,jdbcType=VARCHAR},
+      </if>
+      <if test="resourceName != null">
+        resource_name = #{resourceName,jdbcType=VARCHAR},
+      </if>
+      <if test="resourceType != null">
+        resource_type = #{resourceType,jdbcType=BIT},
+      </if>
+      <if test="parentResourceId != null">
+        parent_resource_id = #{parentResourceId,jdbcType=BIGINT},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=BIT},
+      </if>
+      <if test="resourceUrl != null">
+        resource_url = #{resourceUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="resourceIcon != null">
+        resource_icon = #{resourceIcon,jdbcType=VARCHAR},
+      </if>
+      <if test="treePath != null">
+        tree_path = #{treePath,jdbcType=CHAR},
+      </if>
+      <if test="isDelete != null">
+        is_delete = #{isDelete,jdbcType=BIT},
+      </if>
+      <if test="api != null">
+        api = #{api,jdbcType=VARCHAR},
+      </if>
+      <if test="orderValue != null">
+        order_value = #{orderValue,jdbcType=INTEGER},
+      </if>
+      <if test="resourceKey != null">
+        resource_key = #{resourceKey,jdbcType=VARCHAR},
+      </if>
+      <if test="platform != null">
+        platform = #{platform,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.froad.db.mysql.po.Resource">
+    update cb_bank_resource
+    set client_id = #{clientId,jdbcType=VARCHAR},
+      resource_name = #{resourceName,jdbcType=VARCHAR},
+      resource_type = #{resourceType,jdbcType=BIT},
+      parent_resource_id = #{parentResourceId,jdbcType=BIGINT},
+      status = #{status,jdbcType=BIT},
+      resource_url = #{resourceUrl,jdbcType=VARCHAR},
+      resource_icon = #{resourceIcon,jdbcType=VARCHAR},
+      tree_path = #{treePath,jdbcType=CHAR},
+      is_delete = #{isDelete,jdbcType=BIT},
+      api = #{api,jdbcType=VARCHAR},
+      order_value = #{orderValue,jdbcType=INTEGER},
+      resource_key = #{resourceKey,jdbcType=VARCHAR},
+      platform = #{platform,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

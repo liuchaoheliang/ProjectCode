@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="clientGoodsGatherRack">
+	
+	<typeAlias alias="clientGoodsGatherRack" type="com.froad.CB.po.ClientGoodsGatherRack" />
+
+	<resultMap class="clientGoodsGatherRack" id="clientGoodsGatherRackResult">
+		<result property="id" column="id"/>
+		<result property="goodsId" column="goods_id"/>
+		<result property="goods" column="goods_id" select="goods.selectById"/>
+		<result property="isRack" column="is_rack"/>
+		<result property="rackTime" column="rack_time"/>
+		<result property="inspectors" column="inspectors"/>
+		<result property="marketTotalNumber" column="market_total_number"/>
+		<result property="isCash" column="is_cash"/>
+		<result property="cashPricing" column="cash_pricing"/>	
+		<result property="state" column="state"/>
+		<result property="createTime" column="create_time"/>
+		<result property="updateTime" column="update_time"/>
+		<result property="remark" column="remark"/>
+		
+		<result property="sellerId" column="seller_id"/>
+		<result property="seller" column="seller_id" select="seller.selectByPrimaryKey"/>
+		<result property="merchantId" column="merchant_id"/>
+		<result property="merchant" column="merchant_id" select="merchant.selectByPrimaryKey"/>	
+	</resultMap>
+	
+	<!-- 添加商品收款架信息 -->
+	<insert id="addClientGoodsGatherRack" parameterClass="clientGoodsGatherRack">
+		<![CDATA[ 
+				insert into client_goods_gather_rack(id,seller_id,goods_id,is_rack,rack_time,inspectors,market_total_number,is_cash,cash_pricing,state,create_time,update_time,remark,merchant_id) 
+				values(#id#,#sellerId#,#goodsId#,#isRack#,#rackTime#,#inspectors#,#marketTotalNumber#,#isCash#,#cashPricing#,#state#,DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),#remark#,#merchantId#)
+		]]>
+			<selectKey keyProperty="id" resultClass="int">
+				select last_insert_id() as id
+			</selectKey>
+	</insert>
+	
+	<!-- 更新商品收款架信息  -->
+	<update id="updateClientGoodsGatherRackById" parameterClass="clientGoodsGatherRack" >
+	    <![CDATA[ 
+	    		update client_goods_gather_rack a 
+	    		set a.update_time = DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s")
+	    ]]>
+		<dynamic>
+		     <isNotEmpty prepend="," property="goodsId">
+		         <![CDATA[  a.goods_id = #goodsId# ]]>
+		     </isNotEmpty> 
+		     <isNotEmpty prepend="," property="isRack">
+		         <![CDATA[  a.is_rack = #isRack# ]]>
+		     </isNotEmpty> 
+		     <isNotEmpty prepend="," property="rackTime">
+		         <![CDATA[  a.rack_time = #rackTime# ]]>
+		     </isNotEmpty> 
+		     <isNotEmpty prepend="," property="inspectors">
+		         <![CDATA[  a.inspectors = #inspectors# ]]>
+		     </isNotEmpty> 
+		     <isNotEmpty prepend="," property="marketTotalNumber">
+		         <![CDATA[  a.market_total_number = #marketTotalNumber# ]]>
+		     </isNotEmpty> 
+		     <isNotEmpty prepend="," property="isCash">
+		         <![CDATA[  a.is_cash = #isCash# ]]>
+		     </isNotEmpty> 
+		     <isNotEmpty prepend="," property="cashPricing">
+		         <![CDATA[  a.cash_pricing = #cashPricing# ]]>
+		     </isNotEmpty> 
+		     <isNotEmpty prepend="," property="state">
+		         <![CDATA[  a.state = #state# ]]>
+		     </isNotEmpty> 
+		     <isNotEmpty prepend="," property="remark">
+		         <![CDATA[  a.remark = #remark# ]]>
+		      </isNotEmpty> 
+		</dynamic>
+		<![CDATA[ where a.id = #id# ]]>
+	</update>
+	
+	<!-- 根据id物理删除商品收款架信息 -->
+	<delete id="deleteByPrimaryKey" parameterClass="clientGoodsGatherRack" >
+	    <![CDATA[ 
+    			delete from client_goods_gather_rack where id = #id#
+	     ]]>
+	</delete>
+	
+	<!-- 根据id删除商品收款架信息 -->
+	<update id="deleteStateByPrimaryKey" parameterClass="clientGoodsGatherRack" >
+	    <![CDATA[ 
+    			update client_goods_gather_rack a 
+		     	set 
+		     	a.update_time = DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),a.state = '50' 
+		     	where a.id = #id:INT#
+	     ]]>
+	</update>
+	
+	<!-- 根据goodsId查询商品收款架信息 -->
+	<select id="getClientGoodsGatherRackByGoodsId" parameterClass="string" resultMap="clientGoodsGatherRackResult">
+		select * from client_goods_gather_rack a where a.goods_id=#goodsId#
+	</select>
+	
+	<!-- 根据主键编号查询商品收款架信息 -->
+	<select id="selectByPrimaryKey" parameterClass="java.lang.Integer" resultMap="clientGoodsGatherRackResult">
+		select * from client_goods_gather_rack a where a.id=#id#
+	</select>
+	
+	<!-- 查询商品收款架信息  -->
+    <select id="getClientGoodsGatherRackBySelective"  parameterClass="clientGoodsGatherRack" resultMap="clientGoodsGatherRackResult">
+    	select * from client_goods_gather_rack a
+    	<dynamic prepend="where">
+    		<isNotEmpty property="id" prepend="and">
+    			<![CDATA[  a.id=#id# ]]>
+    		</isNotEmpty>
+    		<isNotEmpty prepend="and" property="sellerId">
+				a.seller_id = #sellerId:VARCHAR#
+			</isNotEmpty>
+    		<isNotEmpty property="goodsId" prepend="and">
+    			<![CDATA[  a.goods_id = #goodsId# ]]>
+    		</isNotEmpty>
+    		<isNotEmpty property="isRack" prepend="and">
+    			<![CDATA[  a.is_rack = #isRack# ]]>
+    		</isNotEmpty>
+    		<isNotEmpty property="rackTime" prepend="and">
+    			<![CDATA[  a.rack_time = #rackTime# ]]>
+    		</isNotEmpty>
+    		<isNotEmpty property="state" prepend="and">
+    			<![CDATA[ a.state=#state# ]]>
+    		</isNotEmpty>
+    		<isNotEmpty property="isCash" prepend="and">
+		         <![CDATA[  a.is_cash = #isCash# ]]>
+		     </isNotEmpty> 
+		     <isNotEmpty property="cashPricing" prepend="and">
+		         <![CDATA[  a.cash_pricing = #cashPricing# ]]>
+		     </isNotEmpty> 
+    		<isNotEmpty property="inspectors" prepend="and">
+    			<![CDATA[  a.inspectors = #inspectors# ]]>
+    		</isNotEmpty>
+    		<isNotEmpty property="marketTotalNumber" prepend="and">
+    			<![CDATA[  a.market_total_number = #marketTotalNumber# ]]>
+    		</isNotEmpty>
+    		<isNotEmpty property="remark" prepend="and">
+		         <![CDATA[  a.remark = #remark# ]]>
+		    </isNotEmpty> 
+		   	<isNotEmpty property="merchantId" prepend="and">
+		         <![CDATA[  a.merchant_id = #merchantId# ]]>
+		      </isNotEmpty>
+<!--    		<isNotEmpty property="beginTime">-->
+<!--    			<isNotEmpty property="endTime" prepend="and">-->
+<!--    				create_time between #beginTime# and #endTime#-->
+<!--    			</isNotEmpty>-->
+<!--    		</isNotEmpty>-->
+    	</dynamic>
+    </select>
+	
+	<!-- 分页 查询商品收款架列表  -->
+    <select id="getClientGoodsGatherRackListByPager"  parameterClass="clientGoodsGatherRack" resultMap="clientGoodsGatherRackResult">
+    	select * from client_goods_gather_rack a
+    	<dynamic prepend="where">
+    		<isNotEmpty property="id" prepend="and">
+    			<![CDATA[  a.id=#id# ]]>
+    		</isNotEmpty>
+    		<isNotEmpty prepend="and" property="sellerId">
+				a.seller_id = #sellerId:VARCHAR#
+			</isNotEmpty>
+    		<isNotEmpty property="goodsId" prepend="and">
+    			<![CDATA[  a.goods_id = #goodsId# ]]>
+    		</isNotEmpty>
+    		<isNotEmpty property="isRack" prepend="and">
+    			<![CDATA[  a.is_rack = #isRack# ]]>
+    		</isNotEmpty>
+    		<isNotEmpty property="rackTime" prepend="and">
+    			<![CDATA[  a.rack_time = #rackTime# ]]>
+    		</isNotEmpty>
+    		<isNotEmpty property="state" prepend="and">
+    			<![CDATA[ a.state=#state# ]]>
+    		</isNotEmpty>
+    		<isNotEmpty property="isCash" prepend="and">
+		         <![CDATA[  a.is_cash = #isCash# ]]>
+		     </isNotEmpty> 
+		     <isNotEmpty property="cashPricing" prepend="and">
+		         <![CDATA[  a.cash_pricing = #cashPricing# ]]>
+		     </isNotEmpty> 
+    		<isNotEmpty property="inspectors" prepend="and">
+    			<![CDATA[  a.inspectors = #inspectors# ]]>
+    		</isNotEmpty>
+    		<isNotEmpty property="marketTotalNumber" prepend="and">
+    			<![CDATA[  a.market_total_number = #marketTotalNumber# ]]>
+    		</isNotEmpty>
+    		<isNotEmpty property="remark" prepend="and">
+		         <![CDATA[  a.remark = #remark# ]]>
+		      </isNotEmpty> 
+		    <isNotEmpty property="merchantId" prepend="and">
+		         <![CDATA[  a.merchant_id = #merchantId# ]]>
+		      </isNotEmpty>
+    		<isNotEmpty property="beginTime">
+    			<isNotEmpty property="endTime" prepend="and">
+    			<![CDATA[	a.create_time between #beginTime# and #endTime# ]]>
+    			</isNotEmpty>
+    		</isNotEmpty>
+    	</dynamic>            
+            <![CDATA[ 
+            		order by $orderBy$ $orderType$ 
+            		limit #startRow#,#pageSize#  
+            ]]> 
+    </select>
+    
+    <select id="getClientGoodsGatherRackListByPagerCount"  parameterClass="clientGoodsGatherRack" resultClass="java.lang.Integer">
+    	select count(*) from client_goods_gather_rack a
+    	<dynamic prepend="where">
+    		<isNotEmpty property="id" prepend="and">
+    			<![CDATA[  a.id=#id# ]]>
+    		</isNotEmpty>
+    		<isNotEmpty prepend="and" property="sellerId">
+				a.seller_id = #sellerId:VARCHAR#
+			</isNotEmpty>
+    		<isNotEmpty property="goodsId" prepend="and">
+    			<![CDATA[  a.goods_id = #goodsId# ]]>
+    		</isNotEmpty>
+    		<isNotEmpty property="isRack" prepend="and">
+    			<![CDATA[  a.is_rack = #isRack# ]]>
+    		</isNotEmpty>
+    		<isNotEmpty property="rackTime" prepend="and">
+    			<![CDATA[  a.rack_time = #rackTime# ]]>
+    		</isNotEmpty>
+    		<isNotEmpty property="state" prepend="and">
+    			<![CDATA[ a.state=#state# ]]>
+    		</isNotEmpty>
+    		<isNotEmpty property="isCash" prepend="and">
+		         <![CDATA[  a.is_cash = #isCash# ]]>
+		     </isNotEmpty> 
+		     <isNotEmpty property="cashPricing" prepend="and">
+		         <![CDATA[  a.cash_pricing = #cashPricing# ]]>
+		     </isNotEmpty> 
+    		<isNotEmpty property="inspectors" prepend="and">
+    			<![CDATA[  a.inspectors = #inspectors# ]]>
+    		</isNotEmpty>
+    		<isNotEmpty property="marketTotalNumber" prepend="and">
+    			<![CDATA[  a.market_total_number = #marketTotalNumber# ]]>
+    		</isNotEmpty>
+    		<isNotEmpty property="remark" prepend="and">
+		         <![CDATA[  a.remark = #remark# ]]>
+		      </isNotEmpty> 
+		    <isNotEmpty property="merchantId" prepend="and">
+		         <![CDATA[  a.merchant_id = #merchantId# ]]>
+		      </isNotEmpty>
+    		<isNotEmpty property="beginTime">
+    			<isNotEmpty property="endTime" prepend="and">
+    			<![CDATA[	a.create_time between #beginTime# and #endTime# ]]>
+    			</isNotEmpty>
+    		</isNotEmpty>
+    	</dynamic>
+    </select>
+</sqlMap>

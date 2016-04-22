@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="pointCashRule">
+	<typeAlias alias="pointCashRule"
+		type="com.froad.CB.po.PointCashRule" />
+
+	<resultMap class="pointCashRule" id="pointCashRuleResultMap">
+		<result property="id" column="id" jdbcType="INT" />
+		<result property="ruleDesc" column="rule_desc"
+			jdbcType="VARCHAR" />
+		<result property="pointType" column="point_type"
+			jdbcType="VARCHAR" />
+		<result property="pointValue" column="point_value"
+			jdbcType="VARCHAR" />
+		<result property="cashValue" column="cash_value"
+			jdbcType="VARCHAR" />
+		<result property="state" column="state" jdbcType="VARCHAR" />
+		<result property="createTime" column="create_time"
+			jdbcType="VARCHAR" />
+		<result property="updateTime" column="update_time"
+			jdbcType="VARCHAR" />
+		<result property="remark" column="remark" jdbcType="VARCHAR" />
+
+	</resultMap>
+
+	<select id="getPointCashRuleByID" parameterClass="java.lang.Integer"
+		resultMap="pointCashRuleResultMap">
+		select * from point_cash_rule where id = #id:INT#
+	</select>
+	
+	<select id="getAllPointCashRule" resultMap="pointCashRuleResultMap">
+		select * from point_cash_rule
+	</select>
+
+
+
+
+
+
+</sqlMap>

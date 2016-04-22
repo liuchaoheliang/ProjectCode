@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+	<properties url="file:./config/rp_jdbc.properties"/>
+
+	<!-- 指定结果集映射关系 -->
+	<typeAliases>
+		<typeAlias alias="ReportBankUser" type="com.froad.po.ReportBankUser"/>
+		<typeAlias alias="ReportMerchantProduct" type="com.froad.po.ReportMerchantProduct"/>
+		<typeAlias alias="ReportMerchantSale" type="com.froad.po.ReportMerchantSale"/>
+		<typeAlias alias="ReportSignMerchant" type="com.froad.po.ReportSignMerchant"/>
+		<typeAlias alias="ReportSignSummaryDetail" type="com.froad.po.ReportSignSummaryDetail"/>
+		<typeAlias alias="ReportSignSummary" type="com.froad.po.ReportSignSummary"/>
+		<typeAlias alias="ReportSignTypeSummary" type="com.froad.po.ReportSignTypeSummary"/>
+		<typeAlias alias="SaleTypeCount" type="com.froad.po.SaleTypeCount"/>
+		<typeAlias alias="PayTypeCount" type="com.froad.po.PayTypeCount"/>
+		<typeAlias alias="SaleCountDetail" type="com.froad.po.SaleCountDetail"/>
+		<typeAlias alias="MerchantSaleDetail" type="com.froad.po.MerchantSaleDetail"/>
+		<typeAlias alias="BusinessSaleDetail" type="com.froad.po.BusinessSaleDetail"/>
+		<typeAlias alias="ProductTypeCount" type="com.froad.po.ProductTypeCount"/>
+		<typeAlias alias="ProductCategoryCount" type="com.froad.po.ProductCategoryCount"/>
+		<typeAlias alias="ProductSaleDetail" type="com.froad.po.ProductSaleDetail"/>
+		<typeAlias alias="ReportBankOrg" type="com.froad.po.ReportBankOrg"/>
+		<typeAlias alias="ReportUser" type="com.froad.po.ReportUser"/>
+		<typeAlias alias="ReportUserDetail" type="com.froad.po.ReportUserDetail"/>
+		<typeAlias alias="ReportUserSummary" type="com.froad.po.ReportUserSummary"/>
+		<typeAlias alias="ReportUserTrans" type="com.froad.po.ReportUserTrans"/>
+		<typeAlias alias="BatchCycle" type="com.froad.po.BatchCycle"/>
+		<typeAlias alias="BatchJob" type="com.froad.po.BatchJob"/>
+		<typeAlias alias="BatchNode" type="com.froad.po.BatchNode"/>
+		<typeAlias alias="BatchChunk" type="com.froad.po.BatchChunk"/>
+		<typeAlias alias="ReportOrder" type="com.froad.po.ReportOrder"/>
+		<typeAlias alias="ReportOrderRefund" type="com.froad.po.ReportOrderRefund"/>
+		<typeAlias alias="ReportOrderProduct" type="com.froad.po.ReportOrderProduct"/>
+		<typeAlias alias="ReportMerchantOutlet" type="com.froad.po.ReportMerchantOutlet"/>
+		<typeAlias alias="ReportMerchantOutletCount" type="com.froad.po.ReportMerchantOutletCount"/>
+		<typeAlias alias="ReportProductSummary" type="com.froad.po.ReportProductSummary"/>
+	</typeAliases>
+
+	<!-- 分页拦截器 mysql or oracle -->
+	<plugins>
+		<plugin interceptor="com.froad.db.mysql.interceptor.PageInterceptorRp">
+			<property name="databaseDialect" value="com.froad.db.mysql.dialet.MySQLDialect" />
+			<property name="pageSqlIdRegEx" value=".*ByPage" />
+		</plugin>
+	</plugins>
+	
+	<!-- -->
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC" />
+			<dataSource type="com.froad.db.mysql.datasource.DruidDataSourceFactory">
+				<property name="driverClassName" value="${jdbc.driverClassName}" />
+				<property name="url" value="${jdbc.url}" />
+				<property name="username" value="${jdbc.username}" />
+				<property name="password" value="${jdbc.password}" />
+
+				<!-- 配置初始化大小、最小、最大 -->
+				<property name="initialSize" value="${pool.initialSize}" />
+				<property name="minIdle" value="${pool.minIdle}" />
+				<property name="maxActive" value="${pool.maxActive}" />
+
+				<!-- 配置获取连接等待超时的时间 -->
+				<property name="maxWait" value="${pool.maxWait}" />
+
+				<property name="validationQuery" value="select now()" />
+				<property name="testWhileIdle" value="true" />
+				<property name="testOnBorrow" value="false" />
+				<property name="testOnReturn" value="false" />
+				<property name="poolPreparedStatements" value="false" />
+				<property name="maxOpenPreparedStatements" value="-1" />
+
+				<!-- 对于长时间不使用的连接强制关闭 -->
+				<property name="removeAbandoned" value="false" />
+
+				<!-- 超过30分钟开始关闭空闲连接 -->
+				<property name="removeAbandonedTimeout" value="120" />
+
+				<!-- 将当前关闭动作记录到日志 -->
+				<property name="logAbandoned" value="true" />
+			</dataSource>
+		</environment>
+	</environments>
+
+	<!-- 指定mapper资源 -->
+	<mappers>
+		<mapper resource="rp_mappers/ReportBankUserMapper.xml" />
+		<mapper resource="rp_mappers/ReportMerchantProductMapper.xml" />
+		<mapper resource="rp_mappers/ReportProductMapper.xml" />
+		<mapper resource="rp_mappers/ReportMerchantSaleMapper.xml" />
+		<mapper resource="rp_mappers/ReportSignMerchantMapper.xml" />
+		<mapper resource="rp_mappers/ReportSignSummaryDetailMapper.xml" />
+		<mapper resource="rp_mappers/ReportSignSummaryMapper.xml" />
+		<mapper resource="rp_mappers/ReportSignTypeSummaryMapper.xml" />
+		<mapper resource="rp_mappers/ReportSalePaymethodMapper.xml" />
+        <mapper resource="rp_mappers/BatchChunkMapper.xml" />
+		<mapper resource="rp_mappers/BatchCycleMapper.xml" />
+		<mapper resource="rp_mappers/BatchJobMapper.xml" />
+		<mapper resource="rp_mappers/BatchNodeMapper.xml" />
+		<mapper resource="rp_mappers/ReportBankOrgMapper.xml" />
+		<mapper resource="rp_mappers/ReportUserMapper.xml" />
+		<mapper resource="rp_mappers/ReportUserDetailMapper.xml" />
+		<mapper resource="rp_mappers/ReportUserSummaryMapper.xml" />
+		<mapper resource="rp_mappers/ReportUserTransMapper.xml" />
+		<mapper resource="rp_mappers/ReportOrderMapper.xml" />
+		<mapper resource="rp_mappers/ReportOrderRefundMapper.xml" />
+		<mapper resource="rp_mappers/ReportOrderProductMapper.xml" />
+		<mapper resource="rp_mappers/ReportMerchantOutletMapper.xml" />
+		<mapper resource="rp_mappers/ReportProductSummaryMapper.xml" />
+	</mappers>
+
+</configuration>

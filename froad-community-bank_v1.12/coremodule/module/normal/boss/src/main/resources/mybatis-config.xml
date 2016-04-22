@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+	<!-- 指定结果集映射关系 -->
+	<typeAliases>
+		<!-- 映射实体包名 -->
+		<package name="com.froad.cbank.coremodule.normal.boss.entity"/>
+	</typeAliases>
+
+	<plugins>
+		<!-- 指定分页拦截器 -->
+		<plugin interceptor="com.froad.cbank.coremodule.normal.boss.common.db.mysql.interceptor.PageInterceptor">
+			<property name="databaseDialect" value="com.froad.cbank.coremodule.normal.boss.common.db.mysql.dialet.MySQLDialect" />
+			<property name="pageSqlIdRegEx" value=".*ByPage" />
+		</plugin>
+	</plugins>
+
+</configuration>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd"> 
+<configuration>
+
+	<typeAliases>		
+	<typeAlias alias="user" type="com.po.User"/>
+
+	</typeAliases>
+	
+	<!-- 分页拦截器     mysql or oracle -->
+	<plugins>  
+       <plugin interceptor="">
+           <property name="databaseType" value="MySql"/>
+           <property name="pageSqlIdRegEx" value=".*ByPage"/>  
+       </plugin>  
+    </plugins> 
+
+	<mappers>
+		<mapper resource="sql/user.xml"/>
+	</mappers>
+</configuration>

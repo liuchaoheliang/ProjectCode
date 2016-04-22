@@ -1,0 +1,45 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.froad.fft</groupId>
+		<artifactId>froad-fft</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+	<artifactId>fft-test</artifactId>
+	<name>FFT Test</name>
+
+
+	<dependencies>
+		<!-- api -->
+		<dependency>
+			<groupId>com.froad.fft</groupId>
+			<artifactId>fft-api</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.froad.fft</groupId>
+			<artifactId>fft-persistent-api</artifactId>
+		</dependency>
+		
+		<!-- fastjson -->
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+		</dependency>
+
+        <!-- hessian -->
+        <dependency>
+            <groupId>com.caucho</groupId>
+            <artifactId>hessian</artifactId>
+        </dependency>
+        
+        <!-- junit -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+        </dependency>
+    </dependencies>
+
+</project>

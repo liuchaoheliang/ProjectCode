@@ -1,0 +1,44 @@
+/*
+* Author:
+* pengling@f-road.com.cn 
+*/
+/*积分兑换列表*/
+.exchange{width:1050px; border:1px solid #b7b7b7; overflow:hidden; padding-bottom:10px; background:#FFF;}
+
+.exchange .list{width:1040px;  position:relative; height:300px; overflow:hidden;}
+
+.exchange .list ul{position:absolute; width:2999px;}
+
+.exchange .local{height:30px; padding:5px; border:1px solid #F99; margin:10px auto 0; background:#FCC; color:#F00; line-height:30px; text-align:center; font-size:14px;}
+
+.exchange .list li .high{ height:76px;}
+
+.exchange .list a li{ border:1px solid #ddd; float:left; width:233px; height:270px;  background:#FFF; margin-left:13px; margin-top:10px; position:relative; text-decoration:none; cursor:pointer;}
+
+.exchange .list a li .zhuhai{position:absolute; z-index:22; right:0;}
+
+.exchange .list a li .zhuhai img{width:100px; height:100px;}
+
+.exchange .list a:hover li{border:1px solid #F90; background:#FFFFC4;}
+
+.exchange .list a li .shower{ position:absolute; width:219px; margin:2px 2px 0; padding:5px; height:134px; background:#FFF; top:0; background:rgba(0,0,0,0.5) none repeat scroll !important; background:#000; filter:Alpha(opacity=50);}
+
+.exchange .list a li .shower p{ color:#fff; position:relative; font:12px/24px Verdana, Geneva, sans-serif;}
+
+.exchange .list a li .shower p b{ margin-right:5px; color:#FF0;}
+
+.exchange .list a li .hotTitle{width:230px; height:30px; line-height:30px; overflow:hidden; font-size:14px; color:#F30; font-weight:bold; text-align:center;}
+
+.exchange .list a li .boxInfor{width:210px; height:33px; background:#eee; font-size:12px; line-height:18px; margin:0 auto 5px; padding:5px; color:#444; overflow:hidden;}
+
+.exchange .list a li .btnImg img{width:117px; height:31px; padding:5px 0 0 8px; float:left;}
+
+.exchange .list a li img{ padding:2px; width:229px; height:143px;}
+
+
+.exchange .list a li span{width:220px; font-family:"宋体"; font-size:12px; margin-left:10px; display:block; height:25px; line-height:25px; overflow:hidden;}
+
+.exchange .list a li span B{ color:#F00; font-size:14px; margin-right:4px;}
+.exchange .list  .icon_points{float:right;display:block;width:64px;height:28px;background:url(../images/icon_points.gif) #000;margin-right:10px;margin-top:6px}
+
+

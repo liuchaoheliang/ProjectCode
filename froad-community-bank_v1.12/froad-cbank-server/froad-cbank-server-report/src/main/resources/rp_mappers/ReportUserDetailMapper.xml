@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.mysql.rp_mappers.ReportUserDetailMapper">
+	<resultMap type="ReportUserDetail" id="reportUserDetailResultMap">
+		<id property="id" column="id" />
+		<result property="createTime" column="create_time" />
+		<result property="clientId" column="client_id" />
+		<result property="bankCardId" column="bank_card_id" />
+		<result property="forgCode" column="forg_code" />
+		<result property="forgName" column="forg_name" />
+		<result property="sorgCode" column="sorg_code" />
+		<result property="sorgName" column="sorg_name" />
+		<result property="torgCode" column="torg_code" />
+		<result property="torgName" column="torg_name" />
+		<result property="lorgCode" column="lorg_code" />
+		<result property="lorgName" column="lorg_name" />
+		<result property="userId" column="user_id" />
+		<result property="loginId" column="login_id" />
+		<result property="userName" column="user_name" />
+		<result property="mobile" column="mobile" />
+		<result property="regTime" column="reg_time" />
+		<result property="regType" column="reg_type" />
+		<result property="isVip" column="is_vip" />
+		<result property="signTime" column="sign_time" />
+		<result property="validStatus" column="valid_status" />
+		<result property="isNew" column="is_new" />
+		<result property="isChange" column="is_change" />
+		<result property="totalOrder" column="total_order" />
+		<result property="totalAmount" column="total_amount" />
+		<result property="newCount" column="new_count" />
+		<result property="changeCount" column="change_count" />
+		<result property="totalUsers" column="total_users" />
+	</resultMap>
+	
+	
+	<sql id="selectColumn">
+		id,create_time,client_id,bank_card_id,forg_code,forg_name,sorg_code,sorg_name,
+		torg_code,torg_name,lorg_code,lorg_name,user_id,login_id,user_name,
+		mobile,reg_time,reg_type,is_vip,sign_time,valid_status,is_new,is_change,total_order,total_amount
+	</sql>
+	
+	
+	<insert id="addByBatch">
+		INSERT INTO cb_report_user_detail (
+			create_time,client_id,bank_card_id,forg_code,forg_name,sorg_code,sorg_name,
+			torg_code,torg_name,lorg_code,lorg_name,user_id,login_id,user_name,
+			mobile,reg_time,reg_type,is_vip,sign_time,valid_status,is_new,is_change,total_order,total_amount
+		) VALUES 
+		<foreach collection="details" item="detail" index="index" separator=",">
+			(#{detail.createTime},#{detail.clientId},#{detail.bankCardId},#{detail.forgCode},#{detail.forgName},
+			#{detail.sorgCode},#{detail.sorgName},#{detail.torgCode},#{detail.torgName},
+			#{detail.lorgCode},#{detail.lorgName},#{detail.userId},#{detail.loginId},#{detail.userName},
+			#{detail.mobile},#{detail.regTime},#{detail.regType},#{detail.isVip},
+			#{detail.signTime},#{detail.validStatus},#{detail.isNew},#{detail.isChange},
+			#{detail.totalOrder},#{detail.totalAmount})
+		</foreach>
+	</insert>
+	
+	<select id="getTotalNewUsers" resultType="java.lang.Long">
+		SELECT 
+			SUM(IF(is_new=0,0,1)) new_count 
+		FROM (
+			SELECT 
+				SUM(is_new) is_new 
+			FROM 
+				cb_report_user_detail  
+			<where>
+				<if test="begDate != null">
+					AND create_time >= #{begDate} 
+				</if>
+				<if test="endDate != null">
+				<![CDATA[
+					AND create_time <= #{endDate} 
+				]]>
+				</if>
+				<if test="bankOrg.forgCode != null and flag == false">
+					AND forg_code = #{bankOrg.forgCode} 
+				</if>
+				<if test="bankOrg.forgCode != null and flag == true">
+					AND forg_code = #{bankOrg.forgCode} 
+					AND (sorg_code IS NULL OR sorg_code = '') 
+				</if>
+				<if test="bankOrg.sorgCode != null">
+					AND sorg_code = #{bankOrg.sorgCode} 
+				</if>
+			</where>
+			GROUP BY 
+				forg_code,sorg_code,bank_card_id,user_id 
+		) t
+	</select>
+	
+	<select id="selectUserSummaryList" resultMap="reportUserDetailResultMap">
+		SELECT 
+			client_id,bank_card_id,forg_code,forg_name,sorg_code,sorg_name,SUM(IF(is_new=0,0,1)) new_count,SUM(IF(is_change=0,0,1)) change_count,SUM(total_order) total_order,SUM(total_amount) total_amount 
+		FROM (
+			SELECT 
+				client_id,bank_card_id,forg_code,forg_name,sorg_code,sorg_name,user_id,SUM(is_new) is_new,SUM(is_change) is_change,SUM(total_order) total_order,SUM(total_amount) total_amount 
+			FROM 
+				cb_report_user_detail 
+			<where>
+				<if test="begDate != null">
+					AND create_time >= #{begDate} 
+				</if>
+				<if test="endDate != null">
+				<![CDATA[
+					AND create_time <= #{endDate} 
+				]]>
+				</if>
+				<if test="bankOrg.clientId != null">
+					AND client_id = #{bankOrg.clientId}
+				</if>
+				<if test="bankOrg.forgCode != null and flag == false">
+					AND forg_code = #{bankOrg.forgCode} 
+				</if>
+				<if test="bankOrg.forgCode != null and flag == true">
+					AND forg_code = #{bankOrg.forgCode} 
+					AND (sorg_code IS NULL OR sorg_code = '') 
+				</if>
+				<if test="bankOrg.sorgCode != null">
+					AND sorg_code = #{bankOrg.sorgCode} 
+				</if>
+			</where>
+			GROUP BY 
+				forg_code,sorg_code,bank_card_id,user_id 
+		) t 
+		GROUP BY 
+			forg_code,sorg_code,bank_card_id 
+		ORDER BY 
+			new_count DESC,total_order DESC,total_amount DESC,bank_card_id 
+	</select>
+	
+	
+	<select id="selectUserSummaryListByPage" resultMap="reportUserDetailResultMap">
+		SELECT 
+			client_id,bank_card_id,forg_code,forg_name,sorg_code,sorg_name,SUM(IF(is_new=0,0,1)) new_count,SUM(IF(is_change=0,0,1)) change_count,SUM(total_order) total_order,SUM(total_amount) total_amount 
+		FROM (
+			SELECT 
+				client_id,bank_card_id,forg_code,forg_name,sorg_code,sorg_name,user_id,SUM(is_new) is_new,SUM(is_change) is_change,SUM(total_order) total_order,SUM(total_amount) total_amount 
+			FROM 
+				cb_report_user_detail 
+			<where>
+				<if test="begDate != null">
+					AND create_time >= #{begDate} 
+				</if>
+				<if test="endDate != null">
+				<![CDATA[
+					AND create_time <= #{endDate} 
+				]]>
+				</if>
+				<if test="bankOrg.clientId != null">
+					AND client_id = #{bankOrg.clientId}
+				</if>
+				<if test="bankOrg.forgCode != null and flag == false">
+					AND forg_code = #{bankOrg.forgCode} 
+				</if>
+				<if test="bankOrg.forgCode != null and flag == true">
+					AND forg_code = #{bankOrg.forgCode} 
+					AND (sorg_code IS NULL OR sorg_code = '') 
+				</if>
+				<if test="bankOrg.sorgCode != null">
+					AND sorg_code = #{bankOrg.sorgCode} 
+				</if>
+			</where>
+			GROUP BY 
+				forg_code,sorg_code,bank_card_id,user_id 
+		) t 
+		GROUP BY 
+			forg_code,sorg_code,bank_card_id 
+		ORDER BY 
+			new_count DESC,total_order DESC,total_amount DESC,bank_card_id 
+	</select>
+	
+	
+</mapper>

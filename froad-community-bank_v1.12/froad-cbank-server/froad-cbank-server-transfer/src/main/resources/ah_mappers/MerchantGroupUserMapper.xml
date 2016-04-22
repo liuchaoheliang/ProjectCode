@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.ahui.mappers.MerchantGroupUserMapper">
+
+    <resultMap type="com.froad.db.ahui.entity.MerchantGroupUserEx" id="MerchantGroupUserResultMap">
+        <id property="id" column="id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+
+        <result property="merchantId" column="merchant_id"/>
+        <result property="merchantOutletId" column="merchant_outlet_id"/>
+        <result property="sysUserId" column="sys_user_id"/>
+
+ 		<result property="userId" column="user_id"/>
+ 		<result property="roleId" column="role_id"/>
+ 		<result property="createTime" column="create_time"/>
+ 		<result property="userName" column="username"/>
+ 		<result property="passWord" column="password"/>
+ 		<result property="email" column="email"/>
+ 		<result property="phone" column="phone"/>
+ 		<result property="isEnabled" column="is_enabled"/>
+ 		<result property="alias" column="alias"/>
+    </resultMap>
+
+    <!-- 插入 -->
+    <insert id="saveMerchantGroupUser" parameterType="MerchantGroupUserEx" useGeneratedKeys="true" keyProperty="id">
+		insert into fft_merchant_group_user values
+		(
+			#{id},#{createTime},#{updateTime},
+			#{merchantId}, #{merchantOutletId},#{sysUserId}
+		)
+	</insert>
+    <!-- 更新 -->
+    <update id="updateMerchantGroupUserById" parameterType="MerchantGroupUserEx">
+        update fft_merchant_group_user set update_time = #{updateTime}
+        <if test="merchantId != null">
+            ,merchant_id = #{merchantId}
+        </if>
+        <if test="merchantOutletId != null">
+            ,merchant_outlet_id = #{merchantOutletId}
+        </if>
+        <if test="sysUserId != null">
+            ,sys_user_id = #{sysUserId}
+        </if>
+        where id = #{id}
+    </update>
+
+    <!-- 查询 -->
+    <select id="selectMerchantGroupUserById" parameterType="java.lang.Long" resultMap="MerchantGroupUserResultMap">
+		select * from fft_merchant_group_user where id = #{id}
+	</select>
+	
+	<select id="findAllMerchantGroupUser" resultMap="MerchantGroupUserResultMap">
+		select * from fft_merchant_group_user
+	</select>
+	
+	<select id="findAllMerchantGroupUserAll" resultMap="MerchantGroupUserResultMap">
+		select t3.id,t1.merchant_id,t1.merchant_outlet_id,t1.sys_user_id,t3.alias
+		,t2.user_id,t2.role_id,t3.create_time,t3.username,t3.`password`,t3.email,t3.phone,t3.is_enabled
+		 from fft_merchant_group_user t1 , fft_sys_user_role t2,fft_sys_user t3 where t1.sys_user_id = t2.user_id
+		and t1.sys_user_id = t3.id
+	</select>
+	
+	<select id="findMerchantGroupUserByUserId" parameterType="java.lang.Long" resultMap="MerchantGroupUserResultMap">
+		select * from fft_merchant_group_user where sys_user_id=#{userId}
+	</select>
+	
+	<select id="selectByConditions" parameterType="MerchantGroupUserEx" resultMap="MerchantGroupUserResultMap">
+		select * from fft_merchant_group_user where 1=1
+		<if test="id != null">
+            and id = #{id}
+        </if>
+		<if test="merchantId != null">
+            and merchant_id = #{merchantId}
+        </if>
+        <if test="merchantOutletId != null">
+            and merchant_outlet_id = #{merchantOutletId}
+        </if>
+		 <if test="sysUserId != null">
+            and sys_user_id = #{sysUserId}
+        </if>
+	</select>
+	
+</mapper>

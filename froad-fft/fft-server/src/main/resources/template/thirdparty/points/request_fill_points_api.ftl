@@ -1,0 +1,26 @@
+<requestFillPointsApi>
+	<fillPointsInfo>
+		<orgNo>${orgNo}</orgNo>
+		<pointsCateNo>${pointsCateNo}</pointsCateNo>
+		<orgPoints>${orgPoints}</orgPoints>
+		<objectNo>${objectNo}</objectNo>
+		<objectDes>${objectDes}</objectDes>
+		<objectType>${objectType}</objectType>
+		<remark>${remark}</remark>
+	</fillPointsInfo>
+	<partnerAccount>
+		<accountMarked>${accountMarked}</accountMarked>
+		<accountMarkedType>${accountMarkedType}</accountMarkedType>
+	</partnerAccount>
+	<orgMember>
+		<phone>${phone}</phone>
+	</orgMember>
+	<system>
+		<partnerNo>${partnerNo}</partnerNo>
+		<requestNo>${requestNo}</requestNo>
+		<charset>${charset}</charset>
+		<signType>${signType}</signType>
+		<signMsg>${signMsg}</signMsg>
+		<requestTime>${requestTime}</requestTime>
+	</system>
+</requestFillPointsApi>

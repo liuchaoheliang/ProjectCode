@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.mysql.mapper.BossUserMapper">
+
+	<resultMap type="BossUser" id="bossUserResultMap">
+		<id property="id" column="id" />
+		<result property="username" column="username" />
+		<result property="password" column="password" />
+		<result property="roleId" column="role_id" />
+		<result property="mobile" column="mobile" />
+		<result property="email" column="email" />
+		<result property="name" column="name" />
+		<result property="department" column="department" />
+		<result property="position" column="position" />
+		<result property="isEnable" column="is_enable" />
+		<result property="isReset" column="is_reset" />
+		<result property="remark" column="remark" />
+		<result property="roleName" column="role_name" />
+	</resultMap>
+
+
+	<!-- 添加  BossUser -->
+	<insert id="addBossUser" parameterType="BossUser" useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[
+			INSERT INTO cb_boss_user (
+				username,password,role_id,mobile,email,name,department,position,is_enable,is_reset,remark
+			) VALUES (
+				#{username},#{password},#{roleId},#{mobile},#{email},#{name},#{department},#{position},#{isEnable},#{isReset},#{remark}
+			) 
+		]]>
+	</insert>
+
+
+	<!-- 批量添加  BossUser -->
+	<insert id="addBossUserByBatch" parameterType="java.util.List">
+		INSERT INTO cb_boss_user (
+			username,password,role_id,mobile,email,name,department,position,is_enable,is_reset,remark
+		) VALUES 
+		<foreach collection="bossUserList" item="item" index="index" separator=",">
+			(#{username},#{password},#{roleId},#{mobile},#{email},#{name},#{department},#{position},#{isEnable},#{isReset},#{remark})
+		</foreach>
+	</insert>
+
+
+	<!-- 删除  BossUser -->
+	<update id="deleteBossUser" parameterType="BossUser">
+		UPDATE cb_boss_user SET is_enable = false  where id = #{id}
+	</update>
+
+
+	<!-- 修改  BossUser -->
+	<update id="updateBossUser" parameterType="BossUser">
+		UPDATE cb_boss_user 
+		<set>
+				<if test="username != null">
+					  username = #{username}, 
+				</if>
+				<if test="password != null">
+					  password = #{password}, 
+				</if>
+				<if test="roleId != null">
+					  role_id = #{roleId}, 
+				</if>
+				<if test="mobile != null">
+					  mobile = #{mobile}, 
+				</if>
+				<if test="email != null">
+					  email = #{email}, 
+				</if>
+				<if test="name != null">
+					  name = #{name}, 
+				</if>
+				<if test="department != null">
+					  department = #{department}, 
+				</if>
+				<if test="position != null">
+					  position = #{position}, 
+				</if>
+				<if test="isEnable != null">
+					  is_enable = #{isEnable}, 
+				</if>
+				<if test="isReset != null">
+					  is_reset = #{isReset}, 
+				</if>
+				<if test="remark != null">
+					remark = #{remark}
+				</if>
+		</set>
+		 where id = #{id}
+	</update>
+
+
+	<!-- 查询  BossUser -->
+	<select id="findBossUserById" parameterType="java.lang.Long" resultMap="bossUserResultMap">
+		SELECT 
+            u.id,u.username,u.password,u.role_id,u.mobile,u.email
+            ,u.name,u.department,u.position,u.is_enable,u.is_reset
+            ,u.remark , r.role_name  
+        FROM cb_boss_user u, cb_boss_role r 
+        WHERE u.role_id = r.id
+           and u.id = #{id}
+
+	</select>
+
+	<!-- 查询  BossUser -->
+	<select id="findBossUser" parameterType="BossUser" resultMap="bossUserResultMap">
+		SELECT 
+            u.id,u.username,u.password,u.role_id,u.mobile,u.email
+            ,u.name,u.department,u.position,u.is_enable,u.is_reset
+            ,u.remark , r.role_name  
+        FROM cb_boss_user u, cb_boss_role r 
+        WHERE u.role_id = r.id 
+			<if test="id != null">
+				 AND id = #{id}
+			</if>
+			<if test="username != null">
+				 AND username = #{username}
+			</if>
+			<if test="password != null">
+				 AND password = #{password}
+			</if>
+			<if test="roleId != null">
+				 AND role_id = #{roleId}
+			</if>
+			<if test="mobile != null">
+				 AND mobile like CONCAT('%',#{mobile},'%')
+			</if>
+			<if test="email != null">
+				 AND email like CONCAT('%',#{email},'%')
+			</if>
+			<if test="name != null">
+				 AND name like CONCAT('%',#{name},'%')
+			</if>
+			<if test="department != null">
+				 AND department = #{department}
+			</if>
+			<if test="position != null">
+				 AND position = #{position}
+			</if>
+			<if test="isEnable != null">
+				 AND is_enable = #{isEnable}
+			</if>
+			<if test="isReset != null">
+				 AND is_reset = #{isReset}
+			</if>
+			<if test="remark != null">
+				 AND remark like CONCAT('%',#{remark},'%')
+			</if>
+	</select>
+
+	<!-- 分页查询  BossUser -->
+	<select id="findByPage" parameterType="java.util.HashMap" resultMap="bossUserResultMap">
+       SELECT 
+         u.id,u.username,u.password,u.role_id,u.mobile,u.email 
+         ,u.name,u.department,u.position,u.is_enable,u.is_reset 
+         ,u.remark , r.role_name 
+       from cb_boss_user u, cb_boss_role r 
+       WHERE u.role_id = r.id 
+		<if test="bossUser != null">
+				<if test="bossUser.id != null">
+					 AND id = #{bossUser.id}
+				</if>
+				<if test="bossUser.username != null">
+					 AND username = #{bossUser.username}
+				</if>
+				<if test="bossUser.password != null">
+					 AND password = #{bossUser.password}
+				</if>
+				<if test="bossUser.roleId != null">
+					 AND role_id = #{bossUser.roleId}
+				</if>
+				<if test="bossUser.mobile != null">
+					 AND mobile like CONCAT('%',#{bossUser.mobile},'%')
+				</if>
+				<if test="bossUser.email != null">
+					 AND email like CONCAT('%',#{bossUser.email},'%')
+				</if>
+				<if test="bossUser.name != null">
+					 AND name like CONCAT('%',#{bossUser.name},'%')
+				</if>
+				<if test="bossUser.department != null">
+					 AND department = #{bossUser.department}
+				</if>
+				<if test="bossUser.position != null">
+					 AND position = #{bossUser.position}
+				</if>
+				<if test="bossUser.isEnable != null">
+					 AND is_enable = #{bossUser.isEnable}
+				</if>
+				<if test="bossUser.isReset != null">
+					 AND is_reset = #{bossUser.isReset}
+				</if>
+				<if test="bossUser.remark != null">
+				 	AND remark like CONCAT('%',#{bossUser.remark},'%')
+				</if>
+		</if>	
+	</select>
+
+	<!-- 查询单个  BossUser 根据username -->
+	<select id="findBossUserByUsername" parameterType="java.lang.String" resultMap="bossUserResultMap">
+		SELECT 
+            *  
+        FROM cb_boss_user
+        WHERE username = #{username} LIMIT 1
+	</select>
+
+</mapper>
+

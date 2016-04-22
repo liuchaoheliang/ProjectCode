@@ -1,0 +1,17 @@
+/*
+* Author:
+* pengling@f-road.com.cn 
+*/
+/*下拉列表*/
+
+#uboxstyle{font-weight:normal; font-size:12px; font-family:"宋体";}
+#uboxstyle .select_box { width:100px; height:30px;}
+#uboxstyle div.tag_select { display:block; color:#0467a1; width:80px; height:30px; background:transparent url("../images/ubox-select.gif") no-repeat 0 0; padding:0 10px; line-height:30px; }
+#uboxstyle div.tag_select_hover { display:block; color:#09C; width:80px; height:30px; background:transparent url("../images/ubox-select.gif") no-repeat 0 -30px; padding:0 10px; line-height:30px; }
+#uboxstyle div.tag_select_open { display:block; color:#09C; width:80px; height:30px; background:transparent url("../images/ubox-select.gif") no-repeat 0 -60px; padding:0 10px; line-height:30px; }
+#uboxstyle ul.tag_options { position:absolute; padding:0; margin:0; list-style:none; background:transparent url("../images/ubox-select.gif") no-repeat right bottom; width:100px; padding:0 0 5px; margin:0; }
+#uboxstyle ul.tag_options li { background:transparent url("../images/ubox-select.gif") repeat-y -100px 0; display:block; width:80px; padding:0 10px; height:30px; text-decoration:none; line-height:30px; color:#09C; font-weight:normal;}
+#uboxstyle ul.tag_options li.open_hover { background:transparent url("../images/ubox-select.gif") no-repeat 0 -92px; color:#fff}
+#uboxstyle ul.tag_options li.open_selected { background:transparent url("../images/ubox-select.gif") no-repeat 0 -122px; color:#fff }
+
+

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.bps.mappers.BankOrganizationMapper">
+	
+	<resultMap type="BankOrganization" id="bankOrganizationResultMap" >
+		<id column="id" property="id"/>
+    	<result column="org_code" property="orgCode" />
+    	<result column="org_name" property="orgName" />
+   		<result column="bankunion_code" property="bankunionCode" />
+    	<result column="bankunion_name" property="bankunionName"/>
+    	<result column="group_id" property="groupId" />
+    	<result column="bank_code" property="bankCode" />
+    	<result column="status" property="status" jdbcType="VARCHAR" />
+    	<result column="path" property="path" jdbcType="VARCHAR" />
+    	<result column="level" property="level" jdbcType="INTEGER" />
+    	<result column="parent_org_code" property="parentOrgCode" />
+    	<result column="parent_org_name" property="parentOrgName" />
+    	<result column="manager_number" property="managerNumber" />
+    	<result column="create_time" property="createTime" />
+    	<result column="update_time" property="updateTime" />
+  </resultMap>
+  
+  <select id="findAllOrganization" resultMap="bankOrganizationResultMap">
+  	SELECT
+		tr_bank_organization.id,
+		tr_bank_organization.org_code,
+		tr_bank_organization.org_name,
+		tr_bank_organization.bankunion_code,
+		tr_bank_organization.bankunion_name,
+		tr_bank_organization.group_id,
+		tr_bank_organization.bank_code,
+		tr_bank_organization.`status`,
+		tr_bank_organization.path,
+		tr_bank_organization.`level`,
+		tr_bank_organization.parent_org_code,
+		tr_bank_organization.parent_org_name,
+		tr_bank_organization.manager_number,
+		tr_bank_organization.create_time,
+		tr_bank_organization.update_time
+	FROM
+		tr_bank_organization
+	ORDER BY
+		tr_bank_organization.`level` ASC
+  </select>
+  
+	
+	<select id="findByOrgCode" resultMap="bankOrganizationResultMap">
+		SELECT
+			tr_bank_organization.id,
+			tr_bank_organization.org_code,
+			tr_bank_organization.org_name,
+			tr_bank_organization.bankunion_code,
+			tr_bank_organization.bankunion_name,
+			tr_bank_organization.group_id,
+			tr_bank_organization.bank_code,
+			tr_bank_organization.`status`,
+			tr_bank_organization.path,
+			tr_bank_organization.`level`,
+			tr_bank_organization.parent_org_code,
+			tr_bank_organization.parent_org_name,
+			tr_bank_organization.manager_number,
+			tr_bank_organization.create_time,
+			tr_bank_organization.update_time
+		FROM
+			tr_bank_organization
+		WHERE
+			tr_bank_organization.org_code = #{orgCode}
+	</select>
+	
+</mapper>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.mysql.rp_mappers.ReportProductSummaryMapper">
+
+	<resultMap type="ReportProductSummary" id="summaryMap">
+		<id property="id" column="id" />
+		<result property="createDate" column="create_date" />
+		<result property="clientId" column="client_id" />
+		<result property="orgCode" column="org_code" />
+		<result property="forgCode" column="forg_code" />
+		<result property="sorgCode" column="sorg_code" />
+		<result property="torgCode" column="torg_code" />
+		<result property="lorgCode" column="lorg_code" />
+		<result property="lorgName" column="lorg_name" />
+		<result property="totalProducts" column="total_products" />							
+	</resultMap>
+	
+	<sql id="selectColumn">
+		create_date,client_id,org_code,forg_code,sorg_code,torg_code,lorg_code,total_products 
+	</sql>
+	
+	<insert id="addSummary" parameterType="ReportProductSummary">
+		INSERT INTO cb_report_product_summary(
+			<include refid="selectColumn" /> 
+		) VALUES (
+			#{createDate},#{clientId},#{orgCode},#{forgCode},#{sorgCode},#{torgCode},#{lorgCode},#{totalProducts} 
+		)
+	</insert>
+	
+	
+	<insert id="addSummaryByBatch">
+		INSERT INTO cb_report_product_summary (
+			<include refid="selectColumn" /> 
+		) VALUES 
+		<foreach collection="items" item="item" index="index" separator=",">
+			(#{item.createDate},#{item.clientId},#{item.orgCode},#{item.forgCode},#{item.sorgCode},
+			#{item.torgCode},#{item.lorgCode},#{item.totalProducts})
+		</foreach>
+	</insert>
+	
+	<select id="findByDate" resultMap="summaryMap">
+		SELECT <include refid="selectColumn" /> 
+		FROM cb_report_product_summary 
+		<where>
+			<if test="queryDate != null">
+				AND client_id = #{clientId} 
+			</if>
+			<if test="queryDate != null">
+				AND create_date = #{queryDate} 
+			</if>
+		</where>
+	</select>
+	
+</mapper>

@@ -1,0 +1,44 @@
+/*
+* Author:
+* pengling@f-road.com.cn 
+*/
+/*登录页面*/
+.loginBox{ width:100%; min-width:1100px; height:450px; overflow:hidden; padding-bottom:10px; background:#FFF; clear:both} 
+
+.loginBox .wrong{ font:16px/24px "微软雅黑"; color:#F00; width:930px; margin:30px auto; font-weight:bold;}
+
+.loginBox .all{width:1050px; margin:0 auto;}
+
+.loginBox .loginLeft{ float:left; margin-left:50px; width:450px; margin-top:50px;  display:inline;}
+
+.loginBox .loginLeft .loginBord{border-left:1px solid #F90; border-right:1px solid #F90; border-bottom:1px solid #F90; clear:both; padding-bottom:20px; overflow:hidden;}
+
+.loginBox .loginLeft ol { font:16px/40px "微软雅黑"; border-bottom: 1px solid #F90;}
+
+.loginBox .loginLeft ol li{ float:left; text-decoration:none; text-align:center; width:224px; color:#333; background:#f9f9f9; cursor:pointer; border-bottom:1px solid #F90;}
+
+.loginBox .loginLeft ol li.playRcut{background:#FF6; font-weight:bold; color:#fb3406; border-top:1px solid #F90; border-left:1px solid #F90; border-right:1px solid #F90; border-bottom:none;}
+
+.loginBox .loginLeft ul{ clear:both; padding-top:10px;}
+
+.loginBox .loginLeft dl{ padding-top:20px; height:30px; *height:auto;}
+
+.loginBox .loginLeft dt{ float:left; width:130px; text-align:right; font-size:14px; line-height:28px; color:#666;}
+
+.loginBox .loginLeft dd{ float:left; font-size:12px;}
+
+.loginBox .loginLeft dd a{ color:#069; text-decoration:none;}
+
+.loginBox .loginLeft dd a:hover{ color:#F60; text-decoration:underline;}
+
+.loginBox .loginLeft dd img{ vertical-align:middle;}
+
+.loginBox .loginLeft .login{font:14px/44px "宋体";}
+
+.loginBox .loginLeft .login a{ margin-left:10px; color:#666; text-decoration:underline; float:left;}
+
+.loginBox .loginLeft .login a:hover{ color:#F90; text-decoration:underline;}
+
+.loginBox .loginRight{float:left; margin-left:30px; display:inline; margin-top:10px;}
+
+.loginBox .login{ margin-top:20px; clear:both;}

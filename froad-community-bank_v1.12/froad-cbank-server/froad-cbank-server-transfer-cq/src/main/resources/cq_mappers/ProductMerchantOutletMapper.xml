@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.chongqing.mappers.ProductMerchantOutletMapper">
+
+    <resultMap type="ProductMerchantOutlet" id="ProductMerchantOutletResultMap">
+        <result property="productId" column="product_id"/>
+        <result property="merchantOutletId" column="merchant_outlet_id"/>
+    </resultMap>
+
+
+
+	<select id="findProductOutletByProductId" parameterType="java.lang.Long" resultMap="ProductMerchantOutletResultMap" >
+	select * from cb_product_merchant_outlet where product_id=#{id}
+	</select>
+	
+</mapper>

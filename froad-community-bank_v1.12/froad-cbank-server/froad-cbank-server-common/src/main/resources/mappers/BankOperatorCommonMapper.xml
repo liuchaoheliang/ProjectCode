@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.mysql.mapper.BankOperatorCommonMapper">
+
+	<resultMap type="BankOperator" id="bankOperatorCommonResultMap">
+		<id property="id" column="id" />
+		<result property="createTime" column="create_time" />
+		<result property="clientId" column="client_id" />
+		<result property="username" column="username" />
+		<result property="password" column="password" />
+		<result property="orgCode" column="org_code" />
+		<result property="mobile" column="mobile" />
+		<result property="email" column="email" />
+		<result property="name" column="name" />
+		<result property="roleId" column="role_id" />
+		<result property="department" column="department" />
+		<result property="position" column="position" />
+		<result property="status" column="status" />
+		<result property="isReset" column="is_reset" />
+		<result property="remark" column="remark" />
+		<result property="isDelete" column="is_delete" />
+		<result property="type" column="type" />
+		<result property="lastLoginIp" column="last_login_ip" />  <!-- 最后登录ip  20151010 ll add -->
+		<result property="lastLoginTime" column="last_login_time" /> <!-- 最后登录时间  20151010 ll add -->
+	</resultMap>
+
+
+    <!-- 根据主键id查询返回单个对象 -->
+	<select id="findBankOperatorById" parameterType="java.lang.Long" resultMap="bankOperatorCommonResultMap">
+		select 
+			id,create_time,client_id,username,password,org_code,mobile,email,name,role_id,department,position,status,is_reset,remark,is_delete,type,last_login_ip,last_login_time  
+		from cb_bank_operator where id = #{userId} 
+	</select>
+	
+
+</mapper>
+

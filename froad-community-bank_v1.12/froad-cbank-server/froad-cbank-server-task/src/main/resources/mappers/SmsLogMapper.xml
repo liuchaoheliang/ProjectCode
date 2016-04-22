@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.mysql.mapper.SmsLogMapper">
+
+	<resultMap type="SmsLog" id="smsLogResultMap">
+		<id property="id" column="id" />
+		<result property="clientId"   column="client_id" />
+		<result property="createTime" column="create_time" />
+		<result property="expireTime" column="expire_time" />
+		<result property="smsType"    column="sms_type" />
+		<result property="mobile"     column="mobile" />
+		<result property="content"    column="content" />
+		<result property="isSuccess"  column="is_success" />
+		<result property="sendUser"   column="send_user" />
+		<result property="sendIp"     column="send_ip" />
+		<result property="isUsed" column="is_used" />
+		<result property="code" column="code" />
+		<result property="token" column="token" />
+		<result property="url" column="url" />
+	</resultMap>
+	
+	<!-- 查询过期的短信日志 -->
+	<select id="selectByExpired" resultMap="smsLogResultMap">
+		select * from cb_sms_log where expire_time <![CDATA[<]]> NOW()
+	</select>
+	
+	<!-- 根据主键删除短信日志 -->
+	<delete id="deleteById" parameterType="java.lang.Long">
+		delete from cb_sms_log where id = #{id}
+	</delete>
+	
+</mapper>

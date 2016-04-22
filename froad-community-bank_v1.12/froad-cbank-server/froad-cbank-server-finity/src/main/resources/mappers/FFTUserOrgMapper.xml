@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.mysql.mapper.FFTUserOrgMapper">
+
+	<resultMap type="FFTUserOrg" id="fftUserOrgResultMap">
+		<id property="id" column="id" />
+		<result property="orgId" column="org_id" />
+		<result property="userId" column="user_id" />
+	</resultMap>
+
+	<sql id="selectColumn">
+		id,org_id,user_id  
+	</sql>
+
+	<!-- 添加  FFTUserOrg -->
+	<insert id="addFFTUserOrg" parameterType="FFTUserOrg" useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[
+			INSERT INTO cb_fft_user_org (
+				org_id,user_id 
+			) VALUES (
+				#{orgId},#{userId}   
+			) 
+		]]>
+	</insert>
+
+
+	<!-- 批量添加  FFTUserOrg -->
+	<insert id="addFFTUserOrgByBatch" parameterType="java.util.List">
+		INSERT INTO cb_fft_user_org (
+			org_id,user_id         
+		) VALUES 
+		<foreach collection="fftUserOrgList" item="item" index="index" separator=",">
+			(#{item.orgId},#{item.userId})
+		</foreach>
+	</insert>
+
+
+	<!-- 删除  FFTUserOrg 根据用户Id-->
+	<delete id="deleteFFTUserOrgByUserId" parameterType="java.lang.Long">
+		delete from cb_fft_user_org  where user_id = #{userId} 
+	</delete>
+	
+	<!-- 删除  FFTUserOrg 根据组织Id-->
+	<delete id="deleteFFTUserOrgByOrgId" parameterType="java.lang.String">
+		delete from cb_fft_user_org  where org_id = #{orgId} 
+	</delete>
+	
+
+	<!-- 查询  FFTUserOrg -->
+	<select id="findFFTUserOrgById" parameterType="java.lang.Long" resultMap="fftUserOrgResultMap">
+		SELECT 
+            <include refid="selectColumn" />       
+        FROM cb_fft_user_org   
+        WHERE 
+            id = #{id}
+	</select>
+	
+
+	<!-- 查询  FFTUserOrg -->
+	<select id="findFFTUserOrgByUserId" parameterType="java.lang.Long" resultMap="fftUserOrgResultMap">
+		SELECT 
+            <include refid="selectColumn" />        
+        FROM cb_fft_user_org    
+		WHERE 
+            user_id = #{userId}
+	</select>
+	
+	<!-- 查询  FFTUserOrg -->
+	<select id="findFFTUserOrgByOrgId" parameterType="java.lang.String" resultMap="fftUserOrgResultMap">
+		SELECT 
+            <include refid="selectColumn" />        
+        FROM cb_fft_user_org    
+		WHERE 
+            org_id = #{orgId}
+	</select>
+	
+	<!-- 查询  FFTUserOrg -->
+	<select id="findFFTUserOrg" parameterType="FFTUserOrg" resultMap="fftUserOrgResultMap">
+		SELECT 
+            <include refid="selectColumn" />        
+        FROM cb_fft_user_org   
+		<where>
+			<if test="orgId != null">
+				 AND org_id = #{orgId}
+			</if>
+			<if test="userId != null">
+				 AND user_id = #{userId}
+			</if>
+		</where>
+	</select>
+
+
+	<!-- 查询组织orgId下的 有效用户 FFTUserOrg -->
+	<select id="findFFTUserOrgByOrgIdStatus" parameterType="java.lang.String" resultMap="fftUserOrgResultMap">
+		SELECT 
+            <include refid="selectColumn" />        
+        FROM cb_fft_user_org    
+		WHERE 
+            org_id = #{orgId} and user_id in(select id from cb_fft_user where status=true) 
+	</select>
+	
+	
+	<!-- 分页查询  FFTUserOrg -->
+	<select id="findByPage" parameterType="java.util.HashMap" resultMap="fftUserOrgResultMap">
+		SELECT 
+             <include refid="selectColumn" />        
+        FROM cb_fft_user_org   
+		<if test="fftUserOrg != null">
+			<where>
+				<if test="fftUserOrg.orgId != null">
+					 AND org_id = #{fftUserOrg.orgId}
+				</if>
+				<if test="fftUserOrg.userId != null">
+					 AND user_id = #{fftUserOrg.userId}
+				</if>
+			</where>
+			order by id desc 
+		</if>
+	</select>
+
+
+</mapper>
+

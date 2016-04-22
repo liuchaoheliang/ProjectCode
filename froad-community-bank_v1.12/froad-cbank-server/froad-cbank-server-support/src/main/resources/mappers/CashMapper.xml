@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.mysql.mapper.CashMapper">
+
+	<resultMap type="Cash" id="cashResultMap">
+		<id property="id" column="id" />
+		<result property="cashCn" column="cash_cn" />
+		<result property="cashCode" column="cash_code" />
+		<result property="money" column="money" />
+		<result property="usedMoney" column="used_money" />
+		<result property="isEnabled" column="is_enabled" />
+		<result property="isUsed" column="is_used" />
+		<result property="orderId" column="order_id" />
+		<result property="subOrderId" column="sub_order_id" />
+		<result property="merchantId" column="merchant_id" />
+		<result property="productId" column="product_id" />
+	</resultMap>
+
+
+	<!-- 添加  Cash -->
+	<insert id="addCash" parameterType="Cash" useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[
+			INSERT INTO cb_cash (
+				cash_cn,cash_code,money,used_money,is_enabled,is_used,order_id,sub_order_id,merchant_id,product_id
+			) VALUES (
+				#{cashCn},#{cashCode},#{money},#{usedMoney},#{isEnabled},#{isUsed},#{orderId},#{subOrderId},#{merchantId},#{productId}
+			) 
+		]]>
+	</insert>
+
+
+	<!-- 批量添加  Cash -->
+	<insert id="addCashByBatch" parameterType="java.util.List">
+		INSERT INTO cb_cash (
+			cash_cn,cash_code,money,used_money,is_enabled,is_used,order_id,sub_order_id,merchant_id,product_id
+		) VALUES 
+		<foreach collection="cashList" item="item" index="index" separator=",">
+			(#{cashCn},#{cashCode},#{money},#{usedMoney},#{isEnabled},#{isUsed},#{orderId},#{subOrderId},#{merchantId},#{productId})
+		</foreach>
+	</insert>
+
+
+	<!-- 删除  Cash -->
+	<update id="deleteCash" parameterType="Cash">
+		UPDATE cb_cash  SET is_enable = false where  id = #{id}
+	</update>
+
+
+	<!-- 修改  Cash -->
+	<update id="updateCash" parameterType="Cash">
+		UPDATE cb_cash  
+			<set>
+				<if test="cashCn != null">
+					 cash_cn = #{cashCn},
+				</if>
+				<if test="cashCode != null">
+					 cash_code = #{cashCode},
+				</if>
+				<if test="money != null">
+					 money = #{money},
+				</if>
+				<if test="usedMoney != null">
+					 used_money = #{usedMoney},
+				</if>
+				<if test="isEnabled != null">
+					is_enabled = #{isEnabled},
+				</if>
+				<if test="isUsed != null">
+					  is_used = #{isUsed},
+				</if>
+				<if test="orderId != null">
+					 order_id = #{orderId},
+				</if>
+				<if test="subOrderId != null">
+					 sub_order_id = #{subOrderId},
+				</if>
+				<if test="merchantId != null">
+					  merchant_id = #{merchantId},
+				</if>
+				<if test="productId != null">
+					 product_id = #{productId},
+				</if>
+			</set>
+			 where id = #{id}
+	</update>
+
+
+	<!-- 查询  Cash -->
+	<select id="findCashById" parameterType="java.lang.Long" resultMap="cashResultMap">
+		SELECT 
+            id,cash_cn,cash_code,money,used_money,is_enabled,is_used,order_id,sub_order_id,merchant_id,product_id 
+        FROM cb_cash 
+        WHERE 
+            id = #{id}
+
+	</select>
+
+	<!-- 查询  Cash -->
+	<select id="findCash" parameterType="Cash" resultMap="cashResultMap">
+		SELECT 
+            id,cash_cn,cash_code,money,used_money,is_enabled,is_used,order_id,sub_order_id,merchant_id,product_id 
+        FROM cb_cash 
+		<where>
+			<if test="id != null">
+				 AND id = #{id}
+			</if>
+			<if test="cashCn != null">
+				 AND cash_cn = #{cashCn}
+			</if>
+			<if test="cashCode != null">
+				 AND cash_code = #{cashCode}
+			</if>
+			<if test="money != null">
+				 AND money = #{money}
+			</if>
+			<if test="usedMoney != null">
+				 AND used_money = #{usedMoney}
+			</if>
+			<if test="isEnabled != null">
+				 AND is_enabled = #{isEnabled}
+			</if>
+			<if test="isUsed != null">
+				 AND is_used = #{isUsed}
+			</if>
+			<if test="orderId != null">
+				 AND order_id = #{orderId}
+			</if>
+			<if test="subOrderId != null">
+				 AND sub_order_id = #{subOrderId}
+			</if>
+			<if test="merchantId != null">
+				 AND merchant_id = #{merchantId}
+			</if>
+			<if test="productId != null">
+				 AND product_id = #{productId}
+			</if>
+		</where>
+	</select>
+
+	<!-- 分页查询  Cash -->
+	<select id="findByPage" parameterType="java.util.HashMap" resultMap="cashResultMap">
+		SELECT 
+            id,cash_cn,cash_code,money,used_money,is_enabled,is_used,order_id,sub_order_id,merchant_id,product_id 
+        from cb_cash 
+		<if test="cash != null">
+			<where>
+				<if test="cash.id != null">
+					 AND id = #{cash.id}
+				</if>
+				<if test="cash.cashCn != null">
+					 AND cash_cn = #{cash.cashCn}
+				</if>
+				<if test="cash.cashCode != null">
+					 AND cash_code = #{cash.cashCode}
+				</if>
+				<if test="cash.money != null">
+					 AND money = #{cash.money}
+				</if>
+				<if test="cash.usedMoney != null">
+					 AND used_money = #{cash.usedMoney}
+				</if>
+				<if test="cash.isEnabled != null">
+					 AND is_enabled = #{cash.isEnabled}
+				</if>
+				<if test="cash.isUsed != null">
+					 AND is_used = #{cash.isUsed}
+				</if>
+				<if test="cash.orderId != null">
+					 AND order_id = #{cash.orderId}
+				</if>
+				<if test="cash.subOrderId != null">
+					 AND sub_order_id = #{cash.subOrderId}
+				</if>
+				<if test="cash.merchantId != null">
+					 AND merchant_id = #{cash.merchantId}
+				</if>
+				<if test="cash.productId != null">
+					 AND product_id = #{cash.productId}
+				</if>
+			</where>
+		</if>
+	</select>
+
+
+</mapper>
+

@@ -1,0 +1,114 @@
+/*
+* Author:
+* pengling@f-road.com.cn 
+*/
+/*商家tab*/
+.productBox{width:758px; border:1px solid #b7b7b7; overflow:hidden; padding-bottom:10px; background:#FFF; margin-bottom:5px;}
+
+.productBox dt{width:100%; overflow:hidden; line-height:25px; padding-top:10px;}
+
+.productBox dt B{ padding-left:18px; font-family:"微软雅黑"; color:#000;}
+
+.productBox dd.inforfont{width:95%; margin:0 auto; font:16px/25px "微软雅黑";}
+
+.productBox dd.inforfontB{width:95%; margin:0 auto; font:12px/25px "微软雅黑"; clear:both;}
+
+
+/*商家图片*/
+
+.marquee{ font:bold 18px/40px "微软雅黑"; float:left; margin-top:110px;}
+
+.marquee a{color:#CCC; margin:0px 10px 0;}
+
+.marquee a:hover{ color:#F33; text-decoration:none;}
+
+.marqueeBox{width:680px; height:245px;  position:relative; margin:20px auto 0; overflow:hidden; float:left;}
+
+.marqueeBox ul{ position:absolute; left:0; top:0;}
+
+.marqueeBox ul li{ float:left; width:215px; text-align:center; font:12px/20px "宋体"; color:#555;}
+
+.marqueeBox ul li span{ line-height:25px; height:25px; display:block; overflow:hidden;}
+
+.marqueeBox ul li img{width:200px; height:200px; border:1px solid #CCC; padding:4px;}
+
+
+
+/*商家信息热推商品*/
+.hotProduct{width:758px;  border:1px solid #b7b7b7; overflow:hidden; padding-bottom:10px; background:#FFF;}
+
+.hotProduct img{width:234px; height:234px;}
+
+.hotProduct dt{ line-height:35px; height:35px; font-family:"微软雅黑"; font-size:15px;}
+
+.hotProduct dt B{padding-left:20px; float:left;}
+
+.hotProduct dt span{ float:right; margin-right:20px; display:inline; font:12px/35px "微软雅黑";}
+
+.hotProduct dt span a{ color:#FFF; text-decoration:none; background:#F00; padding:2px 5px;}
+
+.hotProduct dt span a:hover{ color:#FF0; text-decoration:none;}
+
+.hotProduct dd{width:99%; margin:0 auto;}
+
+.hotProduct dd li{ float:left; width:238px; border:1px solid #ddd; background:#FFF; margin-left:8px; display:inline; font:12px/20px "微软雅黑"; color:#333;}
+
+.hotProduct dd li .hotTitle{width:220px; height:35px; line-height:35px; overflow:hidden; margin:0 auto; text-align:center; font-size:14px; color:#36F; font-weight:bold;}
+
+.hotProduct dd li .hotTitle a{ color:#36F; text-decoration:none;}
+
+.hotProduct dd li .hotTitle a:hover{ color:#F30; text-decoration:underline;}
+
+.hotProduct dd li span{ font-family:"微软雅黑"; color:#F00; font-size:14px;}
+
+.hotProduct dd li span B{ margin-left:5px; color:#FFF; background:#F30; padding:0 5px; font-family:"微软雅黑"; font-size:12px; font-weight:normal;}
+
+.hotProduct dd .leftmap{ width:300px;  border:1px solid #ccc; float:left; margin-left:20px;}
+
+.hotProduct dd .leftmap img{ width:39px; height:25px;}
+
+.hotProduct dd .leftmap p img{width:302px; height:30px; margin-left:-1px;}
+
+.hotProduct dd .rightmapfen{ float:left; margin-left:30px; display:inline; width:375px;  position:relative;}
+
+.hotProduct dd .rightmapfen dt{ color:#006; font-weight:bold;  height:25px; overflow:hidden;}
+
+.hotProduct dd .rightmapfen dt a{ color:#03F; text-decoration:none;}
+
+.hotProduct dd .rightmapfen dt a:hover{ color:#F60; text-decoration:none;}
+
+.hotProduct dd .rightmapfen dd{ font:12px/20px Verdana, Geneva, sans-serif; color:#444; height:20px; overflow:hidden;}
+
+.hotProduct dd .rightmore{ position:absolute; z-index:2; bottom:0; right:10px;}
+
+.hotProduct dd .rightmore a{font:12px/20px Verdana, Geneva, sans-serif; color:#06F;}
+
+.hotProduct dd .rightmore a:hover{color:#03C; text-decoration:none;}
+
+.hotProduct dd .rightmore a b{color:#F00}
+
+.hotProduct dd .rightmapfen img{width:66px ; height:66px; margin-top:80px; margin-left:140px; }
+
+/*右侧商户信息*/
+.rightShanghu{width:238px;  border:1px solid #b7b7b7; background:#FFF; padding-bottom:15px;}
+
+.rightShanghu ol{ height:35px; width:100%; background:url(../images/tabBg.png); border-bottom:1px solid #ddd;}
+
+.rightShanghu ol B{ line-height:35px; padding-left:15px; font-family:"微软雅黑"; font-weight:normal;}
+
+.rightShanghu .showName{text-align:left; margin:8px 0 0 10px;  _height:19px;  line-height:30px; font-family:"微软雅黑"; color:#046b96; font-size:18px;}
+
+.rightShanghu .showInr{width:210px; margin:0 auto; line-height:25px; font-size:14px; color:#333;  vertical-align:middle; *display:block; }
+
+.rightShanghu .showInr img{vertical-align:middle;}
+
+.rightShanghu .shoufen{width:220px; margin:0 auto; margin-top:10px;}
+
+.rightShanghu .shoufen img{ margin:0px 5px 0px 5px;}
+
+/*右侧地图*/
+.map{border:1px solid #c7c7c7; padding:2px; width:234px}
+
+.map img{width:234px; height:230px;}
+
+.tangram-suggestion{z-index:999999999999999999999;}

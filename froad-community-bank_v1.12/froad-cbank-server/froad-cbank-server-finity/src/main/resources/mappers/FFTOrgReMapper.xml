@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.mysql.mapper.FFTOrgReMapper">
+
+	<resultMap type="FFTOrgRe" id="fftOrgReResultMap">
+		<id property="id" column="id" />
+		<result property="orgId" column="org_id" />
+		<result property="reOrgId" column="re_org_id" />
+		<result property="code" column="code" />
+		<result property="platform" column="platform" />
+	</resultMap>
+
+	<sql id="selectColumn">
+		id,org_id,re_org_id,code,platform   
+	</sql>
+	
+
+	<!-- 添加  FFTOrgRe -->
+	<insert id="addFFTOrgRe" parameterType="FFTOrgRe" useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[
+			INSERT INTO cb_fft_org_re (
+				org_id,re_org_id,code,platform 
+			) VALUES (
+				#{orgId},#{reOrgId},#{code},#{platform}   
+			) 
+		]]>
+	</insert>
+
+
+	<!-- 批量添加  FFTOrgRe -->
+	<insert id="addFFTOrgReByBatch" parameterType="java.util.List">
+		INSERT INTO cb_fft_org_re (
+			org_id,re_org_id,code,platform        
+		) VALUES 
+		<foreach collection="fftOrgReList" item="item" index="index" separator=",">
+			(#{item.orgId},#{item.reOrgId},#{item.code},#{item.platform})
+		</foreach>
+	</insert>
+
+	<!-- 删除  FFTOrgRe -->
+	<delete id="deleteFFTOrgRe" parameterType="java.lang.String">
+		delete from cb_fft_org_re  where org_id = #{orgId} 
+	</delete>
+	
+	
+	<!-- 修改  FFTOrgRe -->
+	<update id="updateFFTOrgRe" parameterType="FFTOrgRe">
+		UPDATE cb_fft_org_re      
+		<set>
+				<if test="code != null">
+					  code = #{code}, 
+				</if>
+		</set>
+		<where>
+			<if test="id != null">
+				 AND id = #{id} 
+			</if>
+		</where>
+	</update>
+
+
+	<!-- 查询  FFTOrgRe -->
+	<select id="findFFTOrgReById" parameterType="java.lang.Long" resultMap="fftOrgReResultMap">
+		SELECT 
+            <include refid="selectColumn" />       
+        FROM cb_fft_org_re   
+        WHERE 
+            id = #{id}
+	</select>
+	
+
+	<!-- 查询  FFTOrgRe -->
+	<select id="findFFTOrgReByOrgId" parameterType="java.lang.String" resultMap="fftOrgReResultMap">
+		SELECT 
+            <include refid="selectColumn" />       
+        FROM cb_fft_org_re   
+		 WHERE 
+            org_id = #{orgId}
+	</select>
+	
+	
+	
+	<!-- 查询  FFTOrgRe -->
+	<select id="findFFTOrgRe" parameterType="FFTOrgRe" resultMap="fftOrgReResultMap">
+		SELECT 
+            <include refid="selectColumn" />       
+        FROM cb_fft_org_re   
+		<where>
+			<if test="orgId != null">
+				 AND org_id = #{orgId}
+			</if>
+			<if test="reOrgId != null">
+				 AND re_org_id = #{reOrgId}
+			</if>
+			<if test="code != null">
+				 AND code = #{code}
+			</if>
+			<if test="platform != null">
+				 AND platform = #{platform}
+			</if>
+		</where>
+	</select>
+
+	<!-- 分页查询  FFTOrgRe -->
+	<select id="findByPage" parameterType="java.util.HashMap" resultMap="fftOrgReResultMap">
+		SELECT 
+             <include refid="selectColumn" />      
+        FROM cb_fft_org_re   
+		<if test="fftOrgRe != null">
+			<where>
+				<if test="fftOrgRe.orgId != null">
+					 AND org_id = #{fftOrgRe.orgId}
+				</if>
+				<if test="fftOrgRe.reOrgId != null">
+					 AND re_org_id = #{fftOrgRe.reOrgId}
+				</if>
+				<if test="fftOrgRe.code != null">
+					 AND code = #{fftOrgRe.code}
+				</if>
+				<if test="fftOrgRe.platform != null">
+					 AND platform = #{fftOrgRe.platform}
+				</if>
+			</where>
+			order by id desc 
+		</if>
+	</select>
+
+
+</mapper>
+

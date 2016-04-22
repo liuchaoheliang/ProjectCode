@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="tagDistrictB">
+  
+	<typeAlias alias="tagDistrictB" type="com.froad.CB.po.tag.TagDistrictB"/>
+	
+	<resultMap id="TagDistrictBResult" class="tagDistrictB" >
+	  <result column="id" property="id" jdbcType="INT" />
+	  <result column="tag_value" property="tagValue" jdbcType="VARCHAR" />
+	  <result column="tag_hyperlink" property="tagHyperlink" jdbcType="VARCHAR" />
+	  <result column="site_value" property="siteValue" jdbcType="VARCHAR" />
+	  <result column="sort_value" property="sortValue" jdbcType="VARCHAR" />
+	  <result column="description" property="description" jdbcType="VARCHAR" />
+	  <result column="state" property="state" jdbcType="VARCHAR" />
+	  <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+	  <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
+	  <result column="remark" property="remark" jdbcType="VARCHAR" />
+	  <result column="parent_tag_district_id" property="parentTagDistrictId" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<select id="selectByPrimaryKey" resultMap="TagDistrictBResult" parameterClass="java.lang.Integer" >
+	    select * from tag_district_b where id = #id#
+	</select>
+	
+	<delete id="deleteByPrimaryKey" parameterClass="java.lang.Integer" >
+	    delete from tag_district_b where id = #id#
+	</delete>
+	
+	<insert id="insert" parameterClass="tagDistrictB" >
+		insert into tag_district_b (id, tag_value, tag_hyperlink, site_value, sort_value, description,
+		state, create_time, update_time, remark, parent_tag_district_id)
+		values (#id:INT#, #tagValue:VARCHAR#, #tagHyperlink:VARCHAR#, #siteValue:VARCHAR#,
+		#sortValue:VARCHAR#, #description:VARCHAR#, #state:VARCHAR#, DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),
+		DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"), #remark:VARCHAR#, #parentTagDistrictId:VARCHAR#)
+		<selectKey resultClass="int" keyProperty="id">
+      	select last_insert_id() as id
+      </selectKey>
+	</insert>
+	
+	<update id="updateByPrimaryKeySelective" parameterClass="tagDistrictB" >
+	      update tag_district_b set update_time =DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s")
+	  <dynamic prepend="" >
+	    <isNotEmpty prepend="," property="tagValue" >
+	      tag_value = #tagValue:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="tagHyperlink" >
+	      tag_hyperlink = #tagHyperlink:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="siteValue" >
+	      site_value = #siteValue:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="sortValue" >
+	      sort_value = #sortValue:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="description" >
+	      description = #description:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="state" >
+	      state = #state:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="remark" >
+	      remark = #remark:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="parentTagDistrictId" >
+	      parent_tag_district_id = #parentTagDistrictId:VARCHAR#
+	    </isNotEmpty>
+	  </dynamic>
+	  where id = #id:INT#
+	</update>
+	
+	<select id="selectTagDistrictB" resultMap="TagDistrictBResult" parameterClass="tagDistrictB">
+	 select * from tag_district_b
+	  <dynamic prepend="where" >
+	  <isNotEmpty prepend="and" property="id" >
+	      id = #id:INT#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="and" property="tagValue" >
+	      tag_value like concat('%',#tagValue#,'%')
+	    </isNotEmpty>
+	    <isNotEmpty prepend="and" property="tagHyperlink" >
+	      tag_hyperlink = #tagHyperlink:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="and" property="siteValue" >
+	      site_value = #siteValue:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="and" property="sortValue" >
+	      sort_value = #sortValue:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="and" property="description" >
+	      description = #description:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="and" property="state" >
+	      state = #state:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="and" property="createTime" >
+	      create_time = #createTime:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="and" property="updateTime" >
+	      update_time = #updateTime:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="and" property="remark" >
+	      remark = #remark:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="and" property="parentTagDistrictId" >
+	      parent_tag_district_id = #parentTagDistrictId:VARCHAR#
+	    </isNotEmpty>
+	  </dynamic>
+	</select>
+	
+	
+	
+	<!-- 根据商户ID查询商圈2标签信息 -->
+	<select id="GET-DISTRICTB-TAGVALUE-BY-MERCHANTID"  parameterClass="java.lang.String" resultMap="TagDistrictBResult">
+		<![CDATA[ SELECT *
+            FROM tag_district_b a, tag_map b
+            where b.Merchant_id=#merchantId#
+ 			AND a.id = b.tag_district_b_id
+		]]>
+	 </select>
+
+	 <!-- 查询二级商圈信息 -->
+  	<select id="getAllTagDistrictB" resultMap="TagDistrictBResult">
+   		<![CDATA[ 
+    		SELECT * FROM tag_district_b order by create_time desc
+    	]]>
+  	</select>
+
+	<!-- 查询所有启用 二级商圈 -->
+	<select id="getAllTagDistrictBByEnabled"  resultMap="TagDistrictBResult">
+		<![CDATA[ SELECT *
+	            FROM tag_district_b WHERE state='30' order by create_time desc
+	  	]]>
+	</select>
+	
+	
+	<!-- 分页 查询  二级商圈 -->
+	<select id="getTagDistrictBListByPager"  parameterClass="java.util.HashMap" resultMap="TagDistrictBResult">
+		<![CDATA[ SELECT *
+	            FROM tag_district_b where state='30'
+	  	]]>
+          <dynamic>
+          		<isPropertyAvailable property ="property" prepend="AND">
+          			$property$=#keyword#
+          		</isPropertyAvailable>
+          </dynamic>
+          
+          <![CDATA[
+          order by $orderBy$ $orderType$ 
+          limit #startRow#,#pageSize#  
+          ]]> 
+	</select>
+	
+	<select id="getTagDistrictBListByPagerCount"  parameterClass="java.util.HashMap" resultClass="java.lang.Integer">
+		<![CDATA[ SELECT count(*)
+	            FROM tag_district_b where state='30'
+	 	 ]]>
+          <dynamic>
+       		<isPropertyAvailable property ="property"  prepend="AND">
+       			$property$=#keyword#
+       		</isPropertyAvailable>
+         </dynamic>
+	</select>
+	<!-- 分页 查询 二级商圈-->
+    
+</sqlMap>

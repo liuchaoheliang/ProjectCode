@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+	<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  		 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.ahui.mappers.SysRoleMapper">
+
+	<resultMap type="SysRole" id="sysRoleResultMap">
+		<id property="id" column="id" />
+		<result property="createTime" column="create_time" />
+		<result property="updateTime" column="update_time" />
+		<result property="name" column="name" />
+		<result property="value" column="value" />
+		<result property="isSystem" column="is_system" />
+		<result property="description" column="description" />
+		
+	</resultMap>
+	
+	<!-- 插入 -->
+	<insert id="saveSysRole" parameterType="SysRole" useGeneratedKeys="true" keyProperty="id" >
+		insert into fft_sys_role values
+		(
+			#{id},#{createTime},#{updateTime},#{name},#{value},#{isSystem},#{description}
+		)
+	</insert>
+
+	<!-- 更新 -->
+	<update id="updateSysRoleById" parameterType="SysRole">
+		update fft_sys_role set update_time = #{updateTime}
+		<if test="name != null">
+			,name = #{name}
+		</if>
+		<if test="value != null">
+			,value = #{value}
+		</if>
+		<if test="isSystem != null">
+			,is_system = #{isSystem}
+		</if>
+		<if test="description != null">
+			,description = #{description}
+		</if>
+		where id = #{id}
+	</update>
+	
+	<!-- 查询 -->
+	<select id="selectSysRoleById" parameterType="java.lang.Long" resultMap="sysRoleResultMap">
+		select * from fft_sys_role where id = #{id}
+	</select>
+	
+	<!-- 分页查询 -->
+	<select id="selectSysRoleByPage" parameterType="com.froad.fft.persistent.bean.page.Page" resultMap="sysRoleResultMap"> 
+		<![CDATA[ 
+			select * from fft_sys_role 
+		]]>
+		
+		<!-- 条件 -->
+		<if test="pageFilter != null">
+			<where>
+				<if test="pageFilter.filterEntity != null">
+					<if test="pageFilter.filterEntity.name != null">
+						and name like CONCAT('%',#{pageFilter.filterEntity.name},'%' ) 
+					</if>
+					<if test="pageFilter.filterEntity.value != null">
+						and value=#{pageFilter.filterEntity.value} 
+					</if>
+					<if test="pageFilter.filterEntity.isSystem != null">
+						and is_system=#{pageFilter.filterEntity.isSystem} 
+					</if>
+					<if test="pageFilter.filterEntity.description != null">
+						and description like CONCAT('%',#{pageFilter.filterEntity.description},'%' ) 
+					</if>
+				</if>
+				<!-- 时间段条件 -->
+				<if test="pageFilter.property != null and pageFilter.startTime != null">
+					<![CDATA[
+					 and ${pageFilter.property} >= #{pageFilter.startTime}
+					]]>
+				</if>
+				<if test="pageFilter.property != null and pageFilter.endTime != null">
+					<![CDATA[
+					 and ${pageFilter.property} <= #{pageFilter.endTime}
+					]]>
+				</if>
+			</where>
+		</if>
+		
+		<!-- 排序 --> 
+		<if test="order != null">
+			<if test="order.property != null and order.direction != null">
+				order by ${order.property} ${order.direction} 
+			</if>
+		</if>
+		
+	</select>
+	
+	<!-- 分页总数 -->
+	<select id="selectSysRoleByPageCount" parameterType="com.froad.fft.persistent.bean.page.Page" resultType="java.lang.Integer"> 
+		<![CDATA[ 
+			select count(0) from fft_sys_role 
+		]]>
+		
+		<!-- 条件 -->
+		<if test="pageFilter != null">
+			<where>
+				<if test="pageFilter.filterEntity != null">
+					<if test="pageFilter.filterEntity.name != null">
+						and name like CONCAT('%',#{pageFilter.filterEntity.name},'%' ) 
+					</if>
+					<if test="pageFilter.filterEntity.value != null">
+						and value=#{pageFilter.filterEntity.value} 
+					</if>
+					<if test="pageFilter.filterEntity.isSystem != null">
+						and is_system=#{pageFilter.filterEntity.isSystem} 
+					</if>
+					<if test="pageFilter.filterEntity.description != null">
+						and description like CONCAT('%',#{pageFilter.filterEntity.description},'%') 
+					</if>
+				</if>
+				<!-- 时间段条件 -->
+				<if test="pageFilter.property != null and pageFilter.startTime != null">
+					<![CDATA[
+					 and ${pageFilter.property} >= #{pageFilter.startTime}
+					]]>
+				</if>
+				<if test="pageFilter.property != null and pageFilter.endTime != null">
+					<![CDATA[
+					 and ${pageFilter.property} <= #{pageFilter.endTime}
+					]]>
+				</if>
+			</where>
+		</if>
+		
+		<!-- 排序 --> 
+		<if test="order != null">
+			<if test="order.property != null and order.direction != null">
+				order by ${order.property} ${order.direction} 
+			</if>
+		</if>
+		
+	</select>
+	<!-- 查询 -->
+	<select id="selectSysRole" parameterType="SysRole" resultMap="sysRoleResultMap">
+		select * from fft_sys_role where 1=1
+		<if test="id!=null">
+			and id = #{id}
+		</if>
+		<if test="name!=null">
+			and name = #{name}
+		</if>
+		<if test="value!=null">
+			and value = #{value}
+		</if> 
+		<if test="isSystem!=null">
+			and is_system = #{isSystem}
+		</if> 
+	</select>
+	
+	<!-- 查询 -->
+	<select id="selectSysRoleAll"  resultMap="sysRoleResultMap">
+		select * from fft_sys_role
+	</select>
+	
+	<!-- 查询 -->
+	<select id="selectByConditions" parameterType="SysRole" resultMap="sysRoleResultMap">
+		select * from fft_sys_role where 1=1
+		<if test="id!=null">
+			and id = #{id}
+		</if>
+		<if test="name!=null">
+			and name = #{name}
+		</if>
+		<if test="value!=null">
+			and value = #{value}
+		</if> 
+		<if test="isSystem!=null">
+			and is_system = #{isSystem}
+		</if> 
+	</select>
+	
+</mapper>

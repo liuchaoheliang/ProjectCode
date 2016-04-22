@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.mysql.mapper.ProductMapper">
+	
+	<resultMap type="PresellProduct" id="productPresellResultMap">
+		<id property="id" column="id" />
+		<result property="createTime" column="create_time" />
+		<result property="clientId" column="client_id" />
+		<result property="productId" column="product_id" />
+		<result property="productSupplier" column="product_supplier" />
+		<result property="maxPerOutlet" column="max_per_outlet" />
+		<result property="deliveryStartTime" column="delivery_start_time" />
+		<result property="deliveryEndTime" column="delivery_end_time" />
+		<result property="trueBuyerNumber" column="true_buyer_number" />
+		<result property="virtualBuyerNumber" column="virtual_buyer_number" />
+		<result property="clusterState" column="cluster_state" />
+		<result property="clusterType" column="cluster_type" />
+		<result property="expireStartTime" column="expire_start_time" />
+		<result property="expireEndTime" column="expire_end_time" />
+		<result property="name" column="name" />
+		<result property="proOrgCode" column="province_agency" />
+		<result property="cityOrgCode" column="city_agency" />
+		<result property="startTime" column="start_time" />
+		<result property="endTime" column="end_time" />
+	</resultMap>
+	
+	<resultMap type="Product" id="productResultMap">
+		<id property="id" column="id" />
+		<result property="clientId" column="client_id" />
+		<result property="merchantId" column="merchant_id" />
+		<result property="orgCode" column="org_code" />
+		<result property="productId" column="product_id" />
+		<result property="isMarketable" column="is_marketable" />
+		<result property="rackTime" column="rack_time" />
+		<result property="downTime" column="down_time" />
+		<result property="createTime" column="create_time" />
+		<result property="type" column="type" />
+		<result property="deliveryOption" column="delivery_option" />
+		<result property="name" column="name" />
+		<result property="fullName" column="full_name" />
+		<result property="price" column="price" />
+		<result property="cost" column="cost" />
+		<result property="marketPrice" column="market_price" />
+		<result property="weight" column="weight" />
+		<result property="weightUnit" column="weight_unit" />
+		<result property="store" column="store" />
+		<result property="isBest" column="is_best" />
+		<result property="isLimit" column="is_limit" />
+		<result property="point" column="point" />
+		<result property="briefIntroduction" column="brief_introduction" />
+		<result property="introduction" column="introduction" />
+		<result property="buyKnow" column="buy_know" />
+		<result property="auditState" column="audit_state" />
+		<result property="auditTime" column="audit_time" />
+		<result property="auditComment" column="audit_comment" />
+		<result property="auditOrgCode" column="audit_org_code" />
+		<result property="auditStage" column="audit_stage" />
+		<result property="reviewStaff" column="review_staff" />
+		<result property="auditStaff" column="audit_staff" />
+		<result property="orderValue" column="order_value" />
+		<result property="sellCount" column="sell_count" />
+		<result property="startTime" column="start_time" />
+		<result property="endTime" column="end_time" />
+		<result property="deliveryMoney" column="delivery_money" />
+		<result property="isSeckill" column="is_seckill" />
+		<result property="proOrgCode" column="province_agency" />
+		<result property="cityOrgCode" column="city_agency" />
+		<result property="countryOrgCode" column="county_agency" />
+	</resultMap>
+	
+	<resultMap type="ProductSeckill" id="productSeckillResultMap">
+		<id property="id" column="id" />
+		<result property="clientId" column="client_id" />
+		<result property="createTime" column="create_time" />
+		<result property="productId" column="product_id" />
+		<result property="secStore" column="sec_store" />
+		<result property="secPrice" column="sec_price" />
+		<result property="vipSecPrice" column="vip_sec_price" />
+		<result property="startTime" column="start_time" />
+		<result property="endTime" column="end_time" />
+		<result property="trueBuyerNumber" column="true_buyer_number" />
+		<result property="buyLimit" column="buy_limit" />
+	</resultMap>
+	
+	<!-- 更新预售商品成团状态 -->
+	<update id="updatePresellByProductId" parameterType="PresellProduct">
+		update cb_product_presell 
+		<set>
+			<if test="clusterState != null">
+				cluster_state = #{clusterState},
+			</if> 
+			<if test="clusterType != null">
+				cluster_type = #{clusterType},
+			</if>
+		</set>
+		where product_id = #{productId} and client_id=#{clientId}
+	</update>
+	
+    <!-- 查询需要成团的预售商品 -->
+   	<select id="selectShouldClusterProductPresell" resultMap="productResultMap">
+   	<![CDATA[
+   		select p.*  
+   		from cb_product p inner join cb_product_presell pr on p.product_id=pr.product_id  
+   		where p.end_time<now() and pr.cluster_state=0
+   	]]>
+   	</select>
+   	
+   	<!-- 查询秒杀时间到期的商品 -->
+   	<select id="selectAllEndSeckillAndExistStore" resultMap="productSeckillResultMap">
+   	<![CDATA[
+   		select * from cb_product_seckill where end_time<now() and sec_store > 0
+   	]]>
+   	</select>
+   	
+   	<!-- 更新商品库存 -->
+   	<update id="updateProductStore" parameterType="Product">
+   		update cb_product 
+   		<set>
+   			<if test="store != null">
+   				store =store+#{store}
+   			</if>
+   		</set>
+   		where product_id=#{productId} and client_id=#{clientId}
+   	</update>
+   	
+   	<!-- 更新秒杀商品库存 -->
+   	<update id="updateProductSeckillStore" parameterType="ProductSeckill">
+   		update cb_product_seckill 
+   		<set>
+   			<if test="secStore != null">
+   				sec_store = sec_store + #{secStore}
+   			</if>
+   		</set>
+   		where product_id=#{productId} and client_id=#{clientId}
+   	</update>
+   	
+   	<!-- 查询商品信息 -->
+   	<select id="findByProductId" parameterType="java.lang.String" resultMap="productResultMap">
+   		select * from cb_product where product_id=#{productId}
+   	</select>
+   	<!-- 查询全部预售配送商品 -->
+   		<select id="findAllPresellByHis" resultMap="productPresellResultMap">
+   	<![CDATA[	
+   		select 
+   		  cb.name,cb.province_agency,cb.city_agency,cp.delivery_start_time,cp.delivery_end_time,cp.expire_start_time,cp.expire_end_time, 
+   		  cb.start_time,cb.end_time,cb.product_id,cb.client_id
+   		from 
+   		  cb_product_presell cp LEFT JOIN cb_product cb on cp.product_id=cb.product_id 
+   		where (cb.delivery_option='0' OR cb.delivery_option='2')
+   	]]>
+   	</select>
+   	<!-- 查询全部预售配送商品数量 -->
+   		<select id="findAllPresellByCount" resultType="Integer">
+   	<![CDATA[	
+   		select 
+   		  count(*)
+   		from 
+   		  cb_presell_shipping_report
+   	]]>
+   	  	</select>
+   	<!-- 查询预售配送商品 -->
+   	<select id="findAllPresell" resultMap="productPresellResultMap">
+   	<![CDATA[	
+   		select 
+   		  cb.name,cb.province_agency,cb.city_agency,cp.delivery_start_time,cp.delivery_end_time,cp.expire_start_time,cp.expire_end_time, 
+   		  cb.start_time,cb.end_time,cb.product_id,cb.client_id
+   		from 
+   		  cb_product_presell cp LEFT JOIN cb_product cb on cp.product_id=cb.product_id 
+   		where (cb.delivery_option='0' OR cb.delivery_option='2')
+   		  and cb.end_time>=#{startTime} 
+   		  and cb.end_time<=#{endTime}
+   	]]>
+   	</select>
+</mapper>

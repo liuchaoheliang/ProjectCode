@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.bps.mappers.RoleResourceMapper">
+	<resultMap type="RoleResource" id="roleResourceResultMap">
+		<id column="ROLE_ID" property="roleId" />
+		<result column="RESOURCE_ID" property="resourceId" />
+		<result column="STATUS" property="status" />
+    	<result column="CREATE_TIME" property="createTime" />
+    	<result column="UPDATE_TIME" property="updateTime" />
+	</resultMap>
+	
+	<select id="dinstinctRoleId" resultType="java.lang.Long">
+		select distinct ROLE_ID from tr_role_resource
+	</select>
+	
+	<select id="queryResourcesByRoleId" parameterType="java.lang.Long" resultType="java.lang.String">
+		select RESOURCE_ID from tr_role_resource where role_id=#{roleId}
+	</select>
+	
+	
+</mapper>

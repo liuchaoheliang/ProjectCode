@@ -1,0 +1,435 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.mysql.mapper.HistoryInstanceMapper">
+
+	<resultMap type="HistoryInstance" id="historyInstanceResultMap">
+		<id property="id" column="id" />
+		<result property="createTime" column="create_time" />
+		<result property="updateTime" column="update_time" />
+		<result property="clientId" column="client_id" />
+		<result property="instanceId" column="instance_id" />
+		<result property="processId" column="process_id" />
+		<result property="instanceState" column="instance_state" />
+		<result property="creator" column="creator" />
+		<result property="lastUpdator" column="last_updator" />
+		<result property="orderValue" column="order_value" />
+		<result property="orgId" column="org_id" />
+	</resultMap>
+
+
+	<!-- 所有字段list -->
+	<sql id="Base_Column_List">
+		id,create_time,update_time,client_id,instance_id,process_id,instance_state,creator,last_updator,order_value,org_id
+	</sql>
+
+
+	<!-- 不包含ID字段list -->
+	<sql id="Not_ID_Column_List">
+		create_time,update_time,client_id,instance_id,process_id,instance_state,creator,last_updator,order_value,org_id
+	</sql>
+
+
+	<!-- 添加  HistoryInstance -->
+	<insert id="addHistoryInstance" parameterType="HistoryInstance" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO cb_history_instance (
+			<include refid="Not_ID_Column_List" />
+		) VALUES (
+			#{createTime},#{updateTime},#{clientId},#{instanceId},#{processId},#{instanceState},#{creator},#{lastUpdator},#{orderValue},#{orgId}
+		) 
+	</insert>
+
+
+	<!-- 批量添加  HistoryInstance -->
+	<insert id="addHistoryInstanceByBatch" parameterType="java.util.List">
+		INSERT INTO cb_history_instance (
+			<include refid="Not_ID_Column_List" />
+		) VALUES 
+		<foreach collection="historyInstanceList" item="item" index="index" separator=",">
+			(#{item.createTime},#{item.updateTime},#{item.clientId},#{item.instanceId},#{item.processId},#{item.instanceState},#{item.creator},#{item.lastUpdator},#{item.orderValue},#{item.orgId})
+		</foreach>
+	</insert>
+
+
+	<!-- 删除  HistoryInstance -->
+	<delete id="deleteHistoryInstance" parameterType="HistoryInstance">
+		DELETE FROM cb_history_instance 
+		<where>
+			<if test="id != null">
+				AND id = #{id}
+			</if>
+			<if test="createTime != null">
+				AND create_time = #{createTime}
+			</if>
+			<if test="updateTime != null">
+				AND update_time = #{updateTime}
+			</if>
+			<if test="clientId != null">
+				AND client_id = #{clientId}
+			</if>
+			<if test="instanceId != null">
+				AND instance_id = #{instanceId}
+			</if>
+			<if test="processId != null">
+				AND process_id = #{processId}
+			</if>
+			<if test="instanceState != null">
+				AND instance_state = #{instanceState}
+			</if>
+			<if test="creator != null">
+				AND creator = #{creator}
+			</if>
+			<if test="lastUpdator != null">
+				AND last_updator = #{lastUpdator}
+			</if>
+			<if test="orderValue != null">
+				AND order_value = #{orderValue}
+			</if>
+			<if test="orgId != null">
+				AND org_id = #{orgId}
+			</if>
+		</where>
+	</delete>
+
+
+	<!-- 根据id删除  HistoryInstance -->
+	<delete id="deleteHistoryInstanceById" parameterType="java.lang.Long">
+		DELETE FROM cb_history_instance 
+		 WHERE 
+			 id = #{id} 
+	</delete>
+
+
+	<!-- 根据instanceId删除  HistoryInstance -->
+	<delete id="deleteHistoryInstanceByInstanceId" parameterType="java.lang.String">
+		DELETE FROM cb_history_instance 
+		 WHERE 
+			 instance_id = #{instanceId} 
+	</delete>
+
+
+	<!-- 修改  HistoryInstance -->
+	<update id="updateHistoryInstance" parameterType="HistoryInstance">
+		UPDATE cb_history_instance 
+		<set>
+			<if test="createTime != null">
+				create_time = #{createTime}, 
+			</if>
+			<if test="updateTime != null">
+				update_time = #{updateTime}, 
+			</if>
+			<if test="clientId != null">
+				client_id = #{clientId}, 
+			</if>
+			<if test="instanceId != null">
+				instance_id = #{instanceId}, 
+			</if>
+			<if test="processId != null">
+				process_id = #{processId}, 
+			</if>
+			<if test="instanceState != null">
+				instance_state = #{instanceState}, 
+			</if>
+			<if test="creator != null">
+				creator = #{creator}, 
+			</if>
+			<if test="lastUpdator != null">
+				last_updator = #{lastUpdator}, 
+			</if>
+			<if test="orderValue != null">
+				order_value = #{orderValue}, 
+			</if>
+		</set>
+
+		<where>
+			<if test="id != null">
+				AND id = #{id}
+			</if>
+			<if test="clientId != null">
+				AND client_id = #{clientId}
+			</if>
+			<if test="instanceId != null">
+				AND instance_id = #{instanceId}
+			</if>
+			
+		</where>
+	</update>
+
+
+	<!-- 根据id修改  HistoryInstance -->
+	<update id="updateHistoryInstanceById" parameterType="HistoryInstance">
+		UPDATE cb_history_instance 
+		<set>
+			<if test="createTime != null">
+				create_time = #{createTime}, 
+			</if>
+			<if test="updateTime != null">
+				update_time = #{updateTime}, 
+			</if>
+			<if test="clientId != null">
+				client_id = #{clientId}, 
+			</if>
+			<if test="instanceId != null">
+				instance_id = #{instanceId}, 
+			</if>
+			<if test="processId != null">
+				process_id = #{processId}, 
+			</if>
+			<if test="instanceState != null">
+				instance_state = #{instanceState}, 
+			</if>
+			<if test="creator != null">
+				creator = #{creator}, 
+			</if>
+			<if test="lastUpdator != null">
+				last_updator = #{lastUpdator}, 
+			</if>
+			<if test="orderValue != null">
+				order_value = #{orderValue}, 
+			</if>
+			<if test="orgId != null">
+				org_id = #{orgId}, 
+			</if>
+		</set>
+
+		 WHERE 
+            id = #{id} 
+	</update>
+
+
+	<!-- 根据instanceId修改  HistoryInstance -->
+	<update id="updateHistoryInstanceByInstanceId" parameterType="HistoryInstance">
+		UPDATE cb_history_instance 
+		<set>
+			<if test="createTime != null">
+				create_time = #{createTime}, 
+			</if>
+			<if test="updateTime != null">
+				update_time = #{updateTime}, 
+			</if>
+			<if test="clientId != null">
+				client_id = #{clientId}, 
+			</if>
+			<if test="processId != null">
+				process_id = #{processId}, 
+			</if>
+			<if test="instanceState != null">
+				instance_state = #{instanceState}, 
+			</if>
+			<if test="creator != null">
+				creator = #{creator}, 
+			</if>
+			<if test="lastUpdator != null">
+				last_updator = #{lastUpdator}, 
+			</if>
+			<if test="orderValue != null">
+				order_value = #{orderValue}, 
+			</if>
+			<if test="orgId != null">
+				org_id = #{orgId}, 
+			</if>
+		</set>
+
+		 WHERE 
+            instance_id = #{instanceId} 
+	</update>
+
+
+	<!-- 根据id查询  HistoryInstance -->
+	<select id="findHistoryInstanceById" parameterType="java.lang.Long" resultMap="historyInstanceResultMap">
+		SELECT 
+			<include refid="Base_Column_List" />
+        FROM cb_history_instance 
+        WHERE 
+            id = #{id}
+
+	</select>
+	
+
+	<!-- 根据instanceId查询  HistoryInstance -->
+	<select id="findHistoryInstanceByInstanceId" parameterType="java.lang.String" resultMap="historyInstanceResultMap">
+		SELECT 
+			<include refid="Base_Column_List" />
+        FROM cb_history_instance 
+        WHERE 
+            instance_id = #{instanceId}
+
+	</select>
+
+	<!-- 查询一个  HistoryInstance -->
+	<select id="findOneHistoryInstance" parameterType="HistoryInstance" resultMap="historyInstanceResultMap">
+		SELECT 
+			<include refid="Base_Column_List" />
+        FROM cb_history_instance 
+		<where>
+			<if test="id != null">
+				 AND id = #{id}
+			</if>
+			<if test="createTime != null">
+				 AND create_time = #{createTime}
+			</if>
+			<if test="updateTime != null">
+				 AND update_time = #{updateTime}
+			</if>
+			<if test="clientId != null">
+				 AND client_id = #{clientId}
+			</if>
+			<if test="instanceId != null">
+				 AND instance_id = #{instanceId}
+			</if>
+			<if test="processId != null">
+				 AND process_id = #{processId}
+			</if>
+			<if test="instanceState != null">
+				 AND instance_state = #{instanceState}
+			</if>
+			<if test="creator != null">
+				 AND creator = #{creator}
+			</if>
+			<if test="lastUpdator != null">
+				 AND last_updator = #{lastUpdator}
+			</if>
+			<if test="orderValue != null">
+				 AND order_value = #{orderValue}
+			</if>
+			<if test="orgId != null">
+				 AND org_id = #{orgId}
+			</if>
+		 LIMIT 1 
+		</where>
+	</select>
+
+	<!-- 统计  HistoryInstance -->
+	<select id="countHistoryInstance" parameterType="HistoryInstance" resultType="java.lang.Integer">
+		SELECT COUNT(0) FROM cb_history_instance 
+		<where>
+			<if test="id != null">
+				 AND id = #{id}
+			</if>
+			<if test="createTime != null">
+				 AND create_time = #{createTime}
+			</if>
+			<if test="updateTime != null">
+				 AND update_time = #{updateTime}
+			</if>
+			<if test="clientId != null">
+				 AND client_id = #{clientId}
+			</if>
+			<if test="instanceId != null">
+				 AND instance_id = #{instanceId}
+			</if>
+			<if test="processId != null">
+				 AND process_id = #{processId}
+			</if>
+			<if test="instanceState != null">
+				 AND instance_state = #{instanceState}
+			</if>
+			<if test="creator != null">
+				 AND creator = #{creator}
+			</if>
+			<if test="lastUpdator != null">
+				 AND last_updator = #{lastUpdator}
+			</if>
+			<if test="orderValue != null">
+				 AND order_value = #{orderValue}
+			</if>
+			<if test="orgId != null">
+				 AND org_id = #{orgId}
+			</if>
+		</where>
+	</select>
+
+	<!-- 查询  HistoryInstance -->
+	<select id="findHistoryInstance" parameterType="HistoryInstance" resultMap="historyInstanceResultMap">
+		SELECT 
+			<include refid="Base_Column_List" />
+        FROM cb_history_instance 
+		<if test="historyInstance != null">
+			<where>
+				<if test="historyInstance.id != null">
+					 AND id = #{historyInstance.id}
+				</if>
+				<if test="historyInstance.createTime != null">
+					 AND create_time = #{historyInstance.createTime}
+				</if>
+				<if test="historyInstance.updateTime != null">
+					 AND update_time = #{historyInstance.updateTime}
+				</if>
+				<if test="historyInstance.clientId != null">
+					 AND client_id = #{historyInstance.clientId}
+				</if>
+				<if test="historyInstance.instanceId != null">
+					 AND instance_id = #{historyInstance.instanceId}
+				</if>
+				<if test="historyInstance.processId != null">
+					 AND process_id = #{historyInstance.processId}
+				</if>
+				<if test="historyInstance.instanceState != null">
+					 AND instance_state = #{historyInstance.instanceState}
+				</if>
+				<if test="historyInstance.creator != null">
+					 AND creator = #{historyInstance.creator}
+				</if>
+				<if test="historyInstance.lastUpdator != null">
+					 AND last_updator = #{historyInstance.lastUpdator}
+				</if>
+				<if test="historyInstance.orderValue != null">
+					 AND order_value = #{historyInstance.orderValue}
+				</if>
+				<if test="historyInstance.orgId != null">
+					 AND org_id = #{historyInstance.orgId}
+				</if>
+			</where>
+		</if>
+		<if test="order != null">
+		 ORDER BY ${order} 
+		</if>
+	</select>
+
+	<!-- 分页查询  HistoryInstance -->
+	<select id="findByPage" parameterType="java.util.HashMap" resultMap="historyInstanceResultMap">
+		SELECT 
+			<include refid="Base_Column_List" />
+        FROM cb_history_instance 
+		<if test="historyInstance != null">
+			<where>
+				<if test="historyInstance.id != null">
+					 AND id = #{historyInstance.id}
+				</if>
+				<if test="historyInstance.createTime != null">
+					 AND create_time = #{historyInstance.createTime}
+				</if>
+				<if test="historyInstance.updateTime != null">
+					 AND update_time = #{historyInstance.updateTime}
+				</if>
+				<if test="historyInstance.clientId != null">
+					 AND client_id = #{historyInstance.clientId}
+				</if>
+				<if test="historyInstance.instanceId != null">
+					 AND instance_id = #{historyInstance.instanceId}
+				</if>
+				<if test="historyInstance.processId != null">
+					 AND process_id = #{historyInstance.processId}
+				</if>
+				<if test="historyInstance.instanceState != null">
+					 AND instance_state = #{historyInstance.instanceState}
+				</if>
+				<if test="historyInstance.creator != null">
+					 AND creator = #{historyInstance.creator}
+				</if>
+				<if test="historyInstance.lastUpdator != null">
+					 AND last_updator = #{historyInstance.lastUpdator}
+				</if>
+				<if test="historyInstance.orderValue != null">
+					 AND order_value = #{historyInstance.orderValue}
+				</if>
+				<if test="historyInstance.orgId != null">
+					 AND org_id = #{historyInstance.orgId}
+				</if>
+			</where>
+		</if>
+	</select>
+
+
+</mapper>
+

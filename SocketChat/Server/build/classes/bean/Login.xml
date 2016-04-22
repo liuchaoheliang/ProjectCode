@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bean table="tb_login" class="team.core.bean.os.LoginBean">
+	<property column="l_id" attr="id" jdbcType="vac" />
+	<property column="l_name" attr="name" jdbcType="vac" />
+	<property column="l_pwd" attr="pwd" jdbcType="vac" />
+	<property column="l_last_try_time" attr="lastTryTime" jdbcType="vac" />
+	<property column="l_state" attr="state" jdbcType="vac" />
+	<property column="l_login_fail_times" attr="loginFailTimes" jdbcType="num" />
+	<property column="l_unlock_time" attr="unlockTime" jdbcType="vac" />
+	<property column="create_time" attr="createTime" jdbcType="vac" />
+	<property column="update_time" attr="updateTime" jdbcType="vac" />
+</bean>

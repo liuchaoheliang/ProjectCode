@@ -1,0 +1,24 @@
+<requestFroadApi>
+    <card>
+        <memberID>${memberID}</memberID>
+        <accountName>${accountName}</accountName>
+        <bankCardNo>${bankCardNo}</bankCardNo>
+        <bankCardType>${bankCardType}</bankCardType>
+        <certificateType>${certificateType}</certificateType>
+        <certificateNo>${certificateNo}</certificateNo>
+        <mobilePhone>${mobilePhone}</mobilePhone>
+        <mobileToken>${mobileToken}</mobileToken>
+        <payOrg>${payOrg}</payOrg>
+        <singlePenLimit>${singlePenLimit}</singlePenLimit>
+        <dailyLimit>${dailyLimit}</dailyLimit>
+        <monthlyLimit>${monthlyLimit}</monthlyLimit>
+    </card>
+    <system>
+        <reqID>${reqID}</reqID>
+        <version>${versions}</version>
+        <partnerID>${partnerID}</partnerID>
+        <charset>${charset}</charset>
+        <signType>${signType}</signType>
+        <signMsg>${signMsg}</signMsg>
+    </system>
+</requestFroadApi>

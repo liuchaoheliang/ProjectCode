@@ -1,0 +1,254 @@
+﻿<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.froad.cbank</groupId>
+		<artifactId>froad-cbank-server</artifactId>
+		<version>1.12.0-SNAPSHOT</version>
+	</parent>
+	<artifactId>froad-cbank-server-activities</artifactId>
+	<name>Froad Cbank Server Activities</name>
+	
+	<dependencies>
+
+		<dependency>
+			<groupId>com.froad.cbank</groupId>
+			<artifactId>froad-cbank-server-common</artifactId>
+		</dependency>
+		
+		<!-- oval -->
+		<dependency>
+			<groupId>net.sf.oval</groupId>
+			<artifactId>oval</artifactId>
+		</dependency>
+		
+		<!-- beanutils -->
+		<!-- <dependency>
+			<groupId>commons-beanutils</groupId>
+			<artifactId>commons-beanutils</artifactId>
+		</dependency>		 -->
+  
+		<!-- junit -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
+
+		<!-- logback -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-core</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-access</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+		</dependency>
+
+		<!-- mybatis -->
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis</artifactId>
+		</dependency>
+
+		<!-- mysql -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+		</dependency>
+
+		<!-- druid -->
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>druid</artifactId>
+		</dependency>
+
+		<!-- fastjson -->
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+		</dependency>
+
+		<!-- thrift -->
+		<dependency>
+			<groupId>org.apache.thrift</groupId>
+			<artifactId>libthrift</artifactId>
+		</dependency>
+
+		<!-- jedis -->
+		<dependency>
+			<groupId>redis.clients</groupId>
+			<artifactId>jedis</artifactId>
+		</dependency>
+
+		<!-- mongo-java-driver -->
+		<dependency>
+			<groupId>org.mongodb</groupId>
+			<artifactId>mongo-java-driver</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>3.10-FINAL</version>
+		</dependency>
+		
+				<dependency>
+			<groupId>org.apache.ant</groupId>
+			<artifactId>apache-ant-zip</artifactId>
+		</dependency>
+		
+		<!-- ftp -->
+		<!--ftp-->
+		<dependency>
+			<groupId>commons-net</groupId>
+			<artifactId>commons-net</artifactId>
+		</dependency>
+		<!-- scp -->
+		<dependency>
+			<groupId>ch.ethz.ganymed</groupId>
+			<artifactId>ganymed-ssh2</artifactId>
+		</dependency>
+
+	</dependencies>
+	
+	<build>
+		<!--<finalName>
+			froad_cbank_merchant
+		</finalName>-->
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>3.1</version>
+					<configuration>
+						<encoding>UTF-8</encoding>
+						<target>1.6</target>
+						<source>1.6</source>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>2.4.3</version>
+					<configuration>
+						<testFailureIgnore>true</testFailureIgnore>
+					</configuration>
+				</plugin>
+				<plugin>
+					<inherited>true</inherited>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-source-plugin</artifactId>
+					<executions>
+						<execution>
+							<id>attach-sources</id>
+							<goals>
+								<goal>jar</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-resources-plugin</artifactId>
+					<configuration>
+						<encoding>UTF-8</encoding>
+					</configuration>
+					<!-- 把到common中mapper/*.xml打包到本模块中 -->
+		            <executions>  
+		                <execution>  
+		                    <id>copy-xmls</id>  
+		                    <phase>process-sources</phase>  
+		                    <goals>  
+		                        <goal>copy-resources</goal>  
+		                    </goals>  
+		                    <configuration>  
+		                        <outputDirectory>${basedir}/target/classes</outputDirectory>  
+		                        <resources>  
+		                            <resource>  
+		                                <directory>../froad-cbank-server-common/target/classes</directory>  
+		                                <includes>  
+		                                    <include>**/*.xml</include>  
+		                                </includes>  
+		                            </resource>  
+		                        </resources>  
+		                    </configuration>  
+		                </execution>  
+		            </executions>  
+		        </plugin>
+				<!-- 
+				<plugin>
+					<groupId>org.mortbay.jetty</groupId>
+					<artifactId>jetty-maven-plugin</artifactId>
+					<version>7.1.0.RC1</version>
+					<configuration>
+						<scanIntervalSeconds>10</scanIntervalSeconds>
+						<webAppConfig>
+							<contextPath>/froad-cbank</contextPath>
+						</webAppConfig>
+					</configuration>
+				</plugin>
+				 -->
+				<!-- 选择性打包 -->
+				<plugin>
+					<artifactId>maven-assembly-plugin</artifactId>
+					<version>2.5.1</version>
+					<configuration>
+						<argLine>-Xms256M -Xmx1024M -XX:PermSize=512M
+							-XX:MaxPermSize=1024M -Dfile.encoding=UTF-8</argLine>
+						<inherited>false</inherited>
+						<appendAssemblyId>false</appendAssemblyId>
+						<descriptors>
+							<descriptor>activities-server.xml</descriptor>
+						</descriptors>
+					</configuration>
+					<executions>
+						<execution>
+							<id>make-assembly</id>
+							<phase>package</phase>
+							<goals>
+								<goal>single</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+				
+				
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-jar-plugin</artifactId>
+					<version>2.4</version>
+					<configuration>
+						<archive>
+							<manifest>
+								<mainClass>com.froad.thrift.ActivitiesMain</mainClass>
+							</manifest>
+						</archive>
+					</configuration>
+				</plugin>
+				
+			</plugins>
+		</pluginManagement>
+	</build>
+</project>

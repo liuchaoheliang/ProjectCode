@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.mysql.mapper.ClientPaymentChannelMapper">
+
+	<resultMap type="ClientPaymentChannel" id="clientPaymentChannelResultMap">
+		<id property="id" column="id" />
+		<result property="clientId" column="client_id" />
+		<result property="paymentChannelId" column="payment_channel_id" />
+		<result property="name" column="name" />
+		<result property="fullName" column="full_name" />
+		<result property="type" column="type" />
+		<result property="icoUrl" column="ico_url" />
+		<result property="paymentOrgNo" column="payment_org_no" />
+		<result property="isFroadCheckToken" column="is_froad_check_token" />
+		<result property="pointRate" column="point_rate" />
+		<result property="isDelete" column="is_delete" />
+	</resultMap>
+
+
+	<!-- 添加  ClientPaymentChannel -->
+	<insert id="addClientPaymentChannel" parameterType="ClientPaymentChannel" useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[
+			insert into cb_client_payment_channel (
+				client_id,payment_channel_id,name,full_name,type,ico_url,payment_org_no,is_froad_check_token,point_rate,is_delete
+			) values (
+				#{clientId},#{paymentChannelId},#{name},#{fullName},#{type},#{icoUrl},#{paymentOrgNo},#{isFroadCheckToken},#{pointRate},#{isDelete}
+			) 
+		]]>
+	</insert>
+
+
+	<!-- 批量添加  ClientPaymentChannel -->
+	<insert id="addClientPaymentChannelByBatch" parameterType="java.util.List">
+		insert into cb_client_payment_channel (
+			client_id,payment_channel_id,name,full_name,type,ico_url,payment_org_no,is_froad_check_token,point_rate,is_delete
+		) values 
+		<foreach collection="clientPaymentChannelList" item="item" index="index" separator=",">
+			(#{clientId},#{paymentChannelId},#{name},#{fullName},#{type},#{icoUrl},#{paymentOrgNo},#{isFroadCheckToken},#{pointRate},#{isDelete})
+		</foreach>
+	</insert>
+
+
+	<!-- 删除  ClientPaymentChannel -->
+	<update id="deleteClientPaymentChannel" parameterType="ClientPaymentChannel">
+		update cb_client_payment_channel set is_delete=1 
+		<where>
+			<if test="id != null">
+				and id = #{id}
+			</if>
+			<if test="clientId != null">
+				and client_id = #{clientId}
+			</if>
+			<if test="paymentChannelId != null">
+				and payment_channel_id = #{paymentChannelId}
+			</if>
+		</where>	
+	</update>
+
+
+	<!-- 修改  ClientPaymentChannel -->
+	<update id="updateClientPaymentChannel" parameterType="ClientPaymentChannel">
+		update cb_client_payment_channel 
+			<set>
+				<if test="name != null">
+					name = #{name},
+				</if>
+				<if test="fullName != null">
+					full_name = #{fullName},
+				</if>
+				<if test="type != null">
+					type = #{type},
+				</if>
+				<if test="icoUrl != null">
+					ico_url = #{icoUrl},
+				</if>
+				<if test="paymentOrgNo != null">
+					payment_org_no = #{paymentOrgNo},
+				</if>
+				<if test="isFroadCheckToken != null">
+					is_froad_check_token = #{isFroadCheckToken},
+				</if>
+				<if test="pointRate != null">
+					point_rate = #{pointRate},
+				</if>
+			</set>
+			where is_delete=0
+				<if test="id != null">
+					and id = #{id}
+				</if>
+				<if test="clientId != null">
+					and client_id = #{clientId}
+				</if>
+				<if test="paymentChannelId != null">
+					and payment_channel_id = #{paymentChannelId}
+				</if>
+	</update>
+
+
+	<!-- 查询  ClientPaymentChannel -->
+	<select id="findClientPaymentChannel" parameterType="ClientPaymentChannel" resultMap="clientPaymentChannelResultMap">
+		select 
+			id,client_id,payment_channel_id,name,full_name,type,ico_url,payment_org_no,is_froad_check_token,point_rate
+		from cb_client_payment_channel 
+			<where>
+				<if test="isDelete != null">
+					and is_delete = #{isDelete}
+				</if>
+				<if test="id != null">
+					and id = #{id}
+				</if>
+				<if test="clientId != null">
+					and client_id = #{clientId}
+				</if>
+				<if test="paymentChannelId != null">
+					and payment_channel_id = #{paymentChannelId}
+				</if>
+				<if test="name != null">
+					and name = #{name}
+				</if>
+				<if test="fullName != null">
+					and full_name = #{fullName}
+				</if>
+				<if test="type != null">
+					and type = #{type}
+				</if>
+				<if test="icoUrl != null">
+					and ico_url = #{icoUrl}
+				</if>
+				<if test="paymentOrgNo != null">
+					and payment_org_no = #{paymentOrgNo}
+				</if>
+				<if test="isFroadCheckToken != null">
+					and is_froad_check_token = #{isFroadCheckToken}
+				</if>
+				<if test="pointRate != null">
+					and point_rate = #{pointRate}
+				</if>
+			</where>
+	</select>
+
+	<!-- 分页查询  ClientPaymentChannel -->
+	<select id="findByPage" parameterType="java.util.HashMap" resultMap="clientPaymentChannelResultMap">
+		select 
+			id,client_id,payment_channel_id,name,full_name,type,ico_url,payment_org_no,is_froad_check_token,point_rate
+		from cb_client_payment_channel 
+		<if test="clientPaymentChannel != null">
+			<where>
+				<if test="clientPaymentChannel.isDelete != null">
+					and is_delete = #{clientPaymentChannel.isDelete}
+				</if>
+				<if test="clientPaymentChannel.id != null">
+					and id = #{clientPaymentChannel.id}
+				</if>
+				<if test="clientPaymentChannel.clientId != null">
+					and client_id = #{clientPaymentChannel.clientId}
+				</if>
+				<if test="clientPaymentChannel.paymentChannelId != null">
+					and payment_channel_id = #{clientPaymentChannel.paymentChannelId}
+				</if>
+				<if test="clientPaymentChannel.name != null">
+					and name = #{clientPaymentChannel.name}
+				</if>
+				<if test="clientPaymentChannel.fullName != null">
+					and full_name = #{clientPaymentChannel.fullName}
+				</if>
+				<if test="clientPaymentChannel.type != null">
+					and type = #{clientPaymentChannel.type}
+				</if>
+				<if test="clientPaymentChannel.icoUrl != null">
+					and ico_url = #{clientPaymentChannel.icoUrl}
+				</if>
+				<if test="clientPaymentChannel.paymentOrgNo != null">
+					and payment_org_no = #{clientPaymentChannel.paymentOrgNo}
+				</if>
+				<if test="clientPaymentChannel.isFroadCheckToken != null">
+					and is_froad_check_token = #{clientPaymentChannel.isFroadCheckToken}
+				</if>
+				<if test="clientPaymentChannel.pointRate != null">
+					and point_rate = #{clientPaymentChannel.pointRate}
+				</if>
+			</where>
+		</if>
+		order by id desc 
+	</select>
+
+</mapper>
+

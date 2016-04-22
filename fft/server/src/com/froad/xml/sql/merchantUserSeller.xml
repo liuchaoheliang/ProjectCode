@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="merchantUserSeller">
+	<typeAlias alias="merchantUserSeller" type="com.froad.CB.po.MerchantUserSeller"/>
+	
+	<resultMap id="MerchantUserSellerResult" class="merchantUserSeller">
+		<result column="id" jdbcType="INTEGER" property="id" />
+		<result column="merchant_id" property="merchantId" jdbcType="VARCHAR" />
+		<result column="merchant_user_id" property="merchantUserId" jdbcType="VARCHAR" />
+		<result column="seller_id" property="sellerId" jdbcType="VARCHAR" />		
+		<result column="reserve_field_one" property="reserveFieldOne" jdbcType="VARCHAR" />
+		<result column="reserve_field_two" property="reserveFieldTwo" jdbcType="VARCHAR" />
+		<result column="reserve_field_three" property="reserveFieldThree" jdbcType="VARCHAR" />
+		<result column="reserve_field_four" property="reserveFieldFour" jdbcType="VARCHAR" />
+		<result column="reserve_field_five" property="reserveFieldFive" jdbcType="INTEGER" />		
+		<result column="state" jdbcType="VARCHAR" property="state" />
+		<result column="create_time" jdbcType="VARCHAR" property="createTime" />
+		<result column="update_time" jdbcType="VARCHAR" property="updateTime" />
+		<result column="remark" jdbcType="VARCHAR" property="remark" />
+		<result column="seller_type" jdbcType="VARCHAR" property="sellerType" />
+	</resultMap>
+	
+	<!-- 增加商户操作员卖家关系记录 -->
+	<insert id="addMerchantUserSeller" parameterClass="merchantUserSeller">
+		insert into merchant_user_sellers
+		(id,merchant_id,merchant_user_id,seller_id,reserve_field_one,reserve_field_two,reserve_field_three,reserve_field_four,reserve_field_five,state,create_time,update_time,remark,seller_type)
+		values
+		(#id#,#merchantId#,#merchantUserId#,#sellerId#,#reserveFieldOne#,#reserveFieldTwo#,#reserveFieldThree#,#reserveFieldFour#,#reserveFieldFive#,#state#,DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),#remark#,#sellerType#)
+		<selectKey keyProperty="id" resultClass="int">
+			select last_insert_id() as id
+		</selectKey> 
+	</insert>
+	
+	<!-- 删除操作员卖家关系记录  -->
+	<update id="deleteStateByPrimaryKey" parameterClass="merchantUserSeller" >
+	     update merchant_user_sellers a 
+	     set a.state = '50',
+	     	a.update_time = DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s") 
+	     <dynamic prepend="where" >
+		  	<isNotEmpty prepend="and" property="id" >
+		      a.id = #id:INT#
+		    </isNotEmpty>
+		    <isNotEmpty prepend="and" property="merchantId" >
+		      a.merchant_id = #merchantId:VARCHAR#
+		    </isNotEmpty>
+		    <isNotEmpty prepend="and" property="merchantUserId" >
+		      a.merchant_user_id = #merchantUserId:VARCHAR#
+		    </isNotEmpty>
+		    <isNotEmpty prepend="and" property="sellerId" >
+		      a.user_id = #userId:VARCHAR#
+		    </isNotEmpty>
+		    <isNotEmpty prepend="and" property="sellerType" >
+		      a.seller_type = #"sellerType":VARCHAR#
+		    </isNotEmpty>
+		  </dynamic>
+	</update>
+	
+	<!-- 查询操作员卖家 -->
+	<select id="selectMerchantUserSellerSeletive" resultMap="MerchantUserSellerResult" parameterClass="merchantUserSeller" >
+		select * from merchant_user_sellers a
+		where a.state = '30'
+	  <dynamic>
+	  		<isNotEmpty prepend="and" property="id" >
+		      a.id = #id:INT#
+		    </isNotEmpty>
+		    <isNotEmpty prepend="and" property="merchantId" >
+		      a.merchant_id = #merchantId:VARCHAR#
+		    </isNotEmpty>
+		    <isNotEmpty prepend="and" property="merchantUserId" >
+		      a.merchant_user_id = #merchantUserId:VARCHAR#
+		    </isNotEmpty>
+		    <isNotEmpty prepend="and" property="sellerId" >
+		      a.user_id = #userId:VARCHAR#
+		    </isNotEmpty>
+		    <isNotEmpty prepend="and" property="sellerType" >
+		      a.seller_type = #sellerType:VARCHAR#
+		    </isNotEmpty>
+	  </dynamic>
+	</select>
+	
+	<!-- 修改操作员信息 -->
+	<update id="updateByMerchantSeller" parameterClass="merchantUserSeller">
+		update merchant_user_set seller update_time=DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s")
+		<dynamic>
+			<isNotEmpty prepend="," property="reserveFieldOne">
+				reserve_field_one = #reserveFieldOne:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="reserveFieldTwo">
+				reserve_field_two = #reserveFieldTwo:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="reserveFieldThree">
+				reserve_field_three = #reserveFieldThree:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="reserveFieldFour">
+				reserve_field_four = #reserveFieldFour:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="reserveFieldFive">
+				reserve_field_five = #reserveFieldFive:INTEGER#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="state">
+				state = #state:VARCHAR#
+			</isNotEmpty>			
+			<isNotEmpty prepend="," property="remark">
+				remark = #remark:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="sellerType">
+				seller_type = #sellerType:VARCHAR#
+			</isNotEmpty>
+		</dynamic>
+		<dynamic prepend="where">
+		  	<isNotEmpty prepend="and" property="id" >
+		      id = #id:INT#
+		    </isNotEmpty>
+		    <isNotEmpty prepend="and" property="merchantId" >
+		      merchant_id = #merchantId:VARCHAR#
+		    </isNotEmpty>
+		    <isNotEmpty prepend="and" property="merchantUserId" >
+		      merchant_user_id = #merchantUserId:VARCHAR#
+		    </isNotEmpty>
+		    <isNotEmpty prepend="and" property="sellerId" >
+		      user_id = #userId:VARCHAR#
+		    </isNotEmpty>
+		    <isNotEmpty prepend="and" property="sellerType" >
+		      seller_type = #sellerType:VARCHAR#
+		    </isNotEmpty>
+		  </dynamic>
+	</update>
+</sqlMap>

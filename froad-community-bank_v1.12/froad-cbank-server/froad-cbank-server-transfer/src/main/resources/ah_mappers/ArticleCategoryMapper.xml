@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.fft.persistent.api.ArticleCategoryMapper">
+
+    <resultMap type="ArticleCategory" id="articleCategoryResultMap">
+        <id property="id" column="id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+
+        <result property="name" column="name"/>
+        <result property="seoTitle" column="seo_title"/>
+        <result property="seoKeywords" column="seo_keywords"/>
+        <result property="seoDescription" column="seo_description"/>
+        <result property="orderValue" column="order_value"/>
+        <result property="treePath" column="tree_path"/>
+        <result property="parentId" column="parent_id"/>
+        <result property="dataState" column="data_state" typeHandler="com.froad.db.extend.EnumTypeHandler"/>
+    </resultMap>
+
+    <!-- 插入 -->
+    <insert id="saveArticleCategory" parameterType="ArticleCategory" useGeneratedKeys="true" keyProperty="id">
+		insert into fft_article_category values
+		(
+			#{id},#{createTime},#{updateTime},#{name},#{seoTitle},#{seoKeywords},#{seoDescription},#{orderValue},#{treePath},#{parentId},30
+		)
+	</insert>
+
+    <!-- 更新 -->
+    <update id="updateArticleCategoryById" parameterType="ArticleCategory">
+        update fft_article_category set update_time = #{updateTime}
+        <if test="name != null">
+            ,name = #{name}
+        </if>
+        <if test="seoTitle != null">
+            ,seo_title = #{seoTitle}
+        </if>
+        <if test="seoKeywords != null">
+            ,seo_keywords = #{seoKeywords}
+        </if>
+        <if test="seoDescription != null">
+            ,seo_description = #{seoDescription}
+        </if>
+        <if test="orderValue != null">
+            ,order_value = #{orderValue}
+        </if>
+        <if test="treePath != null">
+            ,tree_path = #{treePath}
+        </if>
+        <if test="parentId != null">
+            ,parent_id = #{parentId}
+        </if>
+        <if test="dataState != null">
+            ,data_state = #{dataState,typeHandler=com.froad.db.extend.EnumTypeHandler}
+        </if>
+        where id = #{id}
+    </update>
+
+    <!-- 查询 -->
+    <select id="selectArticleCategoryById" parameterType="java.lang.Long" resultMap="articleCategoryResultMap">
+		select * from fft_article_category where id = #{id}
+	</select>
+
+
+    <!--分页数据-->
+    <select id="selectArticleCategoryByPage" parameterType="com.froad.fft.persistent.bean.page.Page" resultMap="articleCategoryResultMap">
+        select * from fft_article_category
+        <if test="pageFilter != null">
+            <where>
+                <if test="pageFilter.filterEntity != null">
+                    <if test="pageFilter.filterEntity.id!= null">
+                        and id = #{pageFilter.filterEntity.id}
+                    </if>
+                    <if test="pageFilter.filterEntity.name!= null">
+                        and name like CONCAT('%',#{pageFilter.filterEntity.name},'%')
+                    </if>
+                    <if test="pageFilter.filterEntity.parentId!= null and pageFilter.filterEntity.parentId != 0">
+                        and parent_id = #{pageFilter.filterEntity.parentId}
+                    </if>
+                    <if test="pageFilter.filterEntity.parentId!= null and pageFilter.filterEntity.parentId ==0">
+                        and parent_id is null
+                    </if>
+                </if>
+
+                <!-- 时间段条件 -->
+                <if test="pageFilter.property != null and pageFilter.startTime != null">
+                    <![CDATA[
+        					 and ${pageFilter.property} >= #{pageFilter.startTime}
+        					]]>
+                </if>
+                <if test="pageFilter.property != null and pageFilter.endTime != null">
+                    <![CDATA[
+        					 and ${pageFilter.property} <= #{pageFilter.endTime}
+        					]]>
+                </if>
+            </where>
+        </if>
+        <!-- 排序 -->
+        <if test="order != null">
+            <if test="order.property != null and order.direction != null">
+                order by ${order.property} ${order.direction}
+            </if>
+        </if>
+    </select>
+
+    <select id="selectArticleCategoryByPageCount" parameterType="com.froad.fft.persistent.bean.page.Page" resultType="java.lang.Integer">
+        select count(*) from fft_article_category
+        <if test="pageFilter != null">
+            <where>
+                <if test="pageFilter.filterEntity != null">
+                    <if test="pageFilter.filterEntity.id!= null">
+                        and id = #{pageFilter.filterEntity.id}
+                    </if>
+                    <if test="pageFilter.filterEntity.name!= null">
+                        and name like CONCAT('%',#{pageFilter.filterEntity.name},'%')
+                    </if>
+                    <if test="pageFilter.filterEntity.parentId!= null and pageFilter.filterEntity.parentId != 0">
+                        and parent_id = #{pageFilter.filterEntity.parentId}
+                    </if>
+                    <if test="pageFilter.filterEntity.parentId!= null and pageFilter.filterEntity.parentId == 0">
+                        and parent_id is null
+                    </if>
+                </if>
+
+                <!-- 时间段条件 -->
+                <if test="pageFilter.property != null and pageFilter.startTime != null">
+                    <![CDATA[
+        					 and ${pageFilter.property} >= #{pageFilter.startTime}
+        					]]>
+                </if>
+                <if test="pageFilter.property != null and pageFilter.endTime != null">
+                    <![CDATA[
+        					 and ${pageFilter.property} <= #{pageFilter.endTime}
+        					]]>
+                </if>
+            </where>
+        </if>
+    </select>
+</mapper>

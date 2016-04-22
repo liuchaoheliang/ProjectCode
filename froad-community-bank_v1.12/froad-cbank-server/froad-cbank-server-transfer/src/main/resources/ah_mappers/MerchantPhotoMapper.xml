@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+	<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  		 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.ahui.mappers.MerchantPhotoMapper">
+
+	<resultMap type="MerchantPhoto" id="merchantPhotoResultMap">
+		<id property="id" column="id" />
+		<result property="createTime" column="create_time" />
+		<result property="updateTime" column="update_time" />
+
+		<result property="title" column="title" />
+		<result property="url" column="url"/>
+		<result property="width" column="width" />
+		<result property="height" column="height" />
+		<result property="orderValue" column="order_value" />
+		<result property="description" column="description" />
+		<result property="merchantOutletId" column="merchant_outlet_id" />
+	</resultMap>
+	
+    
+     <select id="selectMerchantPhotoAll"  resultMap="merchantPhotoResultMap">
+    	select * from fft_merchant_photo order by merchant_outlet_id,order_value
+    </select>
+</mapper>

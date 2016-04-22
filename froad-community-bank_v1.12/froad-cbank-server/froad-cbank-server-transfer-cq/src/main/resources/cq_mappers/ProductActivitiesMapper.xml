@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.chongqing.mappers.ProductActivitiesMapper">
+
+    <resultMap type="ProductActivities" id="ProductActivitiesResultMap">
+        <result property="productId" column="product_id"/>
+        <result property="activitiesId" column="activities_id"/>
+    </resultMap>
+
+
+    <!-- 基础sql 数据新增 必须指明数据列  -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		insert into cb_product_activities
+		(
+			product_id
+			,activities_id
+		)
+		values
+		(
+			#{productId}
+			,#{activitiesId}
+		)
+	</insert>
+
+	<!-- 删除 -->
+	<delete id="delete" parameterType="java.lang.Long" >
+		delete from cb_product_activities 
+		where product_id = #{productId} 
+		  and activities_id =#{activitiesId}
+	</delete>
+	
+	<!-- 查询 -->
+	<select id="selectByCondition" resultMap="ProductActivitiesResultMap">
+	    select * from cb_product_activities
+	    <where>
+	    	<if test="productId != null">
+	    		and product_id = #{productId} 
+	    	</if>
+	    	<if test="activitiesId != null">
+	    		and activities_id =#{activitiesId}
+	    	</if>
+	    </where>
+	</select>
+	
+</mapper>

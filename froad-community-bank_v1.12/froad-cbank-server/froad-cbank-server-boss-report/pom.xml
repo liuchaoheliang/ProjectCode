@@ -1,0 +1,134 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.froad.cbank</groupId>
+		<artifactId>froad-cbank-server</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>froad-cbank-server-boss-report</artifactId>
+	<name>Froad Cbank Server Boss Report</name>
+
+	<dependencies>
+
+		<!-- fraod-cbank-server-common -->
+		<dependency>
+			<groupId>com.froad.cbank</groupId>
+			<artifactId>froad-cbank-server-common</artifactId>
+		</dependency>
+
+		<!-- xstream -->
+		<dependency>
+			<groupId>com.thoughtworks.xstream</groupId>
+			<artifactId>xstream</artifactId>
+		</dependency>
+
+		<!-- userpe -->
+		<dependency>
+			<groupId>com.pay.user</groupId>
+			<artifactId>user-api</artifactId>
+		</dependency>
+		
+		<!-- caucho -->
+		<dependency>
+			<groupId>com.caucho</groupId>
+			<artifactId>hessian</artifactId>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.easybatch</groupId>
+		    <artifactId>easybatch-quartz</artifactId>
+		    <version>3.0.2</version>
+		</dependency>
+		
+		<!-- csv/poi -->
+		<dependency>
+			<groupId>net.sourceforge.javacsv</groupId>
+			<artifactId>javacsv</artifactId>
+			<version>2.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>3.10-FINAL</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+		</dependency>
+	</dependencies>
+	
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-resources-plugin</artifactId>
+					<configuration>
+						<encoding>UTF-8</encoding>
+					</configuration>
+					<!-- 把到common中mapper/*.xml打包到本模块中 -->
+		            <executions>  
+		                <execution>  
+		                    <id>copy-xmls</id>  
+		                    <phase>process-sources</phase>  
+		                    <goals>  
+		                        <goal>copy-resources</goal>  
+		                    </goals>  
+		                    <configuration>  
+		                        <outputDirectory>${basedir}/target/classes</outputDirectory>  
+		                        <resources>  
+		                            <resource>  
+		                                <directory>../froad-cbank-server-common/target/classes</directory>  
+		                                <includes>  
+		                                    <include>**/*.xml</include>  
+		                                </includes>  
+		                            </resource>  
+		                        </resources>  
+		                    </configuration>  
+		                </execution>  
+		            </executions>  
+		        </plugin>
+				<!-- 选择性打包 -->
+				<plugin>
+					<artifactId>maven-assembly-plugin</artifactId>
+					<version>2.5.1</version>
+					<configuration>
+						<argLine>-Xms256M -Xmx1024M -XX:PermSize=512M
+							-XX:MaxPermSize=1024M -Dfile.encoding=UTF-8</argLine>
+						<inherited>false</inherited>
+						<appendAssemblyId>false</appendAssemblyId>
+						<descriptors>
+							<descriptor>report-server.xml</descriptor>
+						</descriptors>
+					</configuration>
+					<executions>
+						<execution>
+							<id>make-assembly</id>
+							<phase>package</phase>
+							<goals>
+								<goal>single</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+				
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-jar-plugin</artifactId>
+					<version>2.4</version>
+					<configuration>
+						<archive>
+							<manifest>
+								<mainClass>com.froad.ReportMain</mainClass>
+							</manifest>
+						</archive>
+					</configuration>
+				</plugin>
+				
+			</plugins>
+		</pluginManagement>
+	</build>
+	
+</project>

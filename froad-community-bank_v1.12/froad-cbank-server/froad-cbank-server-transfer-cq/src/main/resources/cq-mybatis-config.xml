@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+	<properties url="file:./config/cq_jdbc.properties"/>
+	
+	<!-- 指定结果集映射关系 -->
+	<typeAliases>
+		<typeAlias alias="Client" type="com.froad.cbank.persistent.entity.Client"/>
+		<typeAlias alias="MobileClient" type="com.froad.cbank.persistent.entity.MobileClient"/>
+		<typeAlias alias="Receiver" type="com.froad.cbank.persistent.entity.Receiver"/>
+		<typeAlias alias="ProductFavorite" type="com.froad.cbank.persistent.entity.ProductFavorite"/>
+		<typeAlias alias="MemberBuyProduct" type="com.froad.cbank.persistent.entity.MemberBuyProduct"/>
+		<typeAlias alias="Shipping" type="com.froad.cbank.persistent.entity.Shipping"/>
+		<!-- 商品 -->
+		<typeAlias alias="ProductCategory" type="com.froad.cbank.persistent.entity.ProductCategory" />
+		<typeAlias alias="Area" type="com.froad.cbank.persistent.entity.Area"/>
+		<typeAlias alias="DeliveryCorp" type="com.froad.cbank.persistent.entity.DeliveryCorp"/>
+	    <typeAlias alias="ProductGroup" type="com.froad.cbank.persistent.entity.ProductGroup" />
+		<typeAlias alias="ProductImage" type="com.froad.cbank.persistent.entity.ProductImage" />
+		<typeAlias alias="ProductLimit" type="com.froad.cbank.persistent.entity.ProductLimit"/>	
+		<typeAlias alias="Product" type="com.froad.cbank.persistent.entity.Product" />
+		<typeAlias alias="ProductComment" type="com.froad.cbank.persistent.entity.ProductComment"/>
+		<typeAlias alias="ProductPresell" type="com.froad.cbank.persistent.entity.ProductPresell" />
+		<typeAlias alias="ProductImage" type="com.froad.cbank.persistent.entity.ProductImage" />
+		<typeAlias alias="SmsLog" type="com.froad.cbank.persistent.entity.SmsLog"/>
+		<typeAlias alias="ProductMerchantOutlet" type="com.froad.cbank.persistent.entity.ProductMerchantOutlet"/>
+		<typeAlias alias="MerchantProductComment" type="com.froad.cbank.persistent.entity.MerchantProductComment" />
+		<typeAlias alias="ProductMerchantOutlet" type="com.froad.cbank.persistent.entity.ProductMerchantOutlet"/>
+
+		<!-- 订单相关 -->
+		<typeAlias alias="Order" type="com.froad.db.chongqing.entity.OrderEx" />
+		<typeAlias alias="OrderDetails" type="com.froad.cbank.persistent.entity.OrderDetails" />
+		<typeAlias alias="Refunds" type="com.froad.cbank.persistent.entity.Refunds" />
+		<typeAlias alias="Payment" type="com.froad.cbank.persistent.entity.Payment" />
+		<typeAlias alias="Ticket" type="com.froad.cbank.persistent.entity.Ticket" />
+		<typeAlias alias="OrderProduct" type="com.froad.db.chongqing.entity.OrderProduct" />
+		
+		<!-- 商户相关 -->
+		<typeAlias alias="Merchant" type="com.froad.cbank.persistent.entity.Merchant"/>
+		<typeAlias alias="MerchantUser" type="com.froad.cbank.persistent.entity.MerchantUser"/>
+		<typeAlias alias="MerchantOutletPhoto" type="com.froad.cbank.persistent.entity.MerchantOutletPhoto"/>
+		<typeAlias alias="MerchantOutlet" type="com.froad.cbank.persistent.entity.MerchantOutlet"/>
+		<typeAlias alias="MerchantOutletBank" type="com.froad.cbank.persistent.entity.MerchantOutletBank"/>
+		<typeAlias alias="MerchantOutletFavorite" type="com.froad.cbank.persistent.entity.MerchantOutletFavorite"/>
+		<typeAlias alias="MerchantRole" type="com.froad.cbank.persistent.entity.MerchantRole" />
+		<typeAlias alias="MerchantAccount" type="com.froad.cbank.persistent.entity.MerchantAccount" />
+		<typeAlias alias="MerchantCategory" type="com.froad.cbank.persistent.entity.MerchantCategory" />
+		<typeAlias alias="MerchantResource" type="com.froad.cbank.persistent.entity.MerchantResource" />
+		<typeAlias alias="MerchantRoleResource" type="com.froad.cbank.persistent.entity.MerchantRoleResource" />
+		<typeAlias alias="MerchantTypeRelation" type="com.froad.cbank.persistent.entity.MerchantTypeRelation" />
+		<typeAlias alias="MerchantUserRole" type="com.froad.cbank.persistent.entity.MerchantUserRole" />
+		<typeAlias alias="MerchantType" type="com.froad.cbank.persistent.entity.MerchantType" />
+		<typeAlias alias="MerchantOutletComment" type="com.froad.cbank.persistent.entity.MerchantOutletComment" />
+		<typeAlias alias="Qrcode" type="com.froad.cbank.persistent.entity.Qrcode" />
+	</typeAliases>
+
+	<!-- 分页拦截器 mysql or oracle -->
+	<plugins>
+		<plugin interceptor="com.froad.db.mysql.interceptor.PageInterceptor">
+			<property name="databaseDialect" value="com.froad.db.mysql.dialet.MySQLDialect" />
+			<property name="pageSqlIdRegEx" value=".*ByPage" />
+		</plugin>
+	</plugins>
+	
+	<!-- -->
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC" />
+			<dataSource type="com.froad.db.mysql.datasource.DruidDataSourceFactory">
+				<property name="driverClassName" value="${jdbc.driverClassName}" />
+				<property name="url" value="${jdbc.url}" />
+				<property name="username" value="${jdbc.username}" />
+				<property name="password" value="${jdbc.password}" />
+
+				<!-- 配置初始化大小、最小、最大 -->
+				<property name="initialSize" value="${pool.initialSize}" />
+				<property name="minIdle" value="${pool.minIdle}" />
+				<property name="maxActive" value="${pool.maxActive}" />
+
+				<!-- 配置获取连接等待超时的时间 -->
+				<property name="maxWait" value="${pool.maxWait}" />
+
+				<property name="validationQuery" value="select now()" />
+				<property name="testWhileIdle" value="true" />
+				<property name="testOnBorrow" value="false" />
+				<property name="testOnReturn" value="false" />
+				<property name="poolPreparedStatements" value="false" />
+				<property name="maxOpenPreparedStatements" value="-1" />
+
+				<!-- 对于长时间不使用的连接强制关闭 -->
+				<property name="removeAbandoned" value="false" />
+
+				<!-- 超过30分钟开始关闭空闲连接 -->
+				<property name="removeAbandonedTimeout" value="18000" />
+
+				<!-- 将当前关闭动作记录到日志 -->
+				<property name="logAbandoned" value="true" />
+			</dataSource>
+		</environment>
+	</environments>
+
+	<!-- 指定mapper资源 -->
+	<mappers>
+		<mapper resource="cq_mappers/ShippingMapper.xml" />
+		
+		<mapper resource="cq_mappers/MemberBuyProductMapper.xml" />
+		<mapper resource="cq_mappers/ProductFavoriteMapper.xml" />
+		<mapper resource="cq_mappers/ReceiverMapper.xml" />
+		<mapper resource="cq_mappers/ClientMapper.xml" />
+		<mapper resource="cq_mappers/MobileClientMapper.xml" />
+		<mapper resource="cq_mappers/OrderMapper.xml" />
+		<mapper resource="cq_mappers/OrderDetailsMapper.xml" />
+		<mapper resource="cq_mappers/RefundsMapper.xml" />
+		<mapper resource="cq_mappers/PaymentMapper.xml" />
+		<mapper resource="cq_mappers/TicketMapper.xml" />
+		<mapper resource="cq_mappers/QrcodeMapper.xml" />
+		
+		<!-- 商品 -->
+		<mapper resource="cq_mappers/ProductCategoryMapper.xml" />
+		<mapper resource="cq_mappers/AreaMapper.xml" />
+		<mapper resource="cq_mappers/DeliveryCorpMapper.xml" />
+		<mapper resource="cq_mappers/ProductMapper.xml" />
+		<mapper resource="cq_mappers/ProductLimitMapper.xml" />
+		<mapper resource="cq_mappers/ProductCommentMapper.xml" />
+		<mapper resource="cq_mappers/ProductGroupMapper.xml" />
+		<mapper resource="cq_mappers/ProductPresellMapper.xml" />
+		<mapper resource="cq_mappers/ProductImageMapper.xml" />
+		<mapper resource="cq_mappers/SmsLogMapper.xml" />
+		<mapper resource="cq_mappers/ProductMerchantOutletMapper.xml" />
+		<mapper resource="cq_mappers/MerchantProductCommentMapper.xml" />
+		<mapper resource="cq_mappers/QrcodeMapper.xml" />
+		
+		
+		<!-- 商户模块 -->
+		<mapper resource="cq_mappers/MerchantMapper.xml" />
+		<mapper resource="cq_mappers/MerchantOutletMapper.xml" />
+		<mapper resource="cq_mappers/MerchantRoleMapper.xml" />
+		<mapper resource="cq_mappers/MerchantAccountMapper.xml" />
+		<mapper resource="cq_mappers/MerchantCategoryMapper.xml" />
+		<mapper resource="cq_mappers/MerchantResourceMapper.xml" />
+		<mapper resource="cq_mappers/MerchantOutletBankMapper.xml" />
+		<mapper resource="cq_mappers/MerchantRoleResourceMapper.xml" />
+		<mapper resource="cq_mappers/MerchantTypeRelationMapper.xml" />
+		<mapper resource="cq_mappers/MerchantUserRoleMapper.xml" />
+		<mapper resource="cq_mappers/MerchantOutletFavoriteMapper.xml" />
+		<mapper resource="cq_mappers/MerchantOutletPhotoMapper.xml" />
+		<mapper resource="cq_mappers/MerchantUserMapper.xml" />
+		<mapper resource="cq_mappers/MerchantOutletCommentMapper.xml" />
+		
+	</mappers>
+
+</configuration>

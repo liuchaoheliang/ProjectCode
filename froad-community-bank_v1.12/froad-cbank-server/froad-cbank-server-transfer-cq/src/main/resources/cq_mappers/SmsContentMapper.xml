@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.chongqing.mappers.SmsContentMapper">
+
+	<resultMap type="SmsContent" id="smsContentResultMap">
+    	<!-- baseEntity prop -->
+        <id property="id" column="id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="clientId" column="client_id"/>
+		<!-- baseEntity prop -->
+		<result property="smsType" column="sms_type" 
+		typeHandler="com.froad.db.extend.EnumTypeHandler"/>
+		<result property="content" column="content"/>
+		<result property="msgSuffix" column="msg_suffix"/>
+		<result property="isEnableSuffix" column="is_enable_suffix"/>
+		<result property="channel" column="channel" typeHandler="com.froad.db.extend.EnumTypeHandler" />
+		<result property="isEnableLimit" column="is_enable_limit"/>
+    </resultMap>
+    
+    <!-- 基础sql 数据新增 必须指明数据列  -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		insert into cb_sms_content
+		(create_time,update_time,client_id,sms_type,content,msg_suffix,is_enable_suffix,channel,is_enable_limit)
+		values
+		(
+			#{createTime},#{updateTime},#{clientId},#{smsType,typeHandler=com.froad.db.extend.EnumTypeHandler},
+			#{content},#{msgSuffix},#{isEnableSuffix},#{channel,typeHandler=com.froad.db.extend.EnumTypeHandler},
+			#{isEnableLimit}
+		)
+	</insert>
+	
+	<!-- 基础sql 通过分页查询 -->
+	<select id="selectOfPage" parameterType="com.froad.cbank.persistent.entity.base.PageEntity" resultMap="smsContentResultMap">
+		select * from cb_sms_content
+		<where>
+			<if test="condition != null">
+				<if test="condition.smsType != null">
+					and sms_type = #{condition.smsType,typeHandler=com.froad.db.extend.EnumTypeHandler}
+				</if>
+				<if test="condition.content != null">
+					and content like CONCAT('%',#{condition.content},'%' )
+				</if>
+				<if test="condition.msgSuffix != null">
+					and msg_suffix like CONCAT('%',#{condition.msgSuffix},'%' )
+				</if>
+				<if test="condition.isEnableSuffix != null">
+					and is_enable_suffix = #{condition.isEnableSuffix}
+				</if>
+				<if test="condition.channel != null">
+					and channel = #{condition.channel,typeHandler=com.froad.db.extend.EnumTypeHandler}
+				</if>
+				<if test="condition.isEnableLimit != null">
+					and is_enable_limit = #{condition.isEnableLimit}
+				</if>
+				<if test="condition.clientId != null">
+					and client_id = #{condition.clientId}
+				</if>
+			</if>
+		</where>
+		<if test="orderByColumn !=null">
+		 	order by ${orderByColumn} 
+			<if test="orderByType !=null">
+				${orderByType}
+			</if>
+		 </if>
+	</select>
+	
+	<!-- 基础sql 通过主键查询 -->
+	<select id="selectById" parameterType="java.lang.Long" resultMap="smsContentResultMap">
+		select * from cb_sms_content where id = #{id}
+	</select>
+	
+	<!-- 通过主键更新数据 -->
+	<update id="updateById" parameterType="java.lang.Boolean" >
+		update cb_sms_content set update_time = #{updateTime}
+		<if test="smsType != null">
+			,sms_type = #{smsType,typeHandler=com.froad.db.extend.EnumTypeHandler}
+		</if>
+		<if test="content != null">
+			,content = #{content}
+		</if>
+		<if test="msgSuffix != null">
+			,msg_suffix = #{msgSuffix}
+		</if>
+		<if test="isEnableSuffix != null">
+			,is_enable_suffix = #{isEnableSuffix}
+		</if>
+		<if test="channel != null">
+			,channel = #{channel,typeHandler=com.froad.db.extend.EnumTypeHandler}
+		</if>
+		<if test="isEnableLimit != null">
+			,is_enable_limit = #{isEnableLimit}
+		</if>
+		where id = #{id}
+	</update>
+	
+	<select id="selectByCondition" resultMap="smsContentResultMap">
+		select * from cb_sms_content
+		<where>
+			<if test="clientId != null">
+				and client_id = #{clientId}
+			</if>
+			<if test="smsType != null">
+				and sms_type = #{smsType,typeHandler=com.froad.db.extend.EnumTypeHandler}
+			</if>
+			<if test="content != null">
+				and content like CONCAT('%',#{content},'%' )
+			</if>
+			<if test="msgSuffix != null">
+				and msg_suffix like CONCAT('%',#{msgSuffix},'%' )
+			</if>
+			<if test="isEnableSuffix != null">
+				and is_enable_suffix = #{isEnableSuffix}
+			</if>
+			<if test="channel != null">
+				and channel = #{channel,typeHandler=com.froad.db.extend.EnumTypeHandler}
+			</if>
+			<if test="isEnableLimit != null">
+				and is_enable_limit = #{isEnableLimit}
+			</if>
+		</where>
+	</select>
+    
+</mapper>

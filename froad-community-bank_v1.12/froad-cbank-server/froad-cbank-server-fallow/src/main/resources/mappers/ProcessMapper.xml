@@ -1,0 +1,516 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.mysql.mapper.ProcessMapper">
+
+	<resultMap type="Process" id="processResultMap">
+		<id property="id" column="id" />
+		<result property="createTime" column="create_time" />
+		<result property="updateTime" column="update_time" />
+		<result property="clientId" column="client_id" />
+		<result property="processId" column="process_id" />
+		<result property="parentProcessId" column="parent_process_id" />
+		<result property="name" column="name" />
+		<result property="displayName" column="display_name" />
+		<result property="type" column="type" />
+		<result property="typeDetail" column="type_detail" />
+		<result property="status" column="status" />
+		<result property="version" column="version" />
+		<result property="creator" column="creator" />
+	</resultMap>
+
+
+	<!-- 所有字段list -->
+	<sql id="Base_Column_List">
+		id,create_time,update_time,client_id,process_id,parent_process_id,name,display_name,type,type_detail,status,version,creator
+	</sql>
+
+
+	<!-- 不包含ID字段list -->
+	<sql id="Not_ID_Column_List">
+		create_time,update_time,client_id,process_id,parent_process_id,name,display_name,type,type_detail,status,version,creator
+	</sql>
+
+
+	<!-- 添加  Process -->
+	<insert id="addProcess" parameterType="Process" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO cb_process (
+			<include refid="Not_ID_Column_List" />
+		) VALUES (
+			#{createTime},#{updateTime},#{clientId},#{processId},#{parentProcessId},#{name},#{displayName},#{type},#{typeDetail},#{status},#{version},#{creator}
+		) 
+	</insert>
+
+
+	<!-- 批量添加  Process -->
+	<insert id="addProcessByBatch" parameterType="java.util.List">
+		INSERT INTO cb_process (
+			<include refid="Not_ID_Column_List" />
+		) VALUES 
+		<foreach collection="processList" item="item" index="index" separator=",">
+			(#{item.createTime},#{item.updateTime},#{item.clientId},#{item.processId},#{item.parentProcessId},#{item.name},#{item.displayName},#{item.type},#{item.typeDetail},#{item.status},#{item.version},#{item.creator})
+		</foreach>
+	</insert>
+
+
+	<!-- 删除  Process -->
+	<delete id="deleteProcess" parameterType="Process">
+		DELETE FROM cb_process 
+		<where>
+			<if test="id != null">
+				AND id = #{id}
+			</if>
+			<if test="createTime != null">
+				AND create_time = #{createTime}
+			</if>
+			<if test="updateTime != null">
+				AND update_time = #{updateTime}
+			</if>
+			<if test="clientId != null">
+				AND client_id = #{clientId}
+			</if>
+			<if test="processId != null">
+				AND process_id = #{processId}
+			</if>
+			<if test="parentProcessId != null">
+				AND parent_process_id = #{parentProcessId}
+			</if>
+			<if test="name != null">
+				AND name = #{name}
+			</if>
+			<if test="displayName != null">
+				AND display_name = #{displayName}
+			</if>
+			<if test="type != null">
+				AND type = #{type}
+			</if>
+			<if test="typeDetail != null">
+				AND type_detail = #{typeDetail}
+			</if>
+			<if test="status != null">
+				AND status = #{status}
+			</if>
+			<if test="version != null">
+				AND version = #{version}
+			</if>
+			<if test="creator != null">
+				AND creator = #{creator}
+			</if>
+		</where>
+	</delete>
+
+
+	<!-- 根据id删除  Process -->
+	<delete id="deleteProcessById" parameterType="java.lang.Long">
+		DELETE FROM cb_process 
+		 WHERE 
+			 id = #{id} 
+	</delete>
+
+
+	<!-- 根据processId删除  Process -->
+	<delete id="deleteProcessByProcessId" parameterType="java.lang.String">
+		DELETE FROM cb_process 
+		 WHERE 
+            process_id = #{processId}
+	</delete>
+
+
+	<!-- 修改  Process -->
+	<update id="updateProcess" parameterType="Process">
+		UPDATE cb_process 
+		<set>
+			<if test="id != null">
+				id = #{id}, 
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime}, 
+			</if>
+			<if test="updateTime != null">
+				update_time = #{updateTime}, 
+			</if>
+			<if test="clientId != null">
+				client_id = #{clientId}, 
+			</if>
+			<if test="processId != null">
+				process_id = #{processId}, 
+			</if>
+			<if test="parentProcessId != null">
+				parent_process_id = #{parentProcessId}, 
+			</if>
+			<if test="name != null">
+				name = #{name}, 
+			</if>
+			<if test="displayName != null">
+				display_name = #{displayName}, 
+			</if>
+			<if test="type != null">
+				type = #{type}, 
+			</if>
+			<if test="typeDetail != null">
+				type_detail = #{typeDetail}, 
+			</if>
+			<if test="status != null">
+				status = #{status}, 
+			</if>
+			<if test="version != null">
+				version = #{version}, 
+			</if>
+		</set>
+
+		<where>
+			<if test="id != null">
+				AND id = #{id}
+			</if>
+			<if test="createTime != null">
+				AND create_time = #{createTime}
+			</if>
+			<if test="updateTime != null">
+				AND update_time = #{updateTime}
+			</if>
+			<if test="clientId != null">
+				AND client_id = #{clientId}
+			</if>
+			<if test="processId != null">
+				AND process_id = #{processId}
+			</if>
+			<if test="parentProcessId != null">
+				AND parent_process_id = #{parentProcessId}
+			</if>
+			<if test="name != null">
+				AND name = #{name}
+			</if>
+			<if test="displayName != null">
+				AND display_name = #{displayName}
+			</if>
+			<if test="type != null">
+				AND type = #{type}
+			</if>
+			<if test="typeDetail != null">
+				AND type_detail = #{typeDetail}
+			</if>
+			<if test="status != null">
+				AND status = #{status}
+			</if>
+			<if test="version != null">
+				AND version = #{version}
+			</if>
+			<if test="creator != null">
+				AND creator = #{creator}
+			</if>
+		</where>
+	</update>
+
+
+	<!-- 根据id修改  Process -->
+	<update id="updateProcessById" parameterType="Process">
+		UPDATE cb_process 
+		<set>
+			<if test="createTime != null">
+				create_time = #{createTime}, 
+			</if>
+			<if test="updateTime != null">
+				update_time = #{updateTime}, 
+			</if>
+			<if test="clientId != null">
+				client_id = #{clientId}, 
+			</if>
+			<if test="processId != null">
+				process_id = #{processId}, 
+			</if>
+			<if test="parentProcessId != null">
+				parent_process_id = #{parentProcessId}, 
+			</if>
+			<if test="name != null">
+				name = #{name}, 
+			</if>
+			<if test="displayName != null">
+				display_name = #{displayName}, 
+			</if>
+			<if test="type != null">
+				type = #{type}, 
+			</if>
+			<if test="typeDetail != null">
+				type_detail = #{typeDetail}, 
+			</if>
+			<if test="status != null">
+				status = #{status}, 
+			</if>
+			<if test="version != null">
+				version = #{version}, 
+			</if>
+			<if test="creator != null">
+				creator = #{creator}, 
+			</if>
+		</set>
+
+		 WHERE 
+            id = #{id} 
+	</update>
+
+
+	<!-- 根据processId修改  Process -->
+	<update id="updateProcessByProcessId" parameterType="Process">
+		UPDATE cb_process 
+		<set>
+			<if test="createTime != null">
+				create_time = #{createTime}, 
+			</if>
+			<if test="updateTime != null">
+				update_time = #{updateTime}, 
+			</if>
+			<if test="clientId != null">
+				client_id = #{clientId}, 
+			</if>
+			<if test="parentProcessId != null">
+				parent_process_id = #{parentProcessId}, 
+			</if>
+			<if test="name != null">
+				name = #{name}, 
+			</if>
+			<if test="displayName != null">
+				display_name = #{displayName}, 
+			</if>
+			<if test="type != null">
+				type = #{type}, 
+			</if>
+			<if test="typeDetail != null">
+				type_detail = #{typeDetail}, 
+			</if>
+			<if test="status != null">
+				status = #{status}, 
+			</if>
+			<if test="version != null">
+				version = #{version}, 
+			</if>
+			<if test="creator != null">
+				creator = #{creator}, 
+			</if>
+		</set>
+
+		 WHERE 
+            process_id = #{processId}
+	</update>
+
+
+	<!-- 根据id查询  Process -->
+	<select id="findProcessById" parameterType="java.lang.Long" resultMap="processResultMap">
+		SELECT 
+			<include refid="Base_Column_List" />
+        FROM cb_process 
+        WHERE 
+            id = #{id}
+
+	</select>
+
+	<!-- 根据processId查询 Process -->
+	<select id="findProcessByProcessId" parameterType="java.lang.String" resultMap="processResultMap">
+		SELECT 
+			<include refid="Base_Column_List" />
+        FROM cb_process 
+        WHERE 
+            process_id = #{processId}
+
+	</select>
+
+	<!-- 查询一个  Process -->
+	<select id="findOneProcess" parameterType="Process" resultMap="processResultMap">
+		SELECT 
+			<include refid="Base_Column_List" />
+        FROM cb_process 
+		<where>
+			<if test="id != null">
+				 AND id = #{id}
+			</if>
+			<if test="createTime != null">
+				 AND create_time = #{createTime}
+			</if>
+			<if test="updateTime != null">
+				 AND update_time = #{updateTime}
+			</if>
+			<if test="clientId != null">
+				 AND client_id = #{clientId}
+			</if>
+			<if test="processId != null">
+				 AND process_id = #{processId}
+			</if>
+			<if test="parentProcessId != null">
+				 AND parent_process_id = #{parentProcessId}
+			</if>
+			<if test="name != null">
+				 AND name = #{name}
+			</if>
+			<if test="displayName != null">
+				 AND display_name = #{displayName}
+			</if>
+			<if test="type != null">
+				 AND type = #{type}
+			</if>
+			<if test="typeDetail != null">
+				 AND type_detail = #{typeDetail}
+			</if>
+			<if test="status != null">
+				 AND status = #{status}
+			</if>
+			<if test="version != null">
+				 AND version = #{version}
+			</if>
+			<if test="creator != null">
+				 AND creator = #{creator}
+			</if>
+		 LIMIT 1 
+		</where>
+	</select>
+
+	<!-- 统计  Process -->
+	<select id="countProcess" parameterType="Process" resultType="java.lang.Integer">
+		SELECT COUNT(0) FROM cb_process 
+		<where>
+			<if test="id != null">
+				 AND id = #{id}
+			</if>
+			<if test="createTime != null">
+				 AND create_time = #{createTime}
+			</if>
+			<if test="updateTime != null">
+				 AND update_time = #{updateTime}
+			</if>
+			<if test="clientId != null">
+				 AND client_id = #{clientId}
+			</if>
+			<if test="processId != null">
+				 AND process_id = #{processId}
+			</if>
+			<if test="parentProcessId != null">
+				 AND parent_process_id = #{parentProcessId}
+			</if>
+			<if test="name != null">
+				 AND name = #{name}
+			</if>
+			<if test="displayName != null">
+				 AND display_name = #{displayName}
+			</if>
+			<if test="type != null">
+				 AND type = #{type}
+			</if>
+			<if test="typeDetail != null">
+				 AND type_detail = #{typeDetail}
+			</if>
+			<if test="status != null">
+				 AND status = #{status}
+			</if>
+			<if test="version != null">
+				 AND version = #{version}
+			</if>
+			<if test="creator != null">
+				 AND creator = #{creator}
+			</if>
+		</where>
+	</select>
+
+	<!-- 查询  Process -->
+	<select id="findProcess" parameterType="Process" resultMap="processResultMap">
+		SELECT 
+			<include refid="Base_Column_List" />
+        FROM cb_process 
+		<if test="process != null">
+			<where>
+				<if test="process.id != null">
+					 AND id = #{process.id}
+				</if>
+				<if test="process.createTime != null">
+					 AND create_time = #{process.createTime}
+				</if>
+				<if test="process.updateTime != null">
+					 AND update_time = #{process.updateTime}
+				</if>
+				<if test="process.clientId != null">
+					 AND client_id = #{process.clientId}
+				</if>
+				<if test="process.processId != null">
+					 AND process_id = #{process.processId}
+				</if>
+				<if test="process.parentProcessId != null">
+					 AND parent_process_id = #{process.parentProcessId}
+				</if>
+				<if test="process.name != null">
+					 AND name = #{process.name}
+				</if>
+				<if test="process.displayName != null">
+					 AND display_name = #{process.displayName}
+				</if>
+				<if test="process.type != null">
+					 AND type = #{process.type}
+				</if>
+				<if test="process.typeDetail != null">
+					 AND type_detail = #{process.typeDetail}
+				</if>
+				<if test="process.status != null">
+					 AND status = #{process.status}
+				</if>
+				<if test="process.version != null">
+					 AND version = #{process.version}
+				</if>
+				<if test="process.creator != null">
+					 AND creator = #{process.creator}
+				</if>
+			</where>
+		</if>
+		<if test="order != null">
+		 ORDER BY ${order} 
+		</if>
+	</select>
+
+	<!-- 分页查询  Process -->
+	<select id="findByPage" parameterType="java.util.HashMap" resultMap="processResultMap">
+		SELECT 
+			<include refid="Base_Column_List" />
+        FROM cb_process 
+		<if test="process != null">
+			<where>
+				<if test="process.id != null">
+					 AND id = #{process.id}
+				</if>
+				<if test="process.createTime != null">
+					 AND create_time = #{process.createTime}
+				</if>
+				<if test="process.updateTime != null">
+					 AND update_time = #{process.updateTime}
+				</if>
+				<if test="process.clientId != null">
+					 AND client_id = #{process.clientId}
+				</if>
+				<if test="process.processId != null">
+					 AND process_id = #{process.processId}
+				</if>
+				<if test="process.parentProcessId != null">
+					 AND parent_process_id = #{process.parentProcessId}
+				</if>
+				<if test="process.name != null">
+					 AND name = #{process.name}
+				</if>
+				<if test="process.displayName != null">
+					 AND display_name = #{process.displayName}
+				</if>
+				<if test="process.type != null">
+					 AND type = #{process.type}
+				</if>
+				<if test="process.typeDetail != null">
+					 AND type_detail = #{process.typeDetail}
+				</if>
+				<if test="process.status != null">
+					 AND status = #{process.status}
+				</if>
+				<if test="process.version != null">
+					 AND version = #{process.version}
+				</if>
+				<if test="process.creator != null">
+					 AND creator = #{process.creator}
+				</if>
+			</where>
+		</if>
+	</select>
+
+
+</mapper>
+

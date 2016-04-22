@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.froad.db.mysql.mapper.ProductMapper">
+
+	<resultMap id="BaseRespResultMap" type="BaseResp">
+		<result column="day" property="day" jdbcType="VARCHAR" />
+		<result column="week" property="week" jdbcType="VARCHAR" />
+		<result column="month" property="month" jdbcType="VARCHAR" />
+		<result column="year" property="year" jdbcType="VARCHAR" />
+		<result column="client_id" property="clientId" jdbcType="VARCHAR" />
+		<result column="platform" property="platform" jdbcType="VARCHAR" />
+		<result column="org_code" property="orgCode" jdbcType="VARCHAR" />
+		<result column="org_name" property="orgName" jdbcType="VARCHAR" />
+		<result column="province_org_code" property="provinceOrgCode"
+			jdbcType="VARCHAR" />
+		<result column="city_org_code" property="cityOrgCode" jdbcType="VARCHAR" />
+		<result column="county_org_code" property="countyOrgCode"
+			jdbcType="VARCHAR" />
+		<result column="village_org_code" property="villageOrgCode"
+			jdbcType="VARCHAR" />
+		<result column="merchant_id" property="merchantId" jdbcType="VARCHAR" />
+		<result column="merchant_name" property="merchantName"
+			jdbcType="VARCHAR" />
+		<result column="merchant_category_id" property="merchantCategoryId"
+			jdbcType="VARCHAR" />
+		<result column="merchant_category_name" property="merchantCategoryName"
+			jdbcType="VARCHAR" />
+		<result column="order_type" property="orderType" jdbcType="VARCHAR" />
+		<result column="order_type_name" property="orderTypeName"
+			jdbcType="VARCHAR" />
+		<result column="pay_type" property="payType" jdbcType="VARCHAR" />
+		<result column="pay_type_name" property="payTypeName" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="ProductInfoMap" type="ProductInfoResp">
+		<result column="procuct_count" property="productCount" jdbcType="INTEGER" />
+		<result column="product_total_count" property="productCumulation" jdbcType="INTEGER" />
+		<result column="down_count" property="productDownSum" jdbcType="INTEGER" />
+		<result column="down_total_count" property="productDownComulation" jdbcType="INTEGER" />
+	</resultMap>
+	<!-- 基础信息 -->
+	<resultMap id="ProductInfoResultMap" type="Resp">
+		<result column="day" property="base.day" jdbcType="VARCHAR" />
+		<result column="week" property="base.week" jdbcType="VARCHAR" />
+		<result column="month" property="base.month" jdbcType="VARCHAR" />
+		<result column="year" property="base.year" jdbcType="VARCHAR" />
+		<result column="client_id" property="base.clientId" jdbcType="VARCHAR" />
+		<result column="platform" property="base.platform" jdbcType="VARCHAR" />
+		<result column="org_code" property="base.orgCode" jdbcType="VARCHAR" />
+		<result column="org_name" property="base.orgName" jdbcType="VARCHAR" />
+		<result column="org_level" property="base.orgLevel" jdbcType="VARCHAR" />
+		<result column="province_org_code" property="base.provinceOrgCode"
+			jdbcType="VARCHAR" />
+		<result column="city_org_code" property="base.cityOrgCode" jdbcType="VARCHAR" />
+		<result column="county_org_code" property="base.countyOrgCode"
+			jdbcType="VARCHAR" />
+		<result column="village_org_code" property="base.villageOrgCode"
+			jdbcType="VARCHAR" />
+		<result column="merchant_id" property="base.merchantId" jdbcType="VARCHAR" />
+		<result column="merchant_name" property="base.merchantName"
+			jdbcType="VARCHAR" />
+		<result column="merchant_category_id" property="base.merchantCategoryId"
+			jdbcType="VARCHAR" />
+		<result column="merchant_category_name" property="base.merchantCategoryName"
+			jdbcType="VARCHAR" />
+		<result column="order_type" property="base.orderType" jdbcType="VARCHAR" />
+		<result column="order_type_name" property="base.orderTypeName"
+			jdbcType="VARCHAR" />
+		<result column="pay_type" property="base.payType" jdbcType="VARCHAR" />
+		<result column="pay_type_name" property="base.payTypeName" jdbcType="VARCHAR" />
+		
+		<!-- 商品信息 -->
+		<result column="procuct_count" property="productInfoResp.productCount" jdbcType="INTEGER" />
+		<result column="product_total_count" property="productInfoResp.productCumulation" jdbcType="INTEGER" />
+		<result column="down_count" property="productInfoResp.productDownSum" jdbcType="INTEGER" />
+		<result column="down_total_count" property="productInfoResp.productDownComulation" jdbcType="INTEGER" />
+		
+	</resultMap>
+
+	<!-- 商品指标分页查询 -->
+	<select id="findReportProductInfoBy" resultMap="ProductInfoResultMap" parameterType="ReqPo">
+		SELECT product.client_id, product.platform,
+		<if test="reqPo.checkedMerchant==true">
+			product.merchant_id, product.merchant_name,
+		</if>
+		<if test="reqPo.checkedMerchantCategory==true">
+			category.id AS merchant_category_id, category.name AS merchant_category_name, 
+		</if>
+		<choose>
+			<when test="reqPo.countType=='week'">product.year as year, product.week as week,</when>
+			<when test="reqPo.countType=='month'">product.year as year, product.month as month,</when>
+			<when test="reqPo.countType=='year'">product.year as year,</when>
+			<otherwise>DATE_FORMAT(product.create_time,'%Y-%m-%d') as day,</otherwise>
+		</choose>
+		<!-- 商品指标 -->
+		<if test="reqPo.checkedProductSum==true">
+			sum(product.procuct_count) as procuct_count,
+		</if>
+		<if test="reqPo.checkedProductCumulation==true">
+			sum(product.product_total_count) as product_total_count,
+		</if>
+		<if test="reqPo.checkedProductDownSum==true">
+			sum(product.down_count) as down_count,
+		</if>
+		<if test="reqPo.checkedProductDownComulation==true">
+			sum(product.down_total_count) as down_total_count,
+		</if>
+		
+		org.org_code,org.org_name,org.org_level  
+		
+		FROM bi_bank_product AS product 
+		
+		LEFT JOIN vw_cb_org AS org ON 
+		<choose>
+			<when test="reqPo.orgLevel==1"> IFNULL(product.city_org_code,product.province_org_code)=org.org_code </when>
+			<when test="reqPo.orgLevel==2"> IFNULL(product.county_org_code,product.city_org_code)=org.org_code </when>
+			<when test="reqPo.orgLevel==3"> IFNULL(product.village_org_code,product.county_org_code)=org.org_code</when>
+		</choose> 
+		AND product.client_id=org.client_id 
+		LEFT JOIN vw_cb_merchant_category AS category ON 
+		product.merchant_category_id=category.id 
+		<where> 
+			<if test="reqPo.clientId!=null">
+				AND product.client_id=#{reqPo.clientId} 
+			</if>
+			<if test="reqPo.platform!=null">
+				AND product.platform=#{reqPo.platform} 
+			</if>
+			<!-- 机构查询条件，机构查询只需要汇总当前机构以及下属机构信息 -->
+			<if test="reqPo.orgCode!=null">
+				<choose>
+					<when test="reqPo.orgLevel==1"> AND product.province_org_code=#{reqPo.orgCode} </when>
+					<when test="reqPo.orgLevel==2"> AND product.city_org_code=#{reqPo.orgCode} </when>
+					<when test="reqPo.orgLevel==3"> AND product.county_org_code=#{reqPo.orgCode} </when>
+					<when test="reqPo.orgLevel==4"> AND product.village_org_code=#{reqPo.orgCode} </when>
+				</choose>
+			</if>
+			<if test="reqPo.startDate != null">
+				AND product.create_time  <![CDATA[ >= ]]>#{reqPo.startDate}
+			</if>
+			<if test="reqPo.endDate != null">
+				AND product.create_time  <![CDATA[ <= ]]>#{reqPo.endDate}
+			</if>
+		</where>  
+		GROUP BY
+		<choose>
+			<when test="reqPo.countType=='week'">product.year, product.week,</when>
+			<when test="reqPo.countType=='month'">product.year, product.month,</when>
+			<when test="reqPo.countType=='year'">product.year,</when>
+			<otherwise>product.create_time,</otherwise>
+		</choose>
+		<!-- 如果选择商户纬度 -->
+		<if test="reqPo.checkedMerchant==true">
+			product.merchant_id,
+		</if>
+		<!-- 如果选择商品类目纬度-->
+		<if test="reqPo.checkedMerchantCategory==true">
+			product.merchant_category_id,
+		</if>
+		<if test="reqPo.orgCode!=null">
+			<choose>
+				<when test="reqPo.orgLevel==1">  product.city_org_code </when>
+				<when test="reqPo.orgLevel==2">  product.county_org_code </when>
+				<when test="reqPo.orgLevel==3">  product.village_org_code </when>
+			</choose> 
+		</if>
+	  ORDER BY
+		<choose>
+			<when test="reqPo.countType=='week'">product.week desc </when>
+			<when test="reqPo.countType=='month'">product.month desc </when>
+			<when test="reqPo.countType=='year'">product.year desc </when>
+			<otherwise>product.create_time desc </otherwise>
+		</choose> 
+	</select>
+	
+	<select id="getProductCount" resultType="java.lang.Integer" parameterType="ReqPo">
+		SELECT COUNT(0) FROM
+		(SELECT product.client_id 
+		FROM bi_bank_product AS product 
+		LEFT JOIN vw_cb_org AS org ON
+		<choose>
+			<when test="reqPo.orgLevel==1"> IFNULL(product.city_org_code,product.province_org_code)=org.org_code </when>
+			<when test="reqPo.orgLevel==2"> IFNULL(product.county_org_code,product.city_org_code)=org.org_code </when>
+			<when test="reqPo.orgLevel==3"> IFNULL(product.village_org_code,product.county_org_code)=org.org_code</when>
+		</choose> 
+		AND product.client_id=org.client_id 
+		LEFT JOIN vw_cb_merchant_category AS category ON 
+		product.merchant_category_id=category.id 
+		<where> 
+			<if test="reqPo.clientId!=null">
+				AND product.client_id=#{reqPo.clientId} 
+			</if>
+			<if test="reqPo.platform!=null">
+				AND product.platform=#{reqPo.platform} 
+			</if>
+			<!-- 机构查询条件，机构查询只需要汇总当前机构以及下属机构信息 -->
+			<if test="reqPo.orgCode!=null">
+				<choose>
+					<when test="reqPo.orgLevel==1"> AND product.province_org_code=#{reqPo.orgCode} </when>
+					<when test="reqPo.orgLevel==2"> AND product.city_org_code=#{reqPo.orgCode} </when>
+					<when test="reqPo.orgLevel==3"> AND product.county_org_code=#{reqPo.orgCode} </when>
+					<when test="reqPo.orgLevel==4"> AND product.village_org_code=#{reqPo.orgCode} </when>
+				</choose>
+			</if>
+			<if test="reqPo.startDate != null">
+				AND product.create_time  <![CDATA[ >= ]]>#{reqPo.startDate}
+			</if>
+			<if test="reqPo.endDate != null">
+				AND product.create_time  <![CDATA[ <= ]]>#{reqPo.endDate}
+			</if>
+		</where>
+		GROUP BY
+		<choose>
+			<when test="reqPo.countType=='week'">product.year, product.week,</when>
+			<when test="reqPo.countType=='month'">product.year, product.month,</when>
+			<when test="reqPo.countType=='year'">product.year,</when>
+			<otherwise>product.create_time,</otherwise>
+		</choose>
+		<!-- 如果选择商户纬度 -->
+		<if test="reqPo.checkedMerchant==true">
+			product.merchant_id,
+		</if>
+		<!-- 如果选择商品类目纬度-->
+		<if test="reqPo.checkedMerchantCategory==true">
+			product.merchant_category_id,
+		</if>
+		<if test="reqPo.orgCode!=null">
+			<choose>
+				<when test="reqPo.orgLevel==1">  product.city_org_code </when>
+				<when test="reqPo.orgLevel==2">  product.county_org_code </when>
+				<when test="reqPo.orgLevel==3">  product.village_org_code </when>
+			</choose>
+		</if>) AS product_count
+	</select>
+	
+	
+	<select id="sumProductCount" resultMap="ProductInfoResultMap" parameterType="ReqPo">  
+ 			SELECT sum(bo.procuct_count) as product_total_count,sum(bo.down_count) as down_total_count  
+		FROM bi_bank_product as bo
+				<where> 
+					<if test="reqPo.clientId!=null">
+						AND bo.client_id=#{reqPo.clientId}
+					</if>
+					<if test="reqPo.platform!=null">
+						AND bo.platform=#{reqPo.platform}
+					</if>
+					<!-- 机构查询条件，机构查询只需要汇总当前机构以及下属机构信息 -->
+					<if test="reqPo.orgCode!=null"> 
+					  <if test="reqPo.hasMyself==true">
+				        AND bo.org_code=#{reqPo.orgCode} 
+				      </if>
+				      <if test="reqPo.hasMyself==false">
+						AND (bo.province_org_code=#{reqPo.orgCode} or bo.city_org_code=#{reqPo.orgCode} or bo.county_org_code=#{reqPo.orgCode} or bo.village_org_code=#{reqPo.orgCode})
+					  </if>  
+ 					</if>
+					<!-- <if test="reqPo.startDate != null">
+						AND bo.create_time  <![CDATA[ >= ]]>#{reqPo.startDate}
+					</if> -->
+					<if test="reqPo.endDate != null">
+						AND bo.create_time  <![CDATA[ <= ]]>#{reqPo.endDate}
+					</if> 
+					<!-- <if test="reqPo.startYear != null">
+						AND bo.year  <![CDATA[ >= ]]>#{reqPo.startYear}
+					</if>
+					<if test="reqPo.endYear != null">
+						AND bo.year  <![CDATA[ <= ]]>#{reqPo.endYear}
+					</if> 
+					 <if test="reqPo.startMonth != null">
+						AND bo.month  <![CDATA[ >= ]]>#{reqPo.startMonth}
+					</if> 
+					<if test="reqPo.endMonth != null">
+						AND bo.month  <![CDATA[ <= ]]>#{reqPo.endMonth}
+					</if> 
+					 <if test="reqPo.startWeek != null">
+						AND bo.week  <![CDATA[ >= ]]>#{reqPo.startWeek}
+					</if>  
+					<if test="reqPo.endWeek != null">
+						AND bo.week  <![CDATA[ <= ]]>#{reqPo.endWeek}
+					</if>  -->
+					<if test="reqPo.merchantId!=null">
+						AND bo.merchant_id=#{reqPo.merchantId} 
+					</if>
+					<if test="reqPo.merchantCategoryId!=null">
+						AND bo.merchant_category_id=#{reqPo.merchantCategoryId}
+					</if>
+				</where>   
+	</select>
+	
+</mapper>

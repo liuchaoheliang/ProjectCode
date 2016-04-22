@@ -1,0 +1,638 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+http://www.springframework.org/schema/context
+http://www.springframework.org/schema/context/spring-context-2.5.xsd
+http://www.springframework.org/schema/aop
+http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+http://www.springframework.org/schema/tx
+http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+http://www.springframework.org/schema/security
+http://www.springframework.org/schema/security/spring-security-3.0.xsd">
+
+    <!-- spring工具类 -->
+    <bean id="springContextUtil" class="com.froad.util.SpringContextUtil"></bean>
+
+    <!-- 线程池 -->
+    <bean id="threadPoolTaskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+        <property name="queueCapacity" value="10000"/>
+        <property name="corePoolSize" value="5"/>
+        <property name="maxPoolSize" value="10"/>
+        <property name="keepAliveSeconds" value="5000"/>
+    </bean>
+
+    <bean id="loginInterceptor" class="com.froad.security.interceptor.LoginInterceptor"></bean>
+    <bean id="clerkUrlIntercdptor" class="com.froad.interceptor.ClerkUrlIntercdptor"></bean>
+    <bean id="myExceptionIntercdpdtor" class="com.froad.interceptor.MyExceptionIntercdpdtor"></bean>
+
+    <!-- App -->
+    <bean id="appDownloadAction" name="appDownloadAction" class="com.froad.action.web.AppDownloadAction" scope="prototype">
+    </bean>
+    <!-- App -->
+
+    <!-- Advert -->
+    <bean id="advertAction" name="advertAction" class="com.froad.action.web.AdvertAction" scope="prototype">
+        <property name="advertActionSupport" ref="AdvertActionSupport"></property>
+    </bean>
+    <!-- Advert -->
+
+    <!-- mobileBank -->
+    <bean id="mobileBankAction" name="mobileBankAction" class="com.froad.action.member.MobileBankAction" scope="prototype">
+        <property name="userCertificationActionSupport" ref="UserCertificationActionSupport"></property>
+        <property name="buyersActionSupport" ref="BuyersActionSupport"></property>
+        <property name="buyerChannelActionSupport" ref="BuyerChannelActionSupport"></property>
+    </bean>
+    <!-- mobileBank -->
+
+    <!--  new_exchangeAction -->
+    <bean id="new_exchangeAction" name="new_exchangeAction" class="com.froad.action.web.ExchangeAction" scope="prototype">
+        <property name="goodsExchangeRackActionSupport" ref="GoodsExchangeRackActionSupport"></property>
+        <property name="tagActionSupport" ref="TagActionSupport"></property>
+        <property name="advertActionSupport" ref="AdvertActionSupport"></property>
+        <property name="pointObtainActionSupport" ref="PointObtainActionSupport"></property>
+        <property name="GoodsPreSellRackActionSupport" ref="GoodsPreSellRackActionSupport"></property>
+        <property name="exchangeActionSupport" ref="ExchangeActionSupport"></property>
+        <property name="transActionSupport" ref="TransActionSupport"></property>
+    </bean>
+    <!--  new_exchangeAction -->
+
+
+    <!-- Dialog test -->
+    <bean id="dialogAction" name="dialogAction" class="com.froad.action.web.DialogAction" scope="prototype">
+    </bean>
+    <!-- Dialog test -->
+
+    <!-- 协议 -->
+    <bean id="agreementAction" name="agreementAction" class="com.froad.action.web.AgreementAction" scope="prototype">
+        <property name="agreementActionSupport" ref="AgreementActionSupport"></property>
+    </bean>
+    <!-- 协议 -->
+
+    <!-- 帮助中心 -->
+    <bean id="helpCenterAction" name="helpCenterAction" class="com.froad.action.web.HelpCenterAction" scope="prototype">
+    </bean>
+    <!-- 帮助中心 -->
+
+    <!-- 积分提现lijinkui begin -->
+    <bean id="transCarryAction" name="transCarryAction" class="com.froad.action.trans.TransCarryAction" scope="prototype">
+        <property name="transCarryActionSupport" ref="TransCarryActionSupport"></property>
+        <property name="transActionSupport" ref="TransActionSupport"></property>
+        <property name="userCertificationActionSupport" ref="UserCertificationActionSupport"></property>
+        <property name="pointActionSupport" ref="PointActionSupport"></property>
+        <property name="userActionSupport" ref="UserActionSupport"></property>
+    </bean>
+    <!-- 积分提现lijinkui end -->
+
+    <!-- 积分兑换lijinkui begin -->
+    <bean id="transExchangeAction" name="transExchangeAction" class="com.froad.action.trans.TransExchangeAction" scope="prototype">
+        <property name="exchangeActionSupport" ref="ExchangeActionSupport"></property>
+        <property name="transActionSupport" ref="TransActionSupport"></property>
+    </bean>
+    <!-- 积分兑换lijinkui end -->
+
+    <!-- 交易公共的action lijinkui begin -->
+    <bean id="transCommonAction" name="transCommonAction" class="com.froad.action.trans.TransCommonAction" scope="prototype">
+        <property name="transActionSupport" ref="TransActionSupport"></property>
+    </bean>
+    <!-- 交易公共的action lijinkui end -->
+
+    <!-- 团购lqp begin -->
+    <bean id="transGroupAction" name="transGroupAction" class="com.froad.action.trans.TransGroupAction" scope="prototype">
+        <property name="transActionSupport" ref="TransActionSupport"></property>
+        <property name="payActionSupport" ref="TransPayActionSupport"></property>
+        <property name="sellersActionSupport" ref="SellersActionSupport"></property>
+        <property name="buyersActionSupport" ref="BuyersActionSupport"></property>
+        <property name="goodsGroupRackActionSupport" ref="GoodsGroupRackActionSupport"></property>
+        <property name="merchantTrafficMAPActionSupport" ref="MerchantTrafficMAPActionSupport"></property>
+        <property name="merchantActionSupport" ref="MerchantActionSupport"></property>
+        <property name="pointActionSupport" ref="PointActionSupport"></property>
+        <property name="storeActionSupport" ref="storeActionSupport"></property>
+    </bean>
+    <!-- 团购lqp end -->
+
+
+    <!-- 预售lqp end -->
+
+    <bean id="loginAction" class="com.froad.action.member.LoginAction" scope="prototype">
+        <property name="sellerActionSupport" ref="SellersActionSupport"></property>
+        <property name="userActionSupport" ref="UserActionSupport"></property>
+        <property name="pointActionSupport" ref="PointActionSupport"></property>
+        <property name="loginManagerActionSupport" ref="LoginManagerActionSupport"></property>
+        <property name="merchantActionSupport" ref="MerchantActionSupport"></property>
+        <property name="merchantUserSetActionSupport" ref="MerchantUserSetActionSupport"></property>
+        <property name="buyersActionSupport" ref="BuyersActionSupport"></property>
+        <property name="smsService" ref="smsServiceImpl"></property>
+        <property name="userCertificationActionSupport" ref="UserCertificationActionSupport"></property>
+        <property name="tempPointActionSupport" ref="TempPointActionSupport"></property>
+        <property name="storeActionSupport" ref="storeActionSupport"></property>
+    </bean>
+
+    <!-- 首页 begin -->
+    <bean id="indexAction" name="indexAction" class="com.froad.action.web.IndexAction" scope="prototype">
+        <property name="announcementActionSupport" ref="AnnouncementActionSupport"></property>
+        <property name="advertActionSupport" ref="AdvertActionSupport"></property>
+        <property name="merchantActionSupport" ref="MerchantActionSupport"></property>
+        <property name="merchantPreferentialActionSupport" ref="MerchantPreferentialActionSupport"></property>
+        <property name="searchesActionSupport" ref="searchesActionSupport"></property>
+        <property name="storeActionSupport" ref="storeActionSupport"></property>
+        <property name="goodsExchangeRackActionSupport" ref="GoodsExchangeRackActionSupport"></property>
+        <property name="goodsGroupRackActionSupport" ref="GoodsGroupRackActionSupport"></property>
+    </bean>
+    <!-- 首页 end -->
+
+    <!-- 公告 begin -->
+    <bean id="announcementAction" name="announcementAction" class="com.froad.action.web.AnnouncementAction" scope="prototype">
+        <property name="announcementActionSupport" ref="AnnouncementActionSupport"></property>
+    </bean>
+    <!-- 公告 end -->
+
+    <!-- 动态模板 -->
+    <bean id="templateDynamicAction" name="templateDynamicAction" class="com.froad.action.web.TemplateDynamicAction" scope="prototype">
+        <property name="freemarkerManagerConfig" ref="freemarkerManager"></property>
+    </bean>
+    <!-- 动态模板 -->
+
+    <!-- 商户申请 begin -->
+    <bean id="merchantOnlineApplyAction" name="merchantOnlineApplyAction" class="com.froad.action.web.MerchantOnlineApplyAction" scope="prototype">
+        <property name="merchantActionSupport" ref="MerchantActionSupport"></property>
+        <property name="merchantOnlineApplyActionSupport" ref="MerchantOnlineApplyActionSupport"></property>
+        <property name="merchantIndustryActionSupport" ref="MerchantIndustryActionSupport"></property>
+    </bean>
+    <!-- 商户申请 end -->
+
+    <!-- 商户管理首页 -->
+    <bean id="homeAction" class="com.froad.action.admin.HomeAction" scope="prototype">
+        <property name="userActionSupport" ref="UserActionSupport"></property>
+        <property name="merchantActionSupport" ref="MerchantActionSupport"></property>
+        <property name="sellersActionSupport" ref="SellersActionSupport"></property>
+        <property name="merchantTrainActionSupport" ref="MerchantTrainActionSupport"></property>
+        <property name="storeActionSupport" ref="storeActionSupport"></property>
+    </bean>
+    <!-- 商户管理首页 -->
+
+    <!-- 商户 begin -->
+    <bean id="merchantAction" name="merchantAction" class="com.froad.action.web.MerchantAction" scope="prototype">
+        <property name="merchantActionSupport" ref="MerchantActionSupport"></property>
+        <property name="merchantTrainActionSupport" ref="MerchantTrainActionSupport"></property>
+        <property name="merchantPresentActionSupport" ref="MerchantPresentActionSupport"></property>
+        <property name="goodsRebateRackActionSupport" ref="GoodsRebateRackActionSupport"></property>
+        <property name="merchantProductActionSupport" ref="MerchantProductActionSupport"></property>
+        <property name="merchantPreferentialActionSupport" ref="MerchantPreferentialActionSupport"></property>
+        <property name="merchantPhotoActionSupport" ref="MerchantPhotoActionSupport"></property>
+        <property name="merchantTrafficMAPActionSupport" ref="MerchantTrafficMAPActionSupport"></property>
+        <property name="tagActionSupport" ref="TagActionSupport"></property>
+        <property name="advertActionSupport" ref="AdvertActionSupport"></property>
+        <property name="merchantUserSetActionSupport" ref="MerchantUserSetActionSupport"></property>
+        <property name="sellersActionSupport" ref="SellersActionSupport"></property>
+        <property name="memberCollectActionSupport" ref="MemberCollectActionSupport"></property>
+        <property name="merchantUserSellerActionSupport" ref="MerchantUserSellerActionSupport"></property>
+        <property name="searchesActionSupport" ref="searchesActionSupport"></property>
+
+        <!-- 新版商户界面配额  zxy 2013-06-27 -->
+        <property name="goodsGroupRackActionSupport" ref="GoodsGroupRackActionSupport"></property>
+        <property name="goodsExchangeRackActionSupport" ref="GoodsExchangeRackActionSupport"></property>
+        <property name="storeActionSupport" ref="storeActionSupport"></property>
+        <!-- 新版商户界面配额  zxy 2013-06-27 -->
+    </bean>
+    <!-- 商户 end -->
+
+    <!-- 商户商品begin -->
+    <bean id="merchantProductAction" name="merchantProductAction" class="com.froad.action.web.MerchantProductAction" scope="prototype">
+        <property name="tagActionSupport" ref="TagActionSupport"></property>
+        <property name="merchantProductActionSupport" ref="MerchantProductActionSupport"></property>
+        <property name="pictureActionSupport" ref="PictureActionSupport"></property>
+        <property name="merchantActionSupport" ref="MerchantActionSupport"></property>
+    </bean>
+    <!-- 商户商品 end -->
+
+    <!-- 商户相册begin -->
+    <bean id="merchantPhotoAction" name="merchantPhotoAction" class="com.froad.action.web.MerchantPhotoAction" scope="prototype">
+        <property name="tagActionSupport" ref="TagActionSupport"></property>
+        <property name="merchantPhotoActionSupport" ref="MerchantPhotoActionSupport"></property>
+        <property name="merchantActionSupport" ref="MerchantActionSupport"></property>
+        <property name="pictureActionSupport" ref="PictureActionSupport"></property>
+    </bean>
+    <!-- 商户相册 end -->
+
+    <!-- 商户优惠活动begin -->
+    <bean id="merchantPreferentialAction" name="merchantPreferentialAction" class="com.froad.action.web.MerchantPreferentialAction" scope="prototype">
+        <property name="tagActionSupport" ref="TagActionSupport"></property>
+        <property name="merchantPreferentialActionSupport" ref="MerchantPreferentialActionSupport"></property>
+        <property name="merchantActionSupport" ref="MerchantActionSupport"></property>
+        <property name="pictureActionSupport" ref="PictureActionSupport"></property>
+
+    </bean>
+    <!-- 商户优惠活动 end -->
+
+    <!-- 商户介绍begin -->
+    <bean id="merchantPresentAction" name="merchantPresentAction" class="com.froad.action.web.MerchantPresentAction" scope="prototype">
+        <property name="merchantPresentActionSupport" ref="MerchantPresentActionSupport"></property>
+        <property name="merchantActionSupport" ref="MerchantActionSupport"></property>
+        <property name="pictureActionSupport" ref="PictureActionSupport"></property>
+    </bean>
+    <!-- 商户介绍 end -->
+
+    <!--  会员收藏   -->
+
+    <bean id="merchantCollectAction" name="merchantCollectAction" class="com.froad.action.web.MerchantCollectAction" scope="prototype">
+        <property name="memberCollectActionSupport" ref="MemberCollectActionSupport"></property>
+        <property name="merchantTrainActionSupport" ref="MerchantTrainActionSupport"></property>
+        <property name="merchantActionSupport" ref="MerchantActionSupport"></property>
+    </bean>
+    <!-- 会员收藏    -->
+
+    <!-- 会员分享 -->
+    <bean id="shareMerchantAction" name="shareMerchantAction" class="com.froad.action.web.ShareMerchantAction" scope="prototype">
+        <property name="shareMerchantActionSupport" ref="shareMerchantActionSupport"></property>
+        <property name="merchantActionSupport" ref="MerchantActionSupport"></property>
+        <property name="userActionSupport" ref="UserActionSupport"></property>
+        <property name="smsService" ref="smsServiceImpl"></property>
+    </bean>
+    <!-- 会员分享 -->    <!-- 积分返利 begin -->
+    <bean id="rebateAction" name="rebateAction" class="com.froad.action.web.RebateAction" scope="prototype">
+        <property name="tagActionSupport" ref="TagActionSupport"></property>
+        <property name="transActionSupport" ref="TransActionSupport"></property>
+        <property name="merchantActionSupport" ref="MerchantActionSupport"></property>
+        <property name="goodsRebateRackActionSupport" ref="GoodsRebateRackActionSupport"></property>
+        <property name="goodsActionSupport" ref="GoodsActionSupport"></property>
+        <property name="sellersActionSupport" ref="SellersActionSupport"></property>
+    </bean>
+    <!-- 积分返利 end -->
+
+
+    <!-- 积分提现 begin -->
+    <bean id="carryAction" name="carryAction" class="com.froad.action.web.CarryAction" scope="prototype">
+
+    </bean>
+    <!-- 积分提现 end -->
+
+    <!-- 积分兑换 begin -->
+    <bean id="goodsExchangeRackAction" name="goodsExchangeRackAction" class="com.froad.action.web.GoodsExchangeRackAction" scope="prototype">
+        <property name="goodsExchangeRackActionSupport" ref="GoodsExchangeRackActionSupport"></property>
+        <property name="tagActionSupport" ref="TagActionSupport"></property>
+        <property name="transActionSupport" ref="TransActionSupport"></property>
+        <property name="buyersActionSupport" ref="BuyersActionSupport"></property>
+        <property name="userActionSupport" ref="UserActionSupport"></property>
+        <property name="userCertificationActionSupport" ref="UserCertificationActionSupport"></property>
+        <property name="authTicketService" ref="authTicketService"></property>
+        <property name="pointObtainActionSupport" ref="PointObtainActionSupport"></property>
+        <property name="pointActionSupport" ref="PointActionSupport"></property>
+
+        <property name="advertActionSupport" ref="AdvertActionSupport"></property>
+        <property name="pointCashRuleActionSupport" ref="PointCashRuleActionSupport"></property>
+
+    </bean>
+    <!-- 积分兑换 end -->
+
+    <!-- 积分兑换 begin -->
+    <bean id="goodsCarryRackAction" name="goodsCarryRackAction" class="com.froad.action.web.GoodsCarryRackAction" scope="prototype">
+        <property name="goodsExchangeRackActionSupport" ref="GoodsCarryRackActionSupport"></property>
+        <property name="tagActionSupport" ref="TagActionSupport"></property>
+        <property name="transActionSupport" ref="TransActionSupport"></property>
+        <property name="buyersActionSupport" ref="BuyersActionSupport"></property>
+        <property name="userActionSupport" ref="UserActionSupport"></property>
+        <property name="userCertificationActionSupport" ref="UserCertificationActionSupport"></property>
+
+        <property name="pointObtainActionSupport" ref="PointObtainActionSupport"></property>
+        <property name="pointActionSupport" ref="PointActionSupport"></property>
+
+        <property name="advertActionSupport" ref="AdvertActionSupport"></property>
+        <property name="pointCashRuleActionSupport" ref="PointCashRuleActionSupport"></property>
+
+    </bean>
+    <!-- 积分兑换 end -->
+
+    <!-- 团购 begin -->
+    <bean id="goodsGroupRackAction" name="goodsGroupRackAction" class="com.froad.action.buy.GoodsGroupRackAction" scope="prototype">
+        <property name="goodsGroupRackActionSupport" ref="GoodsGroupRackActionSupport"></property>
+        <property name="tagActionSupport" ref="TagActionSupport"></property>
+        <property name="transActionSupport" ref="TransActionSupport"></property>
+        <property name="buyersActionSupport" ref="BuyersActionSupport"></property>
+        <property name="userActionSupport" ref="UserActionSupport"></property>
+        <property name="authTicketService" ref="authTicketService"></property>
+        <property name="userCertificationActionSupport" ref="UserCertificationActionSupport"></property>
+        <property name="pointObtainActionSupport" ref="PointObtainActionSupport"></property>
+        <property name="pointActionSupport" ref="PointActionSupport"></property>
+        <property name="pointCashRuleActionSupport" ref="PointCashRuleActionSupport"></property>
+        <property name="merchantTrafficMAPActionSupport" ref="MerchantTrafficMAPActionSupport"></property>
+        <property name="GoodsPreSellRackActionSupport" ref="GoodsPreSellRackActionSupport"></property>
+    </bean>
+    <!-- 团购 end -->
+
+
+    <!-- 会员 -->
+    <bean id="menuAction" class="com.froad.action.member.MenuAction" scope="prototype">
+        <property name="userActionSupport" ref="UserActionSupport"></property>
+        <property name="merchantActionSupport" ref="MerchantActionSupport"></property>
+        <property name="buyersActionSupport" ref="BuyersActionSupport"></property>
+    </bean>
+    <!-- 会员 -->    <!-- 认证 begin  -->
+    <bean id="authTicketAction" class="com.froad.action.admin.authTicket.AuthTicketAction" scope="prototype">
+        <property name="authTicketActionSupport" ref="AuthTicketActionSupport"></property>
+        <property name="preSellActionSupport" ref="preSellActionSupport"></property>
+        <property name="merchantActionSupport" ref="MerchantActionSupport"></property>
+        <property name="transActionSupport" ref="TransActionSupport"></property>
+        <property name="merchantUserSellerActionSupport" ref="MerchantUserSellerActionSupport"></property>
+        <property name="merchantUserSetActionSupport" ref="MerchantUserSetActionSupport"></property>
+        <property name="GoodsPreSellRackActionSupport" ref="GoodsPreSellRackActionSupport"></property>
+    </bean>
+    <!-- 认证 end -->
+
+    <!-- 激活银行积分 begin  -->
+    <bean id="bankPointActivateAction" class="com.froad.action.web.bankPointActivate.BankPointActivateAction" scope="prototype">
+        <property name="userActionSupport" ref="UserActionSupport"></property>
+        <property name="merchantActionSupport" ref="MerchantActionSupport"></property>
+        <property name="fundsChannelActionSupport" ref="FundsChannelActionSupport"></property>
+        <property name="userCertificationActionSupport" ref="UserCertificationActionSupport"></property>
+        <property name="tempPointActionSupport" ref="TempPointActionSupport"></property>
+        <property name="pointActionSupport" ref="PointActionSupport"></property>
+    </bean>
+    <!-- 激活银行积分 end -->
+
+    <!-- 意见与建议 begin  -->
+    <bean id="suggestionAction" class="com.froad.action.web.suggestion.SuggestionAction" scope="prototype">
+        <property name="userActionSupport" ref="UserActionSupport"></property>
+        <property name="merchantActionSupport" ref="MerchantActionSupport"></property>
+        <property name="suggestionActionSupport" ref="SuggestionActionSupport"></property>
+        <property name="suggestionReplyActionSupport" ref="SuggestionReplyActionSupport"></property>
+    </bean>
+    <!-- 意见与建议 end -->
+
+    <!-- 意见与建议回复 begin  -->
+    <bean id="suggestionReplyAction" class="com.froad.action.web.suggestion.SuggestionReplyAction" scope="prototype">
+        <property name="userActionSupport" ref="UserActionSupport"></property>
+        <property name="merchantActionSupport" ref="MerchantActionSupport"></property>
+        <property name="suggestionActionSupport" ref="SuggestionActionSupport"></property>
+        <property name="suggestionReplyActionSupport" ref="SuggestionReplyActionSupport"></property>
+    </bean>
+    <!-- 意见与建议回复 end -->
+
+    <!-- 投诉 begin  -->
+    <bean id="complaintAction" class="com.froad.action.web.complaint.ComplaintAction" scope="prototype">
+        <property name="userActionSupport" ref="UserActionSupport"></property>
+        <property name="merchantActionSupport" ref="MerchantActionSupport"></property>
+        <property name="complaintCategoryActionSupport" ref="ComplaintCategoryActionSupport"></property>
+        <property name="complaintActionSupport" ref="ComplaintActionSupport"></property>
+        <property name="complaintReplyActionSupport" ref="ComplaintReplyActionSupport"></property>
+    </bean>
+    <!-- 投诉 end -->
+
+    <!-- 操作员 begin  -->
+    <bean id="merchantUserSetAction" class="com.froad.action.web.MerchantUserSetAction" scope="prototype">
+        <property name="merchantActionSupport" ref="MerchantActionSupport"></property>
+        <property name="merchantUserSetActionSupport" ref="MerchantUserSetActionSupport"></property>
+        <property name="storeActionSupport" ref="storeActionSupport"></property>
+    </bean>
+    <!-- 操作员 end -->
+
+    <!-- 操作员交易查询 begin  -->
+    <bean id="merchantTransAction" class="com.froad.action.admin.seller.trans.MerchantTransAction" scope="prototype">
+        <property name="sellerTransActionSupport" ref="sellerTransActionSupport"></property>
+        <property name="transActionSupport" ref="TransActionSupport"></property>
+        <property name="merchantUserSetActionSupport" ref="MerchantUserSetActionSupport"></property>
+        <property name="storeActionSupport" ref="storeActionSupport"></property>
+    </bean>
+    <!-- 操作员交易查询  end -->
+
+    <!-- 导出excel 开始-->
+    <bean id="expExcelAction" class="com.froad.action.admin.seller.trans.ExportExcelAction">
+        <property name="sellerTransActionSupport" ref="sellerTransActionSupport"></property>
+        <property name="transActionSupport" ref="TransActionSupport"></property>
+        <property name="merchantUserSetActionSupport" ref="MerchantUserSetActionSupport"></property>
+    </bean>
+    <!-- 导出excel 结束 -->    <!-- *************************************客户端 API******************************************** -->
+
+    <!-- 用户 -->
+    <bean id="userApiAction" class="com.froad.action.api.user.UserAction" scope="prototype">
+        <property name="userActionSupport" ref="UserActionSupport"></property>
+        <property name="pointActionSupport" ref="PointActionSupport"></property>
+        <property name="memberCollectActionSupport" ref="MemberCollectActionSupport"></property>
+        <property name="merchantTrainActionSupport" ref="MerchantTrainActionSupport"></property>
+        <property name="suggestionActionSupport" ref="SuggestionActionSupport"></property>
+        <property name="suggestionReplyActionSupport" ref="SuggestionReplyActionSupport"></property>
+    </bean>
+    <!-- 用户 -->    <!-- 公共模块 -->
+    <bean id="commonApiAction" class="com.froad.action.api.common.CommonAction" scope="prototype">
+        <property name="smsService" ref="smsServiceImpl"></property>
+        <property name="sellersActionSupport" ref="SellersActionSupport"></property>
+        <property name="repeatMsgSupport" ref="RepeatMsgActionSupport"></property>
+        <property name="userActionSupport" ref="UserActionSupport"></property>
+    </bean>
+    <!-- 公共模块 -->    <!-- 任务-->
+    <bean id="taskAction" class="com.froad.action.api.task.TaskAction" scope="prototype">
+        <property name="dailyTaskActionSupport" ref="DailyTaskActionSupport"></property>
+        <property name="dailyTaskRuleActionSupport" ref="DailyTaskRuleActionSupport"></property>
+        <property name="userActionSupport" ref="UserActionSupport"></property>
+        <property name="buyersActionSupport" ref="BuyersActionSupport"></property>
+        <property name="pointActionSupport" ref="PointActionSupport"></property>
+        <property name="merchantActionSupport" ref="MerchantActionSupport"></property>
+        <property name="transActionSupport" ref="TransActionSupport"></property>
+        <property name="payActionSupport" ref="PayActionSupport"></property>
+    </bean>
+    <!-- 任务 -->    <!-- 直接优惠 -->
+    <bean id="merchantPreferentialApiAction" class="com.froad.action.api.merchantPreferential.MerchantPreferentialAction" scope="prototype">
+        <property name="merchantPreferentialActionSupport" ref="MerchantPreferentialActionSupport"></property>
+        <property name="merchantActionSupport" ref="MerchantActionSupport"></property>
+        <property name="goodsRebateRackActionSupport" ref="GoodsRebateRackActionSupport"></property>
+    </bean>
+    <!-- 直接优惠 -->    <!-- 积分兑换 -->
+    <bean id="pointObtainAction" class="com.froad.action.api.pointObtain.PointObtainAction" scope="prototype">
+        <property name="pointObtainActionSupport" ref="PointObtainActionSupport"></property>
+        <property name="exchangeRackActionSupport" ref="ClientGoodsExchangeRackActionSupport"></property>
+        <property name="goodsExchangeRackActionSupport" ref="GoodsExchangeRackActionSupport"></property>
+        <property name="userCertificationActionSupport" ref="UserCertificationActionSupport"></property>
+        <property name="userActionSupport" ref="UserActionSupport"></property>
+        <property name="buyersActionSupport" ref="BuyersActionSupport"></property>
+        <property name="transActionSupport" ref="TransActionSupport"></property>
+        <property name="pointActionSupport" ref="PointActionSupport"></property>
+        <property name="pointCashRuleActionSupport" ref="PointCashRuleActionSupport"></property>
+        <property name="exchangeActionSupport" ref="ExchangeActionSupport"></property>
+    </bean>
+    <!-- 积分兑换 -->
+
+    <!-- 积分获取 -->
+    <bean id="goodsRebateRackApiAction" class="com.froad.action.api.goodsRebateRack.GoodsRebateRackAction" scope="prototype">
+        <property name="merchantActionSupport" ref="MerchantActionSupport"></property>
+        <property name="clientGoodsRebateRackActionSupport" ref="ClientGoodsRebateRackActionSupport"></property>
+        <property name="sellersActionSupport" ref="SellersActionSupport"></property>
+    </bean>
+    <!-- 积分获取 -->
+
+    <!-- 个人中心-->
+    <bean id="tranApiAction" class="com.froad.action.api.tran.TranAction" scope="prototype">
+
+        <property name="userActionSupport" ref="UserActionSupport"></property>
+        <property name="buyersActionSupport" ref="BuyersActionSupport"></property>
+        <property name="transActionSupport" ref="TransActionSupport"></property>
+        <property name="goodsGroupRackActionSupport" ref="GoodsGroupRackActionSupport"></property>
+        <property name="clientGoodsGroupRackActionSupport" ref="ClientGoodsGroupRackActionSupport"></property>
+        <property name="goodsExchangeRackActionSupport" ref="GoodsExchangeRackActionSupport"></property>
+        <property name="clientGoodsExchangeRackActionSupport" ref="ClientGoodsExchangeRackActionSupport"></property>
+
+    </bean>
+    <!-- 个人中心 -->    <!-- 积分提现-->
+    <bean id="carryPointsApiAction" class="com.froad.action.api.carryPoints.CarryPointsAction" scope="prototype">
+        <property name="userActionSupport" ref="UserActionSupport"></property>
+        <property name="pointActionSupport" ref="PointActionSupport"></property>
+        <property name="pointCashRuleActionSupport" ref="PointCashRuleActionSupport"></property>
+        <property name="buyersActionSupport" ref="BuyersActionSupport"></property>
+        <property name="userCertificationActionSupport" ref="UserCertificationActionSupport"></property>
+        <property name="transActionSupport" ref="TransActionSupport"></property>
+        <property name="transCarryActionSupport" ref="TransCarryActionSupport"></property>
+        <property name="clientGoodsCarryRackActionSupport" ref="ClientGoodsCarryRackActionSupport"></property>
+    </bean>
+    <!-- 积分提现-->
+
+    <!-- 最新推荐-->
+    <bean id="recommendApiAction" class="com.froad.action.api.recommend.RecommendAction" scope="prototype">
+        <property name="merchantActionSupport" ref="MerchantActionSupport"></property>
+    </bean>
+    <!--最新推荐  -->
+
+    <!-- 团购-->
+    <bean id="clientGoodsGroupRackApiAction" class="com.froad.action.api.clientGoodsGroup.ClientGoodsGroupRackAction" scope="prototype">
+        <property name="clientGoodsGroupRackActionSupport" ref="ClientGoodsGroupRackActionSupport"></property>
+        <property name="pointCashRuleActionSupport" ref="PointCashRuleActionSupport"></property>
+        <property name="tagActionSupport" ref="TagActionSupport"></property>
+        <property name="userActionSupport" ref="UserActionSupport"></property>
+        <property name="buyersActionSupport" ref="BuyersActionSupport"></property>
+        <property name="transActionSupport" ref="TransActionSupport"></property>
+        <property name="pointActionSupport" ref="PointActionSupport"></property>
+        <property name="groupActionSupport" ref="GroupActionSupport"></property>
+    </bean>
+    <!--团购  -->
+
+    <bean id="clientApiAction" class="com.froad.action.api.ClientApiAction" scope="prototype">
+    </bean>
+    <bean id="uploadAction" class="com.froad.action.api.servlet.UploadAction" scope="prototype">
+    </bean>
+
+    <bean id="sellerTransAction" class="com.froad.action.admin.seller.trans.SellerTransAction" scope="prototype">
+        <property name="sellerActionSupport" ref="sellerTransActionSupport"></property>
+        <property name="transActionSupport" ref="TransActionSupport"></property>
+        <property name="userActionSupport" ref="UserActionSupport"></property>
+        <property name="merchantUserSellerActionSupport" ref="MerchantUserSellerActionSupport"></property>
+        <property name="merchantUserSetActionSupport" ref="MerchantUserSetActionSupport"></property>
+        <property name="threadPoolTaskExecutor" ref="threadPoolTaskExecutor"></property>
+    </bean>
+    <bean id="memberAction" class="com.froad.action.member.MemberAction" scope="prototype">
+        <property name="transActionSupport" ref="TransActionSupport"></property>
+        <property name="userActionSupport" ref="UserActionSupport"></property>
+        <property name="buyersActionSupport" ref="BuyersActionSupport"></property>
+        <property name="sellersActionSupport" ref="SellersActionSupport"></property>
+        <property name="userCertificationActionSupport" ref="UserCertificationActionSupport"></property>
+        <property name="GoodsPreSellRackActionSupport" ref="GoodsPreSellRackActionSupport"></property>
+        <property name="preSellActionSupport" ref="preSellActionSupport"></property>
+    </bean>
+    <!-- 客户端 API -->    <!-- ************************************商户 API********************************************** -->
+    <bean id="merchantAPIAction" class="com.froad.action.api.merchantAPI.MerchantAPIAction" scope="prototype">
+        <property name="merchantUserSetActionSupport" ref="MerchantUserSetActionSupport"></property>
+        <property name="userActionSupport" ref="UserActionSupport"></property>
+        <property name="transActionSupport" ref="TransActionSupport"></property>
+        <property name="authTicketActionSupport" ref="AuthTicketActionSupport"></property>
+        <property name="merchantActionSupport" ref="MerchantActionSupport"></property>
+        <property name="sellersActionSupport" ref="SellersActionSupport"></property>
+        <property name="sellerTransActionSupport" ref="sellerTransActionSupport"></property>
+    </bean>
+    <bean id="merchantTranAction" class="com.froad.action.api.merchantAPI.MerchantTranAction" scope="prototype">
+        <property name="userActionSupport" ref="UserActionSupport"></property>
+        <property name="transActionSupport" ref="TransActionSupport"></property>
+        <property name="merchantUserSetActionSupport" ref="MerchantUserSetActionSupport"></property>
+        <property name="sellerTransActionSupport" ref="sellerTransActionSupport"></property>
+    </bean>
+    <!-- 商户 API -->
+
+    <!-- 重发短息验证码 -->
+    <bean id="repeatMsgAction" class="com.froad.action.member.RepeatMsgAction">
+        <property name="repeatMsgSupport" ref="RepeatMsgActionSupport"></property>
+    </bean>
+    <!-- 重发短息验证码 -->
+
+    <!-- 分店分页查询相关数据 begin -->
+    <bean id="storeAction" class="com.froad.action.web.StoreAction">
+        <!-- 新版商户界面配额  zxy 2013-06-27 -->
+        <property name="merchantActionSupport" ref="MerchantActionSupport"></property>
+        <property name="memberCollectActionSupport" ref="MemberCollectActionSupport"></property>
+        <property name="goodsGroupRackActionSupport" ref="GoodsGroupRackActionSupport"></property>
+        <property name="goodsExchangeRackActionSupport" ref="GoodsExchangeRackActionSupport"></property>
+        <property name="storeActionSupport" ref="storeActionSupport"></property>
+        <property name="merchantTrainActionSupport" ref="MerchantTrainActionSupport"></property>
+        <!-- 新版商户界面配额  zxy 2013-06-27 -->
+    </bean>
+    <!-- 分店分页查询相关数据 over -->
+
+    <!-- 八月电影活动专题 -->
+    <bean id="activityMovieAction" class="com.froad.action.activity.ActivityMovieAction" scope="prototype">
+        <property name="activityMovieActionSupport" ref="activityMovieActionSupport"></property>
+        <property name="merchantUserSetActionSupport" ref="MerchantUserSetActionSupport"></property>
+    </bean>
+
+    <!-- 春节抽奖活动相关内容 -->
+    <bean id="springFestivalAwardAction" class="com.froad.action.activity.SpringFestivalAwardAction" scope="prototype">
+        <property name="pointActionSupport" ref="PointActionSupport"></property>
+        <property name="merchantActionSupport" ref="MerchantActionSupport"></property>
+        <property name="storeActionSupport" ref="storeActionSupport"></property>
+        <property name="springFestivalAwardActionSupport" ref="springFestivalAwardActionSupport"/>
+        <property name="merchantUserSetActionSupport" ref="MerchantUserSetActionSupport"></property>
+    </bean>
+
+    <!--预售lqp begin-->
+    <bean id="transPreSellAction" name="transPreSellAction" class="com.froad.action.trans.TransPreSellAction" scope="prototype">
+        <property name="GoodsPreSellRackActionSupport" ref="GoodsPreSellRackActionSupport"></property>
+        <property name="transActionSupport" ref="TransActionSupport"></property>
+        <property name="payActionSupport" ref="TransPayActionSupport"></property>
+        <property name="buyersActionSupport" ref="BuyersActionSupport"></property>
+        <property name="merchantTrafficMAPActionSupport" ref="MerchantTrafficMAPActionSupport"></property>
+        <property name="storeActionSupport" ref="storeActionSupport"></property>
+        <property name="pointActionSupport" ref="PointActionSupport"></property>
+        <property name="preSellActionSupport" ref="preSellActionSupport"></property>
+        <property name="sellersActionSupport" ref="SellersActionSupport"></property>
+    </bean>
+    <!--预售view begin-->
+    <bean id="goodsPresellRackAction" name="goodsPresellRackAction" class="com.froad.action.buy.GoodsPresellRackAction" scope="prototype">
+        <property name="GoodsPreSellRackActionSupport" ref="GoodsPreSellRackActionSupport"></property>
+        <property name="tagActionSupport" ref="TagActionSupport"></property>
+        <property name="transActionSupport" ref="TransActionSupport"></property>
+        <property name="buyersActionSupport" ref="BuyersActionSupport"></property>
+        <property name="userActionSupport" ref="UserActionSupport"></property>
+        <property name="authTicketService" ref="authTicketService"></property>
+        <property name="userCertificationActionSupport" ref="UserCertificationActionSupport"></property>
+        <property name="pointObtainActionSupport" ref="PointObtainActionSupport"></property>
+        <property name="pointActionSupport" ref="PointActionSupport"></property>
+        <property name="pointCashRuleActionSupport" ref="PointCashRuleActionSupport"></property>
+        <property name="merchantTrafficMAPActionSupport" ref="MerchantTrafficMAPActionSupport"></property>
+        <property name="authTicketActionSupport" ref="AuthTicketActionSupport"></property>
+        <property name="preSellActionSupport" ref="preSellActionSupport"></property>
+    </bean>
+    <!--预售结束 end-->
+
+    <!-- 首页Test begin -->
+    <bean id="indexActionTest" name="indexActionTest" class="com.froad.action.login.IndexActionTest" scope="prototype">
+        <property name="announcementActionSupport" ref="AnnouncementActionSupport"></property>
+        <property name="advertActionSupport" ref="AdvertActionSupport"></property>
+        <property name="merchantActionSupport" ref="MerchantActionSupport"></property>
+        <property name="merchantPreferentialActionSupport" ref="MerchantPreferentialActionSupport"></property>
+        <property name="searchesActionSupport" ref="searchesActionSupport"></property>
+        <property name="storeActionSupport" ref="storeActionSupport"></property>
+    </bean>
+    <!-- 首页 end -->
+    <!-- 自提点信息 begin -->
+    <bean id="DeliveryAction" class="com.froad.action.web.DeliveryAction">
+        <property name="merchantActionSupport" ref="MerchantActionSupport"></property>
+        <property name="memberCollectActionSupport" ref="MemberCollectActionSupport"></property>
+        <property name="goodsGroupRackActionSupport" ref="GoodsGroupRackActionSupport"></property>
+        <property name="goodsExchangeRackActionSupport" ref="GoodsExchangeRackActionSupport"></property>
+        <property name="storeActionSupport" ref="storeActionSupport"></property>
+        <property name="merchantTrainActionSupport" ref="MerchantTrainActionSupport"></property>
+        <property name="GoodsPreSellRackActionSupport" ref="GoodsPreSellRackActionSupport"></property>
+        <property name="preSellActionSupport" ref="preSellActionSupport"></property>
+        <property name="merchantTrafficMAPActionSupport" ref="MerchantTrafficMAPActionSupport"></property>
+    </bean>
+
+</beans>

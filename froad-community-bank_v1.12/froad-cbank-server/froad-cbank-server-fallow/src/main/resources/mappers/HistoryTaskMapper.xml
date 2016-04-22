@@ -1,0 +1,862 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.mysql.mapper.HistoryTaskMapper">
+
+	<resultMap type="HistoryTask" id="historyTaskResultMap">
+		<id property="id" column="id" />
+		<result property="createTime" column="create_time" />
+		<result property="updateTime" column="update_time" />
+		<result property="clientId" column="client_id" />
+		<result property="instanceId" column="instance_id" />
+		<result property="nodeId" column="node_id" />
+		<result property="taskId" column="task_id" />
+		<result property="parentTaskId" column="parent_task_id" />
+		<result property="name" column="name" />
+		<result property="displayName" column="display_name" />
+		<result property="performType" column="perform_type" />
+		<result property="taskType" column="task_type" />
+		<result property="taskState" column="task_state" />
+		<result property="operator" column="operator" />
+		<result property="finishTime" column="finish_time" />
+		<result property="auditState" column="audit_state" />
+		<result property="remark" column="remark" />
+		<result property="orgId" column="org_id" />
+	</resultMap>
+
+
+	<!-- 所有字段list -->
+	<sql id="Base_Column_List">
+		id,create_time,update_time,client_id,instance_id,node_id,task_id,parent_task_id,name,display_name,perform_type,task_type,task_state,operator,finish_time,audit_state,remark,org_id
+	</sql>
+
+
+	<!-- 不包含ID字段list -->
+	<sql id="Not_ID_Column_List">
+		create_time,update_time,client_id,instance_id,node_id,task_id,parent_task_id,name,display_name,perform_type,task_type,task_state,operator,finish_time,audit_state,remark,org_id
+	</sql>
+
+
+	<!-- 添加  HistoryTask -->
+	<insert id="addHistoryTask" parameterType="HistoryTask" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO cb_history_task (
+			<include refid="Not_ID_Column_List" />
+		) VALUES (
+			#{createTime},#{updateTime},#{clientId},#{instanceId},#{nodeId},#{taskId},#{parentTaskId},#{name},#{displayName},#{performType},#{taskType},#{taskState},#{operator},#{finishTime},#{auditState},#{remark},#{orgId}
+		) 
+	</insert>
+
+
+	<!-- 批量添加  HistoryTask -->
+	<insert id="addHistoryTaskByBatch" parameterType="java.util.List">
+		INSERT INTO cb_history_task (
+			<include refid="Not_ID_Column_List" />
+		) VALUES 
+		<foreach collection="historyTaskList" item="item" index="index" separator=",">
+			(#{item.createTime},#{item.updateTime},#{item.clientId},#{item.instanceId},#{item.nodeId},#{item.taskId},#{item.parentTaskId},#{item.name},#{item.displayName},#{item.performType},#{item.taskType},#{item.taskState},#{item.operator},#{item.finishTime},#{item.auditState},#{item.remark},#{item.orgId})
+		</foreach>
+	</insert>
+
+
+	<!-- 删除  HistoryTask -->
+	<delete id="deleteHistoryTask" parameterType="HistoryTask">
+		DELETE FROM cb_history_task 
+		<where>
+			<if test="id != null">
+				AND id = #{id}
+			</if>
+			<if test="createTime != null">
+				AND create_time = #{createTime}
+			</if>
+			<if test="updateTime != null">
+				AND update_time = #{updateTime}
+			</if>
+			<if test="clientId != null">
+				AND client_id = #{clientId}
+			</if>
+			<if test="instanceId != null">
+				AND instance_id = #{instanceId}
+			</if>
+			<if test="nodeId != null">
+				AND node_id = #{nodeId}
+			</if>
+			<if test="taskId != null">
+				AND task_id = #{taskId}
+			</if>
+			<if test="parentTaskId != null">
+				AND parent_task_id = #{parentTaskId}
+			</if>
+			<if test="name != null">
+				AND name = #{name}
+			</if>
+			<if test="displayName != null">
+				AND display_name = #{displayName}
+			</if>
+			<if test="performType != null">
+				AND perform_type = #{performType}
+			</if>
+			<if test="taskType != null">
+				AND task_type = #{taskType}
+			</if>
+			<if test="taskState != null">
+				AND task_state = #{taskState}
+			</if>
+			<if test="operator != null">
+				AND operator = #{operator}
+			</if>
+			<if test="finishTime != null">
+				AND finish_time = #{finishTime}
+			</if>
+			<if test="auditState != null">
+				AND audit_state = #{auditState}
+			</if>
+			<if test="remark != null">
+				AND remark = #{remark}
+			</if>
+			<if test="orgId != null">
+				AND org_id = #{orgId}
+			</if>
+		</where>
+	</delete>
+
+
+	<!-- 根据id删除  HistoryTask -->
+	<delete id="deleteHistoryTaskById" parameterType="java.lang.Long">
+		DELETE FROM cb_history_task 
+		 WHERE 
+			 id = #{id} 
+	</delete>
+	
+	
+	<!-- 根据taskId删除  HistoryTask -->
+	<delete id="deleteHistoryTaskByTaskId" parameterType="java.lang.String">
+		DELETE FROM cb_history_task 
+		 WHERE 
+            task_id = #{taskId}
+	</delete>
+
+
+	<!-- 根据instanceId删除  HistoryTask -->
+	<delete id="deleteHistoryTaskByInstanceId" parameterType="java.lang.String">
+		DELETE FROM cb_history_task 
+		 WHERE 
+            instance_id = #{instanceId}
+	</delete>
+
+
+	<!-- 修改  HistoryTask -->
+	<update id="updateHistoryTask" parameterType="HistoryTask">
+		UPDATE cb_history_task 
+		<set>
+			<if test="createTime != null">
+				create_time = #{createTime}, 
+			</if>
+			<if test="updateTime != null">
+				update_time = #{updateTime}, 
+			</if>
+			<if test="clientId != null">
+				client_id = #{clientId}, 
+			</if>
+			<if test="instanceId != null">
+				instance_id = #{instanceId}, 
+			</if>
+			<if test="nodeId != null">
+				node_id = #{nodeId}, 
+			</if>
+			<if test="taskId != null">
+				task_id = #{taskId}, 
+			</if>
+			<if test="parentTaskId != null">
+				parent_task_id = #{parentTaskId}, 
+			</if>
+			<if test="name != null">
+				name = #{name}, 
+			</if>
+			<if test="displayName != null">
+				display_name = #{displayName}, 
+			</if>
+			<if test="performType != null">
+				perform_type = #{performType}, 
+			</if>
+			<if test="taskType != null">
+				task_type = #{taskType}, 
+			</if>
+			<if test="taskState != null">
+				task_state = #{taskState}, 
+			</if>
+			<if test="operator != null">
+				operator = #{operator}, 
+			</if>
+			<if test="finishTime != null">
+				finish_time = #{finishTime}, 
+			</if>
+			<if test="auditState != null">
+				audit_state = #{auditState}, 
+			</if>
+			<if test="remark != null">
+				remark = #{remark}, 
+			</if>
+		</set>
+
+		<where>
+			<if test="id != null">
+				AND id = #{id}
+			</if>
+			<if test="clientId != null">
+				AND client_id = #{clientId}
+			</if>
+			<if test="instanceId != null">
+				AND instance_id = #{instanceId}
+			</if>			
+		</where>
+	</update>
+
+
+	<!-- 根据id修改  HistoryTask -->
+	<update id="updateHistoryTaskById" parameterType="HistoryTask">
+		UPDATE cb_history_task 
+		<set>
+			<if test="createTime != null">
+				create_time = #{createTime}, 
+			</if>
+			<if test="updateTime != null">
+				update_time = #{updateTime}, 
+			</if>
+			<if test="clientId != null">
+				client_id = #{clientId}, 
+			</if>
+			<if test="instanceId != null">
+				instance_id = #{instanceId}, 
+			</if>
+			<if test="nodeId != null">
+				node_id = #{nodeId}, 
+			</if>
+			<if test="taskId != null">
+				task_id = #{taskId}, 
+			</if>
+			<if test="parentTaskId != null">
+				parent_task_id = #{parentTaskId}, 
+			</if>
+			<if test="name != null">
+				name = #{name}, 
+			</if>
+			<if test="displayName != null">
+				display_name = #{displayName}, 
+			</if>
+			<if test="performType != null">
+				perform_type = #{performType}, 
+			</if>
+			<if test="taskType != null">
+				task_type = #{taskType}, 
+			</if>
+			<if test="taskState != null">
+				task_state = #{taskState}, 
+			</if>
+			<if test="operator != null">
+				operator = #{operator}, 
+			</if>
+			<if test="finishTime != null">
+				finish_time = #{finishTime}, 
+			</if>
+			<if test="auditState != null">
+				audit_state = #{auditState}, 
+			</if>
+			<if test="remark != null">
+				remark = #{remark}, 
+			</if>
+			<if test="orgId != null">
+				org_id = #{orgId}, 
+			</if>
+		</set>
+
+		 WHERE 
+            id = #{id} 
+	</update>
+
+
+	<!-- 根据taskId修改  HistoryTask -->
+	<update id="updateHistoryTaskByTaskId" parameterType="HistoryTask">
+		UPDATE cb_history_task 
+		<set>
+			<if test="createTime != null">
+				create_time = #{createTime}, 
+			</if>
+			<if test="updateTime != null">
+				update_time = #{updateTime}, 
+			</if>
+			<if test="clientId != null">
+				client_id = #{clientId}, 
+			</if>
+			<if test="instanceId != null">
+				instance_id = #{instanceId}, 
+			</if>
+			<if test="nodeId != null">
+				node_id = #{nodeId}, 
+			</if>
+			
+			<if test="parentTaskId != null">
+				parent_task_id = #{parentTaskId}, 
+			</if>
+			<if test="name != null">
+				name = #{name}, 
+			</if>
+			<if test="displayName != null">
+				display_name = #{displayName}, 
+			</if>
+			<if test="performType != null">
+				perform_type = #{performType}, 
+			</if>
+			<if test="taskType != null">
+				task_type = #{taskType}, 
+			</if>
+			<if test="taskState != null">
+				task_state = #{taskState}, 
+			</if>
+			<if test="operator != null">
+				operator = #{operator}, 
+			</if>
+			<if test="finishTime != null">
+				finish_time = #{finishTime}, 
+			</if>
+			<if test="auditState != null">
+				audit_state = #{auditState}, 
+			</if>
+			<if test="remark != null">
+				remark = #{remark}, 
+			</if>
+			<if test="orgId != null">
+				org_id = #{orgId}, 
+			</if>
+		</set>
+
+		 WHERE 
+			 task_id = #{taskId}
+	</update>
+
+
+	<!-- 根据instanceId修改  HistoryTask -->
+	<update id="updateHistoryTaskByInstanceId" parameterType="HistoryTask">
+		UPDATE cb_history_task 
+		<set>
+			<if test="createTime != null">
+				create_time = #{createTime}, 
+			</if>
+			<if test="updateTime != null">
+				update_time = #{updateTime}, 
+			</if>
+			<if test="clientId != null">
+				client_id = #{clientId}, 
+			</if>
+			
+			<if test="nodeId != null">
+				node_id = #{nodeId}, 
+			</if>
+			<if test="taskId != null">
+				task_id = #{taskId}, 
+			</if>
+			<if test="parentTaskId != null">
+				parent_task_id = #{parentTaskId}, 
+			</if>
+			<if test="name != null">
+				name = #{name}, 
+			</if>
+			<if test="displayName != null">
+				display_name = #{displayName}, 
+			</if>
+			<if test="performType != null">
+				perform_type = #{performType}, 
+			</if>
+			<if test="taskType != null">
+				task_type = #{taskType}, 
+			</if>
+			<if test="taskState != null">
+				task_state = #{taskState}, 
+			</if>
+			<if test="operator != null">
+				operator = #{operator}, 
+			</if>
+			<if test="finishTime != null">
+				finish_time = #{finishTime}, 
+			</if>
+			<if test="auditState != null">
+				audit_state = #{auditState}, 
+			</if>
+			<if test="remark != null">
+				remark = #{remark}, 
+			</if>
+			<if test="orgId != null">
+				org_id = #{orgId}, 
+			</if>
+		</set>
+
+		 WHERE 
+			 instance_id = #{instanceId}
+	</update>
+
+
+	<!-- 根据id查询  HistoryTask -->
+	<select id="findHistoryTaskById" parameterType="java.lang.Long" resultMap="historyTaskResultMap">
+		SELECT 
+			<include refid="Base_Column_List" />
+        FROM cb_history_task 
+        WHERE 
+            id = #{id}
+
+	</select>
+
+	<!-- 查询一个  HistoryTask -->
+	<select id="findOneHistoryTask" parameterType="HistoryTask" resultMap="historyTaskResultMap">
+		SELECT 
+			<include refid="Base_Column_List" />
+        FROM cb_history_task 
+		<where>
+			<if test="id != null">
+				 AND id = #{id}
+			</if>
+			<if test="createTime != null">
+				 AND create_time = #{createTime}
+			</if>
+			<if test="updateTime != null">
+				 AND update_time = #{updateTime}
+			</if>
+			<if test="clientId != null">
+				 AND client_id = #{clientId}
+			</if>
+			<if test="instanceId != null">
+				 AND instance_id = #{instanceId}
+			</if>
+			<if test="nodeId != null">
+				 AND node_id = #{nodeId}
+			</if>
+			<if test="taskId != null">
+				 AND task_id = #{taskId}
+			</if>
+			<if test="parentTaskId != null">
+				 AND parent_task_id = #{parentTaskId}
+			</if>
+			<if test="name != null">
+				 AND name = #{name}
+			</if>
+			<if test="displayName != null">
+				 AND display_name = #{displayName}
+			</if>
+			<if test="performType != null">
+				 AND perform_type = #{performType}
+			</if>
+			<if test="taskType != null">
+				 AND task_type = #{taskType}
+			</if>
+			<if test="taskState != null">
+				 AND task_state = #{taskState}
+			</if>
+			<if test="operator != null">
+				 AND operator = #{operator}
+			</if>
+			<if test="finishTime != null">
+				 AND finish_time = #{finishTime}
+			</if>
+			<if test="auditState != null">
+				 AND audit_state = #{auditState}
+			</if>
+			<if test="remark != null">
+				 AND remark = #{remark}
+			</if>
+			<if test="orgId != null">
+				 AND org_id = #{orgId}
+			</if>
+		 LIMIT 1 
+		</where>
+	</select>
+
+	<!-- 统计  HistoryTask -->
+	<select id="countHistoryTask" parameterType="HistoryTask" resultType="java.lang.Integer">
+		SELECT COUNT(0) FROM cb_history_task 
+		<where>
+			<if test="id != null">
+				 AND id = #{id}
+			</if>
+			<if test="createTime != null">
+				 AND create_time = #{createTime}
+			</if>
+			<if test="updateTime != null">
+				 AND update_time = #{updateTime}
+			</if>
+			<if test="clientId != null">
+				 AND client_id = #{clientId}
+			</if>
+			<if test="instanceId != null">
+				 AND instance_id = #{instanceId}
+			</if>
+			<if test="nodeId != null">
+				 AND node_id = #{nodeId}
+			</if>
+			<if test="taskId != null">
+				 AND task_id = #{taskId}
+			</if>
+			<if test="parentTaskId != null">
+				 AND parent_task_id = #{parentTaskId}
+			</if>
+			<if test="name != null">
+				 AND name = #{name}
+			</if>
+			<if test="displayName != null">
+				 AND display_name = #{displayName}
+			</if>
+			<if test="performType != null">
+				 AND perform_type = #{performType}
+			</if>
+			<if test="taskType != null">
+				 AND task_type = #{taskType}
+			</if>
+			<if test="taskState != null">
+				 AND task_state = #{taskState}
+			</if>
+			<if test="operator != null">
+				 AND operator = #{operator}
+			</if>
+			<if test="finishTime != null">
+				 AND finish_time = #{finishTime}
+			</if>
+			<if test="auditState != null">
+				 AND audit_state = #{auditState}
+			</if>
+			<if test="remark != null">
+				 AND remark = #{remark}
+			</if>
+			<if test="orgId != null">
+				 AND org_id = #{orgId}
+			</if>
+		</where>
+	</select>
+
+	<!-- 查询  HistoryTask -->
+	<select id="findHistoryTask" parameterType="HistoryTask" resultMap="historyTaskResultMap">
+		SELECT 
+			<include refid="Base_Column_List" />
+        FROM cb_history_task 
+		<if test="historyTask != null">
+			<where>
+				<if test="historyTask.id != null">
+					 AND id = #{historyTask.id}
+				</if>
+				<if test="historyTask.createTime != null">
+					 AND create_time = #{historyTask.createTime}
+				</if>
+				<if test="historyTask.updateTime != null">
+					 AND update_time = #{historyTask.updateTime}
+				</if>
+				<if test="historyTask.clientId != null">
+					 AND client_id = #{historyTask.clientId}
+				</if>
+				<if test="historyTask.instanceId != null">
+					 AND instance_id = #{historyTask.instanceId}
+				</if>
+				<if test="historyTask.nodeId != null">
+					 AND node_id = #{historyTask.nodeId}
+				</if>
+				<if test="historyTask.taskId != null">
+					 AND task_id = #{historyTask.taskId}
+				</if>
+				<if test="historyTask.parentTaskId != null">
+					 AND parent_task_id = #{historyTask.parentTaskId}
+				</if>
+				<if test="historyTask.name != null">
+					 AND name = #{historyTask.name}
+				</if>
+				<if test="historyTask.displayName != null">
+					 AND display_name = #{historyTask.displayName}
+				</if>
+				<if test="historyTask.performType != null">
+					 AND perform_type = #{historyTask.performType}
+				</if>
+				<if test="historyTask.taskType != null">
+					 AND task_type = #{historyTask.taskType}
+				</if>
+				<if test="historyTask.taskState != null">
+					 AND task_state = #{historyTask.taskState}
+				</if>
+				<if test="historyTask.operator != null">
+					 AND operator = #{historyTask.operator}
+				</if>
+				<if test="historyTask.finishTime != null">
+					 AND finish_time = #{historyTask.finishTime}
+				</if>
+				<if test="historyTask.auditState != null">
+					 AND audit_state = #{historyTask.auditState}
+				</if>
+				<if test="historyTask.remark != null">
+					 AND remark = #{historyTask.remark}
+				</if>
+				<if test="historyTask.orgId != null">
+					 AND org_id = #{historyTask.orgId}
+				</if>
+			</where>
+		</if>
+		<if test="order != null">
+		 ORDER BY ${order} 
+		</if>
+	</select>
+
+	<!-- 查询 执行任务节点HistoryTask 
+	<select id="findHistoryTaskOfExecute" parameterType="HistoryTask" resultMap="historyTaskResultMap">
+		SELECT 
+			 cht.* 
+        FROM cb_history_task cht LEFT JOIN cb_process_node cpn ON cht.node_id = cpn.node_id 
+        WHERE cpn.type = '2' AND cht.client_id = cpn.client_id         
+		<if test="historyTask != null">
+			<if test="historyTask.id != null">
+				 AND cht.id = #{historyTask.id}
+			</if>
+			<if test="historyTask.createTime != null">
+				 AND cht.create_time = #{historyTask.createTime}
+			</if>
+			<if test="historyTask.updateTime != null">
+				 AND cht.update_time = #{historyTask.updateTime}
+			</if>
+			<if test="historyTask.clientId != null">
+				 AND cht.client_id = #{historyTask.clientId}
+			</if>
+			<if test="historyTask.instanceId != null">
+				 AND cht.instance_id = #{historyTask.instanceId}
+			</if>
+			<if test="historyTask.nodeId != null">
+				 AND cht.node_id = #{historyTask.nodeId}
+			</if>
+			<if test="historyTask.taskId != null">
+				 AND cht.task_id = #{historyTask.taskId}
+			</if>
+			<if test="historyTask.parentTaskId != null">
+				 AND cht.parent_task_id = #{historyTask.parentTaskId}
+			</if>
+			<if test="historyTask.name != null">
+				 AND cht.name = #{historyTask.name}
+			</if>
+			<if test="historyTask.displayName != null">
+				 AND cht.display_name = #{historyTask.displayName}
+			</if>
+			<if test="historyTask.performType != null">
+				 AND cht.perform_type = #{historyTask.performType}
+			</if>
+			<if test="historyTask.taskType != null">
+				 AND cht.task_type = #{historyTask.taskType}
+			</if>
+			<if test="historyTask.taskState != null">
+				 AND cht.task_state = #{historyTask.taskState}
+			</if>
+			<if test="historyTask.operator != null">
+				 AND cht.operator = #{historyTask.operator}
+			</if>
+			<if test="historyTask.finishTime != null">
+				 AND cht.finish_time = #{historyTask.finishTime}
+			</if>
+			<if test="historyTask.auditState != null">
+				 AND cht.audit_state = #{historyTask.auditState}
+			</if>
+			<if test="historyTask.remark != null">
+				 AND cht.remark = #{historyTask.remark}
+			</if>
+			<if test="historyTask.orgId != null">
+				 AND cht.org_id = #{historyTask.orgId}
+			</if>
+		</if>
+		 ORDER BY cht.create_time  		
+	</select>
+	-->
+	
+	<!-- 查询 执行任务节点HistoryTask -->
+	<select id="findHistoryTaskOfExecute" parameterType="HistoryTask" resultMap="historyTaskResultMap">
+		SELECT * FROM 
+		( 
+			SELECT 
+				 cht.* 
+	        FROM cb_history_task cht LEFT JOIN cb_process_node cpn ON cht.node_id = cpn.node_id 
+	        WHERE cpn.type = '2' AND cht.client_id = cpn.client_id 
+	        <if test="historyTask != null">
+				<if test="historyTask.id != null">
+					 AND cht.id = #{historyTask.id}
+				</if>
+				<if test="historyTask.createTime != null">
+					 AND cht.create_time = #{historyTask.createTime}
+				</if>
+				<if test="historyTask.updateTime != null">
+					 AND cht.update_time = #{historyTask.updateTime}
+				</if>
+				<if test="historyTask.clientId != null">
+					 AND cht.client_id = #{historyTask.clientId}
+				</if>
+				<if test="historyTask.instanceId != null">
+					 AND cht.instance_id = #{historyTask.instanceId}
+				</if>
+				<if test="historyTask.nodeId != null">
+					 AND cht.node_id = #{historyTask.nodeId}
+				</if>
+				<if test="historyTask.taskId != null">
+					 AND cht.task_id = #{historyTask.taskId}
+				</if>
+				<if test="historyTask.parentTaskId != null">
+					 AND cht.parent_task_id = #{historyTask.parentTaskId}
+				</if>
+				<if test="historyTask.name != null">
+					 AND cht.name = #{historyTask.name}
+				</if>
+				<if test="historyTask.displayName != null">
+					 AND cht.display_name = #{historyTask.displayName}
+				</if>
+				<if test="historyTask.performType != null">
+					 AND cht.perform_type = #{historyTask.performType}
+				</if>
+				<if test="historyTask.taskType != null">
+					 AND cht.task_type = #{historyTask.taskType}
+				</if>
+				<if test="historyTask.taskState != null">
+					 AND cht.task_state = #{historyTask.taskState}
+				</if>
+				<if test="historyTask.operator != null">
+					 AND cht.operator = #{historyTask.operator}
+				</if>
+				<if test="historyTask.finishTime != null">
+					 AND cht.finish_time = #{historyTask.finishTime}
+				</if>
+				<if test="historyTask.auditState != null">
+					 AND cht.audit_state = #{historyTask.auditState}
+				</if>
+				<if test="historyTask.remark != null">
+					 AND cht.remark = #{historyTask.remark}
+				</if>
+				<if test="historyTask.orgId != null">
+					 AND cht.org_id = #{historyTask.orgId}
+				</if>
+			</if>
+	        UNION ALL 
+	        SELECT 
+				 cht.id,cht.create_time,cht.update_time,cht.client_id,cht.instance_id,cht.node_id,cht.task_id,cht.parent_task_id,cht.name,cht.display_name,cht.perform_type,cht.task_type,'1',cht.operator,cht.finish_time,'0',null,cht.org_id
+	        FROM cb_task cht LEFT JOIN cb_process_node cpn ON cht.node_id = cpn.node_id 
+	        WHERE cpn.type = '2' AND cht.client_id = cpn.client_id           
+			<if test="historyTask != null">
+				<if test="historyTask.id != null">
+					 AND cht.id = #{historyTask.id}
+				</if>
+				<if test="historyTask.createTime != null">
+					 AND cht.create_time = #{historyTask.createTime}
+				</if>
+				<if test="historyTask.updateTime != null">
+					 AND cht.update_time = #{historyTask.updateTime}
+				</if>
+				<if test="historyTask.clientId != null">
+					 AND cht.client_id = #{historyTask.clientId}
+				</if>
+				<if test="historyTask.instanceId != null">
+					 AND cht.instance_id = #{historyTask.instanceId}
+				</if>
+				<if test="historyTask.nodeId != null">
+					 AND cht.node_id = #{historyTask.nodeId}
+				</if>
+				<if test="historyTask.taskId != null">
+					 AND cht.task_id = #{historyTask.taskId}
+				</if>
+				<if test="historyTask.parentTaskId != null">
+					 AND cht.parent_task_id = #{historyTask.parentTaskId}
+				</if>
+				<if test="historyTask.name != null">
+					 AND cht.name = #{historyTask.name}
+				</if>
+				<if test="historyTask.displayName != null">
+					 AND cht.display_name = #{historyTask.displayName}
+				</if>
+				<if test="historyTask.performType != null">
+					 AND cht.perform_type = #{historyTask.performType}
+				</if>
+				<if test="historyTask.taskType != null">
+					 AND cht.task_type = #{historyTask.taskType}
+				</if>
+				<!-- <if test="historyTask.taskState != null">
+					 AND cht.task_state = #{historyTask.taskState}
+				</if> -->
+				<if test="historyTask.operator != null">
+					 AND cht.operator = #{historyTask.operator}
+				</if>
+				<if test="historyTask.finishTime != null">
+					 AND cht.finish_time = #{historyTask.finishTime}
+				</if>
+				<!-- <if test="historyTask.auditState != null">
+					 AND cht.audit_state = #{historyTask.auditState}
+				</if>
+				<if test="historyTask.remark != null">
+					 AND cht.remark = #{historyTask.remark}
+				</if> -->
+				<if test="historyTask.orgId != null">
+					 AND cht.org_id = #{historyTask.orgId}
+				</if>
+			</if>
+		 ) ct 
+		 ORDER BY ct.create_time  	
+	</select>
+
+	<!-- 分页查询  HistoryTask -->
+	<select id="findByPage" parameterType="java.util.HashMap" resultMap="historyTaskResultMap">
+		SELECT 
+			<include refid="Base_Column_List" />
+        FROM cb_history_task 
+		<if test="historyTask != null">
+			<where>
+				<if test="historyTask.id != null">
+					 AND id = #{historyTask.id}
+				</if>
+				<if test="historyTask.createTime != null">
+					 AND create_time = #{historyTask.createTime}
+				</if>
+				<if test="historyTask.updateTime != null">
+					 AND update_time = #{historyTask.updateTime}
+				</if>
+				<if test="historyTask.clientId != null">
+					 AND client_id = #{historyTask.clientId}
+				</if>
+				<if test="historyTask.instanceId != null">
+					 AND instance_id = #{historyTask.instanceId}
+				</if>
+				<if test="historyTask.nodeId != null">
+					 AND node_id = #{historyTask.nodeId}
+				</if>
+				<if test="historyTask.taskId != null">
+					 AND task_id = #{historyTask.taskId}
+				</if>
+				<if test="historyTask.parentTaskId != null">
+					 AND parent_task_id = #{historyTask.parentTaskId}
+				</if>
+				<if test="historyTask.name != null">
+					 AND name = #{historyTask.name}
+				</if>
+				<if test="historyTask.displayName != null">
+					 AND display_name = #{historyTask.displayName}
+				</if>
+				<if test="historyTask.performType != null">
+					 AND perform_type = #{historyTask.performType}
+				</if>
+				<if test="historyTask.taskType != null">
+					 AND task_type = #{historyTask.taskType}
+				</if>
+				<if test="historyTask.taskState != null">
+					 AND task_state = #{historyTask.taskState}
+				</if>
+				<if test="historyTask.operator != null">
+					 AND operator = #{historyTask.operator}
+				</if>
+				<if test="historyTask.finishTime != null">
+					 AND finish_time = #{historyTask.finishTime}
+				</if>
+				<if test="historyTask.auditState != null">
+					 AND audit_state = #{historyTask.auditState}
+				</if>
+				<if test="historyTask.remark != null">
+					 AND remark = #{historyTask.remark}
+				</if>
+				<if test="historyTask.orgId != null">
+					 AND org_id = #{historyTask.orgId}
+				</if>
+			</where>
+		</if>
+	</select>
+
+
+</mapper>
+

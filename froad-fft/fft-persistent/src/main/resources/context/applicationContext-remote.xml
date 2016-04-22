@@ -1,0 +1,454 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+           http://www.springframework.org/schema/context 
+		   http://www.springframework.org/schema/context/spring-context-3.2.xsd
+		   http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop-3.2.xsd">
+
+    <!-- 设置需要进行Spring注解扫描的类包 -->
+    <context:component-scan base-package="com.froad.fft.persistent.api"/>
+
+    <!-- 使用AspectJ方式配置AOP -->
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
+
+
+    <!-- sysUser 远程服务-->
+    <bean id="sysUserMapperImpl" class="com.froad.fft.persistent.api.impl.SysUserMapperImpl"/>
+    <bean name="/sysUserExportMapper" class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface" value="com.froad.fft.persistent.api.SysUserMapper"/>
+        <property name="service" ref="sysUserMapperImpl"/>
+    </bean>
+
+    <!--客户端  远程服务 -->
+    <bean id="sysClientMapperImpl" class="com.froad.fft.persistent.api.impl.SysClientMapperImpl"/>
+    <bean name="/sysClientExportMapper" class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface" value="com.froad.fft.persistent.api.SysClientMapper"/>
+        <property name="service" ref="sysClientMapperImpl"/>
+    </bean>
+
+    <!--资源 Mapper -->
+    <bean id="sysResourceMapperImpl" class="com.froad.fft.persistent.api.impl.SysResourceMapperImpl"/>
+    <bean name="/sysResourceExportMapper" class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface" value="com.froad.fft.persistent.api.SysResourceMapper"/>
+        <property name="service" ref="sysResourceMapperImpl"/>
+    </bean>
+
+    <!--角色 Mapper -->
+    <bean id="sysRoleMapperImpl" class="com.froad.fft.persistent.api.impl.SysRoleMapperImpl"/>
+    <bean name="/sysRoleExportMapper" class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface" value="com.froad.fft.persistent.api.SysRoleMapper"/>
+        <property name="service" ref="sysRoleMapperImpl"/>
+    </bean>
+
+    <!--角色资源 Mapper -->
+    <bean id="sysRoleResourceMapperImpl" class="com.froad.fft.persistent.api.impl.SysRoleResourceMapperImpl"/>
+    <bean name="/sysRoleResourceExportMapper" class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface" value="com.froad.fft.persistent.api.SysRoleResourceMapper"/>
+        <property name="service" ref="sysRoleResourceMapperImpl"/>
+    </bean>
+
+
+    <!--用户角色 Mapper -->
+    <bean id="sysUserRoleMapperImpl" class="com.froad.fft.persistent.api.impl.SysUserRoleMapperImpl"/>
+    <bean name="/sysUserRoleExportMapper" class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface" value="com.froad.fft.persistent.api.SysUserRoleMapper"/>
+        <property name="service" ref="sysUserRoleMapperImpl"/>
+    </bean>
+
+    <!--资源渠道 Mapper -->
+    <bean id="fundsChannelMapperImpl" class="com.froad.fft.persistent.api.impl.FundsChannelMapperImpl"/>
+    <bean name="/fundsChannelExportMapper" class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface" value="com.froad.fft.persistent.api.FundsChannelMapper"/>
+        <property name="service" ref="fundsChannelMapperImpl"/>
+    </bean>
+
+    <!--会员 Mapper -->
+    <bean id="memberMapperImpl" class="com.froad.fft.persistent.api.impl.MemberMapperImpl"/>
+    <bean name="/memberExportMapper" class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface" value="com.froad.fft.persistent.api.MemberMapper"/>
+        <property name="service" ref="memberMapperImpl"/>
+    </bean>
+
+    <!--地区 Mapper -->
+    <bean id="areaMapperImpl" class="com.froad.fft.persistent.api.impl.AreaMapperImpl"/>
+    <bean name="/areaExportMapper" class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface" value="com.froad.fft.persistent.api.AreaMapper"/>
+        <property name="service" ref="areaMapperImpl"/>
+    </bean>
+
+
+    <!--广告 Mapper -->
+    <bean id="adMapperImpl" class="com.froad.fft.persistent.api.impl.AdMapperImpl"/>
+    <bean name="/adExportMapper" class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface" value="com.froad.fft.persistent.api.AdMapper"/>
+        <property name="service" ref="adMapperImpl"/>
+    </bean>
+
+    <!--广告位 Mapper -->
+    <bean id="adPositionMapperImpl" class="com.froad.fft.persistent.api.impl.AdPositionMapperImpl"/>
+    <bean name="/adPositionExportMapper" class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface" value="com.froad.fft.persistent.api.AdPositionMapper"/>
+        <property name="service" ref="adPositionMapperImpl"/>
+    </bean>
+
+    <!--协议 Mapper -->
+    <bean id="agreementMapperImpl" class="com.froad.fft.persistent.api.impl.AgreementMapperImpl"/>
+    <bean name="/agreementExportMapper" class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface" value="com.froad.fft.persistent.api.AgreementMapper"/>
+        <property name="service" ref="agreementMapperImpl"/>
+    </bean>
+
+    <!--文章分类 Mapper -->
+    <bean id="articleCategoryMapperImpl" class="com.froad.fft.persistent.api.impl.ArticleCategoryMapperImpl"/>
+    <bean name="/articleCategoryExportMapper" class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface" value="com.froad.fft.persistent.api.ArticleCategoryMapper"/>
+        <property name="service" ref="articleCategoryMapperImpl"/>
+    </bean>
+
+
+    <!--文章 Mapper -->
+    <bean id="articleMapperImpl" class="com.froad.fft.persistent.api.impl.ArticleMapperImpl"/>
+    <bean name="/articleExportMapper" class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface" value="com.froad.fft.persistent.api.ArticleMapper"/>
+        <property name="service" ref="articleMapperImpl"/>
+    </bean>
+
+
+    <!--商圈 Mapper -->
+    <bean id="businessCircleMapperImpl" class="com.froad.fft.persistent.api.impl.BusinessCircleMapperImpl"/>
+    <bean name="/businessCircleExportMapper" class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface" value="com.froad.fft.persistent.api.BusinessCircleMapper"/>
+        <property name="service" ref="businessCircleMapperImpl"/>
+    </bean>
+
+
+    <!--友情链接 Mapper -->
+    <bean id="friendLinkMapperImpl" class="com.froad.fft.persistent.api.impl.FriendLinkMapperImpl"/>
+    <bean name="/friendLinkExportMapper" class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface" value="com.froad.fft.persistent.api.FriendLinkMapper"/>
+        <property name="service" ref="friendLinkMapperImpl"/>
+    </bean>
+
+
+    <!--赠送积分规则 Mapper -->
+    <bean id="givePointRuleMapperImpl" class="com.froad.fft.persistent.api.impl.GivePointRuleMapperImpl"/>
+    <bean name="/givePointRuleExportMapper" class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface" value="com.froad.fft.persistent.api.GivePointRuleMapper"/>
+        <property name="service" ref="givePointRuleMapperImpl"/>
+    </bean>
+
+    <!--日志 Mapper -->
+    <bean id="logMapperImpl" class="com.froad.fft.persistent.api.impl.LogMapperImpl"/>
+    <bean name="/logExportMapper" class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface" value="com.froad.fft.persistent.api.LogMapper"/>
+        <property name="service" ref="logMapperImpl"/>
+    </bean>
+
+
+    <!--商户分类 Mapper -->
+    <bean id="merchantCategoryMapperImpl" class="com.froad.fft.persistent.api.impl.MerchantCategoryMapperImpl"/>
+    <bean name="/merchantCategoryExportMapper" class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface" value="com.froad.fft.persistent.api.MerchantCategoryMapper"/>
+        <property name="service" ref="merchantCategoryMapperImpl"/>
+    </bean>
+
+    <!--商户点评 Mapper -->
+    <bean id="merchantCommentMapperImpl" class="com.froad.fft.persistent.api.impl.MerchantCommentMapperImpl"/>
+    <bean name="/merchantCommentExportMapper" class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface" value="com.froad.fft.persistent.api.MerchantCommentMapper"/>
+        <property name="service" ref="merchantCommentMapperImpl"/>
+    </bean>
+
+    <!--商户用户组 Mapper -->
+    <bean id="merchantGroupUserMapperImpl" class="com.froad.fft.persistent.api.impl.MerchantGroupUserMapperImpl"/>
+    <bean name="/merchantGroupUserExportMapper" class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface" value="com.froad.fft.persistent.api.MerchantGroupUserMapper"/>
+        <property name="service" ref="merchantGroupUserMapperImpl"/>
+    </bean>
+
+    <!--商户 Mapper -->
+    <bean id="merchantMapperImpl" class="com.froad.fft.persistent.api.impl.MerchantMapperImpl"/>
+    <bean name="/merchantExportMapper" class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface" value="com.froad.fft.persistent.api.MerchantMapper"/>
+        <property name="service" ref="merchantMapperImpl"/>
+    </bean>
+
+    <!--商户在线申请 Mapper -->
+    <bean id="merchantOnlineApplyMapperImpl" class="com.froad.fft.persistent.api.impl.MerchantOnlineApplyMapperImpl"/>
+    <bean name="/merchantOnlineApplyExportMapper" class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface" value="com.froad.fft.persistent.api.MerchantOnlineApplyMapper"/>
+        <property name="service" ref="merchantOnlineApplyMapperImpl"/>
+    </bean>
+
+    <!--商户门店 Mapper -->
+    <bean id="merchantOutletMapperImpl" class="com.froad.fft.persistent.api.impl.MerchantOutletMapperImpl"/>
+    <bean name="/merchantOutletExportMapper" class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface" value="com.froad.fft.persistent.api.MerchantOutletMapper"/>
+        <property name="service" ref="merchantOutletMapperImpl"/>
+    </bean>
+
+    <!--商户门店 Mapper -->
+    <bean id="merchantOutletTagMapperImpl" class="com.froad.fft.persistent.api.impl.MerchantOutletTagMapperImpl"/>
+    <bean name="/merchantOutletTagExportMapper" class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface" value="com.froad.fft.persistent.api.MerchantOutletTagMapper"/>
+        <property name="service" ref="merchantOutletTagMapperImpl"/>
+    </bean>
+
+    <!--商户相册  Mapper -->
+    <bean id="merchantPhotoMapperImpl" class="com.froad.fft.persistent.api.impl.MerchantPhotoMapperImpl"/>
+    <bean name="/merchantPhotoExportMapper" class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface" value="com.froad.fft.persistent.api.MerchantPhotoMapper"/>
+        <property name="service" ref="merchantPhotoMapperImpl"/>
+    </bean>
+
+    <!--商户优惠活动  Mapper -->
+    <bean id="merchantPreferentialMapperImpl" class="com.froad.fft.persistent.api.impl.MerchantPreferentialMapperImpl"/>
+    <bean name="/merchantPreferentialExportMapper" class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface" value="com.froad.fft.persistent.api.MerchantPreferentialMapper"/>
+        <property name="service" ref="merchantPreferentialMapperImpl"/>
+    </bean>
+
+
+    <!--商户介绍 Mapper -->
+    <bean id="merchantPresentMapperImpl" class="com.froad.fft.persistent.api.impl.MerchantPresentMapperImpl"/>
+    <bean name="/merchantPresentExportMapper" class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface" value="com.froad.fft.persistent.api.MerchantPresentMapper"/>
+        <property name="service" ref="merchantPresentMapperImpl"/>
+    </bean>
+
+
+    <!--导航 Mapper -->
+    <bean id="navigationMapperImpl" class="com.froad.fft.persistent.api.impl.NavigationMapperImpl"/>
+    <bean name="/navigationExportMapper" class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface" value="com.froad.fft.persistent.api.NavigationMapper"/>
+        <property name="service" ref="navigationMapperImpl"/>
+    </bean>
+
+
+    <!--支付 Mapper -->
+    <bean id="payMapperImpl" class="com.froad.fft.persistent.api.impl.PayMapperImpl"/>
+    <bean name="/payExportMapper" class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface" value="com.froad.fft.persistent.api.PayMapper"/>
+        <property name="service" ref="payMapperImpl"/>
+    </bean>
+
+    <!--预售提货点  Mapper -->
+    <bean id="presellDeliveryMapperImpl" class="com.froad.fft.persistent.api.impl.PresellDeliveryMapperImpl"/>
+    <bean name="/presellDeliveryExportMapper" class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface" value="com.froad.fft.persistent.api.PresellDeliveryMapper"/>
+        <property name="service" ref="presellDeliveryMapperImpl"/>
+    </bean>
+
+    <!--商品属性 Mapper -->
+    <bean id="productAttributeMapperImpl" class="com.froad.fft.persistent.api.impl.ProductAttributeMapperImpl"/>
+    <bean name="/productAttributeExportMapper" class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface" value="com.froad.fft.persistent.api.ProductAttributeMapper"/>
+        <property name="service" ref="productAttributeMapperImpl"/>
+    </bean>
+
+    <!--商品属性值 Mapper -->
+    <bean id="productAttributeValueMapperImpl" class="com.froad.fft.persistent.api.impl.ProductAttributeValueMapperImpl"/>
+    <bean name="/productAttributeValueExportMapper" class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface" value="com.froad.fft.persistent.api.ProductAttributeValueMapper"/>
+        <property name="service" ref="productAttributeValueMapperImpl"/>
+    </bean>
+
+    <!--商品分类 Mapper -->
+    <bean id="productCategoryMapperImpl" class="com.froad.fft.persistent.api.impl.ProductCategoryMapperImpl"/>
+    <bean name="/productCategoryExportMapper" class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface" value="com.froad.fft.persistent.api.ProductCategoryMapper"/>
+        <property name="service" ref="productCategoryMapperImpl"/>
+    </bean>
+
+    <!--商品团购 Mapper -->
+    <bean id="productGroupMapperImpl" class="com.froad.fft.persistent.api.impl.ProductGroupMapperImpl"/>
+    <bean name="/productGroupExportMapper" class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface" value="com.froad.fft.persistent.api.ProductGroupMapper"/>
+        <property name="service" ref="productGroupMapperImpl"/>
+    </bean>
+
+
+    <!--商品图片 Mapper -->
+    <bean id="productImageMapperImpl" class="com.froad.fft.persistent.api.impl.ProductImageMapperImpl"/>
+    <bean name="/productImageExportMapper" class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface" value="com.froad.fft.persistent.api.ProductImageMapper"/>
+        <property name="service" ref="productImageMapperImpl"/>
+    </bean>
+
+    <!--商品 Mapper -->
+    <bean id="productMapperImpl" class="com.froad.fft.persistent.api.impl.ProductMapperImpl"/>
+    <bean name="/productExportMapper" class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface" value="com.froad.fft.persistent.api.ProductMapper"/>
+        <property name="service" ref="productMapperImpl"/>
+    </bean>
+
+    <!--商品预售 Mapper -->
+    <bean id="productPresellMapperImpl" class="com.froad.fft.persistent.api.impl.ProductPresellMapperImpl"/>
+    <bean name="/productPresellExportMapper" class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface" value="com.froad.fft.persistent.api.ProductPresellMapper"/>
+        <property name="service" ref="productPresellMapperImpl"/>
+    </bean>
+
+    <!--商品类型 Mapper -->
+    <bean id="productTypeMapperImpl" class="com.froad.fft.persistent.api.impl.ProductTypeMapperImpl"/>
+    <bean name="/productTypeExportMapper" class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface" value="com.froad.fft.persistent.api.ProductTypeMapper"/>
+        <property name="service" ref="productTypeMapperImpl"/>
+    </bean>
+
+
+    <!--短信模板 Mapper -->
+    <bean id="smsContentMapperImpl" class="com.froad.fft.persistent.api.impl.SmsContentMapperImpl"/>
+    <bean name="/smsContentExportMapper" class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface" value="com.froad.fft.persistent.api.SmsContentMapper"/>
+        <property name="service" ref="smsContentMapperImpl"/>
+    </bean>
+
+
+    <!--短信日志 Mapper -->
+    <bean id="smsLogMapperImpl" class="com.froad.fft.persistent.api.impl.SmsLogMapperImpl"/>
+    <bean name="/smsLogExportMapper" class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface" value="com.froad.fft.persistent.api.SmsLogMapper"/>
+        <property name="service" ref="smsLogMapperImpl"/>
+    </bean>
+
+
+    <!--标签 Mapper -->
+    <bean id="tagMapperImpl" class="com.froad.fft.persistent.api.impl.TagMapperImpl"/>
+    <bean name="/tagExportMapper" class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface" value="com.froad.fft.persistent.api.TagMapper"/>
+        <property name="service" ref="tagMapperImpl"/>
+    </bean>
+
+
+    <!--交易详情 Mapper -->
+    <bean id="transDetailsMapperImpl" class="com.froad.fft.persistent.api.impl.TransDetailsMapperImpl"/>
+    <bean name="/transDetailsExportMapper" class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface" value="com.froad.fft.persistent.api.TransDetailsMapper"/>
+        <property name="service" ref="transDetailsMapperImpl"/>
+    </bean>
+
+    <!--交易 Mapper -->
+    <bean id="transMapperImpl" class="com.froad.fft.persistent.api.impl.TransMapperImpl"/>
+    <bean name="/transExportMapper" class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface" value="com.froad.fft.persistent.api.TransMapper"/>
+        <property name="service" ref="transMapperImpl"/>
+    </bean>
+
+    <!--交易验证券 Mapper -->
+    <bean id="transSecurityTicketMapperImpl" class="com.froad.fft.persistent.api.impl.TransSecurityTicketMapperImpl"/>
+    <bean name="/transSecurityTicketExportMapper" class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface" value="com.froad.fft.persistent.api.TransSecurityTicketMapper"/>
+        <property name="service" ref="transSecurityTicketMapperImpl"/>
+    </bean>
+
+    <!--商户账户 Mapper -->
+    <bean id="merchantAccountMapperImpl" class="com.froad.fft.persistent.api.impl.MerchantAccountMapperImpl"/>
+    <bean name="/merchantAccountExportMapper" class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface" value="com.froad.fft.persistent.api.MerchantAccountMapper"/>
+        <property name="service" ref="merchantAccountMapperImpl"/>
+    </bean>
+    
+    <!--客户端和资金渠道中间实体 Mapper -->
+    <bean id="clientChannelMapperImpl" class="com.froad.fft.persistent.api.impl.ClientChannelMapperImpl"/>
+    <bean name="/clientChannelExportMapper" class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface" value="com.froad.fft.persistent.api.ClientChannelMapper"/>
+        <property name="service" ref="clientChannelMapperImpl"/>
+    </bean>
+
+    <!--送分规则 Mapper -->
+    <bean id="presentPointsRuleMapperImpl" class="com.froad.fft.persistent.api.impl.PresentPointsRuleMapperImpl"/>
+    <bean name="/presentPointsRuleExportMapper" class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface" value="com.froad.fft.persistent.api.PresentPointsRuleMapper"/>
+        <property name="service" ref="presentPointsRuleMapperImpl"/>
+    </bean>
+
+    <!--提现规则 Mapper -->
+    <bean id="withdrawPointsRuleMapperImpl" class="com.froad.fft.persistent.api.impl.WithdrawPointsRuleMapperImpl"/>
+    <bean name="/withdrawPointsRuleExportMapper" class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface" value="com.froad.fft.persistent.api.WithdrawPointsRuleMapper"/>
+        <property name="service" ref="withdrawPointsRuleMapperImpl"/>
+    </bean>
+
+    <!--退款 Mapper -->
+    <bean id="refundsMapperImpl" class="com.froad.fft.persistent.api.impl.RefundsMapperImpl"/>
+    <bean name="/refundsExportMapper" class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface" value="com.froad.fft.persistent.api.RefundsMapper"/>
+        <property name="service" ref="refundsMapperImpl"/>
+    </bean>
+
+    <!--库存 Mapper -->
+    <bean id="stockPileMapperImpl" class="com.froad.fft.persistent.api.impl.StockPileMapperImpl"/>
+    <bean name="/stockPileExportMapper" class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface" value="com.froad.fft.persistent.api.StockPileMapper"/>
+        <property name="service" ref="stockPileMapperImpl"/>
+    </bean>
+
+    <!--库存日志 Mapper -->
+    <bean id="stockPileLogMapperImpl" class="com.froad.fft.persistent.api.impl.StockPileLogMapperImpl"/>
+    <bean name="/stockPileLogExportMapper" class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface" value="com.froad.fft.persistent.api.StockPileLogMapper"/>
+        <property name="service" ref="stockPileLogMapperImpl"/>
+    </bean>
+
+    <!--门店提货点关联  Mapper -->
+    <bean id="outletPresellDeliveryMapperImpl" class="com.froad.fft.persistent.api.impl.OutletPresellDeliveryMapperImpl"/>
+    <bean name="/outletPresellDeliveryExportMapper" class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface" value="com.froad.fft.persistent.api.OutletPresellDeliveryMapper"/>
+        <property name="service" ref="outletPresellDeliveryMapperImpl"/>
+    </bean>
+
+    <!--现金和积分的比例  Mapper -->
+    <bean id="cashPointsRatioMapperImpl" class="com.froad.fft.persistent.api.impl.CashPointsRatioMapperImpl"/>
+    <bean name="/cashPointsRatioExportMapper" class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface" value="com.froad.fft.persistent.api.CashPointsRatioMapper"/>
+        <property name="service" ref="cashPointsRatioMapperImpl"/>
+    </bean>
+
+    <!--退/换明细  Mapper -->
+    <bean id="returnSaleDetailMapperImpl" class="com.froad.fft.persistent.api.impl.ReturnSaleDetailMapperImpl"/>
+    <bean name="/returnSaleDetailExportMapper" class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface" value="com.froad.fft.persistent.api.ReturnSaleDetailMapper"/>
+        <property name="service" ref="returnSaleDetailMapperImpl"/>
+    </bean>
+
+    <!--退/换  Mapper -->
+    <bean id="returnSaleMapperImpl" class="com.froad.fft.persistent.api.impl.ReturnSaleMapperImpl"/>
+    <bean name="/returnSaleExportMapper" class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface" value="com.froad.fft.persistent.api.ReturnSaleMapper"/>
+        <property name="service" ref="returnSaleMapperImpl"/>
+    </bean>
+
+    <!--预售商品和提货点Id  Mapper -->
+    <bean id="productPresellDeliveryMapperImpl" class="com.froad.fft.persistent.api.impl.ProductPresellDeliveryMapperImpl"/>
+    <bean name="/productPresellDeliveryExportMapper" class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface" value="com.froad.fft.persistent.api.ProductPresellDeliveryMapper"/>
+        <property name="service" ref="productPresellDeliveryMapperImpl"/>
+    </bean>
+
+    <!--限购规则-->
+    <bean id="productRestrictRuleMapperImpl" class="com.froad.fft.persistent.api.impl.ProductRestrictRuleMapperImpl"/>
+    <bean name="/productRestrictRuleExportMapper" class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface" value="com.froad.fft.persistent.api.ProductRestrictRuleMapper"/>
+        <property name="service" ref="productRestrictRuleMapperImpl"/>
+    </bean>
+
+    <!--送积分规则-->
+      <bean id="registerGivePointRuleMapperImpl" class="com.froad.fft.persistent.api.impl.RegisterGivePointRuleMapperImpl"/>
+      <bean name="/registerGivePointRuleExportMapper" class="org.springframework.remoting.caucho.HessianServiceExporter">
+          <property name="serviceInterface" value="com.froad.fft.persistent.api.RegisterGivePointRuleMapper"/>
+          <property name="service" ref="registerGivePointRuleMapperImpl"/>
+      </bean>
+
+    <!--交易统计-->
+        <bean id="transStatisticMapperImpl" class="com.froad.fft.persistent.api.impl.TransStatisticMapperImpl"/>
+        <bean name="/transStatisticExportMapper" class="org.springframework.remoting.caucho.HessianServiceExporter">
+            <property name="serviceInterface" value="com.froad.fft.persistent.api.TransStatisticMapper"/>
+            <property name="service" ref="transStatisticMapperImpl"/>
+        </bean>
+</beans>

@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.froad.db.mysql.rp_mappers.DataSuborderMapper">
+	<resultMap id="BaseResultMap" type="DataSuborder">
+		<result column="id" property="id" jdbcType="BIGINT" />
+		<result column="report_date" property="reportDate" jdbcType="INTEGER" />
+		<result column="report_beg_date" property="reportBegDate"
+			jdbcType="TIMESTAMP" />
+		<result column="report_end_date" property="reportEndDate"
+			jdbcType="TIMESTAMP" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="order_flag" property="orderFlag" jdbcType="CHAR" />
+		<result column="order_status" property="orderStatus" jdbcType="CHAR" />
+		<result column="order_type" property="orderType" jdbcType="CHAR" />
+		<result column="order_time" property="orderTime" jdbcType="TIMESTAMP" />
+		<result column="client_id" property="clientId" jdbcType="VARCHAR" />
+		<result column="org_code1" property="orgCode1" jdbcType="VARCHAR" />
+		<result column="org_name1" property="orgName1" jdbcType="VARCHAR" />
+		<result column="org_code2" property="orgCode2" jdbcType="VARCHAR" />
+		<result column="org_name2" property="orgName2" jdbcType="VARCHAR" />
+		<result column="org_code3" property="orgCode3" jdbcType="VARCHAR" />
+		<result column="org_name3" property="orgName3" jdbcType="VARCHAR" />
+		<result column="order_id" property="orderId" jdbcType="VARCHAR" />
+		<result column="sub_order_id" property="subOrderId" jdbcType="VARCHAR" />
+		<result column="member_code" property="memberCode" jdbcType="BIGINT" />
+		<result column="member_name" property="memberName" jdbcType="VARCHAR" />
+		<result column="merchant_id" property="merchantId" jdbcType="VARCHAR" />
+		<result column="merchant_name" property="merchantName"
+			jdbcType="VARCHAR" />
+		<result column="merchant_status" property="merchantStatus" jdbcType="CHAR" />
+		<result column="merchant_category_ids" property="merchantCategoryId"
+			jdbcType="VARCHAR" />
+		<result column="merchant_category_names" property="merchantCategoryName"
+			jdbcType="VARCHAR" />
+		<result column="product_id" property="productId" jdbcType="VARCHAR" />
+		<result column="product_name" property="productName" jdbcType="VARCHAR" />
+		<result column="product_type" property="productType" jdbcType="CHAR" />
+		<result column="price" property="price" jdbcType="INTEGER" />
+		<result column="quantity" property="quantity" jdbcType="INTEGER" />
+		<result column="vip_price" property="vipPrice" jdbcType="INTEGER" />
+		<result column="vip_quantity" property="vipQuantity" jdbcType="INTEGER" />
+		<result column="delivery_money" property="deliveryMoney"
+			jdbcType="INTEGER" />
+		<result column="total_amount" property="totalAmount" jdbcType="INTEGER" />
+	</resultMap>
+	
+	<resultMap id="ReportBossOrgSaleReulstMap" type="ReportBossOrgSale">
+		<result property="totalSoldCount" column="total_sold_count" />
+		<result property="totalSoldAmount" column="total_sold_amount" />
+	</resultMap>
+	
+	<resultMap id="ReportBossMerchantCategorySaleReulstMap" type="ReportBossMerchantCategorySale">
+		<result property="totalSoldCount" column="total_sold_count" />
+		<result property="totalSoldAmount" column="total_sold_amount" />
+	</resultMap>
+	
+	<insert id="addByBatch">
+		INSERT INTO cb_data_suborder(
+		report_date,
+		report_beg_date,
+		report_end_date,
+		create_time,
+		order_flag,
+		order_status,
+		order_type,
+		order_time,
+		client_id,
+		org_code1,
+		org_name1,
+		org_code2,
+		org_name2,
+		org_code3,
+		org_name3,
+		order_id,
+		sub_order_id,
+		member_code,
+		member_name,
+		merchant_id,
+		merchant_name,
+		merchant_status,
+		merchant_category_ids,
+		merchant_category_names,
+		product_id,
+		product_name,
+		product_type,
+		price,
+		quantity,
+		vip_price,
+		vip_quantity,
+		delivery_money,
+		total_amount
+		) VALUES
+		<foreach collection="orders" item="item" index="index" separator=",">
+			(
+			#{item.reportDate,jdbcType=INTEGER},
+			#{item.reportBegDate,jdbcType=TIMESTAMP},
+			#{item.reportEndDate,jdbcType=TIMESTAMP},
+			#{item.createTime,jdbcType=TIMESTAMP},
+			#{item.orderFlag,jdbcType=CHAR},
+			#{item.orderStatus,jdbcType=CHAR},
+			#{item.orderType,jdbcType=CHAR},
+			#{item.orderTime,jdbcType=TIMESTAMP},
+			#{item.clientId,jdbcType=VARCHAR},
+			#{item.orgCode1,jdbcType=VARCHAR},
+			#{item.orgName1,jdbcType=VARCHAR},
+			#{item.orgCode2,jdbcType=VARCHAR},
+			#{item.orgName2,jdbcType=VARCHAR},
+			#{item.orgCode3,jdbcType=VARCHAR},
+			#{item.orgName3,jdbcType=VARCHAR},
+			#{item.orderId,jdbcType=VARCHAR},
+			#{item.subOrderId,jdbcType=VARCHAR},
+			#{item.memberCode,jdbcType=BIGINT},
+			#{item.memberName,jdbcType=VARCHAR},
+			#{item.merchantId,jdbcType=VARCHAR},
+			#{item.merchantName,jdbcType=VARCHAR},
+			#{item.merchantStatus,jdbcType=CHAR},
+			#{item.merchantCategoryIds,jdbcType=VARCHAR},
+			#{item.merchantCategoryNames,jdbcType=VARCHAR},
+			#{item.productId,jdbcType=VARCHAR}, 
+			#{item.productName,jdbcType=VARCHAR},
+			#{item.productType,jdbcType=CHAR},
+			#{item.price,jdbcType=INTEGER},
+			#{item.quantity,jdbcType=INTEGER}, 
+			#{item.vipPrice,jdbcType=INTEGER},
+			#{item.vipQuantity,jdbcType=INTEGER}, 
+			#{item.deliveryMoney,jdbcType=INTEGER},
+			#{item.totalAmount,jdbcType=INTEGER}
+			)
+		</foreach>
+	</insert>
+
+	<delete id="deleteHistoryData" parameterType="java.lang.Integer">
+		DELETE FROM cb_data_suborder WHERE report_date = #{reportDate}
+	</delete>
+	
+	<select id="sumOrgSaleDataByOrg" resultMap="ReportBossOrgSaleReulstMap">
+		SELECT 
+			SUM(t.quantity + t.vip_quantity) total_sold_count,
+			SUM(t.total_amount) total_sold_amount 
+		FROM cb_data_suborder t 
+		<where>
+			t.report_date = #{reportDate}
+			<if test="clientId != null and clientId != ''">
+				<![CDATA[
+				AND t.client_id = #{clientId}
+				]]>
+			</if>
+			<if test="orderType != null and orderType != ''">
+				<![CDATA[
+				AND t.order_type = #{orderType}
+				]]>
+			</if>
+			<if test="orgCode2 != null and orgCode2 != ''">
+				<![CDATA[
+				AND t.org_code2 = #{orgCode2}
+				]]>
+			</if>
+			<if test="begin != null">
+				<![CDATA[
+					AND t.order_time > #{begin}
+				]]>
+			</if>
+			<if test="end != null">
+				<![CDATA[
+	        		AND t.order_time <= #{end}
+	        	]]>
+			</if>
+			
+			<![CDATA[
+			AND t.order_status = '12' 
+			]]>
+		</where>
+	</select>
+	
+	<select id="sumOrgSaleDataByMerchantCategory" resultMap="ReportBossMerchantCategorySaleReulstMap">
+		SELECT 
+			SUM(t.quantity + t.vip_quantity) total_sold_count,
+			SUM(t.total_amount) total_sold_amount 
+		FROM cb_data_suborder t 
+		<where>
+			t.report_date = #{reportDate}
+			<if test="clientId != null and clientId != ''">
+				<![CDATA[
+				AND t.client_id = #{clientId}
+				]]>
+			</if>
+			<if test="merchantCategoryIds != null and merchantCategoryIds != ''">
+				AND t.merchant_category_ids LIKE CONCAT('%', #{merchantCategoryIds}, '%')
+			</if>
+			<if test="end != null">
+				<![CDATA[
+	        		AND t.order_time <= #{end}
+	        	]]>
+			</if>
+			
+			<![CDATA[
+			AND t.order_status = '12' AND (t.order_type = '1' OR t.order_type = '0') 
+			]]>
+		</where>
+	</select>
+	
+</mapper>

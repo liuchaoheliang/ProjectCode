@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.fft.persistent.api.SmsLogMapper">
+
+    <resultMap type="SmsLog" id="smsLogResultMap">
+        <id property="id" column="id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+
+        <result property="smsType" column="sms_type" typeHandler="com.froad.fft.persistent.extend.EnumTypeHandler"/>
+        <result property="clientId" column="client_id"/>
+        <result property="mobile" column="mobile"/>
+        <result property="content" column="content"/>
+        <result property="isSuccess" column="is_success"/>
+        <result property="sendUser" column="send_user"/>
+        <result property="sendIp" column="send_ip"/>
+    </resultMap>
+
+    <!-- 插入 -->
+    <insert id="saveSmsLog" parameterType="SmsLog" useGeneratedKeys="true" keyProperty="id">
+		insert into fft_sms_log values
+		(
+			#{id},#{createTime},#{updateTime},#{smsType,typeHandler=com.froad.fft.persistent.extend.EnumTypeHandler},
+			#{clientId},#{mobile},#{content},#{isSuccess},#{sendUser},#{sendIp}
+		)
+	</insert>
+
+    <update id="updateSmsLog">
+		update fft_sms_log set is_success = #{isSuccess} where id = #{id}
+	</update>
+
+    <!-- 查询 -->
+    <select id="selectSmsLogById" parameterType="java.lang.Long" resultMap="smsLogResultMap">
+   		select * from fft_sms_log where id = #{id}
+   	</select>
+
+    <select id="selectSmsLogByPage" parameterType="com.froad.fft.persistent.bean.page.Page" resultMap="smsLogResultMap">
+        select * from fft_sms_log
+        <if test="pageFilter != null">
+            <where>
+                <if test="pageFilter.filterEntity != null">
+                    <if test="pageFilter.filterEntity.id!= null">
+                        and id = #{pageFilter.filterEntity.id}
+                    </if>
+                    <if test="pageFilter.filterEntity.smsType!= null">
+                        and sms_type = #{pageFilter.filterEntity.smsType,typeHandler=com.froad.fft.persistent.extend.EnumTypeHandler}
+                    </if>
+                    <if test="pageFilter.filterEntity.mobile!= null">
+                        and mobile like '%${pageFilter.filterEntity.mobile}%'
+                    </if>
+                    <if test="pageFilter.filterEntity.isSuccess!= null">
+                        and is_success = #{pageFilter.filterEntity.isSuccess}
+                    </if>
+                    <if test="pageFilter.filterEntity.clientId!= null">
+                        and client_id = #{pageFilter.filterEntity.clientId}
+                    </if>
+                </if>
+
+                <!-- 时间段条件 -->
+                <if test="pageFilter.property != null and pageFilter.startTime != null">
+                    <![CDATA[
+      					 and ${pageFilter.property} >= #{pageFilter.startTime}
+      					]]>
+                </if>
+                <if test="pageFilter.property != null and pageFilter.endTime != null">
+                    <![CDATA[
+      					 and ${pageFilter.property} <= #{pageFilter.endTime}
+      					]]>
+                </if>
+            </where>
+        </if>
+        <!-- 排序 -->
+        <if test="order != null">
+            <if test="order.property != null and order.direction != null">
+                order by ${order.property} ${order.direction}
+            </if>
+        </if>
+    </select>
+
+    <select id="selectSmsLogByPageCount" parameterType="com.froad.fft.persistent.bean.page.Page" resultType="java.lang.Integer">
+        select count(*) from fft_sms_log
+        <if test="pageFilter != null">
+            <where>
+                <if test="pageFilter.filterEntity != null">
+                    <if test="pageFilter.filterEntity.id!= null">
+                        and id = #{pageFilter.filterEntity.id}
+                    </if>
+                    <if test="pageFilter.filterEntity.smsType!= null">
+                        and sms_type = #{pageFilter.filterEntity.smsType,typeHandler=com.froad.fft.persistent.extend.EnumTypeHandler}
+                    </if>
+                    <if test="pageFilter.filterEntity.mobile!= null">
+                        and mobile like '%${pageFilter.filterEntity.mobile}%'
+                    </if>
+                    <if test="pageFilter.filterEntity.isSuccess!= null">
+                        and is_success = #{pageFilter.filterEntity.isSuccess}
+                    </if>
+                    <if test="pageFilter.filterEntity.clientId!= null">
+                        and client_id = #{pageFilter.filterEntity.clientId}
+                    </if>
+                </if>
+
+                <!-- 时间段条件 -->
+                <if test="pageFilter.property != null and pageFilter.startTime != null">
+                    <![CDATA[
+      					 and ${pageFilter.property} >= #{pageFilter.startTime}
+      					]]>
+                </if>
+                <if test="pageFilter.property != null and pageFilter.endTime != null">
+                    <![CDATA[
+      					 and ${pageFilter.property} <= #{pageFilter.endTime}
+      					]]>
+                </if>
+            </where>
+        </if>
+    </select>
+
+
+</mapper>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.chonggou.mappers.DeliveryCorpMapperCG">
+
+	<resultMap type="DeliveryCorpCG" id="deliveryCorpResultMap">
+		<id property="id" column="id" />
+		<result property="clientId" column="client_id" />
+		<result property="name" column="name" />
+		<result property="url" column="url" />
+		<result property="orderValue" column="order_value" />
+		<result property="isEnable" column="is_enable" />
+	</resultMap>
+
+
+	<!-- 添加  DeliveryCorp -->
+	<insert id="addDeliveryCorp" parameterType="DeliveryCorpCG" useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[
+			INSERT INTO cb_delivery_corp (
+				client_id,name,url,order_value,is_enable
+			) VALUES (
+				#{clientId},#{name},#{url},#{orderValue},#{isEnable}
+			) 
+		]]>
+	</insert>
+
+
+	<!-- 查询  DeliveryCorp -->
+	<select id="findDeliveryCorp" parameterType="DeliveryCorpCG" resultMap="deliveryCorpResultMap">
+		SELECT 
+            id,client_id,name,url,order_value,is_enable 
+        FROM cb_delivery_corp 
+		<where>
+			<if test="id != null">
+				 AND id = #{id}
+			</if>
+			<if test="clientId != null">
+				 AND client_id = #{clientId}
+			</if>
+			<if test="name != null">
+				 AND name = #{name}
+			</if>
+			<if test="url != null">
+				 AND url = #{url}
+			</if>
+			<if test="orderValue != null">
+				 AND order_value = #{orderValue}
+			</if>
+			<if test="isEnable != null">
+				 AND is_enable = #{isEnable}
+			</if>
+		</where>
+	</select>
+
+	
+</mapper>
+

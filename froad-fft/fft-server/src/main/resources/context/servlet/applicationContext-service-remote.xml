@@ -1,0 +1,523 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+           http://www.springframework.org/schema/context 
+		   http://www.springframework.org/schema/context/spring-context-3.2.xsd
+		   http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop-3.2.xsd">
+
+    <!-- 设置需要进行Spring注解扫描的类包 -->
+    <context:component-scan base-package="com.froad.fft.api"/>
+
+    <!-- 使用AspectJ方式配置AOP -->
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
+
+
+    <!-- sysUser 远程服务-->
+    <bean id="sysUserExportService" class="com.froad.fft.api.service.impl.SysUserExportServiceImpl"/>
+    <bean name="/sysUserExportService"
+          class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface"
+                  value="com.froad.fft.api.service.SysUserExportService"/>
+        <property name="service" ref="sysUserExportService"/>
+    </bean>
+
+    <!-- sysRole 远程服务-->
+    <bean id="sysRoleExportService" class="com.froad.fft.api.service.impl.SysRoleExportServiceImpl"/>
+    <bean name="/sysRoleExportService"
+          class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface"
+                  value="com.froad.fft.api.service.SysRoleExportService"/>
+        <property name="service" ref="sysRoleExportService"/>
+    </bean>
+
+    <!-- sysUserRole 远程服务 -->
+    <bean id="sysUserRoleExportService" class="com.froad.fft.api.service.impl.SysUserRoleExportServiceImpl"/>
+    <bean name="/sysUserRoleExportService"
+          class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface"
+                  value="com.froad.fft.api.service.SysUserRoleExportService"/>
+        <property name="service" ref="sysUserRoleExportService"/>
+    </bean>
+
+    <!-- sysRoleResource 远程服务 -->
+    <bean id="sysRoleResourceExportService" class="com.froad.fft.api.service.impl.SysRoleResourceExportServiceImpl"/>
+    <bean name="/sysRoleResourceExportService"
+          class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface"
+                  value="com.froad.fft.api.service.SysRoleResourceExportService"/>
+        <property name="service" ref="sysRoleResourceExportService"/>
+    </bean>
+
+    <!-- sysResource 远程服务-->
+    <bean id="sysResourceExportService" class="com.froad.fft.api.service.impl.SysResourceExportServiceImpl"/>
+    <bean name="/sysResourceExportService"
+          class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface"
+                  value="com.froad.fft.api.service.SysResourceExportService"/>
+        <property name="service" ref="sysResourceExportService"/>
+    </bean>
+
+    <!-- 商户 远程服务 -->
+    <bean id="merchantExportService" class="com.froad.fft.api.service.impl.MerchantExportServiceImpl"/>
+    <bean name="/merchantExportService"
+          class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface"
+                  value="com.froad.fft.api.service.MerchantExportService"/>
+        <property name="service" ref="merchantExportService"/>
+    </bean>
+
+    <!--商户分类 远程服务 -->
+    <bean id="merchantCategoryExportService" class="com.froad.fft.api.service.impl.MerchantCategoryExportServiceImpl"/>
+    <bean name="/merchantCategoryExportService"
+          class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface"
+                  value="com.froad.fft.api.service.MerchantCategoryExportService"/>
+        <property name="service" ref="merchantCategoryExportService"/>
+    </bean>
+
+    <!--商户门店 远程服务 -->
+    <bean id="merchantOutletExportService" class="com.froad.fft.api.service.impl.MerchantOutletExportServiceImpl"/>
+    <bean name="/merchantOutletExportService"
+          class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface"
+                  value="com.froad.fft.api.service.MerchantOutletExportService"/>
+        <property name="service" ref="merchantOutletExportService"/>
+    </bean>
+
+    <!--商户相册 远程服务 -->
+    <bean id="merchantPhotoExportService" class="com.froad.fft.api.service.impl.MerchantPhotoExportServiceImpl"/>
+    <bean name="/merchantPhotoExportService"
+          class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface"
+                  value="com.froad.fft.api.service.MerchantPhotoExportService"/>
+        <property name="service" ref="merchantPhotoExportService"/>
+    </bean>
+
+    <!--商户优惠活动 远程服务 -->
+    <bean id="merchantPreferentialExportService" class="com.froad.fft.api.service.impl.MerchantPreferentialExportServiceImpl"/>
+    <bean name="/merchantPreferentialExportService"
+          class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface"
+                  value="com.froad.fft.api.service.MerchantPreferentialExportService"/>
+        <property name="service" ref="merchantPreferentialExportService"/>
+    </bean>
+
+    <!--商户介绍 远程服务 -->
+    <bean id="merchantPresentExportService" class="com.froad.fft.api.service.impl.MerchantPresentExportServiceImpl"/>
+    <bean name="/merchantPresentExportService"
+          class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface"
+                  value="com.froad.fft.api.service.MerchantPresentExportService"/>
+        <property name="service" ref="merchantPresentExportService"/>
+    </bean>
+
+    <!--商品  远程服务 -->
+    <bean id="productExportService" class="com.froad.fft.api.service.impl.ProductExportServiceImpl"/>
+    <bean name="/productExportService"
+          class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface"
+                  value="com.froad.fft.api.service.ProductExportService"/>
+        <property name="service" ref="productExportService"/>
+    </bean>
+
+    <!--商品图片 远程服务 -->
+    <bean id="productImageExportService" class="com.froad.fft.api.service.impl.ProductImageExportServiceImpl"/>
+    <bean name="/productImageExportService"
+          class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface"
+                  value="com.froad.fft.api.service.ProductImageExportService"/>
+        <property name="service" ref="productImageExportService"/>
+    </bean>
+
+    <!--商品分类 远程服务 -->
+    <bean id="productCategoryExportService" class="com.froad.fft.api.service.impl.ProductCategoryExportServiceImpl"/>
+    <bean name="/productCategoryExportService"
+          class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface"
+                  value="com.froad.fft.api.service.ProductCategoryExportService"/>
+        <property name="service" ref="productCategoryExportService"/>
+    </bean>
+
+    <!--商品属性 远程服务 -->
+    <bean id="productAttributeExportService" class="com.froad.fft.api.service.impl.ProductAttributeExportServiceImpl"/>
+    <bean name="/productAttributeExportService"
+          class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface"
+                  value="com.froad.fft.api.service.ProductAttributeExportService"/>
+        <property name="service" ref="productAttributeExportService"/>
+    </bean>
+
+    <!--商品类型 远程服务 -->
+    <bean id="productTypeExportService" class="com.froad.fft.api.service.impl.ProductTypeExportServiceImpl"/>
+    <bean name="/productTypeExportService"
+          class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface"
+                  value="com.froad.fft.api.service.ProductTypeExportService"/>
+        <property name="service" ref="productTypeExportService"/>
+    </bean>
+
+    <!--广告 远程服务 -->
+    <bean id="adExportService" class="com.froad.fft.api.service.impl.AdExportServiceImpl"/>
+    <bean name="/adExportService"
+          class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface"
+                  value="com.froad.fft.api.service.AdExportService"/>
+        <property name="service" ref="adExportService"/>
+    </bean>
+
+    <!--广告位 远程服务 -->
+    <bean id="adPositionExportService" class="com.froad.fft.api.service.impl.AdPositionExportServiceImpl"/>
+    <bean name="/adPositionExportService"
+          class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface"
+                  value="com.froad.fft.api.service.AdPositionExportService"/>
+        <property name="service" ref="adPositionExportService"/>
+    </bean>
+
+    <!--协议 远程服务 -->
+    <bean id="agreementExportService" class="com.froad.fft.api.service.impl.AgreementExportServiceImpl"/>
+    <bean name="/agreementExportService"
+          class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface"
+                  value="com.froad.fft.api.service.AgreementExportService"/>
+        <property name="service" ref="agreementExportService"/>
+    </bean>
+
+    <!--文章分类 远程服务 -->
+    <bean id="articleCategoryExportService" class="com.froad.fft.api.service.impl.ArticleCategoryExportServiceImpl"/>
+    <bean name="/articleCategoryExportService"
+          class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface"
+                  value="com.froad.fft.api.service.ArticleCategoryExportService"/>
+        <property name="service" ref="articleCategoryExportService"/>
+    </bean>
+
+    <!--文章 远程服务 -->
+    <bean id="articleExportService" class="com.froad.fft.api.service.impl.ArticleExportServiceImpl"/>
+    <bean name="/articleExportService"
+          class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface"
+                  value="com.froad.fft.api.service.ArticleExportService"/>
+        <property name="service" ref="articleExportService"/>
+    </bean>
+
+    <!--友情链接 远程服务 -->
+    <bean id="friendLinkExportService" class="com.froad.fft.api.service.impl.FriendLinkExportServiceImpl"/>
+    <bean name="/friendLinkExportService"
+          class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface"
+                  value="com.froad.fft.api.service.FriendLinkExportService"/>
+        <property name="service" ref="friendLinkExportService"/>
+    </bean>
+
+    <!--日志 远程服务 -->
+    <bean id="logExportService" class="com.froad.fft.api.service.impl.LogExportServiceImpl"/>
+    <bean name="/logExportService"
+          class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface"
+                  value="com.froad.fft.api.service.LogExportService"/>
+        <property name="service" ref="logExportService"/>
+    </bean>
+
+    <!--卖家资金渠道 远程服务 -->
+    <bean id="sellerChannelExportService" class="com.froad.fft.api.service.impl.SellerChannelExportServiceImpl"/>
+    <bean name="/sellerChannelExportService"
+          class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface"
+                  value="com.froad.fft.api.service.SellerChannelExportService"/>
+        <property name="service" ref="sellerChannelExportService"/>
+    </bean>
+
+    <!--卖家规则 远程服务 -->
+    <bean id="sellerRuleExportService" class="com.froad.fft.api.service.impl.SellerRuleExportServiceImpl"/>
+    <bean name="/sellerRuleExportService"
+          class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface"
+                  value="com.froad.fft.api.service.SellerRuleExportService"/>
+        <property name="service" ref="sellerRuleExportService"/>
+    </bean>
+
+    <!--卖家 远程服务 -->
+    <bean id="sellerExportService" class="com.froad.fft.api.service.impl.SellerExportServiceImpl"/>
+    <bean name="/sellerExportService"
+          class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface"
+                  value="com.froad.fft.api.service.SellerExportService"/>
+        <property name="service" ref="sellerExportService"/>
+    </bean>
+
+    <!--短信模板 远程服务 -->
+    <bean id="smsContentService" class="com.froad.fft.api.service.impl.SmsContentExportServiceImpl"/>
+    <bean name="/smsContentService"
+          class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface"
+                  value="com.froad.fft.api.service.SmsContentExportService"/>
+        <property name="service" ref="smsContentService"/>
+    </bean>
+
+    <!--短信日志 远程服务 -->
+    <bean id="smsLogExportService" class="com.froad.fft.api.service.impl.SmsLogExportServiceImpl"/>
+    <bean name="/smsLogExportService"
+          class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface"
+                  value="com.froad.fft.api.service.SmsLogExportService"/>
+        <property name="service" ref="smsLogExportService"/>
+    </bean>
+
+    <!--系统配置 远程服务 -->
+    <bean id="systemConfigExportService" class="com.froad.fft.api.service.impl.SystemConfigExportServiceImpl"/>
+    <bean name="/systemConfigExportService"
+          class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface"
+                  value="com.froad.fft.api.service.SystemConfigExportService"/>
+        <property name="service" ref="systemConfigExportService"/>
+    </bean>
+
+    <!--地区 远程服务 -->
+    <bean id="areaExportService" class="com.froad.fft.api.service.impl.AreaExportServiceImpl"/>
+    <bean name="/areaExportService"
+          class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface"
+                  value="com.froad.fft.api.service.AreaExportService"/>
+        <property name="service" ref="areaExportService"/>
+    </bean>
+
+    <!--缓存 远程服务 -->
+    <bean id="cacheExportService" class="com.froad.fft.api.service.impl.CacheExportServiceImpl"/>
+    <bean name="/cacheExportService"
+          class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface"
+                  value="com.froad.fft.api.service.CacheExportService"/>
+        <property name="service" ref="cacheExportService"/>
+    </bean>
+
+    <!--文件上传 远程服务 -->
+    <bean id="fileExportService" class="com.froad.fft.api.service.impl.FileExportServiceImpl"/>
+    <bean name="/fileExportService"
+          class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface"
+                  value="com.froad.fft.api.service.FileExportService"/>
+        <property name="service" ref="fileExportService"/>
+    </bean>
+
+    <!--商圈 远程服务 add by houguoquan_Aides -->
+    <bean id="businessCircleExportService" class="com.froad.fft.api.service.impl.BusinessCircleExportServiceImpl"/>
+    <bean name="/businessCircleExportService"
+          class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface"
+                  value="com.froad.fft.api.service.BusinessCircleExportService"/>
+        <property name="service" ref="businessCircleExportService"/>
+    </bean>
+
+    <!--送积分 远程服务 add by houguoquan_Aides -->
+    <bean id="givePointRuleExportService" class="com.froad.fft.api.service.impl.GivePointRuleExportServiceImpl"/>
+    <bean name="/givePointRuleExportService"
+          class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface"
+                  value="com.froad.fft.api.service.GivePointRuleExportService"/>
+        <property name="service" ref="givePointRuleExportService"/>
+    </bean>
+
+    <!--商户用户组 远程服务 add by houguoquan_Aides -->
+    <bean id="merchantGroupUserExportService" class="com.froad.fft.api.service.impl.MerchantGroupUserExportServiceImpl"/>
+    <bean name="/merchantGroupUserExportService"
+          class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface"
+                  value="com.froad.fft.api.service.MerchantGroupUserExportService"/>
+        <property name="service" ref="merchantGroupUserExportService"/>
+    </bean>
+
+    <!--预售自提点 远程服务 add by houguoquan_Aides -->
+    <bean id="presellDeliveryExportService" class="com.froad.fft.api.service.impl.PresellDeliveryExportServiceImpl"/>
+    <bean name="/presellDeliveryExportService"
+          class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface"
+                  value="com.froad.fft.api.service.PresellDeliveryExportService"/>
+        <property name="service" ref="presellDeliveryExportService"/>
+    </bean>
+
+    <!--商品预售 远程服务 add by houguoquan_Aides -->
+    <bean id="productPresellExportService" class="com.froad.fft.api.service.impl.ProductPresellExportServiceImpl"/>
+    <bean name="/productPresellExportService"
+          class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface"
+                  value="com.froad.fft.api.service.ProductPresellExportService"/>
+        <property name="service" ref="productPresellExportService"/>
+    </bean>
+
+    <bean id="sysClientExportService" class="com.froad.fft.api.service.impl.SysClientExportServiceImpl"/>
+    <bean name="/sysClientExportService"
+          class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface"
+                  value="com.froad.fft.api.service.SysClientExportService"/>
+        <property name="service" ref="sysClientExportService"/>
+    </bean>
+
+    <!-- 退款 远程服务  -->
+    <bean id="refundsExportService" class="com.froad.fft.api.service.impl.RefundsExportServiceImpl"/>
+    <bean name="/refundsExportService"
+          class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface"
+                  value="com.froad.fft.api.service.RefundsExportService"/>
+        <property name="service" ref="refundsExportService"/>
+    </bean>
+
+    <!-- 库存日志  远程服务  -->
+    <bean id="stockPileLogExportService" class="com.froad.fft.api.service.impl.StockPileLogExportServiceImpl"/>
+    <bean name="/stockPileLogExportService"
+          class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface"
+                  value="com.froad.fft.api.service.StockPileLogExportService"/>
+        <property name="service" ref="stockPileLogExportService"/>
+    </bean>
+
+    <!-- 库存 远程服务  -->
+    <bean id="stockPileExportService" class="com.froad.fft.api.service.impl.StockPileExportServiceImpl"/>
+    <bean name="/stockPileExportService"
+          class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface"
+                  value="com.froad.fft.api.service.StockPileExportService"/>
+        <property name="service" ref="stockPileExportService"/>
+    </bean>
+
+    <!-- 用户系统服务  -->
+    <bean id="userEngineExportService" class="com.froad.fft.api.service.impl.UserEngineExportServiceImpl"/>
+    <bean name="/userEngineExportService"
+          class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface"
+                  value="com.froad.fft.api.service.UserEngineExportService"/>
+        <property name="service" ref="userEngineExportService"/>
+    </bean>
+
+    <!-- 短信通知服务  -->
+    <bean id="smsExportService" class="com.froad.fft.api.service.impl.SMSExportServiceImpl"/>
+    <bean name="/smsExportService"
+          class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface"
+                  value="com.froad.fft.api.service.SMSExportService"/>
+        <property name="service" ref="smsExportService"/>
+    </bean>
+
+    <!-- 门店提货点 远程服务  -->
+    <bean id="outletPresellDeliveryExportService" class="com.froad.fft.api.service.impl.OutletPresellDeliveryExportServiceImpl"/>
+    <bean name="/outletPresellDeliveryExportService" class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface" value="com.froad.fft.api.service.OutletPresellDeliveryExportService"/>
+        <property name="service" ref="outletPresellDeliveryExportService"/>
+    </bean>
+
+    <!-- 现金和积分的比例 远程服务  -->
+    <bean id="cashPointsRatioExportService" class="com.froad.fft.api.service.impl.CashPointsRatioExportServiceImpl"/>
+    <bean name="/cashPointsRatioExportService" class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface" value="com.froad.fft.api.service.CashPointsRatioExportService"/>
+        <property name="service" ref="cashPointsRatioExportService"/>
+    </bean>
+
+    <!-- 商户账户 远程服务  -->
+    <bean id="merchantAccountExportService" class="com.froad.fft.api.service.impl.MerchantAccountExportServiceImpl"/>
+    <bean name="/merchantAccountExportService" class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface" value="com.froad.fft.api.service.MerchantAccountExportService"/>
+        <property name="service" ref="merchantAccountExportService"/>
+    </bean>
+
+    <!-- 资金渠道 远程服务  -->
+    <bean id="fundsChannelExportService" class="com.froad.fft.api.service.impl.FundsChannelExportServiceImpl"/>
+    <bean name="/fundsChannelExportService" class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface" value="com.froad.fft.api.service.FundsChannelExportService"/>
+        <property name="service" ref="fundsChannelExportService"/>
+    </bean>
+
+    <!-- 预售商品与自提点关系 远程服务  -->
+    <bean id="productPresellDeliveryExportService" class="com.froad.fft.api.service.impl.ProductPresellDeliveryExportServiceImpl"/>
+    <bean name="/productPresellDeliveryExportService" class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface" value="com.froad.fft.api.service.ProductPresellDeliveryExportService"/>
+        <property name="service" ref="productPresellDeliveryExportService"/>
+    </bean>
+
+    <!-- 退换货 远程服务  -->
+    <bean id="returnSaleExportService" class="com.froad.fft.api.service.impl.ReturnSaleExportServiceImpl"/>
+    <bean name="/returnSaleExportService" class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface" value="com.froad.fft.api.service.ReturnSaleExportService"/>
+        <property name="service" ref="returnSaleExportService"/>
+    </bean>
+    <!-- 退换货详细 远程服务  -->
+    <bean id="returnSaleDetailExportService" class="com.froad.fft.api.service.impl.ReturnSaleDetailExportServiceImpl"/>
+    <bean name="/returnSaleDetailExportService" class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface" value="com.froad.fft.api.service.ReturnSaleDetailExportService"/>
+        <property name="service" ref="returnSaleDetailExportService"/>
+    </bean>
+
+    <!--交易 远程服务  -->
+    <bean id="transExportService" class="com.froad.fft.api.service.impl.TransExportServiceImpl"/>
+    <bean name="/transExportService" class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface" value="com.froad.fft.api.service.TransExportService"/>
+        <property name="service" ref="transExportService"/>
+    </bean>
+
+    <!--交易认证券  远程服务  -->
+    <bean id="transSecurityTicketExportService" class="com.froad.fft.api.service.impl.TransSecurityTicketExportServiceImpl"/>
+    <bean name="/transSecurityTicketExportService" class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface" value="com.froad.fft.api.service.TransSecurityTicketExportService"/>
+        <property name="service" ref="transSecurityTicketExportService"/>
+    </bean>
+
+    <!--团购  远程服务  -->
+    <bean id="productGroupExportService" class="com.froad.fft.api.service.impl.ProductGroupExportServiceImpl"/>
+    <bean name="/productGroupExportService" class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface" value="com.froad.fft.api.service.ProductGroupExportService"/>
+        <property name="service" ref="productGroupExportService"/>
+    </bean>
+
+    <!--重发短信  远程服务  -->
+    <bean id="retryBusiSMSExportService" class="com.froad.fft.api.service.impl.RetryBusiSMSExportServiceImpl"/>
+    <bean name="/retryBusiSMSExportService" class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface" value="com.froad.fft.api.service.RetryBusiSMSExportService"/>
+        <property name="service" ref="retryBusiSMSExportService"/>
+    </bean>
+
+    <!--导航  远程服务  -->
+    <bean id="navigationExportService" class="com.froad.fft.api.service.impl.NavigationExportServiceImpl"/>
+    <bean name="/navigationExportService" class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface" value="com.froad.fft.api.service.NavigationExportService"/>
+        <property name="service" ref="navigationExportService"/>
+    </bean>
+
+    <!--标签  远程服务  -->
+    <bean id="tagExportService" class="com.froad.fft.api.service.impl.TagExportServiceImpl"/>
+    <bean name="/tagExportService" class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface" value="com.froad.fft.api.service.TagExportService"/>
+        <property name="service" ref="tagExportService"/>
+    </bean>
+
+    <!--静态化  远程服务  -->
+    <bean id="staticExportService" class="com.froad.fft.api.service.impl.StaticExportServiceImpl"/>
+    <bean name="/staticExportService" class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface" value="com.froad.fft.api.service.StaticExportService"/>
+        <property name="service" ref="staticExportService"/>
+    </bean>
+
+    <!--商品限购  远程服务  -->
+    <bean id="productRestrictRuleExportService" class="com.froad.fft.api.service.impl.ProductRestrictRuleExportServiceImpl"/>
+    <bean name="/productRestrictRuleExportService" class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface" value="com.froad.fft.api.service.ProductRestrictRuleExportService"/>
+        <property name="service" ref="productRestrictRuleExportService"/>
+    </bean>
+
+    <!--注册送积分  远程服务  -->
+    <bean id="registerGivePointRuleExportService" class="com.froad.fft.api.service.impl.RegisterGivePointRuleExportServiceImpl"/>
+    <bean name="/registerGivePointRuleExportService" class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="serviceInterface" value="com.froad.fft.api.service.RegisterGivePointRuleExportService"/>
+        <property name="service" ref="registerGivePointRuleExportService"/>
+    </bean>
+
+    <!--交易统计  远程服务  -->
+     <bean id="transStatisticExportService" class="com.froad.fft.api.service.impl.TransStatisticExportServiceImpl"/>
+     <bean name="/transStatisticExportService" class="org.springframework.remoting.caucho.HessianServiceExporter">
+         <property name="serviceInterface" value="com.froad.fft.api.service.TransStatisticExportService"/>
+         <property name="service" ref="transStatisticExportService"/>
+     </bean>
+</beans>

@@ -1,0 +1,17 @@
+/*
+* Author:
+* pengling@f-road.com.cn 
+*/
+/*提示信息*/
+.point{ width:97%; background:#FFF9F0; height:40px; border:1px solid #FEDA8F; margin:0 auto; font-size:14px; margin-top:5px;}
+
+.point span{ margin-left:20px; float:left; display:inline; line-height:40px;}
+
+.point a{ color:#FFF; text-decoration:none;  background:url(../images/tixian.png); width:43px; height:19px; font-size:12px; display:block; float:left; margin-top:15px; text-align:center;}
+
+.point a:hover{ color:#FF3; text-decoration:none;}
+
+.point span B{ color:#F00; font-size:16px; font-family:"微软雅黑"; margin-right:10px;}
+
+.point span u{ color:#F60; text-decoration:none; font-family:"微软雅黑"; font-weight:bold; font-size:14px; }
+

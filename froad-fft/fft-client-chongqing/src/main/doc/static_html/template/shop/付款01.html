@@ -1,0 +1,214 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+<link href="../../resources/common/css/base.css" rel="stylesheet" type="text/css" />
+<link href="../../resources/common/css/public.css" rel="stylesheet" type="text/css" />
+<link href="../../resources/shop/css/pay.css" rel="stylesheet" type="text/css" />
+<script src="../../resources/common/js/jquery-1.8.3.min.js"></script>
+<script src="../../layer/layer.min.js"></script>
+</head>
+<style>
+.xubox_botton a.xubox_botton2{ margin-left:-116px;}
+</style>
+<body>
+<!--
+* Author:
+* pengling@f-road.com.cn 
+*/
+--> 
+<script type="text/javascript">
+$(function(){
+	$(".subBtn").click(function(){
+			$.layer({
+			title:'重庆农村商业银行提示您',
+			area:['400px','auto'],
+			dialog : 
+			{
+				btns: 2, 
+				msg:'啊很久很久国家和国际化',
+				type : 0,/*0感叹号 8错 9对*/
+				btn:['已完成支付','付款遇到问题']
+				
+			}	
+		});	
+	});
+});
+</script>
+<script type="text/javascript">
+$(function(){
+	$("#uboxstyle li").click(function(){
+		 if ( $(this).attr("class") != "cutbg") 
+		  {
+		   $(this).siblings().removeClass("cutbg"),
+		   $(this).addClass("cutbg");
+		 } 
+		 
+		else {
+			$(this).removeClass("cutbg")
+			}		
+			
+		$("#select").html($(this).text())
+		})
+	})
+</script>
+
+
+<script type="text/javascript">
+$(function(){
+	$("#showpoints a").click(function(){
+		 if ( $(this).attr("class") != "active") 
+		  {
+		   $(this).parent().siblings().children('a').removeClass("active");
+		   $(this).parent().siblings().children('b').hide();
+		   $(this).addClass("active");
+		   $(this).next('b').show();
+		 } 
+		 
+		else {
+			$(this).removeClass("active")
+			 $(this).next('b').hide();
+			}		
+			
+		})
+	})
+</script>
+<!--头部开始-->
+<div class="navBox">
+  <div class="logo"><img src="../../resources/common/images/logo.png"></div>
+  
+  <!--头部结束--> 
+  
+  <!--导航开始-->
+  <div class="nav">
+    <ul>
+      <li><a href="#">首页</a></li>
+      <li><a href="#">个人中心</a></li>
+      <li><a href="#">帮助</a></li>
+      <li class="navright"><a href="#">登录</a> </li>
+      <li class="navright"><a href="#">注册</a></li>
+      <li class="navright"><a href="#">商户登录</a> </li>
+    </ul>
+    <div class="bg"></div>
+  </div>
+</div>
+<!--头部结束-->
+
+<div class="main">
+  <div class="paytable validate">
+    <div class="stepgroup"></div>
+    <div class="table-section mt5">
+      <table width="80%" cellspacing="0">
+        <tbody>
+          <tr>
+            <td valign="top" align="right">自提点：</td>
+            <td align="left"><div class="w300 fl"><span class="fl mb5" ><select name="1" class="mr20">
+              <option selected="selected">请选择区县</option>
+              <option>11111111</option>
+              <option>222222</option>
+            </select><select name="2">
+              <option selected="selected">请选择商圈</option>
+              <option>11111111</option>
+              <option>222222</option>
+            </select></span>
+            <div class="fl" id="uboxstyle">
+                <li><font>A</font><a href="#">重庆农村商业银行<br />
+                  </a> <span >地址：ＸＸＸＸＸＸＸＸＸＸＸＸ</span></li>
+                <li><font>B</font><a href="#">重庆农村商业银行<br />
+                  </a> <span >地址：ＸＸＸＸＸＸＸＸＸＸＸＸ</span></li>
+                <li><font>C</font><a href="#">重庆农村商业银行<br />
+                  </a> <span >地址：ＸＸＸＸＸＸＸＸＸＸＸＸ</span></li>
+                <li><font>D</font><a href="#">重庆农村商业银行<br />
+                  </a> <span >地址：ＸＸＸＸＸＸＸＸＸＸＸＸ</span></li>
+                <li><font>E</font><a href="#">重庆农村商业银行<br />
+                  </a> <span >地址：ＸＸＸＸＸＸＸＸＸＸＸＸ</span></li>
+                <li><font>F</font><a href="#">重庆农村商业银行<br />
+                  </a> <span >地址：ＸＸＸＸＸＸＸＸＸＸＸＸ</span></li>
+                <li><font>G</font><a href="#">重庆农村商业银行<br />
+                  </a> <span >地址：ＸＸＸＸＸＸＸＸＸＸＸＸ</span></li>
+                <li><font>H</font><a href="#">重庆农村商业银行<br />
+                  </a> <span >地址：ＸＸＸＸＸＸＸＸＸＸＸＸ</span></li>
+              </div>
+              <p class="clear pt10">请选择银行地址：<b id="select"></b></p>
+              </div>
+              <div class="map"><img src="../../resources/common/images/testpic/ditu.png" /></div></td>
+            <td align="left">&nbsp;</td>
+          </tr>
+          <tr>
+            <td align="right">提货人姓名：</td>
+            <td class="desc"><input type="text" name="textfield" id="textfield"  class="loginText"/></td>
+            <td class="desc">&nbsp;</td>
+          </tr>
+          <tr>
+            <td align="right">手机号：</td>
+            <td class="desc"><input type="text" name="textfield" id="textfield"  class="loginText"/></td>
+            <td class="desc">&nbsp;</td>
+          </tr>
+          <tr>
+            <td width="236" align="right">商品名称：</td>
+            <td width="654" class="desc">单人套餐，免费提供WiFi，美味独享</td>
+            <td width="82" class="desc">&nbsp;</td>
+          </tr>
+          <tr>
+            <td align="right">数量：</td>
+            <td align="left" class="quantity"><a href="javascript:void(0)" onclick="num()">-</a>
+              <input class="loginText5"  maxlength="2" value="1" type="text" id="number">
+              <a href="javascript:void(0)" onclick="add()">+</a></td>
+            <td align="left" class="quantity">&nbsp;</td>
+          </tr>
+          <tr>
+            <td align="right">单价：</td>
+            <td align="left" class="quantity redFont"> 156元 </td>
+            <td align="left" class="quantity redFont">&nbsp;</td>
+          </tr>
+          <tr>
+            <td nowrap="nowrap" valign="top" align="right" ><span class="mt20 fr">支付方式：</span></td>
+            <td align="left" id="formlist" ><div class="useponits">可用积分：<font class="redFont f16  mr100">14分</font>我要使用
+                <input name="" type="text"   class="loginText5" />
+                分</div>
+              <div id="showpoints" class="usecash" style="height:185px;">
+                <p class="pt10">
+                <span>网上银行：</span>
+                <a href="javascript:;"><img src="../../resources/member/images/pay.gif"></a>
+                <b><img src="../../resources/common/images/gou.png"></b>
+                </p>
+                
+                <p>
+                <span>手机银行卡：</span>
+                <a href="javascript:;"><img src="../../resources/member/images/pay.gif"></a>
+                <b><img src="../../resources/common/images/gou.png"></b>
+                </p>
+                
+                <p>
+                <span>支付宝：</span>
+                <a href="javascript:;"><img src="../../resources/member/images/pay1.gif"></a>
+                <b><img src="../../resources/common/images/gou.png"></b>
+                </p>
+                </div>
+                
+                <div  class="usecash mt5">
+                <font class="mr20">手机号:</font><input type="text" name="textfield" id="textfield"  class="loginText"/></div></td>
+            <td align="left" id="formlist" >&nbsp;</td>
+          </tr>
+          <tr >
+            <td align="right">总价：</td>
+            <td align="left" valign="middle"><span class="fl"><font class="redFont f20">165元</font></span><span style="float:right">积分抵扣：<font class="redFont f20 mr50">10</font>支付现金：<font class="redFont f20">155元</font></span></td>
+            <td align="left" id="formlist">&nbsp;</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="confirm"> <input class="subBtn fr" value="确认无误，购买" type="submit"> </div>
+    </div>
+  </div>
+  
+  <!--清除浮动-->
+  <div class="clear"></div>
+  <!--清除浮动--> 
+</div>
+<!--底部开始-->
+<div class="foot">地址：重庆市江北区洋河东路10号 邮编：400020 客户服务热线：966866<br>
+  Copyrights @ 2010 重庆农村商业银行 版权所有</div>
+<!--底部结束-->
+</body>
+</html>

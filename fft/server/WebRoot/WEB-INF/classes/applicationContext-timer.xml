@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="AutoTask" class="com.froad.CB.common.AutoTask" />
+
+	<!-- 每小时定时 begin-->
+	<bean id="everyHourjobdetail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref local="AutoTask" />
+		</property>
+		<property name="targetMethod">
+			<value>everyHour</value>
+		</property>
+	</bean>
+
+	<bean id="everyHourTrigger"
+		class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+		<property name="jobDetail">
+			<ref bean="everyHourjobdetail" />
+		</property>
+		<property name="startDelay">
+			<value>60000</value>
+		</property>
+		<property name="repeatInterval">
+			<value>3600000</value>
+		</property>
+	</bean>
+	<!-- 每小时定时 end-->
+	
+	<!-- 每刻定时 begin-->
+	<bean id="everyQuarterjobdetail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref local="AutoTask" />
+		</property>
+		<property name="targetMethod">
+			<value>everyQuarter</value>
+		</property>
+	</bean>
+
+	<bean id="everyQuartertrigger"
+		class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+		<property name="jobDetail">
+			<ref bean="everyQuarterjobdetail" />
+		</property>
+		<property name="startDelay">
+			<value>60000</value>
+		</property>
+		<property name="repeatInterval">
+			<value>900000</value>
+		</property>
+	</bean>
+	<!-- 每刻定时 end-->
+
+	<!-- 每天定时begin -->
+	<bean id="everyDayjobdetail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref local="AutoTask" />
+		</property>
+		<property name="targetMethod">
+			<value>everyDay</value>
+		</property>
+	</bean>
+
+	<bean id="everyDaytrigger"
+		class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<ref bean="everyDayjobdetail" />
+		</property>
+		<property name="cronExpression">
+			<!-- 每天凌晨3点 -->
+			<value>0 0 3 ? * *</value>
+		</property>
+	</bean>
+	<!-- 每天定时end -->
+
+	<!-- 每周begin -->
+	<bean id="everyWeekjobdetail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref local="AutoTask" />
+		</property>
+		<property name="targetMethod">
+			<value>everyWeek</value>
+		</property>
+	</bean>
+
+	<bean id="everyWeektrigger"
+		class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<ref bean="everyWeekjobdetail" />
+		</property>
+		<property name="cronExpression">
+			<!-- 每周三凌晨2点 -->
+			<value>0 0 11 ? * MON,WED,FRI</value>
+
+		</property>
+	</bean>
+	<!-- 每周end -->
+	
+	<!-- 精品预售定时任务 begin-->
+	<bean id="presellJobDetail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref local="AutoTask" />
+		</property>
+		<property name="targetMethod">
+			<value>doClusterTask</value>
+		</property>
+	</bean>
+
+	<bean id="presellTrigger"
+		class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<ref bean="presellJobDetail" />
+		</property>
+		<property name="cronExpression">
+			<!-- 每天上午10点、下午3点 -->
+			<value>0 0 10,15 * * ?</value>
+		</property>
+	</bean>
+	<!-- 精品预售定时任务 end-->
+
+	<bean id="schdulerFactory"
+		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref local="everyHourTrigger" />
+				<ref local="everyQuartertrigger" />
+				<ref local="everyWeektrigger" />
+				<ref local="everyDaytrigger" />
+				<ref local="presellTrigger" />
+			</list>
+		</property>
+	</bean>
+</beans>

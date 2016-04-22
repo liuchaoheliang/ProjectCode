@@ -1,0 +1,265 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<beans default-autowire="byName"
+	xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+	<bean class='com.froad.cbank.coremodule.framework.common.util.web.WebConfig' />
+
+	<!--服务端Service 接口类注入 -->
+
+	<!--商品接口类注入 -->
+	<bean id="productService" class="com.froad.cbank.coremodule.framework.expand.thrift.proxy.DynamicClientProxyFactory" factory-method="createIface" scope="prototype">
+		<constructor-arg index="0" value="com.froad.thrift.service.ProductService" />
+		<constructor-arg index="1" value="${coremodule.user.thrift.goods.host}" />
+		<constructor-arg index="2" value="ProductService" />
+	</bean>
+	
+	<!--秒杀商品接口类注入 -->
+	<bean id="productSeckillService" class="com.froad.cbank.coremodule.framework.expand.thrift.proxy.DynamicClientProxyFactory" factory-method="createIface" scope="prototype">
+		<constructor-arg index="0" value="com.froad.thrift.service.ProductSeckillService" />
+		<constructor-arg index="1" value="${coremodule.user.thrift.goods.host}" />
+		<constructor-arg index="2" value="ProductSeckillService" />
+	</bean>
+
+	<!--商品分类接口类注入 -->
+	<bean id="productCategoryService" class="com.froad.cbank.coremodule.framework.expand.thrift.proxy.DynamicClientProxyFactory" factory-method="createIface" scope="prototype">
+		<constructor-arg index="0" value="com.froad.thrift.service.ProductCategoryService" />
+		<constructor-arg index="1" value="${coremodule.user.thrift.goods.host}" />
+		<constructor-arg index="2" value="ProductCategoryService" />
+	</bean>
+
+	<!--二维码接口类注入 -->
+	<bean id="qrCodeService" class="com.froad.cbank.coremodule.framework.expand.thrift.proxy.DynamicClientProxyFactory" factory-method="createIface" scope="prototype">
+		<constructor-arg index="0" value="com.froad.thrift.service.QrCodeService" />
+		<constructor-arg index="1" value="${coremodule.user.thrift.qrcode.host}" />
+		<constructor-arg index="2" value="QrCodeService" />
+	</bean>
+
+	<!--退款接口类注入 -->
+	<bean id="refundService" class="com.froad.cbank.coremodule.framework.expand.thrift.proxy.DynamicClientProxyFactory" factory-method="createIface" scope="prototype">
+		<constructor-arg index="0" value="com.froad.thrift.service.RefundService" />
+		<constructor-arg index="1" value="${coremodule.user.thrift.order.host}" />
+		<constructor-arg index="2" value="RefundService" />
+	</bean>
+
+	<!--交易券接口类注入 -->
+	<bean id="ticketService"
+		class="com.froad.cbank.coremodule.framework.expand.thrift.proxy.DynamicClientProxyFactory"
+		factory-method="createIface" scope="prototype">
+		<constructor-arg index="0"
+			value="com.froad.thrift.service.TicketService" />
+		<constructor-arg index="1" value="${coremodule.user.thrift.order.host}" />
+		<constructor-arg index="2" value="TicketService" />
+	</bean>
+
+	<!--广告接口类注入 -->
+	<bean id="adService" class="com.froad.cbank.coremodule.framework.expand.thrift.proxy.DynamicClientProxyFactory" factory-method="createIface" scope="prototype">
+		<constructor-arg index="0" value="com.froad.thrift.service.AdService" />
+		<constructor-arg index="1" value="${coremodule.user.thrift.support.host}" />
+		<constructor-arg index="2" value="AdService" />
+	</bean>
+
+	<!--新广告接口类注入 -->
+	<bean id="advertisingService" class="com.froad.cbank.coremodule.framework.expand.thrift.proxy.DynamicClientProxyFactory" factory-method="createIface" scope="prototype">
+		<constructor-arg index="0" value="com.froad.thrift.service.AdvertisingService" />
+		<constructor-arg index="1" value="${coremodule.user.thrift.support.host}" />
+		<constructor-arg index="2" value="AdvertisingService" />
+	</bean>
+
+	<!-- 订单接口类注入 -->
+	<bean id="orderService" class="com.froad.cbank.coremodule.framework.expand.thrift.proxy.DynamicClientProxyFactory" factory-method="createIface" scope="prototype">
+		<constructor-arg index="0" value="com.froad.thrift.service.OrderService" />
+		<constructor-arg index="1" value="${coremodule.user.thrift.order.host}" />
+		<constructor-arg index="2" value="OrderService" />
+	</bean>
+
+	<!-- 验证码接口类注入 -->
+	<bean id="smsMessageService" class="com.froad.cbank.coremodule.framework.expand.thrift.proxy.DynamicClientProxyFactory" factory-method="createIface" scope="prototype">
+		<constructor-arg index="0" value="com.froad.thrift.service.SmsMessageService" />
+		<constructor-arg index="1" value="${coremodule.user.thrift.support.host}" />
+		<constructor-arg index="2" value="SmsMessageService" />
+	</bean>
+
+	<!-- 商户接口类注入 -->
+	<bean id="merchantService" class="com.froad.cbank.coremodule.framework.expand.thrift.proxy.DynamicClientProxyFactory" factory-method="createIface" scope="prototype">
+		<constructor-arg index="0" value="com.froad.thrift.service.MerchantService" />
+		<constructor-arg index="1" value="${coremodule.user.thrift.merchant.host}" />
+		<constructor-arg index="2" value="MerchantService" />
+	</bean>
+
+	<!-- 商户分类接口类注入 -->
+	<bean id="merchantCategoryService" class="com.froad.cbank.coremodule.framework.expand.thrift.proxy.DynamicClientProxyFactory" factory-method="createIface" scope="prototype">
+		<constructor-arg index="0" value="com.froad.thrift.service.MerchantCategoryService" />
+		<constructor-arg index="1" value="${coremodule.user.thrift.merchant.host}" />
+		<constructor-arg index="2" value="MerchantCategoryService" />
+	</bean>
+
+	<!-- 商户门店相册接口类注入 -->
+	<bean id="merchantOutletPhotoService" class="com.froad.cbank.coremodule.framework.expand.thrift.proxy.DynamicClientProxyFactory" factory-method="createIface" scope="prototype">
+		<constructor-arg index="0" value="com.froad.thrift.service.MerchantOutletPhotoService" />
+		<constructor-arg index="1" value="${coremodule.user.thrift.merchant.host}" />
+		<constructor-arg index="2" value="MerchantOutletPhotoService" />
+	</bean>
+
+	<!-- 门店接口类注入 -->
+	<bean id="outletService" class="com.froad.cbank.coremodule.framework.expand.thrift.proxy.DynamicClientProxyFactory" factory-method="createIface" scope="prototype">
+		<constructor-arg index="0" value="com.froad.thrift.service.OutletService" />
+		<constructor-arg index="1" value="${coremodule.user.thrift.merchant.host}" />
+		<constructor-arg index="2" value="OutletService" />
+	</bean>
+
+	<!-- 门店评论接口类注入 -->
+	<bean id="outletCommentService" class="com.froad.cbank.coremodule.framework.expand.thrift.proxy.DynamicClientProxyFactory" factory-method="createIface" scope="prototype">
+		<constructor-arg index="0" value="com.froad.thrift.service.OutletCommentService" />
+		<constructor-arg index="1" value="${coremodule.user.thrift.merchant.host}" />
+		<constructor-arg index="2" value="OutletCommentService" />
+	</bean>
+
+	<!-- 商户门店收藏、商品收藏、收货地址接口类注入 -->
+	<bean id="merchantOutletFavoriteService" class="com.froad.cbank.coremodule.framework.expand.thrift.proxy.DynamicClientProxyFactory" factory-method="createIface" scope="prototype">
+		<constructor-arg index="0" value="com.froad.thrift.service.MerchantOutletFavoriteService" />
+		<constructor-arg index="1" value="${coremodule.user.thrift.merchant.host}" />
+		<constructor-arg index="2" value="MerchantOutletFavoriteService" />
+	</bean>
+	
+	<!--地区接口类注入   -->	
+	<bean id="areaService"  class="com.froad.cbank.coremodule.framework.expand.thrift.proxy.DynamicClientProxyFactory"  factory-method="createIface" scope="prototype">
+		<constructor-arg index="0" value="com.froad.thrift.service.AreaService" />
+		<constructor-arg index="1" value="${coremodule.user.thrift.support.host}" />
+		<constructor-arg index="2" value="AreaService"/>
+	</bean>
+	
+	<!--购物车接口类注入   -->	
+	<bean id="shoppingCartService"  class="com.froad.cbank.coremodule.framework.expand.thrift.proxy.DynamicClientProxyFactory"  factory-method="createIface" scope="prototype">
+		<constructor-arg index="0" value="com.froad.thrift.service.ShoppingCartService" />
+		<constructor-arg index="1" value="${coremodule.user.thrift.order.host}" />
+		<constructor-arg index="2" value="ShoppingCartService"/>
+	</bean>
+	
+	<!--支付接口类注入   -->	
+	<bean id="paymentService"  class="com.froad.cbank.coremodule.framework.expand.thrift.proxy.DynamicClientProxyFactory"  factory-method="createIface" scope="prototype">
+		<constructor-arg index="0" value="com.froad.thrift.service.PaymentService" />
+		<constructor-arg index="1" value="${coremodule.user.thrift.order.host}" />
+		<constructor-arg index="2" value="PaymentService"/>
+	</bean>
+	
+	<!--银行卡接口类注入   -->	
+	<bean id="bankCardService"  class="com.froad.cbank.coremodule.framework.expand.thrift.proxy.DynamicClientProxyFactory"  factory-method="createIface" scope="prototype">
+		<constructor-arg index="0" value="com.froad.thrift.service.BankCardService" />
+		<constructor-arg index="1" value="${coremodule.user.thrift.order.host}" />
+		<constructor-arg index="2" value="BankCardService"/>
+	</bean>
+	
+	<!--用户安全接口类注入   -->	
+	<bean id="memberSecurityService"  class="com.froad.cbank.coremodule.framework.expand.thrift.proxy.DynamicClientProxyFactory"  factory-method="createIface" scope="prototype">
+		<constructor-arg index="0" value="com.froad.thrift.service.MemberSecurityService" />
+		<constructor-arg index="1" value="${coremodule.user.thrift.order.host}" />
+		<constructor-arg index="2" value="MemberSecurityService"/>
+	</bean>
+	
+	<!--用户信息接口类注入   -->	
+	<bean id="memberInformationService"  class="com.froad.cbank.coremodule.framework.expand.thrift.proxy.DynamicClientProxyFactory"  factory-method="createIface" scope="prototype">
+		<constructor-arg index="0" value="com.froad.thrift.service.MemberInformationService" />
+		<constructor-arg index="1" value="${coremodule.user.thrift.order.host}" />
+		<constructor-arg index="2" value="MemberInformationService"/>
+	</bean>
+	
+	
+	<!-- 支付渠道服务接口 -->
+	<bean id="clientPaymentChannelService" class="com.froad.cbank.coremodule.framework.expand.thrift.proxy.DynamicClientProxyFactory" factory-method="createIface" scope="prototype">
+		<constructor-arg index="0" value="com.froad.thrift.service.ClientPaymentChannelService" />
+		<constructor-arg index="1" value="${coremodule.user.thrift.bank.host}" />
+		<constructor-arg index="2" value="ClientPaymentChannelService" />
+	</bean>
+	
+	<!-- 贴膜卡客户端银行卡信息 --> 
+	<bean id="clientService" class="com.froad.cbank.coremodule.framework.expand.thrift.proxy.DynamicClientProxyFactory" factory-method="createIface" scope="prototype">
+		<constructor-arg index="0" value="com.froad.thrift.service.ClientService" />
+		<constructor-arg index="1" value="${coremodule.user.thrift.bank.host}" />
+		<constructor-arg index="2" value="ClientService" />
+	</bean>
+	
+		<!-- 机构查询接口 --> 
+	<bean id="orgService" class="com.froad.cbank.coremodule.framework.expand.thrift.proxy.DynamicClientProxyFactory" factory-method="createIface" scope="prototype">
+		<constructor-arg index="0" value="com.froad.thrift.service.OrgService" />
+		<constructor-arg index="1" value="${coremodule.user.thrift.bank.host}" />
+		<constructor-arg index="2" value="OrgService" />
+	</bean>
+	
+	<!-- vip商品接口 -->
+	<bean id="vipProductService" class="com.froad.cbank.coremodule.framework.expand.thrift.proxy.DynamicClientProxyFactory" factory-method="createIface" scope="prototype">
+		<constructor-arg index="0" value="com.froad.thrift.service.VipProductService" />
+		<constructor-arg index="1" value="${coremodule.user.thrift.goods.host}" />
+		<constructor-arg index="2" value="VipProductService" />
+	</bean> 
+	<!-- 多银行配置查询接口 --> 
+	<bean id="bankAccessModuleService" class="com.froad.cbank.coremodule.framework.expand.thrift.proxy.DynamicClientProxyFactory" factory-method="createIface" scope="prototype">
+		<constructor-arg index="0" value="com.froad.thrift.service.BankAccessModuleService" />
+		<constructor-arg index="1" value="${coremodule.user.thrift.bank.host}" />
+		<constructor-arg index="2" value="BankAccessModuleService" />
+	</bean> 
+	<!-- 热词搜索接口 -->
+	<bean id="hotWordService" class="com.froad.cbank.coremodule.framework.expand.thrift.proxy.DynamicClientProxyFactory" factory-method="createIface" scope="prototype">
+		<constructor-arg index="0" value="com.froad.thrift.service.HotWordService" />
+		<constructor-arg index="1" value="${coremodule.user.thrift.support.host}" />
+		<constructor-arg index="2" value="HotWordService" />
+	</bean>
+	<!-- 满减活动接口 -->
+	<bean id="activeRunService" class="com.froad.cbank.coremodule.framework.expand.thrift.proxy.DynamicClientProxyFactory" factory-method="createIface" scope="prototype">
+		<constructor-arg index="0" value="com.froad.thrift.service.ActiveRunService" />
+		<constructor-arg index="1" value="${coremodule.user.thrift.active.host}" />
+		<constructor-arg index="2" value="ActiveRunService" />
+	</bean>
+	
+	<!-- 满减活动查询接口 -->
+	<bean id="activeSearchService" class="com.froad.cbank.coremodule.framework.expand.thrift.proxy.DynamicClientProxyFactory" factory-method="createIface" scope="prototype">
+		<constructor-arg index="0" value="com.froad.thrift.service.ActiveSearchService" />
+		<constructor-arg index="1" value="${coremodule.user.thrift.active.host}" />
+		<constructor-arg index="2" value="ActiveSearchService" />
+	</bean>
+	 
+	 <!-- 满减活动信息查询接口 -->
+	<bean id="activeRuleInfoService" class="com.froad.cbank.coremodule.framework.expand.thrift.proxy.DynamicClientProxyFactory" factory-method="createIface" scope="prototype">
+		<constructor-arg index="0" value="com.froad.thrift.service.ActiveRuleInfoService" />
+		<constructor-arg index="1" value="${coremodule.user.thrift.active.host}" />
+		<constructor-arg index="2" value="ActiveRuleInfoService" />
+	</bean>
+	
+	<!-- 红包信息查询接口 -->
+	<bean id="vouchersRunService"  class="com.froad.cbank.coremodule.framework.expand.thrift.proxy.DynamicClientProxyFactory"  factory-method="createIface" scope="prototype">
+		<constructor-arg index="0" value="com.froad.thrift.service.VouchersRunService" />
+		<constructor-arg index="1" value="${coremodule.user.thrift.active.host}" />
+		<constructor-arg index="2" value="VouchersRunService"/>
+	</bean>	 
+	
+	<!-- 物流信息查询接口 -->
+	<bean id="deliveryWayBillService"  class="com.froad.cbank.coremodule.framework.expand.thrift.proxy.DynamicClientProxyFactory"  factory-method="createIface" scope="prototype">
+		<constructor-arg index="0" value="com.froad.thrift.service.DeliveryWayBillService" />
+		<constructor-arg index="1" value="${coremodule.user.thrift.support.host}" />
+		<constructor-arg index="2" value="DeliveryWayBillService"/>
+	</bean>	 
+	<!-- 注册参见活动接口 -->
+	<bean id="registeredRunService"  class="com.froad.cbank.coremodule.framework.expand.thrift.proxy.DynamicClientProxyFactory"  factory-method="createIface" scope="prototype">
+		<constructor-arg index="0" value="com.froad.thrift.service.RegisteredRunService" />
+		<constructor-arg index="1" value="${coremodule.user.thrift.active.host}" />
+		<constructor-arg index="2" value="RegisteredRunService"/>
+	</bean>	 
+	<!-- 用户白名单检测 -->
+	<bean id="vipWhiteListService"  class="com.froad.cbank.coremodule.framework.expand.thrift.proxy.DynamicClientProxyFactory"  factory-method="createIface" scope="prototype">
+		<constructor-arg index="0" value="com.froad.thrift.service.VIPWhiteListService" />
+		<constructor-arg index="1" value="${coremodule.user.thrift.support.host}" />
+		<constructor-arg index="2" value="VIPWhiteListService"/>
+	</bean>
+	<!-- 登录支付密码加解密 -->
+	<bean id="rsaPasswordService"  class="com.froad.cbank.coremodule.framework.expand.thrift.proxy.DynamicClientProxyFactory"  factory-method="createIface" scope="prototype">
+		<constructor-arg index="0" value="com.froad.thrift.service.RSAPasswordService" />
+		<constructor-arg index="1" value="${coremodule.user.thrift.safe.host}" />
+		<constructor-arg index="2" value="RSAPasswordService"/>
+	</bean>
+	<!-- rsa解密、des加密 -->
+	<bean id="encryptService"  class="com.froad.cbank.coremodule.framework.expand.thrift.proxy.DynamicClientProxyFactory"  factory-method="createIface" scope="prototype">
+		<constructor-arg index="0" value="com.froad.thrift.service.EncryptService" />
+		<constructor-arg index="1" value="${coremodule.user.thrift.safe.host}" />
+		<constructor-arg index="2" value="EncryptService"/>
+	</bean>
+</beans>

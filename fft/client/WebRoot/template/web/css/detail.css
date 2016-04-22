@@ -1,0 +1,19 @@
+/*
+* Author:
+* pengling@f-road.com.cn 
+*/
+/*内容详细介绍*/
+.detail{width:758px; border:1px solid #b7b7b7; overflow:hidden; padding-bottom:10px; background:#FFF;}
+
+.detail dt{line-height:50px; font-family:"微软雅黑"; font-size:15px; width:96%; text-align:center; *line-height:20px;}
+
+.detail B{ color:#888; font-size:24px; line-height:70px; font-weight:normal; *line-height:60px;}
+
+.detail dd{width:90%; margin:0 auto; text-align:center;}
+
+.detail .date{ font-size:14px; color:#999; padding-bottom:20px; text-align:center;}
+
+.detail dd img{ text-align:center;}
+
+.detail dd .contantInr{ font-size:14px; line-height:34px; text-align:left; color:#666;}
+

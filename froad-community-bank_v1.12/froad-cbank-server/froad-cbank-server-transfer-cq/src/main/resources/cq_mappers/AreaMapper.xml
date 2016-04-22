@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.chongqing.mappers.AreaMapper">
+
+    <resultMap type="Area" id="areaResultMap">
+    	<!-- baseEntity prop -->
+        <id property="id" column="id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+		<result property="clientId" column="client_id"/>
+		<!-- baseEntity prop -->
+		<result property="name" column="name"/>
+        <result property="orderValue" column="order_value"/>
+        <result property="treePath" column="tree_path"/>
+        <result property="parentId" column="parent_id"/>
+        <result property="areaCode" column="area_code"/>
+    	<result property="parentCode" column="parent_code"/>
+    	<result property="longitude" column="longitude"/>
+    	<result property="latitude" column="latitude"/>
+    	<result property="vagueLetter" column="vague_letter"/>
+    	<result property="isEnabled" column="is_enabled"/>
+    </resultMap>
+
+ <select id="findArea" parameterType="Area" resultMap="areaResultMap">
+    	select * from cb_area
+    	<where>
+    		<if test="name != null">
+	            and name like CONCAT('%',#{name},'%')
+	        </if>
+	        <if test="orderValue != null">
+	            and order_value = #{orderValue}
+	        </if>
+	        <if test="treePath != null">
+	            and tree_path = #{treePath}
+	        </if>
+	        <if test="parentId != null">
+	           and parent_id = #{parentId}
+	        </if>
+    		<if test="areaCode!=null">
+    			and area_code = #{areaCode}
+    		</if>
+    		
+    	</where>
+    </select>
+    
+    <select id="findById" resultMap="areaResultMap">
+    	select * from cb_area where id=#{areaId}
+    </select>
+     <select id="findAllArea" resultMap="areaResultMap">
+    	select * from cb_area 
+    </select>
+</mapper>

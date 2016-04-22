@@ -1,0 +1,36 @@
+/*
+* Author:
+* pengling@f-road.com.cn 
+*/
+/*热卖排行榜*/
+
+.hot{border:1px solid #d4d4d4; width:238px; background:#FFF; overflow:hidden; padding-bottom:10px;}
+
+.hot dl{width:200px; margin:0 auto}
+
+.hot dl dt{ font:14px/36px "宋体"; color:#000;}
+
+.hot dl dt B{ padding-left:25px; background:url(../images/group.png) no-repeat; background-position:0 -32px;}
+
+.hot dl dd{height:85px;}
+
+.hot dl dd .title{ font:12px/26px "宋体"; color:#333;}
+
+.hot dl dd .title a{ color:#333; text-decoration:none; float:left; width:180px; height:26px; overflow:hidden;}
+
+.hot dl dd .title i{ font-style:normal; font-family:Arial, Helvetica, sans-serif; color:#FFF; margin-top:6px; float:left; font-weight:bold; line-height:14px; text-align:center;}
+
+.hot dl dd .title .redbg{ background:url(../images/group.png) no-repeat; background-position:0 0; width:15px; height:14px; display:block;}
+
+.hot dl dd .title .bluebg{ background:url(../images/group.png) no-repeat; background-position:0 -14px; width:15px; height:14px; display:block;}
+
+.hot dl dd .title a:hover{ color:#06C; text-decoration:underline;}
+
+.hot dl dd .imgInfor{ display:block;}
+
+.hot dl dd .imgInfor img{ float:left; width:89px; height:52px;}
+
+.hot dl dd .imgInfor .inforPrice{ float:left; font:12px/24px "微软雅黑"; margin-left:10px; display:inline; color:#666;}
+
+.hot dl dd .imgInfor B{ font-size:14px; color:#f0513b;}
+

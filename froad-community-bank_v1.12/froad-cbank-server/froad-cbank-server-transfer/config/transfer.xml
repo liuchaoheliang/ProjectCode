@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<services>
+	
+	<!-- 客户端表 -->
+	<service>
+		<service-name>clientProcess</service-name>
+		<service-class>com.froad.process.impl.ClientProcess</service-class>
+		<service-next></service-next>
+		<load-on-startup>0</load-on-startup>
+	</service>
+		
+	<!-- 客户端支付渠道表 -->
+	<service>
+		<service-name>clientPaymentChannelProcess</service-name>
+		<service-class>com.froad.process.impl.ClientPaymentChannelProcess</service-class>
+		<service-next></service-next>
+		<load-on-startup>0</load-on-startup>
+	</service>
+	
+	<!-- ########################银行模块开始######################### -->
+	
+	<!-- 银行角色 -->
+	<service>
+		<service-name>bankRoleProcess</service-name>
+		<service-class>com.froad.process.impl.BankRoleProcess</service-class>
+		<service-next>bankRoleResourceProcess</service-next>
+		<load-on-startup>0</load-on-startup>
+	</service>
+	
+	<!-- 角色资源关系 -->
+	<service>
+		<service-name>bankRoleResourceProcess</service-name>
+		<service-class>com.froad.process.impl.BankRoleResourceProcess</service-class>
+		<service-next>bankOperatorProcess</service-next>
+		<load-on-startup>2</load-on-startup>
+	</service>
+	
+	
+	<!-- 银行操作员 -->
+	<service>
+		<service-name>bankOperatorProcess</service-name>
+		<service-class>com.froad.process.impl.BankOperatorProcess</service-class>
+		<service-next>bankOperatorLogProcess</service-next>
+		<load-on-startup>3</load-on-startup>
+	</service>
+	
+	<!-- 银行操作员日志 -->
+	<service>
+		<service-name>bankOperatorLogProcess</service-name>
+		<service-class>com.froad.process.impl.BankOperatorLogProcess</service-class>
+		<service-next></service-next>
+		<load-on-startup>3</load-on-startup>
+	</service>
+	
+	
+	<!-- ########################银行模块结束######################### -->
+	
+	<!-- 地区 -->
+	<service>
+		<service-name>areaProcess</service-name>
+		<service-class>com.froad.process.impl.AreaProcess</service-class>
+		<service-next>merchantTypeProcess</service-next>
+		<load-on-startup>0</load-on-startup>
+	</service>
+	
+		
+	<!-- 商户类型表 -->
+	<service>
+		<service-name>merchantTypeProcess</service-name>
+		<service-class>com.froad.process.impl.MerchantTypeProcess</service-class>
+		<service-next>merchantCategoryProcess</service-next>
+		<load-on-startup>1</load-on-startup>
+	</service>
+	
+		
+	<!-- 商户分类表 -->
+	<service>
+		<service-name>merchantCategoryProcess</service-name>
+		<service-class>com.froad.process.impl.MerchantCategoryProcess</service-class>
+		<service-next>merchant</service-next>
+		<load-on-startup>2</load-on-startup>
+	</service>
+
+	<!-- 商户Merchant -->
+	<service>
+		<service-name>merchant</service-name>
+		<service-class>com.froad.process.impl.MerchantProcess</service-class>
+		<service-next>outlet,merchantAccount</service-next>
+		<load-on-startup>3</load-on-startup>
+	</service>
+		
+		
+	<!-- 商户account -->
+	<service>
+		<service-name>merchantAccount</service-name>
+		<service-class>com.froad.process.impl.MerchantAccountProcess</service-class>
+		<service-next></service-next>
+		<load-on-startup>4</load-on-startup>
+	</service>	
+
+	<!-- 商户outlet	 -->
+	<service>
+		<service-name>outlet</service-name>
+		<service-class>com.froad.process.impl.OutletProcess</service-class>
+		<service-next>orgProcess,MerchantOutletPhoto</service-next>
+		<load-on-startup>4</load-on-startup>
+	</service>
+	
+	<!-- 商户photo -->
+	<service>
+		<service-name>MerchantOutletPhoto</service-name>
+		<service-class>com.froad.process.impl.MerchantOutletPhotoProcess</service-class>
+		<service-next></service-next>
+		<load-on-startup>5</load-on-startup>
+	</service>
+
+	<!-- 商户角色 -->
+	<service>
+		<service-name>orgProcess</service-name>
+		<service-class>com.froad.process.impl.OrgProcess</service-class>
+		<service-next>MerchantUser</service-next>
+		<load-on-startup>5</load-on-startup>
+	</service>
+	
+		<!-- 商户MerchantRole
+	<service>
+		<service-name>MerchantRole</service-name>
+		<service-class>com.froad.process.impl.MerchantRoleProcess</service-class>
+		<service-next>MerchantUser</service-next>
+		<load-on-startup>8</load-on-startup>
+	</service>
+		-->
+		
+		<!-- 商户MerchantUser -->
+	<service>
+		<service-name>MerchantUser</service-name>
+		<service-class>com.froad.process.impl.MerchantUserProcess</service-class>
+		<service-next>productCategory</service-next>
+		<load-on-startup>6</load-on-startup>
+	</service>
+	
+	<!-- 商品目录表 -->
+	<service>
+		<service-name>productCategory</service-name>
+		<service-class>com.froad.process.impl.ProductCategoryProcessor</service-class>
+		<service-next>product</service-next>
+		<load-on-startup>10</load-on-startup>
+	</service>
+	
+		<!-- 商品表-->
+	<service>
+		<service-name>product</service-name>
+		<service-class>com.froad.process.impl.ProductProcess</service-class>
+		<service-next>productImage</service-next>
+		<load-on-startup>11</load-on-startup>
+	</service>
+	
+		<!-- 商品相册表 -->
+	<service>
+		<service-name>productImage</service-name>
+		<service-class>com.froad.process.impl.ProductImageProcess</service-class>
+		<service-next>productPresell</service-next>
+		<load-on-startup>12</load-on-startup>
+	</service>
+	
+	<!-- 商品预售表 -->
+	<service>
+		<service-name>productPresell</service-name>
+		<service-class>com.froad.process.impl.ProductPresellProcess</service-class>
+		<service-next>productGroup</service-next>
+		<load-on-startup>13</load-on-startup>
+	</service>
+	<!-- 商品团购表 -->
+	<service>
+		<service-name>productGroup</service-name>
+		<service-class>com.froad.process.impl.ProductGroupProcess</service-class>
+		<service-next>merchantOutletFavorite</service-next>
+		<load-on-startup>14</load-on-startup>
+	</service>
+	<!-- 商户门店收藏表 -->
+	<service>
+		<service-name>merchantOutletFavorite</service-name>
+		<service-class>com.froad.process.impl.MerchantOutletFavoriteProcess</service-class>
+		<service-next>order</service-next>
+		<load-on-startup>14</load-on-startup>
+	</service>
+	
+	<!-- 订单子订单模块 -->
+	<service>
+		<service-name>order</service-name>
+		<service-class>com.froad.process.impl.OrderProcess</service-class>
+		<service-next>payment,settlement,refunds,shipping,productComment</service-next>
+		<load-on-startup>15</load-on-startup>
+	</service>
+
+	<!--==================================并发处理开始=========================================== -->
+	<!-- 支付模块 -->
+	<service>
+		<service-name>payment</service-name>
+		<service-class>com.froad.process.impl.PayToPaymentProcessor</service-class>
+		<service-next></service-next>
+		<load-on-startup>16</load-on-startup>
+	</service>
+	
+	<!-- 结算表 -->
+	<service>
+		<service-name>settlement</service-name>
+		<service-class>com.froad.process.impl.SettlementProcess</service-class>
+		<service-next></service-next>
+		<load-on-startup>16</load-on-startup>
+	</service>
+	<!-- 退款 -->
+	<service>
+		<service-name>refunds</service-name>
+		<service-class>com.froad.process.impl.TransRefundsProcess</service-class>
+		<service-next>payRefunds</service-next>
+		<load-on-startup>16</load-on-startup>
+	</service>
+	<!-- 支付退款记录-->
+	<service>
+		<service-name>payRefunds</service-name>
+		<service-class>com.froad.process.impl.PayRefundsProcess</service-class>
+		<service-next>ticket,presellTicket</service-next>
+		<load-on-startup>17</load-on-startup>
+	</service>
+	
+	<!-- 卷表 -->
+	<service>
+		<service-name>ticket</service-name>
+		<service-class>com.froad.process.impl.TicketProcess</service-class>
+		<service-next></service-next>
+		<load-on-startup>1</load-on-startup>
+	</service>
+	
+	
+	<!-- 预售待发送卷 -->
+	<service>
+		<service-name>presellTicket</service-name>
+		<service-class>com.froad.process.impl.PresellTicketProcess</service-class>
+		<service-next></service-next>
+		<load-on-startup>1</load-on-startup>
+	</service>
+	
+	<!-- 子订单发货 -->
+	<service>
+		<service-name>shipping</service-name>
+		<service-class>com.froad.process.impl.ShippingProcess</service-class>
+		<service-next></service-next>
+		<load-on-startup>16</load-on-startup>
+	</service>
+	
+	<!-- 商品评论表 -->
+	<service>
+		<service-name>productComment</service-name>
+		<service-class>com.froad.process.impl.ProductCommentProcess</service-class>
+		<service-next></service-next>
+		<load-on-startup>16</load-on-startup>
+	</service>
+	
+	<!--============================================================================= -->
+		<!-- 广告位 -->
+	<service>
+		<service-name>adposition</service-name>
+		<service-class>com.froad.process.impl.AdPositionProcess</service-class>
+		<service-next>ad</service-next>
+		<load-on-startup>1</load-on-startup>
+	</service>
+	
+		<!-- 广告 -->
+	<service>
+		<service-name>ad</service-name>
+		<service-class>com.froad.process.impl.AdProcess</service-class>
+		<service-next></service-next>
+		<load-on-startup>1</load-on-startup>
+	</service>
+	
+	<!-- 物流公司 -->
+	<service>
+		<service-name>deliverycorp</service-name>
+		<service-class>com.froad.process.impl.DeliveryCorpProcess</service-class>
+		<service-next></service-next>
+		<load-on-startup>0</load-on-startup>
+	</service>
+	
+		<!-- 短信日志 -->
+	<service>
+		<service-name>smslog</service-name>
+		<service-class>com.froad.process.impl.SmsLogProcess</service-class>
+		<service-next></service-next>
+		<load-on-startup>0</load-on-startup>
+	</service>
+	
+	<!-- end -->
+
+	
+</services>

@@ -1,0 +1,13 @@
+<requestQueryOrderStatusApi>
+	<queryParam>
+		<queryOrderType>${queryOrderType!""}</queryOrderType>
+		<queryOrderID>${queryOrderID!""}</queryOrderID>
+	</queryParam>
+	<system>
+		<partnerNo>${partnerNo!""}</partnerNo>
+		<charset>${charset!""}</charset>
+		<signType>${signType!""}</signType>
+		<signMsg>${signMsg!""}</signMsg>
+		<requestTime>${requestTime!""}</requestTime>
+	</system>
+</requestQueryOrderStatusApi>

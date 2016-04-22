@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="activityCustInfo">
+	<typeAlias alias="activityCustInfo" type="com.froad.CB.po.activity.ActivityCustInfo" />	
+	<resultMap id="ActivityCustInfoResult" class="activityCustInfo">
+		<result column="id" property="id" jdbcType="INTEGER" />
+		<result column="account_name" property="accountName" jdbcType="VARCHAR" />
+		<result column="account_number" property="accountNumber" jdbcType="VARCHAR" />
+		<result column="identification_card" property="identificationCard" jdbcType="VARCHAR" />
+		<result column="is_received" property="isReceived" jdbcType="VARCHAR" />
+		<result column="type" property="type" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />		
+		<result column="batch_number" property="batchNumber" jdbcType="VARCHAR" />
+		<result column="start_time" property="activityStartTime" jdbcType="VARCHAR" />
+		<result column="end_time" property="activityEndTime" jdbcType="VARCHAR" />		
+		<result column="state" property="state" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="VARCHAR" />
+		<result column="update_time" property="updateTime" jdbcType="VARCHAR" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />		
+		<result column="field1" property="field1" jdbcType="VARCHAR" />		
+		<result column="field2" property="field2" jdbcType="VARCHAR" />	
+	</resultMap>
+	
+	<select id="selectByPrimaryKey" resultMap="ActivityCustInfoResult"
+		parameterClass="java.lang.Integer">
+		select * from activity_lottery_cust_info where id = #id#
+	</select>
+	
+	<insert id="insert" parameterClass="activityCustInfo">
+		insert into activity_lottery_cust_info (id,account_name,account_number,identification_card,
+		is_received, type,name,batch_number,start_time,end_time, state, create_time,update_time, remark,field1,field2) 
+		values (#id:INTEGER#,#accountName:VARCHAR#, #accountNumber:VARCHAR#,#identificationCard:VARCHAR#,
+		#isReceived:VARCHAR#, #type:VARCHAR#, #name:VARCHAR#,#batchNumber:VARCHAR#, #activityStartTime:VARCHAR#, #activityEndTime:VARCHAR#,
+		#state:VARCHAR#, DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"), DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),
+		#remark:VARCHAR#,#field1:VARCHAR#,#field2:VARCHAR#)
+		<selectKey keyProperty="id" resultClass="int">
+			select last_insert_id() as id
+		</selectKey>
+	</insert>
+	
+	<update id="updateById" parameterClass="activityCustInfo">
+		update activity_lottery_cust_info set update_time = DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s")
+		<dynamic prepend="">
+			<isNotEmpty prepend="," property="accountName">
+				<![CDATA[ account_name = #accountName:VARCHAR# ]]>
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="accountNumber">
+				<![CDATA[ account_number = #accountNumber:VARCHAR# ]]>
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="identificationCard">
+				<![CDATA[ identification_card = #identificationCard:VARCHAR# ]]>
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="isReceived">
+				<![CDATA[ is_received = #isReceived:VARCHAR# ]]>
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="type">
+				<![CDATA[ type = #type:VARCHAR# ]]>
+			</isNotEmpty> 
+			<isNotEmpty prepend="," property="name">
+				<![CDATA[ name = #name:VARCHAR# ]]>
+			</isNotEmpty> 
+			<isNotEmpty prepend="," property="batchNumber">
+				<![CDATA[ batch_number = #batchNumber:VARCHAR# ]]>
+			</isNotEmpty>			
+			<isNotEmpty prepend="," property="activityStartTime">
+				<![CDATA[ start_time = #activityStartTime:VARCHAR# ]]>
+			</isNotEmpty> 
+			<isNotEmpty prepend="," property="activityEndTime">
+				<![CDATA[ end_time = #activityEndTime:VARCHAR# ]]>
+			</isNotEmpty>			
+			<isNotEmpty prepend="," property="state">
+				<![CDATA[ state = #state:VARCHAR# ]]>
+			</isNotEmpty> 
+			<isNotEmpty prepend="," property="remark">
+				<![CDATA[ remark = #remark:VARCHAR# ]]>
+			</isNotEmpty>	
+			<isNotEmpty prepend="," property="field1">
+				<![CDATA[ field1 = #field1:VARCHAR# ]]>
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="field2">
+				<![CDATA[ field2 = #field2:VARCHAR# ]]>
+			</isNotEmpty>
+		</dynamic>
+		<dynamic  prepend="where">
+			<isNotEmpty prepend="and" property="id">
+				<![CDATA[ id = #id:INTEGER# ]]>
+			</isNotEmpty>
+		</dynamic>
+	</update>
+	
+	<select id="getActivityCustInfoBySelective" parameterClass="activityCustInfo" resultMap="ActivityCustInfoResult">
+		select * from activity_lottery_cust_info
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="accountName">
+				<![CDATA[ account_name = #accountName:VARCHAR# ]]>
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="accountNumber">
+				<![CDATA[ account_number = #accountNumber:VARCHAR# ]]>
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="identificationCard">
+				<![CDATA[ identification_card = #identificationCard:VARCHAR# ]]>
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="isReceived">
+				<![CDATA[ is_received = #isReceived:VARCHAR# ]]>
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="type">
+				<![CDATA[ type = #type:VARCHAR# ]]>
+			</isNotEmpty> 
+			<isNotEmpty prepend="and" property="name">
+				<![CDATA[ name = #name:VARCHAR# ]]>
+			</isNotEmpty> 
+			<isNotEmpty prepend="and" property="batchNumber">
+				<![CDATA[ batch_number = #batchNumber:VARCHAR# ]]>
+			</isNotEmpty>			
+			<isNotEmpty prepend="and" property="state">
+				<![CDATA[ state = #state:VARCHAR#  ]]>
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="updateTime">
+				<![CDATA[ update_time = #updateTime:VARCHAR#  ]]>
+			</isNotEmpty>	
+			<isNotEmpty property="beginTime">
+    			<isNotEmpty property="endTime" prepend="and">
+    				create_time between #beginTime# and #endTime#
+    			</isNotEmpty>
+    		</isNotEmpty>		
+		</dynamic>
+	</select>
+	
+	<!-- 分页查询 -->
+	<select id="getActivityCustInfoByPager" parameterClass="activityCustInfo" resultMap="ActivityCustInfoResult">
+		select * from activity_lottery_cust_info
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="accountName">
+				<![CDATA[ account_name = #accountName:VARCHAR# ]]>
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="accountNumber">
+				<![CDATA[ account_number = #accountNumber:VARCHAR# ]]>
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="identificationCard">
+				<![CDATA[ identification_card = #identificationCard:VARCHAR# ]]>
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="isReceived">
+				<![CDATA[ is_received = #isReceived:VARCHAR# ]]>
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="type">
+				<![CDATA[ type = #type:VARCHAR# ]]>
+			</isNotEmpty> 
+			<isNotEmpty prepend="and" property="name">
+				<![CDATA[ name = #name:VARCHAR# ]]>
+			</isNotEmpty> 
+			<isNotEmpty prepend="and" property="batchNumber">
+				<![CDATA[ batch_number = #batchNumber:VARCHAR# ]]>
+			</isNotEmpty>			
+			<isNotEmpty prepend="and" property="state">
+				<![CDATA[ state = #state:VARCHAR#  ]]>
+			</isNotEmpty>
+			<isNotEmpty property="beginTime">
+    			<isNotEmpty property="endTime" prepend="and">
+    				create_time between #beginTime# and #endTime#
+    			</isNotEmpty>
+    		</isNotEmpty>
+    		<isNotEmpty prepend="and" property="identificationCard">
+				<![CDATA[ identification_card = #identificationCard:VARCHAR#  ]]>
+			</isNotEmpty>
+    	</dynamic>
+         <![CDATA[ 
+         order by $orderBy$ $orderType$ 
+         limit #startRow#,#pageSize#  
+         ]]>
+	</select>
+	
+	<select id="getActivityCustInfoByPagerCount" parameterClass="activityCustInfo" resultClass="java.lang.Integer">
+		select count(*) from activity_lottery_cust_info
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="accountName">
+				<![CDATA[ account_name = #accountName:VARCHAR# ]]>
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="accountNumber">
+				<![CDATA[ account_number = #accountNumber:VARCHAR# ]]>
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="identificationCard">
+				<![CDATA[ identification_card = #identificationCard:VARCHAR# ]]>
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="isReceived">
+				<![CDATA[ is_received = #isReceived:VARCHAR# ]]>
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="type">
+				<![CDATA[ type = #type:VARCHAR# ]]>
+			</isNotEmpty> 
+			<isNotEmpty prepend="and" property="name">
+				<![CDATA[ name = #name:VARCHAR# ]]>
+			</isNotEmpty> 
+			<isNotEmpty prepend="and" property="batchNumber">
+				<![CDATA[ batch_number = #batchNumber:VARCHAR# ]]>
+			</isNotEmpty>			
+			<isNotEmpty prepend="and" property="state">
+				<![CDATA[ state = #state:VARCHAR#  ]]>
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="indentificationCardElse">
+				<![CDATA[ indentification_card_else = #indentificationCardElse:VARCHAR# ]]>
+			</isNotEmpty>
+			<isNotEmpty property="beginTime">
+    			<isNotEmpty property="endTime" prepend="and">
+    				create_time between #beginTime# and #endTime#
+    			</isNotEmpty>
+    		</isNotEmpty>
+    		<isNotEmpty prepend="and" property="identificationCard">
+				<![CDATA[ identification_card = #identificationCard:VARCHAR#  ]]>
+			</isNotEmpty>
+    	</dynamic>
+	</select>
+</sqlMap>

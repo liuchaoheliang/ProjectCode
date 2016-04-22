@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.mysql.mapper.SmsLogMapper">
+
+	<resultMap type="SmsLog" id="smsLogResultMap">
+		<id property="id" column="id" />
+		<result property="clientId" column="client_id" />
+		<result property="createTime" column="create_time" />
+		<result property="expireTime" column="expire_time" />
+		<result property="smsType" column="sms_type" />
+		<result property="mobile" column="mobile" />
+		<result property="content" column="content" />
+		<result property="isSuccess" column="is_success" />
+		<result property="sendUser" column="send_user" />
+		<result property="sendIp" column="send_ip" />
+		<result property="isUsed" column="is_used" />
+		<result property="code" column="code" />
+		<result property="token" column="token" />
+		<result property="url" column="url" />
+	</resultMap>
+
+
+	<!-- 添加  SmsLog -->
+	<insert id="addSmsLog" parameterType="SmsLog" useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[
+			insert into cb_sms_log (
+				client_id,create_time,expire_time,sms_type,mobile,content,is_success,send_user,send_ip,is_used,code,token,url
+			) values (
+				#{clientId},#{createTime},#{expireTime},#{smsType},#{mobile},#{content},#{isSuccess},#{sendUser},#{sendIp},#{isUsed},#{code},#{token},#{url}
+			) 
+		]]>
+	</insert>
+
+
+	<!-- 批量添加  SmsLog -->
+	<insert id="addSmsLogByBatch" parameterType="java.util.List">
+		insert into cb_sms_log (
+			client_id,create_time,expire_time,sms_type,mobile,content,is_success,send_user,send_ip,is_used,code,token,url
+		) values 
+		<foreach collection="smsLogList" item="item" index="index" separator=",">
+			(#{clientId},#{createTime},#{expireTime},#{smsType},#{mobile},#{content},#{isSuccess},#{sendUser},#{sendIp},#{isUsed},#{code},#{token},#{url})
+		</foreach>
+	</insert>
+
+
+	<!-- 删除  SmsLog -->
+	<delete id="deleteSmsLog" parameterType="SmsLog">
+		delete from cb_sms_log 
+			<where>
+				<if test="id != null">
+					and id = #{id}
+				</if>
+				<if test="clientId != null">
+					and client_id = #{clientId}
+				</if>
+			</where>
+	</delete>
+
+
+	<!-- 修改  SmsLog -->
+	<update id="updateSmsLog" parameterType="SmsLog">
+		update cb_sms_log 
+		<set>
+			<if test="isSuccess != null">
+				 is_success = #{isSuccess},
+			</if>
+			<if test="isUsed != null">
+				 is_used = #{isUsed},
+			</if>
+		</set> 
+		where id = #{id}
+	</update>
+
+
+	<!-- 查询  SmsLog -->
+	<select id="findSmsLogById" parameterType="java.lang.Long" resultMap="smsLogResultMap">
+		SELECT 
+            id,client_id,create_time,expire_time,sms_type,mobile,content,is_success,send_user,send_ip,is_used,code,token,url
+        FROM cb_sms_log 
+        WHERE 
+            id = #{id}
+
+	</select>
+
+
+	<!-- 查询  SmsLog -->
+	<select id="findSmsLog" parameterType="java.util.HashMap" resultMap="smsLogResultMap">
+		select 
+            id,client_id,create_time,expire_time,sms_type,mobile,content,is_success,send_user,send_ip,is_used,code,token,url 
+        from cb_sms_log 
+		<where>
+			<if test="smsLog.id != null">
+				and id = #{smsLog.id}
+			</if>
+			<if test="smsLog.clientId != null">
+				and client_id = #{smsLog.clientId}
+			</if>
+			<if test="smsLog.createTime != null">
+				and create_time = #{smsLog.createTime}
+			</if>
+			<if test="smsLog.expireTime != null">
+				and expire_time = #{smsLog.expireTime}
+			</if>
+			<if test="smsLog.smsType != null">
+				and sms_type = #{smsLog.smsType}
+			</if>
+			<if test="smsLog.mobile != null">
+				and mobile = #{smsLog.mobile}
+			</if>
+			<!-- 
+			<if test="content != null">
+				and content = #{content}
+			</if>
+			 -->
+			<if test="smsLog.isSuccess != null">
+				and is_success = #{smsLog.isSuccess}
+			</if>
+			<if test="smsLog.sendUser != null">
+				and send_user = #{smsLog.sendUser}
+			</if>
+			<if test="smsLog.sendIp != null">
+				and send_ip = #{smsLog.sendIp}
+			</if>
+			<if test="smsLog.isUsed != null">
+				and is_used = #{smsLog.isUsed}
+			</if>
+			<if test="smsLog.code != null">
+				and code = #{smsLog.code}
+			</if>
+			<if test="smsLog.token != null">
+				and token = #{smsLog.token}
+			</if>
+			<if test="smsLog.smsTypeMin != null">
+				and sms_type <![CDATA[>=]]> #{smsLog.smsTypeMin}
+			</if>
+			<if test="smsLog.smsTypeMax != null">
+				and sms_type <![CDATA[<=]]> #{smsLog.smsTypeMax}
+			</if>
+			<if test="smsTypes != null">
+			    and sms_type in 
+			    <foreach collection="smsTypes" item="item" index="index" open="(" separator="," close=")">
+		         #{item}
+		        </foreach>
+			</if>
+		</where>
+		 ORDER BY create_time DESC 
+	</select>
+
+	<!-- 分页查询  SmsLog -->
+	<select id="findByPage" parameterType="java.util.HashMap" resultMap="smsLogResultMap">
+		select 
+            id,client_id,create_time,expire_time,sms_type,mobile,content,is_success,send_user,send_ip,is_used,code,token,url
+        from cb_sms_log 
+		<if test="smsLog != null">
+			<where>
+				<if test="smsLog.id != null">
+					and id = #{smsLog.id} 
+				</if>
+				<if test="smsLog.clientId != null">
+					and client_id = #{smsLog.clientId} 
+				</if>
+				<if test="smsLog.createTime != null">
+					and create_time = #{smsLog.createTime} 
+				</if>
+				<if test="smsLog.expireTime != null">
+					and expire_time = #{smsLog.expireTime} 
+				</if>
+				<if test="smsLog.smsType != null">
+					and sms_type = #{smsLog.smsType}  
+				</if>
+				<if test="smsLog.mobile != null">
+					and mobile = #{smsLog.mobile} 
+				</if>
+				<if test="smsLog.content != null">
+					and content = #{smsLog.content} 
+				</if>
+				<if test="smsLog.isSuccess != null">
+					and is_success = #{smsLog.isSuccess} 
+				</if>
+				<if test="smsLog.sendUser != null">
+					and send_user = #{smsLog.sendUser} 
+				</if>
+				<if test="smsLog.sendIp != null">
+					and send_ip = #{smsLog.sendIp} 
+				</if>
+				<if test="smsLog.isUsed != null">
+					and is_used = #{smsLog.isUsed} 
+				</if>
+				<if test="smsLog.code != null">
+					and code = #{smsLog.code} 
+				</if>
+				<if test="smsLog.token != null">
+					and token = #{smsLog.token} 
+				</if>
+				<if test="smsLog.smsTypeMin != null">
+					and sms_type <![CDATA[>=]]> #{smsLog.smsTypeMin} 
+				</if>
+				<if test="smsLog.smsTypeMax != null">
+					and sms_type <![CDATA[<=]]> #{smsLog.smsTypeMax} 
+				</if>
+				<if test="smsTypes != null">
+			        and sms_type in 
+			    <foreach collection="smsTypes" item="item" index="index" open="(" separator="," close=")">
+		         #{item}
+		        </foreach>
+			</if>
+			</where>
+		</if>
+		 ORDER BY create_time DESC 
+	</select>
+
+
+</mapper>
+

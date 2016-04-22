@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+	<properties url="file:./config/jdbc.properties"/>
+	
+	<!-- 指定结果集映射关系 -->
+	<typeAliases>
+	 
+ 		<typeAlias alias="ReqPo" type="com.froad.po.req.ReqPo" /> 
+ 		<typeAlias alias="DefineTaskReq" type="com.froad.po.req.DefineTaskReq" /> 
+ 		
+		<typeAlias alias="Resp" type="com.froad.po.resp.Resp" /> 
+		<typeAlias alias="BaseResp" type="com.froad.po.resp.BaseResp" />
+ 		<typeAlias alias="AmountQuota" type="com.froad.po.resp.AmountQuota" /> 
+ 		<typeAlias alias="OrderQuota" type="com.froad.po.resp.OrderQuota" /> 
+ 		<typeAlias alias="MemberQuota" type="com.froad.po.resp.MemberQuota" />
+ 		<typeAlias alias="MerchantInfoResp" type="com.froad.po.resp.MerchantInfoResp" /> 
+ 		<typeAlias alias="ProductInfoResp" type="com.froad.po.resp.ProductInfoResp" /> 
+ 		<typeAlias alias="DefineTaskResp" type="com.froad.po.resp.DefineTaskResp" />
+ 		
+	</typeAliases>
+	
+	
+
+	<!-- 分页拦截器 mysql or oracle -->
+	<plugins>
+		<plugin interceptor="com.froad.db.mysql.interceptor.PageInterceptor">
+			<property name="databaseDialect" value="com.froad.db.mysql.dialet.MySQLDialect" />
+			<property name="pageSqlIdRegEx" value=".*ByPage" />
+		</plugin>
+	</plugins>
+	
+	
+	
+	<!-- -->
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC" />
+			<dataSource type="com.froad.db.mysql.datasource.DruidDataSourceFactory">
+				<property name="driverClassName" value="${jdbc.driverClassName}" />
+				<property name="url" value="${jdbc.url}" />
+				<property name="username" value="${jdbc.username}" />
+				<property name="password" value="${jdbc.password}" />
+
+				<!-- 配置初始化大小、最小、最大 -->
+				<property name="initialSize" value="${pool.initialSize}" />
+				<property name="minIdle" value="${pool.minIdle}" />
+				<property name="maxActive" value="${pool.maxActive}" />
+
+				<!-- 配置获取连接等待超时的时间 -->
+				<property name="maxWait" value="${pool.maxWait}" />
+
+				<property name="validationQuery" value="select now()" />
+				<property name="testWhileIdle" value="true" />
+				<property name="testOnBorrow" value="false" />
+				<property name="testOnReturn" value="false" />
+				<property name="poolPreparedStatements" value="false" />
+				<property name="maxOpenPreparedStatements" value="-1" />
+
+				<!-- 对于长时间不使用的连接强制关闭 -->
+				<property name="removeAbandoned" value="true" />
+
+				<!-- 超过30分钟开始关闭空闲连接 -->
+				<property name="removeAbandonedTimeout" value="120" />
+
+				<!-- 将当前关闭动作记录到日志 -->
+				<property name="logAbandoned" value="true" />
+			</dataSource>
+		</environment>
+	</environments>
+	
+
+	
+	
+
+	<!-- 指定mapper资源 -->
+	<mappers> 
+		<mapper resource="mappers/ReportMapper.xml" />
+		<mapper resource="mappers/AmountMapper.xml" />
+		<mapper resource="mappers/MemberMapper.xml" />
+		<mapper resource="mappers/MerchantMapper.xml" />
+		<mapper resource="mappers/ProductMapper.xml" />
+		<mapper resource="mappers/DefineTaskMapper.xml" />
+	</mappers>
+
+</configuration>

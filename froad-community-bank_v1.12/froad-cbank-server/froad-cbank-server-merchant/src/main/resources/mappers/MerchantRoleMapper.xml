@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.mysql.mapper.MerchantRoleMapper">
+
+	<resultMap type="MerchantRole" id="merchantRoleResultMap">
+		<id property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="description" column="description" />
+		<result property="isDelete" column="is_delete" />
+	</resultMap>
+
+
+	<!-- 添加  MerchantRole -->
+	<insert id="addMerchantRole" parameterType="MerchantRole" useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[
+			INSERT INTO cb_merchant_role (
+				name,description,is_delete
+			) VALUES (
+				#{clientId},#{name},#{description},#{isDelete}
+			) 
+		]]>
+	</insert>
+
+
+	<!-- 批量添加  MerchantRole -->
+	<insert id="addMerchantRoleByBatch" parameterType="java.util.List">
+		INSERT INTO cb_merchant_role (
+			name,description,is_delete
+		) VALUES 
+		<foreach collection="merchantRoleList" item="item" index="index" separator=",">
+			(#{clientId},#{name},#{description},#{isDelete})
+		</foreach>
+	</insert>
+
+
+	<!-- 删除  MerchantRole -->
+	<update id="deleteMerchantRole" parameterType="MerchantRole">
+		UPDATE cb_merchant_role SET is_delete = true where id = #{id}
+	</update>
+
+
+	<!-- 修改  MerchantRole -->
+	<update id="updateMerchantRole" parameterType="MerchantRole">
+		UPDATE cb_merchant_role 
+		<set>				
+			
+				<if test="name != null">
+					  name = #{name}, 
+				</if>
+				<if test="description != null">
+					  description = #{description}, 
+				</if>
+				<if test="isDelete != null">
+				     is_delete = #{isDelete},
+			    </if>
+		</set>
+		where id = #{id}
+	</update>
+
+
+	<!-- 查询  MerchantRole -->
+	<select id="findMerchantRoleById" parameterType="java.lang.Long" resultMap="merchantRoleResultMap">
+		SELECT 
+            id,name,description,is_delete 
+        FROM cb_merchant_role 
+        WHERE 
+            id = #{id}
+
+	</select>
+	
+		<!-- 查询  MerchantRole -->
+	<select id="findMerchantRoleByClientAndDescription" parameterType="java.lang.String" resultMap="merchantRoleResultMap">
+		SELECT 
+            id,name,description,is_delete 
+        FROM cb_merchant_role 
+        WHERE 
+            description = #{description}
+	</select>
+
+	<!-- 查询  MerchantRole -->
+	<select id="findMerchantRole" parameterType="MerchantRole" resultMap="merchantRoleResultMap">
+		SELECT 
+            id,name,description,is_delete 
+        FROM cb_merchant_role 
+		<where>
+			<if test="id != null">
+				 AND id = #{id}
+			</if>
+		
+			<if test="name != null">
+				 AND name = #{name}
+			</if>
+			<if test="description != null">
+				 AND description = #{description}
+			</if>
+			<if test="isDelete != null">
+				 AND is_delete = #{isDelete}
+			</if>
+		</where>
+	</select>
+
+	<!-- 分页查询  MerchantRole -->
+	<select id="findByPage" parameterType="java.util.HashMap" resultMap="merchantRoleResultMap">
+		SELECT 
+            id,name,description,is_delete 
+        FROM cb_merchant_role 
+		<if test="merchantRole != null">
+			<where>
+				<if test="merchantRole.id != null">
+					 AND id = #{merchantRole.id}
+				</if>
+				<if test="merchantRole.name != null">
+					 AND name = #{merchantRole.name}
+				</if>
+				<if test="merchantRole.description != null">
+					 AND description = #{merchantRole.description}
+				</if>
+				<if test="merchantRole.isDelete != null">
+					 AND is_delete = #{merchantRole.isDelete}
+				</if>
+			</where>
+		</if>
+	</select>
+
+
+</mapper>
+

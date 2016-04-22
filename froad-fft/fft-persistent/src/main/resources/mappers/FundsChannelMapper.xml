@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.fft.persistent.api.FundsChannelMapper">
+
+    <resultMap type="FundsChannel" id="fundsChannelResultMap">
+        <id property="id" column="id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+
+        <result property="shortName" column="name"/>
+        <result property="fullName" column="full_name"/>
+        <result property="channelType" column="channel_type" typeHandler="com.froad.fft.persistent.extend.EnumTypeHandler"/>
+        <result property="payOrg" column="pay_org"/>
+    </resultMap>
+
+    <!-- 插入 -->
+    <insert id="saveFundsChannel" parameterType="FundsChannel" useGeneratedKeys="true" keyProperty="id">
+		insert into fft_funds_channel values
+		(
+			#{id},#{createTime},#{updateTime},#{shortName},#{fullName},
+			#{channelType,typeHandler=com.froad.fft.persistent.extend.EnumTypeHandler},#{payOrg}
+		)
+	</insert>
+
+    <!-- 更新 -->
+    <update id="updateFundsChannelById" parameterType="FundsChannel">
+        update fft_funds_channel set update_time = #{updateTime}
+        <if test="shortName != null">
+            ,short_name = #{shortName}
+        </if>
+        <if test="fullName != null">
+            ,full_name = #{fullName}
+        </if>
+        <if test="channelType != null">
+            ,channel_type = #{channelType,typeHandler=com.froad.fft.persistent.extend.EnumTypeHandler}
+        </if>
+        <if test="payOrg != null">
+            ,pay_org = #{payOrg}
+        </if>
+        where id = #{id}
+    </update>
+
+    <!-- 查询 -->
+    <select id="selectFundsChannelById" parameterType="java.lang.Long" resultMap="fundsChannelResultMap">
+		select * from fft_funds_channel where id = #{id}
+	</select>
+
+
+    <!--分页数据-->
+    <select id="selectFundsChannelByPage" parameterType="com.froad.fft.persistent.bean.page.Page" resultMap="fundsChannelResultMap">
+        select * from fft_funds_channel
+        <if test="pageFilter != null">
+            <where>
+                <if test="pageFilter.filterEntity != null">
+                    <if test="pageFilter.filterEntity.id!= null">
+                        and id = #{pageFilter.filterEntity.id}
+                    </if>
+                    <if test="pageFilter.filterEntity.shortName!= null">
+                        and short_name like '%${pageFilter.filterEntity.shortName}%'
+                    </if>
+                    <if test="pageFilter.filterEntity.fullName!= null">
+                        and full_name = #{pageFilter.filterEntity.fullName}
+                    </if>
+                    <if test="pageFilter.filterEntity.channelType!= null">
+                        and channel_type #{pageFilter.filterEntity.type,typeHandler=com.froad.fft.persistent.extend.EnumTypeHandler}
+                    </if>
+                    <if test="pageFilter.filterEntity.payOrg!= null">
+                        and pay_org = #{pageFilter.filterEntity.payOrg}
+                    </if>
+                </if>
+
+                <!-- 时间段条件 -->
+                <if test="pageFilter.property != null and pageFilter.startTime != null">
+                    <![CDATA[
+          					 and ${pageFilter.property} >= #{pageFilter.startTime}
+          					]]>
+                </if>
+                <if test="pageFilter.property != null and pageFilter.endTime != null">
+                    <![CDATA[
+          					 and ${pageFilter.property} <= #{pageFilter.endTime}
+          					]]>
+                </if>
+            </where>
+        </if>
+        <!-- 排序 -->
+        <if test="order != null">
+            <if test="order.property != null and order.direction != null">
+                order by ${order.property} ${order.direction}
+            </if>
+        </if>
+    </select>
+
+    <select id="selectFundsChannelByPageCount" parameterType="com.froad.fft.persistent.bean.page.Page" resultType="java.lang.Integer">
+        select count(*) from fft_funds_channel
+        <if test="pageFilter != null">
+            <where>
+                <if test="pageFilter.filterEntity != null">
+                    <if test="pageFilter.filterEntity.id!= null">
+                        and id = #{pageFilter.filterEntity.id}
+                    </if>
+                    <if test="pageFilter.filterEntity.shortName!= null">
+                        and short_name like '%${pageFilter.filterEntity.shortName}%'
+                    </if>
+                    <if test="pageFilter.filterEntity.fullName!= null">
+                        and full_name = #{pageFilter.filterEntity.fullName}
+                    </if>
+                    <if test="pageFilter.filterEntity.channelType!= null">
+                        and channel_type #{pageFilter.filterEntity.type,typeHandler=com.froad.fft.persistent.extend.EnumTypeHandler}
+                    </if>
+                    <if test="pageFilter.filterEntity.payOrg!= null">
+                        and pay_org = #{pageFilter.filterEntity.payOrg}
+                    </if>
+                </if>
+
+                <!-- 时间段条件 -->
+                <if test="pageFilter.property != null and pageFilter.startTime != null">
+                    <![CDATA[
+          					 and ${pageFilter.property} >= #{pageFilter.startTime}
+          					]]>
+                </if>
+                <if test="pageFilter.property != null and pageFilter.endTime != null">
+                    <![CDATA[
+          					 and ${pageFilter.property} <= #{pageFilter.endTime}
+          					]]>
+                </if>
+            </where>
+        </if>
+    </select>
+
+	<select id="selectByClientId" parameterType="java.lang.Long" resultMap="fundsChannelResultMap">
+		select * from fft_funds_channel where id in(
+			select funds_channel_id from fft_client_channel where client_id=#{clientId})
+	</select>
+</mapper>

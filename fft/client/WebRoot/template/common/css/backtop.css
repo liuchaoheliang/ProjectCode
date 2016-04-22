@@ -1,0 +1,9 @@
+/*
+* Author:
+* pengling@f-road.com.cn 
+*/
+
+#goTopBtn {
+	position: fixed; TEXT-ALIGN: center; LINE-HEIGHT: 30px; WIDTH: 30px; BOTTOM: 35px; HEIGHT: 33px; FONT-SIZE: 12px; CURSOR: pointer; RIGHT:50px; _position: absolute; _right: auto
+}
+

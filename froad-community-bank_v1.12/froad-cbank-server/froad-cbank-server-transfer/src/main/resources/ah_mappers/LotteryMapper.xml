@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+	<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  		 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.fft.dao.LotteryMapper">
+
+	<resultMap type="Lottery" id="lotteryResultMap">
+		<id property="id" column="id" />
+		<result property="createTime" column="create_time" />
+		<result property="updateTime" column="update_time" />
+
+		<result property="transId" column="trans_id" />
+		<result property="period" column="period" />
+		<result property="buyCount" column="buy_count" />
+		<result property="content" column="content" />
+		<result property="lotteryNo" column="lottery_no" typeHandler="com.froad.db.extend.EnumTypeHandler" />
+		<result property="playType" column="play_type" typeHandler="com.froad.db.extend.EnumTypeHandler" />
+		<result property="buyamount" column="buyamount" />
+		<result property="amount" column="amount" />
+		<result property="prizeGrade" column="prize_grade" />
+		<result property="awdAmount" column="awd_amount" />
+		<result property="prizeCount" column="prize_count" />
+		<result property="numType" column="num_type" typeHandler="com.froad.db.extend.EnumTypeHandler" />
+	</resultMap>
+	
+	<!-- 插入 -->
+	<insert id="saveLottery" parameterType="Lottery" useGeneratedKeys="true" keyProperty="id" >
+		insert into fft_lottery values
+		(
+			#{id},#{createTime},#{updateTime},#{transId},#{period},#{buyCount},#{content},#{lotteryNo,typeHandler=com.froad.db.extend.EnumTypeHandler},
+			#{playType,typeHandler=com.froad.db.extend.EnumTypeHandler},#{buyamount},#{amount},
+			#{prizeGrade},#{awdAmount},#{prizeCount},#{numType,typeHandler=com.froad.db.extend.EnumTypeHandler}
+		)
+	</insert>
+
+	<!-- 更新 -->
+	<update id="updateLotteryById" parameterType="Lottery">
+		update fft_lottery set update_time = #{updateTime}
+		<if test="transId != null">
+			,trans_id = #{transId}
+		</if>
+		<if test="period != null">
+			,period = #{period}
+		</if>
+		<if test="buyCount != null">
+			,buy_count = #{buyCount}
+		</if>
+		<if test="content != null">
+			,content = #{content}
+		</if>
+		<if test="lotteryNo != null">
+			,lottery_no = #{lotteryNo,typeHandler=com.froad.db.extend.EnumTypeHandler}
+		</if>
+		<if test="playType != null">
+			,play_type = #{playType,typeHandler=com.froad.db.extend.EnumTypeHandler}
+		</if>
+		<if test="buyamount != null">
+			,buyamount = #{buyamount}
+		</if>
+		<if test="amount != null">
+			,amount = #{amount}
+		</if>
+		<if test="prizeGrade != null">
+			,prize_grade = #{prizeGrade}
+		</if>
+		<if test="awdAmount != null">
+			,awd_amount = #{awdAmount}
+		</if>
+		<if test="prizeCount != null">
+			,prize_count = #{prizeCount}
+		</if>
+		<if test="numType != null">
+			,num_type = #{numType,typeHandler=com.froad.db.extend.EnumTypeHandler}
+		</if>
+		where id = #{id}
+	</update>
+	
+	<!-- 查询 -->
+	<select id="selectLotteryById" parameterType="java.lang.Long" resultMap="lotteryResultMap">
+		select * from fft_lottery where id = #{id}
+	</select>
+</mapper>

@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.mysql.mapper.ClientProductAuditMapper">
+
+	<resultMap type="ClientProductAudit" id="clientProductAuditResultMap">
+		<id property="id" column="id" />
+		<result property="clientId" column="client_id" />
+		<result property="productType" column="product_type" />
+		<result property="orgLevel" column="org_level" />
+		<result property="startOrgLevel" column="start_org_level" />
+		<result property="endOrgLevel" column="end_org_level" />
+	</resultMap>
+
+
+	<!-- 添加  ClientProductAudit -->
+	<insert id="addClientProductAudit" parameterType="ClientProductAudit" useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[
+			INSERT INTO cb_client_product_audit (
+				client_id,product_type,org_level,start_org_level,end_org_level
+			) VALUES (
+				#{clientId},#{productType},#{orgLevel},#{startOrgLevel},#{endOrgLevel}
+			) 
+		]]>
+	</insert>
+
+
+	<!-- 批量添加  ClientProductAudit -->
+	<insert id="addClientProductAuditByBatch" parameterType="java.util.List">
+		INSERT INTO cb_client_product_audit (
+			client_id,product_type,org_level,start_org_level,end_org_level
+		) VALUES 
+		<foreach collection="clientProductAuditList" item="item" index="index" separator=",">
+			(#{clientId},#{productType},#{orgLevel},#{startOrgLevel},#{endOrgLevel})
+		</foreach>
+	</insert>
+
+
+	<!-- 删除  ClientProductAudit -->
+	<delete id="deleteClientProductAudit" parameterType="ClientProductAudit">
+		DELETE FROM cb_client_product_audit 
+			<where>
+				<if test="id != null">
+					 AND id = #{id} 
+				</if>
+				<if test="clientId != null">
+					 AND client_id = #{clientId} 
+				</if>
+				<if test="productType != null">
+					 AND product_type = #{productType}  
+				</if>
+				<if test="orgLevel != null">
+					 AND org_level = #{orgLevel} 
+				</if>
+				<if test="startOrgLevel != null">
+					 AND start_org_level = #{startOrgLevel} 
+				</if>
+				<if test="endOrgLevel != null">
+					 AND end_org_level = #{endOrgLevel} 
+				</if>
+			</where>
+	</delete>
+
+
+	<!-- 修改  ClientProductAudit -->
+	<update id="updateClientProductAudit" parameterType="ClientProductAudit">
+		UPDATE cb_client_product_audit 
+		<set>
+				<if test="productType != null">
+					  product_type = #{productType}, 
+				</if>
+				<if test="orgLevel != null">
+					  org_level = #{orgLevel}, 
+				</if>
+				<if test="startOrgLevel != null">
+					  start_org_level = #{startOrgLevel}, 
+				</if>
+				<if test="endOrgLevel != null">
+					  end_org_level = #{endOrgLevel}, 
+				</if>
+		</set>
+		<where>
+			<if test="id != null">
+				 AND id = #{id} 
+			</if>
+			<if test="clientId != null">
+				 AND client_id = #{clientId} 
+			</if>
+		</where>
+	</update>
+
+
+	<!-- 查询  ClientProductAudit -->
+	<select id="findClientProductAuditById" parameterType="java.lang.Long" resultMap="clientProductAuditResultMap">
+		SELECT 
+            id,client_id,product_type,org_level,start_org_level,end_org_level 
+        FROM cb_client_product_audit 
+        WHERE 
+            id = #{id}
+
+	</select>
+
+	<!-- 查询  ClientProductAudit -->
+	<select id="findClientProductAudit" parameterType="ClientProductAudit" resultMap="clientProductAuditResultMap">
+		SELECT 
+            id,client_id,product_type,org_level,start_org_level,end_org_level 
+        FROM cb_client_product_audit 
+		<where>
+			<if test="id != null">
+				 AND id = #{id} 
+			</if>
+			<if test="clientId != null">
+				 AND client_id = #{clientId} 
+			</if>
+			<if test="productType != null">
+				 AND product_type = #{productType} 
+			</if>
+			<if test="orgLevel != null">
+				 AND org_level = #{orgLevel} 
+			</if>
+			<if test="startOrgLevel != null">
+				 AND start_org_level = #{startOrgLevel} 
+			</if>
+			<if test="endOrgLevel != null">
+				 AND end_org_level = #{endOrgLevel} 
+			</if>
+		</where>
+	</select>
+
+	<!-- 分页查询  ClientProductAudit -->
+	<select id="findByPage" parameterType="java.util.HashMap" resultMap="clientProductAuditResultMap">
+		SELECT 
+            id,client_id,product_type,org_level,start_org_level,end_org_level 
+        FROM cb_client_product_audit 
+		<if test="clientProductAudit != null">
+			<where>
+				<if test="clientProductAudit.id != null">
+					 AND id = #{clientProductAudit.id} 
+				</if>
+				<if test="clientProductAudit.clientId != null">
+					 AND client_id = #{clientProductAudit.clientId} 
+				</if>
+				<if test="clientProductAudit.productType != null">
+					 AND product_type = #{clientProductAudit.productType} 
+				</if>
+				<if test="clientProductAudit.orgLevel != null">
+					 AND org_level = #{clientProductAudit.orgLevel} 
+				</if>
+				<if test="clientProductAudit.startOrgLevel != null">
+					 AND start_org_level = #{clientProductAudit.startOrgLevel} 
+				</if>
+				<if test="clientProductAudit.endOrgLevel != null">
+					 AND end_org_level = #{clientProductAudit.endOrgLevel} 
+				</if>
+			</where>
+		</if>
+	</select>
+
+
+</mapper>
+

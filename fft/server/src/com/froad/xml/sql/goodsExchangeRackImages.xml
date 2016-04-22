@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+
+<sqlMap namespace="goodsExchangeRackImages">
+	<typeAlias alias="goodsExchangeRackImages" type="com.froad.CB.po.GoodsExchangeRackImages" />
+
+	<resultMap class="goodsExchangeRackImages" id="goodsExchangeRackImagesResultMap">
+		<result property="id" column="id" jdbcType="INT" />
+		<result property="goodsExchangeRackId"
+			column="goods_exchange_rack_id" jdbcType="VARCHAR" />
+		<result property="imagesUrl" column="images_url"
+			jdbcType="VARCHAR" />
+		<result property="state" column="state" jdbcType="VARCHAR" />
+		<result property="createTime" column="create_time"
+			jdbcType="VARCHAR" />
+		<result property="updateTime" column="update_time"
+			jdbcType="VARCHAR" />
+		<result property="remark" column="remark" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<insert id="insertObject" parameterClass="goodsExchangeRackImages">
+		insert into goods_exchange_rack_images (
+		id,goods_exchange_rack_id,images_url,state,create_time,update_time,remark
+		) values (
+		#id:INTEGER#,#goodsExchangeRackId:VARCHAR#,#imagesUrl:VARCHAR#,#state:VARCHAR#,
+		DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),#remark:VARCHAR#)
+
+		<selectKey keyProperty="id" resultClass="int">
+			select last_insert_id() as id
+		</selectKey>
+	</insert>
+	
+	<delete id="UpdateObject" parameterClass="goodsExchangeRackImages">
+		update goods_exchange_rack_images 
+      	set state = #state:VARCHAR# ,update_time = DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s")
+      	where id = #id:INT#
+	</delete>
+	
+	<update id="updateObject" parameterClass="goodsExchangeRackImages">
+		
+			update goods_exchange_rack_images set update_time = DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s")
+			<dynamic>
+				<isNotEmpty prepend="," property="goodsExchangeRackId">
+					goods_exchange_rack_id = #goodsExchangeRackId:VARCHAR#
+				</isNotEmpty>
+				<isNotEmpty prepend="," property="imagesUrl">
+					images_url = #imagesUrl:VARCHAR#
+				</isNotEmpty>
+				<isNotEmpty prepend="," property="state">
+					state = #state:VARCHAR#
+				</isNotEmpty>
+				<isNotEmpty prepend="," property="remark">
+					remark = #remark:VARCHAR#
+				</isNotEmpty>
+			</dynamic>
+		
+      	<dynamic  prepend="where">
+			<isNotEmpty prepend="and" property="id">
+				<![CDATA[ id = #id:INTEGER# ]]>
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="goodsExchangeRackId">
+				<![CDATA[ goods_exchange_rack_id = #goodsExchangeRackId:VARCHAR# ]]>
+			</isNotEmpty>
+		</dynamic>
+	</update>
+	
+	<select id="getByPrimaryKey" parameterClass="java.lang.Integer" resultMap="goodsExchangeRackImagesResultMap">
+		select * from goods_exchange_rack_images where id = #id:INT#
+	</select>
+	
+	<select id="getAll" resultMap="goodsExchangeRackImagesResultMap">
+		select * from goods_exchange_rack_images
+	</select>
+	
+	<select id="getByGoodsExchangeRackId" parameterClass="java.lang.String" resultMap="goodsExchangeRackImagesResultMap">
+		select * from goods_exchange_rack_images where goods_exchange_rack_id = #goodsExchangeRackId:VARCHAR#
+	</select>	
+	
+	
+	
+	
+
+
+</sqlMap>

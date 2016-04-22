@@ -1,0 +1,37 @@
+/*
+* Author:
+* pengling@f-road.com.cn 
+*/
+/*欢迎页面*/
+.wel{width:840px; margin:0 auto; font:14px/24px "微软雅黑"; height:250px;}
+
+.w01, .w02, .w03, .w04, .w05, .w06, .w07, .w08, .w09, .w10, .w11, .w12{ background:url(../images/welcomeLink.png);  display:block;}
+
+.w01{background-position:0 0;}
+
+.w02{background-position:-83px 0;}
+
+.w03{background-position:-166px 0;}
+
+.w04{background-position:-260px 0;}
+
+.w05{background-position:-355px 0;}
+
+.w06{background-position:-432px 0;}
+
+.w07{background-position:0 -70px;}
+
+.w08{background-position:-80px -70px;}
+
+.w09{background-position:-166px -70px;}
+
+.w10{background-position:-255px -70px;}
+
+.w11{background-position:-348px -70px;}
+
+.w12{background-position:-440px -70px;}
+
+.wel a{width:80px; height:70px; line-height:150px; float:left; margin:30px 30px 20px; display:inline; color:#F60; text-decoration:none; font-weight:bold;}
+
+.wel a:hover{ color:#090; text-decoration:none;}
+

@@ -1,0 +1,31 @@
+/*
+* Author:
+* pengling@f-road.com.cn 
+*/
+/*图像列表*/
+.imgList{width:758px; border:1px solid #b7b7b7; overflow:hidden; padding-bottom:10px; background:#FFF;}
+
+.imgList .local{width:95%; height:30px; padding:5px; border:1px solid #F99; margin:10px auto 0; background:#FCC; color:#F00; line-height:30px; text-align:center; font-size:14px;}
+
+.imgList .list li{float:left; width:233px; height:278px; border:1px solid #ddd; margin-left:13px; margin-top:13px; background:#f3f5f7; display:inline;}
+
+.imgList .list li .listall{}
+
+.imgList .list li .hotTitle{width:190px; height:30px; line-height:30px; overflow:hidden; font-size:14px; color:#04275c; font-weight:bold;}
+
+.imgList .list li .hotTitle a{ text-decoration:none; color:#04275c;  padding:5px;}
+
+.imgList .list li .hotTitle a:hover{ text-decoration:none; background:#f7ed52; padding:5px;}
+
+.imgList .list li img{ padding:2px; width:229px; height:143px;}
+
+.imgList .list  li span{width:225px; font-family:Verdana, Geneva, sans-serif; color:#666; font-size:12px; margin-left:5px; display:block; height:25px; line-height:25px; overflow:hidden;}
+
+.imgList .list  li p{width:225px; font-family:Verdana, Geneva, sans-serif; color:#666; font-size:12px; margin-left:5px; display:block; height:50px; line-height:20px; overflow:hidden;}
+
+.imgList .list li span B{ color:#F60; font-size:14px;}
+
+.imgList .list  li span a{ color:#F00; text-decoration:none; margin-right:8px;}
+
+.imgList .list li span a:hover{ color:#090; text-decoration:underline;}
+

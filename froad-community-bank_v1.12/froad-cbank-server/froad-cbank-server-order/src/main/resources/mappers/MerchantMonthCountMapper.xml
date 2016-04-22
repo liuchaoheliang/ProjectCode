@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.mysql.mapper.MerchantMonthCountMapper">
+
+	<resultMap type="MerchantMonthCount" id="mmc">
+	</resultMap>
+	
+	<insert id="insertNewRecord" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+		insert into cb_merchant_month_count (client_id, merchant_id, year, month,month_money,group_order_count,group_order_money,sell_order_count,sell_order_money,face_order_count,face_order_money)
+		select &apos;${clientId}&apos;,&apos;${merchantId}&apos;,${year},&apos;${month}&apos;,0,0,0,0,0,0,0 from dual where not exists(select id from cb_merchant_month_count where client_id=#{clientId} and merchant_id=#{merchantId} and year=#{year} and month=#{month})
+	</insert>
+
+	<update id="plusMerchantMonthCount">
+		update cb_merchant_month_count
+		set
+		month_money = month_money + ${monthMoney}
+		<if test="groupOrderCount!=null">
+			,group_order_count = group_order_count + ${groupOrderCount},group_order_money = group_order_money + ${groupOrderMoney}
+		</if>
+		<if test="sellOrderCount!=null">
+			,sell_order_count = sell_order_count + ${sellOrderCount},sell_order_money = sell_order_money + ${sellOrderMoney}
+		</if>
+		<if test="faceOrderCount!=null">
+			,face_order_count = face_order_count + ${faceOrderCount},face_order_money = face_order_money + ${faceOrderMoney}
+		</if>
+		where id=#{id}
+	</update>
+	
+	<update id="minusMerchantMonthCount">
+		update cb_merchant_month_count
+		set
+		month_money = month_money - ${monthMoney}
+		<if test="groupOrderCount!=null">
+			,group_order_count = group_order_count - ${groupOrderCount},group_order_money = group_order_money - ${groupOrderMoney}
+		</if>
+		<if test="sellOrderCount!=null">
+			,sell_order_count = sell_order_count - ${sellOrderCount},sell_order_money = sell_order_money - ${sellOrderMoney}
+		</if>
+		<if test="faceOrderCount!=null">
+			,face_order_count = face_order_count - ${faceOrderCount},face_order_money = face_order_money - ${faceOrderMoney}
+		</if>
+		where client_id=#{clientId} and merchant_id=#{merchantId} and year=#{year} and month=#{month}
+	</update>
+	
+	<select id="selectRecordId" resultType="java.lang.Long">
+		select id from cb_merchant_month_count where client_id=#{clientId} and merchant_id=#{merchantId} and year=#{year} and month=#{month}
+	</select>
+</mapper>
+

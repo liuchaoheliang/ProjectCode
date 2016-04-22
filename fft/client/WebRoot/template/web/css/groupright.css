@@ -1,0 +1,43 @@
+/*
+* Author:
+* pengling@f-road.com.cn 
+*/
+/*还看了*/
+
+.also{border:1px solid #d4d4d4; width:238px; background:#FFF; overflow:hidden; padding-bottom:10px;}
+
+.also dl{width:200px; margin:0 auto;}
+
+.also dl dt{ font:14px/48px "宋体"; color:#000;}
+
+.also dl dt B{ padding-left:5px;}
+
+.also dl dd{width:208px; margin:0 auto 10px;}
+
+.also dl dd img{width:200px; height:117px;}
+
+.also dl dd p{ font:12px/20px "宋体"; color:#777; overflow:hidden;}
+
+.also dl dd p.jifen{ text-align:center; height:20px;}
+
+.also dl dd p b{ font:12px/18px Verdana, Geneva, sans-serif; margin:0 2px; color:#F00; font-weight:bold;}
+
+.also dl dd p a{ color:#777; text-decoration:none;}
+
+.also dl dd p a:hover{ color:#06F; text-decoration:underline;}
+
+.also dl dd div{width:200px; height:30px; color:#777;}
+
+.also dl dd div b{ float:left; color:#C00; font-size:16px; font-family:"微软雅黑"}
+
+.also dl dd div u{ float:left; font-size:12px; margin-left:8px; display:inline; font-style:none; text-decoration:none; line-height:20px;}
+
+.also dl dd div u i{text-decoration:line-through; font-style:normal;  font-size:12px; font-family:"微软雅黑"}
+
+.also dl dd div span{ float:right;  display:inline; font:12px/20px "微软雅黑";}
+
+.also dl dd div span b{ font-size:12px; color:#C30; margin-right:3px;}
+
+
+
+

@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="suggestionReply">
+	
+	<typeAlias alias="suggestionReply" type="com.froad.CB.po.SuggestionReply" />
+	<resultMap class="suggestionReply" id="suggestionReplyResult">
+		<result property="id" column="id"/>
+		<result property="suggestionId" column="suggestion_id"/>		
+		<result property="title" column="title"/>
+		<result property="content" column="content"/>
+		<result property="replyAccount" column="reply_account"/>		
+		<result property="state" column="state"/>
+		<result property="createTime" column="create_time"/>
+		<result property="updateTime" column="update_time"/>
+		<result property="remark" column="remark"/>
+	</resultMap>
+	
+	<!-- 添加意见建议回复信息 -->
+	<insert id="addSuggestionReply" parameterClass="suggestionReply">
+		<![CDATA[ 
+				insert into suggestion_reply(id,suggestion_id,title,content,reply_account,state,create_time,update_time,remark) 
+				values(#id#,#suggestionId#,#title#,#content#,#replyAccount#,#state#,DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),#remark#)
+		]]>
+			<selectKey keyProperty="id" resultClass="int">
+				select last_insert_id() as id
+			</selectKey>
+	</insert>
+	
+	<!-- 更新意见建议回复信息  -->
+	<update id="updateSuggestionReplyById" parameterClass="suggestionReply" >
+	    <![CDATA[ 
+	    			update suggestion_reply a 
+	    			set a.update_time = DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s")
+	    ]]>
+		<dynamic>
+		     <isNotEmpty prepend="," property="suggestionId">
+		         <![CDATA[  a.suggestion_id = #suggestionId# ]]>
+		     </isNotEmpty> 
+		     <isNotEmpty prepend="," property="title">
+		         <![CDATA[  a.title = #title# ]]>
+		     </isNotEmpty> 
+		     <isNotEmpty prepend="," property="content">
+		         <![CDATA[  a.content = #content# ]]>
+		     </isNotEmpty> 
+		     <isNotEmpty prepend="," property="replyAccount">
+		         <![CDATA[  a.reply_account = #replyAccount# ]]>
+		     </isNotEmpty> 
+		     <isNotEmpty prepend="," property="state">
+		         <![CDATA[  a.state = #state# ]]>
+		     </isNotEmpty> 
+		     <isNotEmpty prepend="," property="remark">
+		         <![CDATA[  a.remark = #remark# ]]>
+		      </isNotEmpty> 
+		</dynamic>
+		<![CDATA[ where a.id = #id# ]]>
+	</update>
+	
+	<!-- 根据id物理删除意见建议回复信息 -->
+	<delete id="deleteByPrimaryKey" parameterClass="suggestionReply" >
+	    <![CDATA[ 
+    			delete from suggestion_reply where id = #id#
+	     ]]>
+	</delete>
+	
+	<!-- 根据id删除意见建议回复信息 -->
+	<update id="deleteStateByPrimaryKey" parameterClass="suggestionReply" >
+	    <![CDATA[ 
+    			update suggestion_reply a 
+		     	set a.update_time = DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),a.state = '50'
+		     	where a.id = #id:INT#
+	     ]]>
+	</update>
+	
+	<!-- 根据主键编号查询意见建议回复信息 -->
+	<select id="getSuggestionReplyBySuggestionId" parameterClass="java.lang.String" resultMap="suggestionReplyResult">
+		select * from suggestion_reply a where a.suggestion_id=#suggestionId#
+	</select>
+	
+	<!-- 根据主键编号查询意见建议回复信息 -->
+	<select id="selectByPrimaryKey" parameterClass="java.lang.Integer" resultMap="suggestionReplyResult">
+		select * from suggestion_reply a where a.id=#id#
+	</select>
+	
+	<!-- 查询意见和建议回复信息  -->
+    <select id="getSuggestionReplyBySelective" parameterClass="suggestionReply" resultMap="suggestionReplyResult">
+    	select * from suggestion_reply a
+    	<dynamic prepend="where">
+    		<isNotEmpty prepend="AND" property="id">
+		         <![CDATA[  a.id = #id# ]]>
+		     </isNotEmpty>
+    		 <isNotEmpty prepend="AND" property="suggestionId">
+		         <![CDATA[  a.suggestion_id = #suggestionId# ]]>
+		     </isNotEmpty> 
+		      <isNotEmpty prepend="AND" property="title">
+		         <![CDATA[  a.title like concat('%',#title#,'%') ]]>
+		      </isNotEmpty>
+		      <isNotEmpty prepend="AND" property="content">
+		         <![CDATA[  a.content like concat('%',#content#,'%') ]]>
+		      </isNotEmpty>
+		      <isNotEmpty prepend="AND" property="replyAccount">
+		         <![CDATA[  a.reply_account = #replyAccount# ]]>
+		     </isNotEmpty> 
+		     <isNotEmpty prepend="AND" property="state">
+		         <![CDATA[  a.state = #state# ]]>
+		     </isNotEmpty> 
+		     <isNotEmpty prepend="AND" property="remark">
+		         <![CDATA[  a.remark = #remark# ]]>
+		      </isNotEmpty> 
+    	</dynamic>
+    </select>
+    
+    <!-- 分页 查询意见和建议回复列表  -->
+    <select id="getSuggestionReplyListByPager"  parameterClass="suggestionReply" resultMap="suggestionReplyResult">
+    	select * from suggestion_reply a
+    	<dynamic prepend="where">
+    		<isNotEmpty prepend="AND" property="id">
+		         <![CDATA[  a.id = #id# ]]>
+		     </isNotEmpty>
+    		 <isNotEmpty prepend="AND" property="suggestionId">
+		         <![CDATA[  a.suggestion_id = #suggestionId# ]]>
+		     </isNotEmpty> 
+		      <isNotEmpty prepend="AND" property="title">
+		         <![CDATA[  a.title like concat('%',#title#,'%') ]]>
+		      </isNotEmpty>
+		      <isNotEmpty prepend="AND" property="content">
+		         <![CDATA[  a.content like concat('%',#content#,'%') ]]>
+		      </isNotEmpty>
+		      <isNotEmpty prepend="AND" property="replyAccount">
+		         <![CDATA[  a.reply_account = #replyAccount# ]]>
+		     </isNotEmpty> 
+		     <isNotEmpty prepend="AND" property="state">
+		         <![CDATA[  a.state = #state# ]]>
+		     </isNotEmpty> 
+		     <isNotEmpty prepend="AND" property="remark">
+		         <![CDATA[  a.remark = #remark# ]]>
+		      </isNotEmpty> 
+    		<isNotEmpty property="beginTime">
+    			<isNotEmpty property="endTime" prepend="and">
+    			<![CDATA[	a.create_time between #beginTime# and #endTime# ]]>
+    			</isNotEmpty>
+    		</isNotEmpty>
+    	</dynamic>            
+            <![CDATA[ 
+            		order by $orderBy$ $orderType$ 
+            		limit #startRow#,#pageSize#  
+            ]]> 
+    </select>
+    
+    <select id="getSuggestionReplyListByPagerCount"  parameterClass="suggestionReply" resultClass="java.lang.Integer">
+    	select count(*) from suggestion_reply a
+    	<dynamic prepend="where">
+    		<isNotEmpty prepend="AND" property="id">
+		         <![CDATA[  a.id = #id# ]]>
+		     </isNotEmpty>
+    		 <isNotEmpty prepend="AND" property="suggestionId">
+		         <![CDATA[  a.suggestion_id = #suggestionId# ]]>
+		     </isNotEmpty> 
+		      <isNotEmpty prepend="AND" property="title">
+		         <![CDATA[  a.title like concat('%',#title#,'%') ]]>
+		      </isNotEmpty>
+		      <isNotEmpty prepend="AND" property="content">
+		         <![CDATA[  a.content like concat('%',#content#,'%') ]]>
+		      </isNotEmpty>
+		      <isNotEmpty prepend="AND" property="replyAccount">
+		         <![CDATA[  a.reply_account = #replyAccount# ]]>
+		     </isNotEmpty> 
+		     <isNotEmpty prepend="AND" property="state">
+		         <![CDATA[  a.state = #state# ]]>
+		     </isNotEmpty> 
+		     <isNotEmpty prepend="AND" property="remark">
+		         <![CDATA[  a.remark = #remark# ]]>
+		      </isNotEmpty> 
+    		<isNotEmpty property="beginTime">
+    			<isNotEmpty property="endTime" prepend="and">
+    			<![CDATA[	a.create_time between #beginTime# and #endTime# ]]>
+    			</isNotEmpty>
+    		</isNotEmpty>
+    	</dynamic>
+    </select>
+</sqlMap>

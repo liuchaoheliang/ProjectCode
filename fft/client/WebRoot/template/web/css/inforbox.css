@@ -1,0 +1,13 @@
+/*
+* Author:
+* pengling@f-road.com.cn 
+*/
+/*信息框*/
+.put{width:758px; border:1px solid #b7b7b7; overflow:hidden; padding-bottom:10px; background:#FFF; clear:both}
+
+.put table{ font:14px/20px "微软雅黑"; width:582px; margin:20px auto 15px; border:1px solid #ccc;}
+
+.put table th{ text-align:right; height:40px; width:195px;}
+
+.put table td{ text-align:left; width:355px; height:40px;}
+

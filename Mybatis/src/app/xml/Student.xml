@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+
+  
+<sqlMap namespace="student">
+	<typeAlias alias="student" type="app.po.Student" />
+	<resultMap class="student" id="studentResult">
+	    <result column="id"  property="id" jdbcType="VARCHAR"/>
+		<result column="name"  property="name" jdbcType="VARCHAR"/>
+		<result column="class"  property="clazz" jdbcType="VARCHAR"/>
+		<result column="birthday"  property="birthday" jdbcType="VARCHAR"/>
+	</resultMap>
+	
+	
+	<insert id="add" parameterClass="student" >
+		insert into student(id,name,class,birthday) values (#id#,#name#,#clazz#,#birthday#)
+		<selectKey keyProperty="id" resultClass="int" type="post">
+		   select last_insert_id() as id
+		</selectKey>
+	</insert>
+	
+	<update id="updateById" parameterClass="student">
+		update student set id=#id#
+		<dynamic >
+			<isNotEmpty  prepend="," property="name">
+				name=#name#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="clazz">
+				class=#clazz#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="birthday">
+				birthday=#birthday#
+			</isNotEmpty>
+		</dynamic>
+		where id=#id#
+	</update>
+	
+	<select id="getById" parameterClass="java.lang.Integer" resultMap="studentResult">
+		select * from student where id=#id#
+	</select>
+	
+	<select id="getByClazzName" parameterClass="java.lang.String" resultMap="studentResult">
+		select * from student where class=#className#
+	</select>
+	
+</sqlMap>

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="memberCollect" >
+  <typeAlias alias="memberCollect" type="com.froad.CB.po.user.MemberCollect"/>
+  <resultMap id="MemberCollectResult" class="memberCollect" >
+    <result column="id" property="id" jdbcType="INTEGER" />
+    <result column="userID" property="userid" jdbcType="VARCHAR" />
+    <result column="Merchant_id" property="merchantId" jdbcType="VARCHAR" />
+    <result column="Merchant_id" property="merchant" select="merchant.selectByPrimaryKey"/>
+    <result column="state" property="state" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <select id="selectByPrimaryKey" resultMap="MemberCollectResult" parameterClass="java.lang.Integer" >
+     select * from member_collect where id = #id:INTEGER#
+  </select>
+  
+  <select id="getMemberCollectByUserId" resultMap="MemberCollectResult" parameterClass="string">
+  	select * from member_collect where userID=#value#
+  </select>
+  
+  <select id="getMemberCollectByMerchantId" resultMap="MemberCollectResult" parameterClass="string">
+  	select * from member_collect where Merchant_id = #value#
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterClass="java.lang.Integer" >
+        delete from member_collect where id = #id:INTEGER#
+  </delete>
+  
+  <insert id="insert" parameterClass="memberCollect" >
+    insert into member_collect (id, userID, Merchant_id, state, create_time, update_time,
+    remark) values (#id:INTEGER#, #userid:VARCHAR#, #merchantId:VARCHAR#, 
+    #state:VARCHAR#,DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"), DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"), #remark:VARCHAR#)
+    <selectKey keyProperty="id" resultClass="int">
+    	select last_insert_id() as id
+    </selectKey>
+  </insert>
+  
+  <update id="updateStateById" parameterClass="java.util.HashMap">
+  	update member_collect set state=#state#,update_time = DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s") where id=#id#
+  </update>
+  
+  <update id="updateByPrimaryKeySelective" parameterClass="memberCollect" >
+    update member_collect set update_time = DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s")
+    <dynamic prepend="" >
+      <isNotEmpty prepend="," property="userid" >
+        userID = #userid:VARCHAR#
+      </isNotEmpty>
+      <isNotEmpty prepend="," property="merchantId" >
+        Merchant_id = #merchantId:VARCHAR#
+      </isNotEmpty>
+      <isNotEmpty prepend="," property="state" >
+        state = #state:VARCHAR#
+      </isNotEmpty>
+      <isNotEmpty prepend="," property="remark" >
+        remark = #remark:VARCHAR#
+      </isNotEmpty>
+    </dynamic>
+    where id = #id:INTEGER#
+  </update>
+  
+  <select id="getMemberCollectByPager" parameterClass="memberCollect" resultMap="MemberCollectResult">
+  	select * from member_collect
+  	<dynamic prepend="where" >
+  	  <isNotEmpty prepend="and" property="id" >
+        id = #id#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="userid" >
+        userID = #userid:VARCHAR#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="merchantId" >
+        Merchant_id = #merchantId:VARCHAR#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="state" >
+        state = #state:VARCHAR#
+      </isNotEmpty>
+      <isNotEmpty property="beginTime">
+		<isNotEmpty property="endTime" prepend="and">
+			create_time between #beginTime# and #endTime#
+		</isNotEmpty>
+      </isNotEmpty>
+    </dynamic>
+    order by create_time desc limit #startRow#,#pageSize#
+  </select>
+  
+  <select id="getMemberCollectByPagerCount" parameterClass="memberCollect" resultClass="java.lang.Integer">
+  	select count(*) from member_collect
+  	<dynamic prepend="where">
+  	  <isNotEmpty prepend="and" property="id" >
+        id = #id#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="userid" >
+        userID = #userid:VARCHAR#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="merchantId" >
+        Merchant_id = #merchantId:VARCHAR#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="state" >
+        state = #state:VARCHAR#
+      </isNotEmpty>
+      <isNotEmpty property="beginTime">
+		<isNotEmpty property="endTime" prepend="and">
+			create_time between #beginTime# and #endTime#
+		</isNotEmpty>
+      </isNotEmpty>
+    </dynamic>
+  </select>
+</sqlMap>

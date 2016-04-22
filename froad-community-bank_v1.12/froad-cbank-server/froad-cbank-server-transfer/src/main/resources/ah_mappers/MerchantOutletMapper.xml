@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.ahui.mappers.MerchantOutletMapper">
+
+	<resultMap type="MerchantOutlet" id="merchantOutletResultMap">
+		<id property="id" column="id" />
+		<result property="createTime" column="create_time" />
+		<result property="updateTime" column="update_time" />
+		<result property="pdid" column="presell_delivery_id"/>  
+		<result property="name" column="name" />
+		<result property="fullName" column="full_name" />
+		<result property="logo" column="logo" />
+		<result property="address" column="address" />
+		<result property="businessHours" column="business_hours" />
+		<result property="zip" column="zip" />
+		<result property="fax" column="fax" />
+		<result property="tel" column="tel" />
+		<result property="contactName" column="contact_name" />
+		<result property="contactPhone" column="contact_phone" />
+		<result property="contactEmail" column="contact_email" />
+		<result property="serviceProvider" column="service_provider" />
+		<result property="coordinate" column="coordinate" />
+		<result property="orderValue" column="order_value" />
+		<result property="merchantId" column="merchant_id" />
+		<result property="dataState" column="data_state" typeHandler="com.froad.db.extend.EnumTypeHandler" />
+		<!-- 社区银行专用 -->
+		<result property="merchantOutletCategory.name" column="merchantOutletCategoryName"/>
+		<result property="businessCircle.name" column="businessCircleName"/>
+		<result property="distance" column="distance"/>
+		<result property="outletDetails" column="outlet_details"/>
+		<result property="preferDetails" column="prefer_details"/>
+		<result property="preferPeriod" column="prefer_period"/>
+		<result property="discount" column="discount"/>
+		
+		<result property="areaId" column="area_id"/>
+		
+		<!-- 
+		<association property="merchantPhotoList" column="id" select="com.froad.fft.persistent.api.MerchantPhotoMapper.selectMerchantPhotoByMerchantOutletId"></association>
+		 -->
+	</resultMap>
+<!--  
+	<resultMap id="statisticResultMap" type="OutletStatistic">
+		<result property="deliveryId" column="deliveryid" />
+		<result property="deliveryName" column="deliveryname" />
+		<result property="outletId" column="outletid" />
+		<result property="outletName" column="outletname" />
+		<result property="price" column="price" />
+		<result property="quantity" column="quantity" />
+		<result property="orderNum" column="ordernum" />
+	</resultMap>
+
+-->
+
+
+    <!-- 查询  根据提货点Id 查询门店 -->
+    <select id="selectByDeliveryId" parameterType="java.lang.Long" resultMap="merchantOutletResultMap">
+		select a.* from fft_merchant_outlet a where a.id = (SELECT merchant_outlet_id from fft_outlet_presell_delivery b where b.presell_delivery_id = #{id});
+	</select>
+
+	<!-- 查询门店  -->
+	<select id="selectByProductComment"  resultMap="merchantOutletResultMap">
+	   select * from fft_merchant_outlet;
+	</select>
+	
+	<!-- 根据门店ID查询门店信息 -->
+	<select id="selectById"  resultMap="merchantOutletResultMap">
+	   select * from fft_merchant_outlet where id=#{id};
+	</select>
+	<!-- 查询商品ID对应门店信息 -->
+	<select id="selectCommonProductOutlet" parameterType="java.lang.Long" resultMap="merchantOutletResultMap" >
+	select fout.id,address,name,area_id from fft_merchant_outlet fout RIGHT JOIN  fft_product_delivery fd on fout.id=fd.presell_delivery_id where product_id=#{id}
+	</select>
+	<!-- 查询预售商品对应门店信息 -->
+	<select id="selectPresellProductOutlet" parameterType="java.lang.Long" resultMap="merchantOutletResultMap">
+	select fout.id,address,name,area_id from fft_merchant_outlet fout RIGHT JOIN  fft_product_presell_delivery fd on fout.id=fd.presell_delivery_id where fd.product_presell_id=#{id}
+	</select>
+</mapper>

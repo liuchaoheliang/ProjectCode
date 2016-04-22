@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.fft.persistent.api.StockPileMapper">
+
+    <resultMap type="StockPile" id="stockPileResultMap">
+        <id property="id" column="id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+
+        <result property="productId" column="product_id"/>
+        <result property="merchantOutletId" column="merchant_outlet_id"/>
+        <result property="quantity" column="quantity"/>
+        <result property="lastIncomeTime" column="last_income_time"/>
+        <result property="lastOutcomeTime" column="last_outcome_time"/>
+        <result property="warnType" column="warn_type" typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"/>
+        <result property="warnValue" column="warn_value"/>
+        <result property="totalQuantity" column="total_quantity"/>
+        <result property="remark" column="remark"/>
+        <result property="product.id" column="product_id"/>
+        <result property="product.name" column="product_name"/>
+        
+        <result property="merchantOutlet.id" column="outle_id"/>
+        <result property="merchantOutlet.name" column="outle_name"/>
+    </resultMap>
+
+    <!-- 插入 -->
+    <insert id="saveStockPile" parameterType="StockPile" useGeneratedKeys="true" keyProperty="id">
+		insert into fft_stock_pile values
+		(
+			#{id},#{createTime},#{updateTime},#{productId},
+			#{merchantOutletId},#{quantity},#{lastIncomeTime},#{lastOutcomeTime},
+			#{warnType,typeHandler=org.apache.ibatis.type.EnumOrdinalTypeHandler},#{warnValue},#{totalQuantity},#{remark}
+		)
+	</insert>
+
+    <select id="selectStockPileById" parameterType="java.lang.Long" resultMap="stockPileResultMap">
+		SELECT s.*, 
+		       p.NAME AS product_name, 
+		       p.id   AS product_id, 
+		       m.id   AS outle_id, 
+		       m.NAME AS outle_name 
+		FROM   fft_stock_pile s 
+		       LEFT JOIN fft_product p 
+		              ON s.product_id = p.id 
+		       LEFT JOIN fft_merchant_outlet m 
+		              ON m.id = s.merchant_outlet_id 
+		      WHERE s.id=#{id}
+	</select>
+
+    <update id="updateStockPileById" parameterType="StockPile">
+        update fft_stock_pile set update_time = #{updateTime}
+        <if test="productId != null">
+            ,product_id = #{productId}
+        </if>
+        <if test="merchantOutletId != null">
+            ,merchant_outlet_id = #{merchantOutletId}
+        </if>
+        <if test="quantity != null">
+            ,quantity = #{quantity}
+        </if>
+        <if test="lastIncomeTime != null">
+            ,last_income_time = #{lastIncomeTime}
+        </if>
+        <if test="lastOutcomeTime != null">
+            ,last_outcome_time = #{lastOutcomeTime}
+        </if>
+        <if test="warnValue != null">
+            ,warn_value = #{warnValue}
+        </if>
+        <if test="totalQuantity != null">
+            ,total_quantity = #{totalQuantity}
+        </if>
+        <if test="remark != null">
+            ,remark = #{remark}
+        </if>
+        <if test="warnType != null">
+            ,warn_type = #{warnType,typeHandler=org.apache.ibatis.type.EnumOrdinalTypeHandler}
+        </if>
+        where id = #{id}
+    </update>
+
+    <select id="selectStockPileByPage" parameterType="com.froad.fft.persistent.bean.page.Page" resultMap="stockPileResultMap">
+        SELECT s.*, 
+		       p.NAME AS product_name, 
+		       p.id   AS product_id, 
+		       m.id   AS outle_id, 
+		       m.NAME AS outle_name 
+		FROM   fft_stock_pile s 
+		       LEFT JOIN fft_product p 
+		              ON s.product_id = p.id 
+		       LEFT JOIN fft_merchant_outlet m 
+		              ON m.id = s.merchant_outlet_id 
+        <if test="pageFilter != null">
+            <where>
+                <if test="pageFilter.filterEntity != null">
+                    <if test="pageFilter.filterEntity.id!= null">
+                        and s.id = #{pageFilter.filterEntity.id}
+                    </if>
+                    <if test="pageFilter.filterEntity.productId!= null">
+                        and s.product_id = #{pageFilter.filterEntity.productId}
+                    </if>
+                    <if test="pageFilter.filterEntity.merchantOutletId!= null">
+                        and s.merchant_outlet_id = #{pageFilter.filterEntity.merchantOutletId}
+                    </if>
+                    <if test="pageFilter.filterEntity.quantity!= null">
+                        and s.quantity = #{pageFilter.filterEntity.quantity}
+                    </if>
+                    <if test="pageFilter.filterEntity.warnType!= null">
+                        and s.warn_type = #{pageFilter.filterEntity.warnType}
+                    </if>
+                    <if test="pageFilter.filterEntity.merchantOutletIds!= null">
+                        and s.merchant_outlet_id in
+                        <foreach collection="pageFilter.filterEntity.merchantOutletIds" item="item" index="index" open="(" separator="," close=")">
+                            #{item}
+                        </foreach>
+                    </if>
+                    <if test="pageFilter.filterEntity.product!= null">
+                    	<if test="pageFilter.filterEntity.product.id!= null">
+                    		and p.id = #{pageFilter.filterEntity.product.id}
+                    	</if>
+                    	<if test="pageFilter.filterEntity.product.name!= null">
+                    		and p.name like CONCAT('%',#{pageFilter.filterEntity.product.name},'%' )
+                    	</if>
+                    	<if test="pageFilter.filterEntity.product.isEnableGroup != null">
+							and p.is_enable_group = #{pageFilter.filterEntity.product.isEnableGroup}
+						</if>
+						<if test="pageFilter.filterEntity.product.isEnablePresell != null">
+							and p.is_enable_presell = #{pageFilter.filterEntity.product.isEnablePresell}
+						</if>
+						<if test="pageFilter.filterEntity.product.isEnableFamous!=null">
+							and p.is_enable_famous = #{pageFilter.filterEntity.product.isEnableFamous}
+						</if>
+                    </if>
+                    <if test="pageFilter.filterEntity.merchantOutlet!= null">
+                    	<if test="pageFilter.filterEntity.merchantOutlet.id!= null">
+                    		and m.id = #{pageFilter.filterEntity.merchantOutlet.id}
+                    	</if>
+                    	<if test="pageFilter.filterEntity.merchantOutlet.name!= null">
+                    		and m.name like CONCAT('%',#{pageFilter.filterEntity.merchantOutlet.name},'%' )
+                    	</if>
+                    </if>
+                </if>
+
+                <!-- 时间段条件 -->
+                <if test="pageFilter.property != null and pageFilter.startTime != null">
+                    <![CDATA[
+					 and ${pageFilter.property} >= #{pageFilter.startTime}
+					]]>
+                </if>
+                <if test="pageFilter.property != null and pageFilter.endTime != null">
+                    <![CDATA[
+					 and ${pageFilter.property} <= #{pageFilter.endTime}
+					]]>
+                </if>
+            </where>
+        </if>
+        <!-- 排序 -->
+        <if test="order != null">
+            <if test="order.property != null and order.direction != null">
+                order by s.${order.property} ${order.direction}
+            </if>
+        </if>
+    </select>
+
+
+    <select id="selectStockPileByPageCount" parameterType="com.froad.fft.persistent.bean.page.Page" resultType="java.lang.Integer">
+        SELECT count(0)
+		FROM   fft_stock_pile s 
+		       LEFT JOIN fft_product p 
+		              ON s.product_id = p.id 
+		       LEFT JOIN fft_merchant_outlet m 
+		              ON m.id = s.merchant_outlet_id 
+        <if test="pageFilter != null">
+            <where>
+                <if test="pageFilter.filterEntity != null">
+                    <if test="pageFilter.filterEntity.id!= null">
+                        and s.id = #{pageFilter.filterEntity.id}
+                    </if>
+                    <if test="pageFilter.filterEntity.productId!= null">
+                        and s.product_id = #{pageFilter.filterEntity.productId}
+                    </if>
+                    <if test="pageFilter.filterEntity.merchantOutletId!= null">
+                        and s.merchant_outlet_id = #{pageFilter.filterEntity.merchantOutletId}
+                    </if>
+                    <if test="pageFilter.filterEntity.quantity!= null">
+                        and s.quantity = #{pageFilter.filterEntity.quantity}
+                    </if>
+                    <if test="pageFilter.filterEntity.warnType!= null">
+                        and s.warn_type = #{pageFilter.filterEntity.warnType}
+                    </if>
+                    <if test="pageFilter.filterEntity.merchantOutletIds!= null">
+                        and s.merchant_outlet_id in
+                        <foreach collection="pageFilter.filterEntity.merchantOutletIds" item="item" index="index" open="(" separator="," close=")">
+                            #{item}
+                        </foreach>
+                    </if>
+                    <if test="pageFilter.filterEntity.product!= null">
+                    	<if test="pageFilter.filterEntity.product.id!= null">
+                    		and p.id = #{pageFilter.filterEntity.product.id}
+                    	</if>
+                    	<if test="pageFilter.filterEntity.product.name!= null">
+                    		and p.name like CONCAT('%',#{pageFilter.filterEntity.product.name},'%' )
+                    	</if>
+                    	<if test="pageFilter.filterEntity.product.isEnableGroup != null">
+							and p.is_enable_group = #{pageFilter.filterEntity.product.isEnableGroup}
+						</if>
+						<if test="pageFilter.filterEntity.product.isEnablePresell != null">
+							and p.is_enable_presell = #{pageFilter.filterEntity.product.isEnablePresell}
+						</if>
+						<if test="pageFilter.filterEntity.product.isEnableFamous!=null">
+							and p.is_enable_famous = #{pageFilter.filterEntity.product.isEnableFamous}
+						</if>
+                    </if>
+                    <if test="pageFilter.filterEntity.merchantOutlet!= null">
+                    	<if test="pageFilter.filterEntity.merchantOutlet.id!= null">
+                    		and m.id = #{pageFilter.filterEntity.merchantOutlet.id}
+                    	</if>
+                    	<if test="pageFilter.filterEntity.merchantOutlet.name!= null">
+                    		and m.name like CONCAT('%',#{pageFilter.filterEntity.merchantOutlet.name},'%' )
+                    	</if>
+                    </if>
+                </if>
+
+                <!-- 时间段条件 -->
+                <if test="pageFilter.property != null and pageFilter.startTime != null">
+                    <![CDATA[
+					 and ${pageFilter.property} >= #{pageFilter.startTime}
+					]]>
+                </if>
+                <if test="pageFilter.property != null and pageFilter.endTime != null">
+                    <![CDATA[
+					 and ${pageFilter.property} <= #{pageFilter.endTime}
+					]]>
+                </if>
+            </where>
+        </if>
+    </select>
+
+    <select id="selectByCondtitons" parameterType="StockPile" resultMap="stockPileResultMap">
+        SELECT s.*, 
+		       p.NAME AS product_name, 
+		       p.id   AS product_id, 
+		       m.id   AS outle_id, 
+		       m.NAME AS outle_name 
+		FROM   fft_stock_pile s 
+		       LEFT JOIN fft_product p 
+		              ON s.product_id = p.id 
+		       LEFT JOIN fft_merchant_outlet m 
+		              ON m.id = s.merchant_outlet_id
+		WHERE  1=1
+        <if test="id != null">
+            and s.id = #{id}
+        </if>
+        <if test="productId != null">
+            and s.product_id = #{productId}
+        </if>
+        <if test="merchantOutletId != null">
+            and s.merchant_outlet_id = #{merchantOutletId}
+        </if>
+        <if test="quantity != null">
+            and s.quantity = #{quantity}
+        </if>
+        <if test="lastIncomeTime != null">
+            and s.last_income_time = #{lastIncomeTime}
+        </if>
+        <if test="lastOutcomeTime != null">
+            and s.last_outcome_time = #{lastOutcomeTime}
+        </if>
+        <if test="warnValue != null">
+            and s.warn_value = #{warnValue}
+        </if>
+        <if test="totalQuantity != null">
+            and s.total_quantity = #{totalQuantity}
+        </if>
+        <if test="warnType != null">
+            and s.warn_type = #{warnType,typeHandler=org.apache.ibatis.type.EnumOrdinalTypeHandler}
+        </if>
+        <if test="product!= null">
+        	<if test="product.id!= null">
+        		and p.id = #{product.id}
+        	</if>
+        	<if test="product.name!= null">
+        		and p.name like CONCAT('%',#{product.name},'%' )
+        	</if>
+        </if>
+        <if test="merchantOutlet!= null">
+        	<if test="merchantOutlet.id!= null">
+	        	and m.id = #{merchantOutlet.id}
+        	</if>
+        	<if test="merchantOutlet.name!= null">
+         		and m.name like CONCAT('%',#{merchantOutlet.name},'%' )
+        	</if>
+        </if>
+        
+    </select>
+    
+    
+    
+    <select id="selectDeliveyCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+    	SELECT SUM(td.quantity) from fft_trans t 
+			LEFT JOIN fft_trans_details td ON t.id=td.trans_id
+			LEFT JOIN fft_trans_security_ticket  tst on tst.trans_id=t.id
+			<if test="productType==1"><!-- 预售商品 -->
+			LEFT JOIN fft_outlet_presell_delivery pd ON t.delivery_id=pd.presell_delivery_id
+			LEFT JOIN fft_merchant_outlet outlet on outlet.id = pd.merchant_outlet_id
+			</if>
+			<if test="productType==2"><!-- 团购商品 -->
+			LEFT JOIN fft_merchant_outlet outlet on outlet.id = t.t.outlet_id
+			</if>
+			WHERE tst.is_consume="1" 
+			and tst.state="0" 
+			and outlet.id=#{outLetId}
+			and td.product_id=#{productId}
+    </select>
+
+</mapper>

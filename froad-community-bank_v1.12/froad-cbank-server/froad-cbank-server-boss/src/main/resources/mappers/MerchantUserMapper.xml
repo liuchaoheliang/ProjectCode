@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.mysql.mapper.MerchantUserMapper">
+
+	<resultMap type="MerchantUser" id="merchantUserResultMap">
+		<id property="id" column="id" />
+		<result property="clientId" column="client_id" />
+		<result property="createTime" column="create_time" />
+		<result property="merchantId" column="merchant_id" />
+		<result property="outletId" column="outlet_id" />
+		<result property="merchantRoleId" column="merchant_role_id" />
+		<result property="username" column="username" />
+		<result property="password" column="password" />
+		<result property="email" column="email" />
+		<result property="phone" column="phone" />
+		<result property="isRest" column="is_rest" />
+		<result property="isDelete" column="is_delete" />
+		<result property="realname" column="realname" />
+		
+		<!-- 商户表 -->
+		<result property="merchantName" column="merchant_name" />
+		<result property="merchantIsEnable" column="merchant_is_enable" />
+		<result property="merchantDisableStatus" column="merchant_disable_status" />
+		<result property="orgCode" column="org_code" />
+		
+		<!-- 门店表 -->
+		<result property="outletName" column="outlet_name" />
+	</resultMap>
+	
+	
+	<resultMap type="MerchantUser" id="allResultMap">
+		<id property="id" column="id" />
+		<result property="clientId" column="client_id" />
+		<result property="createTime" column="create_time" />
+		<result property="merchantId" column="merchant_id" />
+		<result property="outletId" column="outlet_id" />
+		<result property="merchantRoleId" column="merchant_role_id" />
+		<result property="username" column="username" />
+		<result property="password" column="password" />
+		<result property="email" column="email" />
+		<result property="phone" column="phone" />
+		<result property="isRest" column="is_rest" />
+		<result property="isDelete" column="is_delete" />
+		<result property="realname" column="realname" />
+	</resultMap>
+
+	<select id="findAll" resultMap="allResultMap">
+		SELECT 
+            u.id, u.create_time, u.client_id, u.merchant_id, u.outlet_id
+            , u.merchant_role_id, u.username, u.password, u.email, u.phone
+            , u.is_rest, u.is_delete, u.realname
+        FROM cb_merchant_user u
+	</select>
+	
+</mapper>
+

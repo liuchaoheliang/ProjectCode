@@ -1,0 +1,17 @@
+<requestFroadApi>
+	<checkParam>
+		<checkOrg>${checkOrg}</checkOrg>
+		<checkType>${checkType}</checkType>
+		<checkContent>${checkContent}</checkContent>
+		<checkTime>${checkTime}</checkTime>
+		<checkRemark><![CDATA[${checkRemark}]]></checkRemark>
+	</checkParam>
+	<system>
+		<reqID>${reqID}</reqID>
+		<version>${versions}</version>
+		<partnerID>${partnerID}</partnerID>
+		<charset>${charset}</charset>
+		<signType>${signType}</signType>
+		<signMsg>${signMsg}</signMsg>
+	</system>
+</requestFroadApi>

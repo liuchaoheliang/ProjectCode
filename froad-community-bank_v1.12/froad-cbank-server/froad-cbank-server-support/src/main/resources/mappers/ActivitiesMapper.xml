@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.mysql.mapper.ActivitiesMapper">
+
+	<resultMap type="Activities" id="activitiesResultMap">
+		<id property="id" column="id" />
+		<result property="clientId" column="client_id" />
+		<result property="createTime" column="create_time" />
+		<result property="activitiesName" column="activities_name" />
+		<result property="points" column="points" />
+		<result property="beginTime" column="begin_time" />
+		<result property="endTime" column="end_time" />
+		<result property="status" column="status" />
+		<result property="count" column="count" />
+	</resultMap>
+
+
+	<!-- 添加  Activities -->
+	<insert id="addActivities" parameterType="Activities" useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[
+			INSERT INTO cb_activities (
+				client_id,create_time,activities_name,points,
+				begin_time,end_time,status,count 
+			) VALUES (
+				#{clientId},#{createTime},#{activitiesName},#{points},
+				#{beginTime},#{endTime},#{status},#{count}
+			) 
+		]]>
+	</insert>
+
+
+	<!-- 批量添加  Activities -->
+	<insert id="addActivitiesByBatch" parameterType="java.util.List">
+		INSERT INTO cb_activities (
+			client_id,create_time,activities_name,points,
+			begin_time,end_time,status,count  
+		) VALUES 
+		<foreach collection="activitiesList" item="item" index="index" separator=",">
+			(#{clientId},#{createTime},#{activitiesName},#{points},
+			#{beginTime},#{endTime},#{status},#{count})
+		</foreach>
+	</insert>
+
+
+	<!-- 删除  Activities -->
+	<update id="deleteActivities" parameterType="Activities">
+		UPDATE cb_activities SET status = '3' where id = #{id}
+	</update>
+
+
+	<!-- 修改  Activities -->
+	<update id="updateActivities" parameterType="Activities">
+		UPDATE cb_activities 
+		<set>
+             <if test="clientId != null">
+				client_id = #{clientId},
+			</if>
+			 <if test="activitiesName != null">
+				activities_name = #{activitiesName},
+			</if>
+			 <if test="points != null">
+				 points = #{points},
+			</if>
+			 <if test="beginTime != null">
+				 begin_time = #{beginTime}, 
+			</if>
+			 <if test="endTime != null">
+				 end_time = #{endTime}, 
+			</if>
+			 <if test="status != null">
+				 status = #{status},
+			</if>
+			 <if test="count != null">
+				 count = #{count},
+			</if>
+		</set>  
+			   where id = #{id}
+	</update>
+
+
+	<!-- 查询  Activities -->
+	<select id="findActivitiesById" parameterType="Activities" resultMap="activitiesResultMap">
+		SELECT 
+            id,client_id,create_time,activities_name,points,begin_time,end_time,status,count 
+        FROM cb_activities 
+        WHERE 1=1
+           <if test="activitiesType != null and  activitiesType != ''">
+				 AND activities_type = #{activitiesType}
+			</if>
+			<if test="clientId != null  and  clientId != ''">
+				 AND client_id = #{clientId}
+			</if> 
+			<if test="points != null  and  points != ''">
+				 AND points = #{points}
+			</if>
+	</select>
+
+	<!-- 查询  Activities -->
+	<select id="findActivities" parameterType="Activities" resultMap="activitiesResultMap">
+		SELECT 
+            id,client_id,create_time,activities_name,points,begin_time,end_time,status,count 
+        FROM cb_activities 
+		WHERE status != 3
+			<if test="id != null">
+				 AND id = #{id}
+			</if>
+			<if test="clientId != null">
+				 AND client_id = #{clientId}
+			</if>
+			<if test="createTime != null">
+				 AND create_time = #{createTime}
+			</if>
+			<if test="activitiesName != null">
+				 AND activities_name like CONCAT('%',#{activitiesName},'%' )
+			</if>
+			<if test="points != null">
+				 AND points = #{points}
+			</if>
+			<if test="beginTime != null">
+				 AND begin_time = #{beginTime}
+			</if>
+			<if test="endTime != null">
+				 AND end_time = #{endTime}
+			</if>
+			<if test="status != null">
+				 AND status = #{status}
+			</if>
+			<if test="count != null">
+				 AND count = #{count}
+			</if>
+		
+		 ORDER BY create_time DESC 
+	</select>
+
+	<!-- 分页查询  Activities -->
+	<select id="findByPage" parameterType="java.util.HashMap" resultMap="activitiesResultMap">
+		SELECT 
+            id,client_id,create_time,activities_name,points,begin_time,end_time,status,count 
+        from cb_activities 
+        WHERE status != 3 
+		<if test="activities != null">
+				<if test="activities.id != null">
+					 AND id = #{activities.id}
+				</if>
+				<if test="activities.clientId != null">
+					 AND client_id = #{activities.clientId}
+				</if>
+				<if test="activities.createTime != null">
+					 AND create_time = #{activities.createTime}
+				</if>
+				<if test="activities.activitiesName != null">
+					 AND activities_name like CONCAT('%',#{activities.activitiesName},'%' )
+				</if>
+				<if test="activities.points != null">
+					 AND points = #{activities.points}
+				</if>
+				<if test="activities.beginTime != null">
+					 AND begin_time = #{activities.beginTime}
+				</if>
+				<if test="activities.endTime != null">
+					 AND end_time = #{activities.endTime}
+				</if>
+				<if test="activities.status != null">
+					 AND status = #{activities.status}
+				</if>
+				<if test="activities.count != null">
+					 AND count = #{activities.count}
+				</if>
+		</if>
+		 ORDER BY create_time DESC 
+	</select>
+
+	<!-- 查询单个  Activities -->
+	<select id="getActivitiesById" parameterType="java.lang.Long" resultMap="activitiesResultMap">
+		SELECT 
+            id,client_id,create_time,activities_name,points,begin_time,end_time,status,count  
+        FROM cb_activities 
+        WHERE status != 3 AND id = #{id}
+	</select>
+
+</mapper>
+

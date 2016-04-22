@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="contacter">
+	<typeAlias alias="contacter" type="com.froad.CB.po.user.Contacter"/>
+	
+	<insert id="addContacter" parameterClass="contacter">
+		insert into contact_management(ID,userID,provinceID,cityID,districtID,address,mobilephone,telphone,email,postcode,flag,contactName) 
+					values(#ID#,#userID#,#provinceID#,#cityID#,#districtID#,#address#,#mobilephone#,#telphone#,#email#,#postcode#,#flag#,#contactName#)
+	</insert>
+	
+	<delete id="delContacter" parameterClass="contacter">
+		delete from contact_management 
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="ID">
+				ID=#ID#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="userID">
+				userID=#userID#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="flag">
+				flag=#flag#
+			</isNotEmpty>
+		</dynamic>
+	</delete>
+	
+	<update id="UpdateContacter" parameterClass="contacter">
+		update contact_management set ID=#ID#,userID=#userID#,provinceID=#provinceID#,cityID=#cityID#,districtID=#districtID#,address=#address#,mobilephone=#mobilephone#,telphone=#telphone#,email=#email#,postcode=#postcode#,flag=#flag#,contactName=#contactName# where ID=#ID#
+	</update>
+	
+	<select id="QueryContacter" parameterClass="contacter" resultClass="contacter">
+		select c.*,ct.cityName,dt.districtName,pi.provinceName from province pi,contact_management c left join  
+		city ct on ct.ID=c.cityID left join district dt on dt.ID=c.districtID
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="ID">
+	  			c.ID=#ID#
+	  		</isNotEmpty>
+	  		<isNotEmpty prepend="and" property="userID">
+	  			c.userID=#userID#
+	  		</isNotEmpty>
+		 </dynamic>	
+		 and pi.ID=c.provinceID order by flag 
+	</select>
+	
+	<select id="queryMaxConID" resultClass="String">
+		select ID from contact_management order by ID desc limit 1
+	</select>
+</sqlMap>
+    

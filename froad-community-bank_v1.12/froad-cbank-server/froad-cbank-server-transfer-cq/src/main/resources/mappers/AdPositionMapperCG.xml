@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.chonggou.mappers.AdPositionMapperCG">
+
+	<resultMap type="AdPositionCG" id="adPositionResultMap">
+		<id property="id" column="id" />
+		<result property="clientId" column="client_id" />
+		<result property="name" column="name" />
+		<result property="width" column="width" />
+		<result property="height" column="height" />
+		<result property="positionStyle" column="position_style" />
+		<result property="positionPage" column="position_page" />
+		<result property="positionPoint" column="position_point" />
+		<result property="description" column="description" />
+		<result property="isEnable" column="is_enable" />
+	</resultMap>
+
+
+	<!-- 添加  AdPosition -->
+	<insert id="addAdPosition" parameterType="AdPositionCG" useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[
+			INSERT INTO cb_ad_position (
+				client_id,name,width,height,position_style,position_page,position_point,description,is_enable
+			) VALUES (
+				#{clientId},#{name},#{width},#{height},#{positionStyle},#{positionPage},#{positionPoint},#{description},#{isEnable}
+			) 
+		]]>
+	</insert>
+	
+	
+	<!-- 查询  AdPosition -->
+	<select id="findAdPosition" parameterType="AdPositionCG" resultMap="adPositionResultMap">
+		SELECT 
+            id,client_id,name,width,height,position_style,position_page,position_point,description,is_enable 
+        FROM cb_ad_position 
+		<where>
+			<if test="id != null">
+				 AND id = #{id}
+			</if>
+			<if test="clientId != null">
+				 AND client_id = #{clientId}
+			</if>
+			<if test="name != null">
+				 AND name = #{name}
+			</if>
+			<if test="width != null">
+				 AND width = #{width}
+			</if>
+			<if test="height != null">
+				 AND height = #{height}
+			</if>
+			<if test="positionStyle != null">
+				 AND position_style = #{positionStyle}
+			</if>
+			<if test="positionPage != null">
+				 AND position_page = #{positionPage}
+			</if>
+			<if test="positionPoint != null">
+				 AND position_point = #{positionPoint}
+			</if>
+			<if test="description != null">
+				 AND description = #{description}
+			</if>
+			<if test="isEnable != null">
+				 AND is_enable = #{isEnable}
+			</if>
+		</where>
+	</select>
+	
+	
+	
+</mapper>
+

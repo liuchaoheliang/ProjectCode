@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.mysql.mapper.FunctionModuleMapper">
+	
+	<resultMap type="FunctionModule" id="moduleResultMap">
+		<id property="id" column="id" />
+		<result property="clientId" column="client_id" />
+		<result property="type" column="type" />
+		<result property="moduleName" column="module_name" />
+		<result property="moduleAlias" column="module_alias" />
+		<result property="iconUrl" column="icon_url" />
+		<result property="sortValue" column="sort_value" />
+		<result property="createTime" column="create_time" />
+		<result property="updateTime" column="update_time" />
+	</resultMap>
+	
+	
+	
+	<select id="findListByCondition" parameterType="java.lang.String" resultMap="moduleResultMap">
+		select
+			t.id,
+			t.client_id,
+			t.type,
+			t.module_name,
+			t.module_alias,
+			t.icon_url,
+			t.sort_value,
+			t.create_time,
+			t.update_time
+		from
+			cb_client_function_module t
+		where 
+			client_id = #{clientId}
+	</select>
+</mapper>
+

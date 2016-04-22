@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.ahui.mappers.TransMapper">
+
+    <resultMap type="Trans" id="transResultMap">
+        <id property="id" column="id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+
+        <result property="sn" column="sn"/>
+        <result property="securitiesNo" column="securities_no"/>
+        <result property="createSource" column="create_source" typeHandler="com.froad.db.extend.EnumTypeHandler"/>
+        <result property="type" column="type" typeHandler="com.froad.db.extend.EnumTypeHandler"/>
+        <result property="payMethod" column="pay_method" typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"/>
+        <result property="payChannel" column="pay_channel" typeHandler="com.froad.db.extend.EnumTypeHandler"/>
+        <result property="state" column="state" typeHandler="com.froad.db.extend.EnumTypeHandler"/>
+        <result property="memberCode" column="member_code"/>
+        <result property="payState" column="pay_state" typeHandler="com.froad.db.extend.EnumTypeHandler"/>
+        <result property="totalPrice" column="total_price"/>
+        <result property="realPrice" column="real_price"/>
+        <result property="fftPoints" column="fft_points"/>
+        <result property="bankPoints" column="bank_points"/>
+        <result property="pointsAmountValue" column="points_amount_value"/>
+        <result property="pointsAmountRealValue" column="points_amount_real_value"/>
+        <result property="buyPoints" column="buy_points"/>
+        <result property="buyPointsFactorage" column="buy_points_factorage"/>
+        <result property="gatheringValue" column="gathering_value"/>
+        <result property="pointsWithdrawFactorage" column="points_withdraw_factorage"/>
+        <result property="merchantId" column="merchant_id"/>
+        <result property="reason" column="reason"/>
+        <result property="filmMobile" column="film_mobile"/>
+        <result property="phone" column="phone"/>
+        <result property="remark" column="remark"/>
+        <result property="clientId" column="client_id"/>
+        <result property="presentPointsRuleId" column="present_points_rule_id"/>
+
+        <result property="deliveryId" column="delivery_id"/>
+        <result property="deliveryName" column="delivery_name"/>
+        <result property="exchangeRate" column="exchange_rate"/>
+        <result property="receiverId" column="receiver_id"/>
+        <result property="givePoints" column="give_points"/>
+        <result property="address" column="address"/>
+        <result property="deliveryType" column="delivery_type"/>
+        <result property="isConsume" column="is_consume"/>
+         <result property="consumeTime" column="consume_time"/>
+        <result property="noticeMsg" column="notice_msg"/>
+        <result property="dataState" column="data_state" typeHandler="com.froad.db.extend.EnumTypeHandler"/>
+        <!-- 收银交易操作人 -->
+        <result property="sysUserId" column="sys_user_id"/>
+        <result property="isAgency" column="is_agency"/>
+        <result property="outletId" column="outlet_id"/>
+        <result property="settleState" column="settle_state"/>
+        
+        <result property="shipState" column="ship_state"/>
+   		<result property="shipStateRemark" column="ship_state_remark"/>
+   		<result property="refuseReason" column="refuse_reason"/>
+   		<result property="shippingTime" column="shipping_time"/>
+   		<result property="gatherMerchantId" column="gather_merchant_id"/>
+
+    </resultMap>
+    
+    
+   
+    <resultMap type="Trans" id="transAllResultMap">
+        <id property="id" column="id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+
+        <result property="sn" column="sn"/>
+        <result property="securitiesNo" column="securities_no"/>
+        <result property="createSource" column="create_source" typeHandler="com.froad.db.extend.EnumTypeHandler"/>
+        <result property="type" column="type" typeHandler="com.froad.db.extend.EnumTypeHandler"/>
+        <result property="payMethod" column="pay_method" typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"/>
+        <result property="payChannel" column="pay_channel" typeHandler="com.froad.db.extend.EnumTypeHandler"/>
+        <result property="state" column="state" typeHandler="com.froad.db.extend.EnumTypeHandler"/>
+        <result property="memberCode" column="member_code"/>
+        <result property="payState" column="pay_state" typeHandler="com.froad.db.extend.EnumTypeHandler"/>
+        <result property="totalPrice" column="total_price"/>
+        <result property="realPrice" column="real_price"/>
+        <result property="fftPoints" column="fft_points"/>
+        <result property="bankPoints" column="bank_points"/>
+        <result property="pointsAmountValue" column="points_amount_value"/>
+        <result property="pointsAmountRealValue" column="points_amount_real_value"/>
+        <result property="buyPoints" column="buy_points"/>
+        <result property="buyPointsFactorage" column="buy_points_factorage"/>
+        <result property="gatheringValue" column="gathering_value"/>
+        <result property="pointsWithdrawFactorage" column="points_withdraw_factorage"/>
+        <result property="merchantId" column="merchant_id"/>
+        <result property="reason" column="reason"/>
+        <result property="filmMobile" column="film_mobile"/>
+        <result property="phone" column="phone"/>
+        <result property="remark" column="remark"/>
+        <result property="clientId" column="client_id"/>
+        <result property="presentPointsRuleId" column="present_points_rule_id"/>
+
+        <result property="deliveryId" column="delivery_id"/>
+        <result property="deliveryName" column="delivery_name"/>
+        <result property="exchangeRate" column="exchange_rate"/>
+        <result property="receiverId" column="receiver_id"/>
+        <result property="givePoints" column="give_points"/>
+        <result property="address" column="address"/>
+        <result property="deliveryType" column="delivery_type"/>
+        <result property="isConsume" column="is_consume"/>
+         <result property="consumeTime" column="consume_time"/>
+        <result property="noticeMsg" column="notice_msg"/>
+        <result property="dataState" column="data_state" typeHandler="com.froad.db.extend.EnumTypeHandler"/>
+        <!-- 收银交易操作人 -->
+        <result property="sysUserId" column="sys_user_id"/>
+        <result property="isAgency" column="is_agency"/>
+        <result property="outletId" column="outlet_id"/>
+        <result property="settleState" column="settle_state"/>
+        
+        <result property="shipState" column="ship_state"/>
+   		<result property="shipStateRemark" column="ship_state_remark"/>
+   		<result property="refuseReason" column="refuse_reason"/>
+   		<result property="shippingTime" column="shipping_time"/>
+   		<result property="gatherMerchantId" column="gather_merchant_id"/>
+
+		<result property="detailCreateTime" column="detail_create_time"/>
+		<result property="detailUpdateTime" column="detail_update_time"/>
+		<result property="productId" column="product_id"/>
+		<result property="productName" column="product_name"/>
+		<result property="quantity" column="quantity"/>
+		<result property="price" column="price"/>
+		<result property="single" column="single"/>
+		<result property="supplyMerchantId" column="supply_merchant_id"/>
+		<result property="subOrderId" column="sub_order_id"/>
+    </resultMap>
+    
+    
+  
+	<select id="queryAllOrderList" resultMap="transAllResultMap">
+    	SELECT
+			  t.id,
+			  t.create_time,
+			  t.update_time,
+			  t.sn,
+			  t.create_source,
+			  t.type,
+			  t.pay_method,
+			  t.pay_channel,
+			  t.state,
+			  t.member_code,
+			  t.pay_state,
+			  t.total_price,
+			  t.real_price,
+			  t.fft_points,
+			  t.bank_points,
+			  t.points_amount_value,
+			  t.points_amount_real_value,
+			  t.buy_points,
+			  t.buy_points_factorage,
+			  t.gathering_value,
+			  t.points_withdraw_factorage,
+			  t.merchant_id,
+			  t.reason,
+			  t.film_mobile,
+			  t.phone,
+			  t.remark,
+			  t.client_id,
+			  t.present_points_rule_id,
+			  t.delivery_id,
+			  t.delivery_name,
+			  t.exchange_rate,
+			  t.give_points,
+			  t.sys_user_id,
+			  t.address,
+			  t.delivery_type,
+			  t.is_agency,
+			  t.receiver_id,
+			  t.notice_msg,
+			  t.outlet_id,
+			  t.data_state,
+			  t.settle_state,
+			  t.ship_state,
+			  t.ship_state_remark,
+			  t.refuse_reason,
+			  t.shipping_time,
+			  t.gather_merchant_id,
+			  
+			  d.id as sub_order_id,
+			  d.create_time as detail_create_time,
+			  d.update_time as detail_update_time,
+			  d.product_id,
+			  d.product_name,
+			  d.quantity,
+			  d.price,
+			  d.single,
+			  d.supply_merchant_id
+		FROM
+			fft_trans t LEFT JOIN fft_trans_details d ON t.id = d.trans_id
+    </select>
+
+	
+	<!-- queryBySettlement预售订单查询 -->
+   	<select id="queryBySettlement" resultMap="transAllResultMap">
+		<![CDATA[
+			select tr.*, 
+			  d.create_time as detail_create_time,
+			  d.update_time as detail_update_time,
+			  d.product_id,
+			  d.product_name,
+			  d.quantity,
+			  d.price,
+			  d.single,
+			  d.supply_merchant_id
+			  
+			  from fft_trans tr LEFT JOIN fft_trans_details d ON tr.id = d.trans_id where tr.type in('02','05','12') and tr.state='30' and (tr.settle_state='1' or (tr.type='12' and tr.settle_state in('1','0'))) order by tr.id
+        ]]>
+	</select>
+	
+	<!-- queryByID-->
+   	<select id="queryById" parameterType="java.lang.Long" resultMap="transAllResultMap">
+		<![CDATA[
+			select tr.*, 
+			  d.create_time as detail_create_time,
+			  d.update_time as detail_update_time,
+			  d.product_id,
+			  d.product_name,
+			  d.quantity,
+			  d.price,
+			  d.single,
+			  d.supply_merchant_id
+			  
+			  from fft_trans tr LEFT JOIN fft_trans_details d ON tr.id = d.trans_id where tr.id=#{id}
+        ]]>
+	</select>
+	<!-- 查询预售待成团的卷记录 -->
+	<select id="queryForPresellTicke" resultMap="transAllResultMap">
+		select tr.*,
+		 		  d.create_time as detail_create_time,
+				  d.update_time as detail_update_time,
+				  d.product_id,
+				  d.product_name,
+				  d.quantity,
+				  d.price,
+				  d.single,
+				  d.supply_merchant_id
+		 from fft_trans tr LEFT JOIN fft_trans_details d ON tr.id = d.trans_id left join fft_trans_security_ticket tst on tr.id = tst.trans_id where tr.type='08' and pay_state='30' and tst.id is null
+	</select>
+	<!-- 查询预售待成团的卷记录 -->
+	<select id="queryBySn" parameterType="java.lang.String" resultMap="transAllResultMap">
+	   <![CDATA[
+			select tr.*,
+				  d.create_time as detail_create_time,
+				  d.update_time as detail_update_time,
+				  d.product_id,
+				  d.product_name,
+				  d.quantity,
+				  d.price,
+				  d.single,
+				  d.supply_merchant_id
+			 from fft_trans tr LEFT JOIN fft_trans_details d ON tr.id = d.trans_id where tr.sn=#{sn}
+        ]]>
+	</select>
+	<!-- 查询订单情况 -->
+  <select id="queryTransBySn" parameterType="java.lang.String" resultMap="transAllResultMap" >
+     select id,type from fft_trans where sn=#{sn}
+  
+  </select>
+</mapper>

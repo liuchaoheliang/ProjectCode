@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.mysql.mapper.HistoryTaskActorMapper">
+
+	<resultMap type="HistoryTaskActor" id="historyTaskActorResultMap">
+		<result property="taskId" column="task_id" />
+		<result property="actorId" column="actor_id" />
+	</resultMap>
+
+
+	<!-- 所有字段list -->
+	<sql id="Base_Column_List">
+		task_id,actor_id
+	</sql>
+
+
+	<!-- 添加  HistoryTaskActor -->
+	<insert id="addHistoryTaskActor" parameterType="HistoryTaskActor" useGeneratedKeys="false">
+		INSERT INTO cb_history_task_actor (
+			<include refid="Base_Column_List" />
+		) VALUES (
+			#{taskId},#{actorId}
+		) 
+	</insert>
+
+
+	<!-- 批量添加  HistoryTaskActor -->
+	<insert id="addHistoryTaskActorByBatch" parameterType="java.util.List">
+		INSERT INTO cb_history_task_actor (
+			<include refid="Base_Column_List" />
+		) VALUES 
+		<foreach collection="historyTaskActorList" item="item" index="index" separator=",">
+			(#{item.taskId},#{item.actorId})
+		</foreach>
+	</insert>
+
+
+	<!-- 删除  HistoryTaskActor -->
+	<delete id="deleteHistoryTaskActor" parameterType="HistoryTaskActor">
+		DELETE FROM cb_history_task_actor 
+		<where>
+			<if test="taskId != null">
+				AND task_id = #{taskId}
+			</if>
+			<if test="actorId != null">
+				AND actor_id = #{actorId}
+			</if>
+		</where>
+	</delete>
+
+
+	<!-- 根据taskId删除  HistoryTaskActor -->
+	<delete id="deleteHistoryTaskActorByTaskId" parameterType="java.lang.String">
+		DELETE FROM cb_history_task_actor 
+		 WHERE 
+			 task_id = #{taskId} 
+	</delete>
+
+
+	<!-- 修改  HistoryTaskActor -->
+	<update id="updateHistoryTaskActor" parameterType="HistoryTaskActor">
+		UPDATE cb_history_task_actor 
+		<set>
+			<if test="taskId != null">
+				task_id = #{taskId}, 
+			</if>
+			<if test="actorId != null">
+				actor_id = #{actorId}, 
+			</if>
+		</set>
+
+		<where>
+			<if test="taskId != null">
+				AND task_id = #{taskId}
+			</if>
+			<if test="actorId != null">
+				AND actor_id = #{actorId}
+			</if>
+		</where>
+	</update>
+
+
+	<!-- 根据taskId修改  HistoryTaskActor -->
+	<update id="updateHistoryTaskActorByTaskId" parameterType="HistoryTaskActor">
+		UPDATE cb_history_task_actor 
+		<set>
+			<if test="actorId != null">
+				actor_id = #{actorId}, 
+			</if>
+		</set>
+
+		 WHERE 
+            task_id = #{taskId} 
+	</update>
+
+
+	<!-- 根据taskId查询  HistoryTaskActor -->
+	<select id="findHistoryTaskActorByTaskId" parameterType="java.lang.String" resultMap="historyTaskActorResultMap">
+		SELECT 
+			<include refid="Base_Column_List" />
+        FROM cb_history_task_actor 
+        WHERE 
+            task_id = #{taskId}
+
+	</select>
+
+	<!-- 查询一个  HistoryTaskActor -->
+	<select id="findOneHistoryTaskActor" parameterType="HistoryTaskActor" resultMap="historyTaskActorResultMap">
+		SELECT 
+			<include refid="Base_Column_List" />
+        FROM cb_history_task_actor 
+		<where>
+			<if test="taskId != null">
+				 AND task_id = #{taskId}
+			</if>
+			<if test="actorId != null">
+				 AND actor_id = #{actorId}
+			</if>
+		 LIMIT 1 
+		</where>
+	</select>
+
+	<!-- 统计  HistoryTaskActor -->
+	<select id="countHistoryTaskActor" parameterType="HistoryTaskActor" resultType="java.lang.Integer">
+		SELECT COUNT(0) FROM cb_history_task_actor 
+		<where>
+			<if test="taskId != null">
+				 AND task_id = #{taskId}
+			</if>
+			<if test="actorId != null">
+				 AND actor_id = #{actorId}
+			</if>
+		</where>
+	</select>
+
+	<!-- 查询  HistoryTaskActor -->
+	<select id="findHistoryTaskActor" parameterType="HistoryTaskActor" resultMap="historyTaskActorResultMap">
+		SELECT 
+			<include refid="Base_Column_List" />
+        FROM cb_history_task_actor 
+		<if test="historyTaskActor != null">
+			<where>
+				<if test="historyTaskActor.taskId != null">
+					 AND task_id = #{historyTaskActor.taskId}
+				</if>
+				<if test="historyTaskActor.actorId != null">
+					 AND actor_id = #{historyTaskActor.actorId}
+				</if>
+			</where>
+		</if>
+		<if test="order != null">
+		 ORDER BY ${order} 
+		</if>
+	</select>
+
+	<!-- 分页查询  HistoryTaskActor -->
+	<select id="findByPage" parameterType="java.util.HashMap" resultMap="historyTaskActorResultMap">
+		SELECT 
+			<include refid="Base_Column_List" />
+        FROM cb_history_task_actor 
+		<if test="historyTaskActor != null">
+			<where>
+				<if test="historyTaskActor.taskId != null">
+					 AND task_id = #{historyTaskActor.taskId}
+				</if>
+				<if test="historyTaskActor.actorId != null">
+					 AND actor_id = #{historyTaskActor.actorId}
+				</if>
+			</where>
+		</if>
+	</select>
+
+
+</mapper>
+

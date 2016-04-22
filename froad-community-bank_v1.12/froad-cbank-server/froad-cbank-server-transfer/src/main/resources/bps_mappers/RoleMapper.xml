@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.bps.mappers.RoleMapper">
+	<resultMap type="Role" id="roleResultMap">
+		<id column="ROLE_ID" property="roleId"/>
+		<result column="ROLE_NAME" property="roleName" />
+		<result column="BANK_ID" property="bankId" />
+		<result column="REMARK" property="remark" />
+		<result column="STATUS" property="status" />
+		<result column="CREATE_TIME" property="createTime" />
+		<result column="UPDATE_TIME" property="updateTime" />
+		<result column="ORG_CODE" property="orgCode" />
+		<result column="IS_ADMIN"  property="isAdmin" />
+	</resultMap>
+	
+	<select id="selectAllRoles" resultMap="roleResultMap">
+		select * from tm_role
+	</select>
+</mapper>

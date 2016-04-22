@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="communityBusiness" basedir="." default="package_war">
+
+	<property file="build.properties" />
+
+	<!-- 引用jar包 -->
+	<path id="jar.classpath">
+		
+		<fileset dir="${lib.dir}">
+			
+			<include name="*.jar" />
+			
+		</fileset>
+		
+	</path>
+
+	<!-- 清除建立临时文件夹 -->
+	<target name="clean">
+	
+		<echo> 删除临时文件夹 </echo>
+		
+		<delete dir="${classes.dir}" />
+		
+		<delete dir="${war.dir}" />
+		
+	</target>
+
+	<!-- 重新建立临时文件夹 -->
+	<target name="Init">
+		
+		<echo> 新建临时文件夹 </echo>
+		
+		<mkdir dir="${classes.dir}" />
+		
+		<mkdir dir="${war.dir}" />
+		
+	</target>
+
+	<!-- 编译java文件到classes目录下 -->
+	<target name="compile" depends="clean,Init">
+		
+		<echo> 拷贝其他非java源文件 </echo>
+		
+		<copy todir="${classes.dir}">
+			
+			<fileset dir="${src.dir}">
+				
+				<!-- 排除java文件  -->
+				<exclude name="**/*.java"/>
+				
+			</fileset>
+			
+		</copy>
+		
+		<!-- 调用其他构建脚本 
+		<ant antfile="${build.xml}" />-->
+		
+		<echo> 开始编译源代码 </echo>
+		
+		<javac includeantruntime="false" encoding="${source-encoding}" srcdir="${src.dir}" destdir="${classes.dir}">
+			
+			<!-- 引用外部jar包 -->
+			<classpath refid="jar.classpath" />
+			
+		</javac>
+		
+	</target>
+
+	<!-- 打war包  -->
+	<target name="package_war" depends="compile">
+		
+		<echo> 打包为文件${war.name} </echo>
+		
+		<war destfile="${war.dir}/${war.name}" webxml="${web-inf.dir}/web.xml">
+
+			<fileset dir="${webRoot.dir}"/>
+			
+		</war>
+		
+		<echo> 打包成功，文件存放在${war.dir} </echo>
+		
+	</target>
+	
+</project>

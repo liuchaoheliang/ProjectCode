@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.mysql.mapper.ActiveSerchMerchantMapper">
+
+	<resultMap type="ActiveResultInfo" id="activeResultInfo">
+		<result property="id" column="element_id" />
+		<result property="activeId" column="active_id" />
+		<result property="activeName" column="active_name" />
+		<result property="activeType" column="type" />
+	</resultMap>
+		
+	<!-- 查询  ActiveResultInfo -->
+	<select id="findActiveMerchantInfo" parameterType="ActiveSearchMerchantInfo" resultMap="activeResultInfo">
+		<![CDATA[
+			select  w.element_id,a.active_id,a.active_name,a.type from
+			cb_active_base_rule a LEFT JOIN cb_active_tag_relation r on a.active_id = r.active_id
+			LEFT JOIN  cb_weight_activity_tag w on w.activity_id = r.item_id 
+			WHERE  a.status = '3'
+		]]>
+        <if test="clientId != null and  clientId != ''">
+		   	and w.client_id = #{clientId}
+	    </if>
+		     AND  w.element_id in
+		<foreach item="merchantIdList" index="index" collection="merchantIdList" open="(" separator="," close=")">
+             #{merchantIdList}
+        </foreach>
+        	 ORDER BY w.element_id
+	</select>
+</mapper>
+

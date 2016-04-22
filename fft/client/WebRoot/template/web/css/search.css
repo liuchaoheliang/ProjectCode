@@ -1,0 +1,24 @@
+/*
+* Author:
+* pengling@f-road.com.cn 
+*/
+/*搜索*/
+.searchFind{  font-size:14px; margin-top:10px; padding-left:10px; border-bottom:1px dashed #eee; line-height:30px; clear:both;}
+
+.searchFind a{ color:#666; text-decoration:none; margin-right:15px;}
+
+.searchFind a.hotSearc{ color:#F00;}
+
+.searchFind a:hover{ color:#090; text-decoration:underline;}
+
+.searMap{ font-size:14px; line-height:30px;  margin-left:10px; margin-top:10px;}
+
+.searMap span{ margin-left:10px;}
+
+.searMap span B{ color:#F00;}
+
+.searMap a{ color:#03F; text-decoration:none; margin-right:3px; margin-left:3px;}
+
+.searMap a:hover{ color:#F00; text-decoration:underline;}
+
+

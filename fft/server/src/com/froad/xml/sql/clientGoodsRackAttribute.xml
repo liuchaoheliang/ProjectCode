@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="clientGoodsRackAttribute">
+	<typeAlias alias="clientGoodsRackAttribute" type="com.froad.CB.po.ClientGoodsRackAttribute"/>
+	
+	<resultMap id="ClientGoodsRackAttributeResult" class="clientGoodsRackAttribute">
+		<result column="id" property="id" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="rack_type" property="rackType" jdbcType="VARCHAR" />
+		<result column="is_required" property="isRequired" jdbcType="VARCHAR" />
+		<result column="goods_rack_id" property="goodsRackId" jdbcType="VARCHAR" />
+		<result column="state" property="state" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="VARCHAR" />
+		<result column="update_time" property="updateTime" jdbcType="VARCHAR" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+		<result column="alias_code" property="aliasCode" jdbcType="VARCHAR"/>
+	</resultMap>
+	
+	<select id="selectByPrimaryKey" resultMap="ClientGoodsRackAttributeResult"
+		parameterClass="java.lang.Integer">
+		select * from client_goods_rack_attribute where id = #id:INTEGER#
+	</select>
+	
+	<select id="selectAll" resultMap="ClientGoodsRackAttributeResult">
+		select * from client_goods_rack_attribute
+	</select>
+	
+	<select id="selectByGoodsRackId" resultMap="ClientGoodsRackAttributeResult"
+		parameterClass="string">
+		select * from client_goods_rack_attribute where goods_rack_id = #goodsRackId:INTEGER#
+	</select>
+	
+	<delete id="deleteByPrimaryKey" parameterClass="java.lang.Integer">
+		delete from client_goods_rack_attribute where id = #id:INTEGER#
+	</delete>
+	
+	<insert id="insert" parameterClass="clientGoodsRackAttribute">
+		insert into client_goods_rack_attribute (id, name, rack_type,
+		is_required, goods_rack_id, state, create_time, update_time,
+		remark,alias_code) values (#id:INTEGER#, #name:VARCHAR#,
+		#rackType:VARCHAR#, #isRequired:VARCHAR#,
+		#goodsRackId:VARCHAR#, #state:VARCHAR#, DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),
+		DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"), #remark:VARCHAR#,#aliasCode:VARCHAR#)
+		<selectKey keyProperty="id" resultClass="int">
+			select last_insert_id() as id
+		</selectKey>
+	</insert>
+	
+	<update id="updateStateById" parameterClass="java.util.HashMap">
+		update client_goods_rack_attribute set update_time =DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),state=#state# where id=#id#
+	</update>
+	
+	<update id="updateById" parameterClass="clientGoodsRackAttribute">
+		update client_goods_rack_attribute set update_time =DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s")
+		<dynamic prepend="">
+			<isNotEmpty prepend="," property="name">
+				name = #name:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="aliasCode">
+				alias_code = #aliasCode:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="rackType">
+				rack_type = #rackType:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="isRequired">
+				is_required = #isRequired:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="goodsRackId">
+				goods_rack_id = #goodsRackId:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="state">
+				state = #state:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="remark">
+				remark = #remark:VARCHAR#
+			</isNotEmpty>
+		</dynamic>
+		where id = #id:INTEGER#
+	</update>
+</sqlMap>

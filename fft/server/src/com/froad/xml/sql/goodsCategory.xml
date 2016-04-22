@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="goodsCategory">
+	<typeAlias alias="goodsCategory" type="com.froad.CB.po.GoodsCategory" />
+	
+	<resultMap class="goodsCategory" id="goodsCategoryResult">
+		<result property="id" column="id"/>
+		<result property="name" column="name"/>
+		<result property="description" column="description"/>
+		<result property="orderList" column="order_list"/>
+		<result property="path" column="path"/>
+		<result property="parentId" column="parent_id"/>
+		<result property="state" column="state"/>
+		<result property="createTime" column="create_time"/>
+		<result property="updateTime" column="update_time"/>
+		<result property="remark" column="remark"/>
+	</resultMap>
+		
+    <!-- 增加商品分类 -->	
+	<insert id="addGoodsCategory" parameterClass="goodsCategory">
+		insert into goods_category
+		(id,name,description,order_list,path,parent_id,state,create_time,update_time,remark) 
+		values
+		(#id#,#name#,#description#,#orderList#,#path#,#parentId#,#state#,DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),#remark#)
+		<selectKey keyProperty="id" resultClass="int">
+			select last_insert_id() as id
+		</selectKey>
+	</insert>
+	
+    <!-- 根据ID 查找商品分类 -->
+	<select id="getGoodsCategoryById" parameterClass="java.lang.Integer" resultMap="goodsCategoryResult">
+		select * from goods_category where id=#id#
+	</select>
+	
+	 <!-- 更新商品分类 -->
+	<update id="updateGoodsCategory" parameterClass="goodsCategory">
+		update goods_category set update_time = DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s")
+		<dynamic prepend="">
+			<isNotEmpty prepend="," property="name">
+				name = #name#
+		      </isNotEmpty>
+			<isNotEmpty prepend="," property="description">
+				description = #description#
+		      </isNotEmpty>
+			<isNotEmpty prepend="," property="orderList">
+				order_list = #orderList#
+		      </isNotEmpty>
+			<isNotEmpty prepend="," property="path">
+				path = #path#
+		      </isNotEmpty>
+			<isNotEmpty prepend="," property="parentId">
+				parent_id = #parentId#
+		      </isNotEmpty>
+			<isNotEmpty prepend="," property="state">
+				state = #state#
+		      </isNotEmpty>
+			<isNotEmpty prepend="," property="remark">
+				remark = #remark#
+		      </isNotEmpty>
+		</dynamic>
+		where id = #id#
+	</update>
+	
+    
+    <!-- 查找所有商品分类 -->
+	<select id="getAllGoodsCategory" resultMap="goodsCategoryResult">
+		select * from goods_category
+	</select>
+	
+	<!-- 查找所有顶级商品分类 -->
+	<select id="getRootGoodsCategoryList" resultMap="goodsCategoryResult">
+		select * from goods_category where parent_id is null order by order_list desc
+	</select>
+    
+    <!-- 根据goodsCategory 查找所有子类集合 -->
+	<select id="getChildrenGoodsCategoryList" parameterClass="goodsCategory" resultMap="goodsCategoryResult">
+		select * from goods_category where id!=#id# and path like concat(#path#,'%') order by order_list desc
+	</select>
+    
+</sqlMap>

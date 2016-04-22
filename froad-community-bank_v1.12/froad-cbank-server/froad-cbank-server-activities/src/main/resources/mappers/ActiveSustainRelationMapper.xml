@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.mysql.mapper.ActiveSustainRelationMapper">
+
+	<resultMap type="ActiveSustainRelation" id="relationResultMap">
+		<id property="id" column="id" />
+		<result property="clientId" column="client_id" />
+		<result property="createTime" column="create_time" />
+		<result property="updateTime" column="update_time" />
+		<result property="activeId" column="active_id" />
+		<result property="sustainActiveType" column="sustain_active_type" />
+		<result property="sustainActiveId" column="sustain_active_id" />
+		<result property="sustainActiveName" column="sustain_active_name" />
+	</resultMap>
+
+
+	<!-- 所有字段list -->
+	<sql id="Base_Column_List">
+		id,client_id,create_time,update_time,active_id,sustain_active_type,sustain_active_id,sustain_active_name
+	</sql>
+
+
+	<!-- 不包含ID字段list -->
+	<sql id="Not_ID_Column_List">
+		client_id,create_time,update_time,active_id,sustain_active_type,sustain_active_id,sustain_active_name
+	</sql>
+
+
+	<!-- 添加  ActiveSustainRelation -->
+	<insert id="addActiveSustainRelation" parameterType="ActiveSustainRelation" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO cb_active_sustain_relation (
+			<include refid="Not_ID_Column_List" />
+		) VALUES (
+			#{clientId},#{createTime},#{updateTime},#{activeId},#{sustainActiveType},#{sustainActiveId},#{sustainActiveName}
+		) 
+	</insert>
+
+
+	<!-- 批量添加  ActiveSustainRelation -->
+	<insert id="addActiveSustainRelationByBatch" parameterType="java.util.List">
+		INSERT INTO cb_active_sustain_relation (
+			<include refid="Not_ID_Column_List" />
+		) VALUES 
+		<foreach collection="activeSustainRelationList" item="item" index="index" separator=",">
+			(#{item.clientId},#{item.createTime},#{item.updateTime},#{item.activeId},#{item.sustainActiveType},#{item.sustainActiveId},#{sustainActiveName})
+		</foreach>
+	</insert>
+
+
+	<!-- 删除  ActiveSustainRelation -->
+	<delete id="deleteActiveSustainRelation" parameterType="ActiveSustainRelation">
+		DELETE FROM cb_active_sustain_relation 
+		<where>
+			<if test="id != null">
+				AND id = #{id}
+			</if>
+			<if test="clientId != null">
+				AND client_id = #{clientId}
+			</if>
+			<if test="createTime != null">
+				AND create_time = #{createTime}
+			</if>
+			<if test="updateTime != null">
+				AND update_time = #{updateTime}
+			</if>
+			<if test="activeId != null">
+				AND active_id = #{activeId}
+			</if>
+			<if test="sustainActiveType != null">
+				AND sustain_active_type = #{sustainActiveType}
+			</if>
+			<if test="sustainActiveId != null">
+				AND sustain_active_id = #{sustainActiveId}
+			</if>
+		</where>
+	</delete>
+
+
+	<!-- 根据id删除  ActiveSustainRelation -->
+	<delete id="deleteActiveSustainRelationById" parameterType="java.lang.Long">
+		DELETE FROM cb_active_sustain_relation 
+		 WHERE 
+			 id = #{id} 
+	</delete>
+	
+	<delete id="deleteActiveSustainRelationByActiveId" parameterType="java.lang.String">
+		DELETE FROM cb_active_sustain_relation 
+		 WHERE 
+			 active_id = #{activeId} 
+	</delete>
+
+
+	<!-- 修改  ActiveSustainRelation -->
+	<update id="updateActiveSustainRelation" parameterType="ActiveSustainRelation">
+		UPDATE cb_active_sustain_relation 
+		<set>
+			<if test="id != null">
+				id = #{id}, 
+			</if>
+			<if test="clientId != null">
+				client_id = #{clientId}, 
+			</if>
+			<if test="updateTime != null">
+				update_time = SYSDATE(), 
+			</if>
+			<if test="activeId != null">
+				active_id = #{activeId}, 
+			</if>
+			<if test="sustainActiveType != null">
+				sustain_active_type = #{sustainActiveType}, 
+			</if>
+			<if test="sustainActiveName != null">
+				sustain_active_name = #{sustainActiveName}
+			</if>
+		</set>
+
+		<where>
+			<if test="id != null">
+				AND id = #{id}
+			</if>
+			<if test="clientId != null">
+				AND client_id = #{clientId}
+			</if>
+		</where>
+	</update>
+
+
+	<!-- 根据id修改  ActiveSustainRelation -->
+	<update id="updateActiveSustainRelationById" parameterType="ActiveSustainRelation">
+		UPDATE cb_active_sustain_relation 
+		<set>
+			<if test="clientId != null">
+				client_id = #{clientId}, 
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime}, 
+			</if>
+			<if test="updateTime != null">
+				update_time = #{updateTime}, 
+			</if>
+			<if test="activeId != null">
+				active_id = #{activeId}, 
+			</if>
+			<if test="sustainActiveType != null">
+				sustain_active_type = #{sustainActiveType}, 
+			</if>
+			<if test="sustainActiveId != null">
+				sustain_active_id = #{sustainActiveId}, 
+			</if>
+			<if test="sustainActiveName != null">
+				sustain_active_name = #{sustainActiveName}
+			</if>
+		</set>
+
+		 WHERE 
+            id = #{id} 
+	</update>
+
+
+	<!-- 根据id查询  ActiveSustainRelation -->
+	<select id="findActiveSustainRelationById" parameterType="java.lang.Long" resultMap="relationResultMap">
+		SELECT 
+			<include refid="Base_Column_List" />
+        FROM cb_active_sustain_relation 
+        WHERE 
+            id = #{id}
+
+	</select>
+
+	<!-- 查询一个  ActiveSustainRelation -->
+	<select id="findOneActiveSustainRelation" parameterType="ActiveSustainRelation" resultMap="relationResultMap">
+		SELECT 
+			<include refid="Base_Column_List" />
+        FROM cb_active_sustain_relation 
+		<where>
+			<if test="id != null">
+				 AND id = #{id}
+			</if>
+			<if test="clientId != null">
+				 AND client_id = #{clientId}
+			</if>
+			<if test="createTime != null">
+				 AND create_time = #{createTime}
+			</if>
+			<if test="updateTime != null">
+				 AND update_time = #{updateTime}
+			</if>
+			<if test="activeId != null">
+				 AND active_id = #{activeId}
+			</if>
+			<if test="sustainActiveType != null">
+				 AND sustain_active_type = #{sustainActiveType}
+			</if>
+			<if test="sustainActiveId != null">
+				 AND sustain_active_id = #{sustainActiveId}
+			</if>
+			<if test="sustainActiveName != null">
+				sustain_active_name = #{sustainActiveName}
+			</if>
+		 LIMIT 1 
+		</where>
+	</select>
+
+	<!-- 统计  ActiveSustainRelation -->
+	<select id="countActiveSustainRelation" parameterType="ActiveSustainRelation" resultType="java.lang.Integer">
+		SELECT COUNT(0) FROM cb_active_sustain_relation 
+		<where>
+			<if test="id != null">
+				 AND id = #{id}
+			</if>
+			<if test="clientId != null">
+				 AND client_id = #{clientId}
+			</if>
+			<if test="createTime != null">
+				 AND create_time = #{createTime}
+			</if>
+			<if test="updateTime != null">
+				 AND update_time = #{updateTime}
+			</if>
+			<if test="activeId != null">
+				 AND active_id = #{activeId}
+			</if>
+			<if test="sustainActiveType != null">
+				 AND sustain_active_type = #{sustainActiveType}
+			</if>
+			<if test="sustainActiveId != null">
+				 AND sustain_active_id = #{sustainActiveId}
+			</if>
+			<if test="sustainActiveName != null">
+				sustain_active_name = #{sustainActiveName}
+			</if>
+		</where>
+	</select>
+
+	<!-- 查询  ActiveSustainRelation -->
+	<select id="findActiveSustainRelation" parameterType="ActiveSustainRelation" resultMap="relationResultMap">
+		SELECT 
+			<include refid="Base_Column_List" />
+        FROM cb_active_sustain_relation 
+		<if test="activeSustainRelation != null">
+			<where>
+				<if test="activeSustainRelation.id != null">
+					 AND id = #{activeSustainRelation.id}
+				</if>
+				<if test="activeSustainRelation.clientId != null">
+					 AND client_id = #{activeSustainRelation.clientId}
+				</if>
+				<if test="activeSustainRelation.createTime != null">
+					 AND create_time = #{activeSustainRelation.createTime}
+				</if>
+				<if test="activeSustainRelation.updateTime != null">
+					 AND update_time = #{activeSustainRelation.updateTime}
+				</if>
+				<if test="activeSustainRelation.activeId != null">
+					 AND active_id = #{activeSustainRelation.activeId}
+				</if>
+				<if test="activeSustainRelation.sustainActiveType != null">
+					 AND sustain_active_type = #{activeSustainRelation.sustainActiveType}
+				</if>
+				<if test="activeSustainRelation.sustainActiveId != null">
+					 AND sustain_active_id = #{activeSustainRelation.sustainActiveId}
+				</if>
+				<if test="activeSustainRelation.sustainActiveName != null">
+					AND sustain_active_name = #{activeSustainRelation.sustainActiveName}
+			</if>
+			</where>
+		</if>
+		<if test="order != null">
+		 ORDER BY ${order} 
+		</if>
+	</select>
+
+	<!-- 分页查询  ActiveSustainRelation -->
+	<select id="findByPage" parameterType="java.util.HashMap" resultMap="relationResultMap">
+		SELECT 
+			<include refid="Base_Column_List" />
+        FROM cb_active_sustain_relation 
+		<if test="activeSustainRelation != null">
+			<where>
+				<if test="activeSustainRelation.id != null">
+					 AND id = #{activeSustainRelation.id}
+				</if>
+				<if test="activeSustainRelation.clientId != null">
+					 AND client_id = #{activeSustainRelation.clientId}
+				</if>
+				<if test="activeSustainRelation.createTime != null">
+					 AND create_time = #{activeSustainRelation.createTime}
+				</if>
+				<if test="activeSustainRelation.updateTime != null">
+					 AND update_time = #{activeSustainRelation.updateTime}
+				</if>
+				<if test="activeSustainRelation.activeId != null">
+					 AND active_id = #{activeSustainRelation.activeId}
+				</if>
+				<if test="activeSustainRelation.sustainActiveType != null">
+					 AND sustain_active_type = #{activeSustainRelation.sustainActiveType}
+				</if>
+				<if test="activeSustainRelation.sustainActiveId != null">
+					 AND sustain_active_id = #{activeSustainRelation.sustainActiveId}
+				</if>
+				<if test="activeSustainRelation.sustainActiveName != null">
+				sustain_active_name = #{activeSustainRelation.sustainActiveName}
+			</if>
+			</where>
+		</if>
+	</select>
+
+
+</mapper>
+

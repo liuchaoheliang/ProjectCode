@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.chonggou.mappers.BankRoleMapper">
+
+	<resultMap type="BankRole" id="bankRoleResultMap">
+		<id property="id" column="id"/>
+		<result property="clientId" column="client_id" />
+		<result property="roleName" column="role_name" />
+		<result property="status" column="status" />
+		<result property="remark" column="remark" />
+		<result property="isDelete" column="is_delete" />
+		<result property="tag" column="tag" />
+		<result property="orgCode" column="org_code"/>
+	</resultMap>
+
+
+	<!-- 添加  BankRole -->
+	<insert id="addBankRole" parameterType="BankRole" useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[
+			insert into cb_bank_role (
+				id,client_id,role_name,status,remark,is_delete,tag,org_code
+			) values (
+				#{id},#{clientId},#{roleName},#{status},#{remark},#{isDelete},#{tag},#{orgCode}
+			) 
+		]]>
+	</insert>
+	
+	<select id="findById" parameterType="java.lang.Long" resultMap="bankRoleResultMap">
+		select * from cb_bank_role where id=#{id}
+	</select>
+	
+	<delete id="deleteByChongQing">
+		delete from cb_bank_role WHERE client_id='chongqing'
+	</delete>
+	
+</mapper>
+

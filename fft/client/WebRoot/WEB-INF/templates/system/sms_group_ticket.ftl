@@ -1,0 +1,1 @@
+感谢您参与${goodsName}团购，团购验证码为${code}，使用有效期为${validityStateTime}至${validityEndTime}。商户信息及使用详情请见团购页面。【珠海农商银行】

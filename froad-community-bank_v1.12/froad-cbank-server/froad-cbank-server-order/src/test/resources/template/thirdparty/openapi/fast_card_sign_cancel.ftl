@@ -1,0 +1,15 @@
+<requestFroadApi>
+	<card>
+		<memberID>${memberID}</memberID>
+		<bankCardNo>${bankCardNo}</bankCardNo>
+		<payOrg>${payOrg}</payOrg>
+	</card>
+	<system>
+		<reqID>${reqID}</reqID>
+        <version>${versions}</version>
+		<partnerID>${partnerID}</partnerID>
+		<charset>${charset}</charset>
+		<signType>${signType}</signType>
+		<signMsg>${signMsg}</signMsg>
+	</system>
+</requestFroadApi>

@@ -1,0 +1,22 @@
+<requestPayPointsApi>
+	<partnerAccount>
+		<accountMarked>${accountMarked}</accountMarked>
+		<accountMarkedType>${accountMarkedType}</accountMarkedType>
+	</partnerAccount>
+	<payPoints>
+		<orgNo>${orgNo}</orgNo>
+		<objectNo>${objectNo}</objectNo>
+		<objectDes>${objectDes}</objectDes>
+		<objectType>${objectType}</objectType>
+		<accountId>${accountId}</accountId>
+		<points>${points}</points>
+		<remark>${remark}</remark>
+	</payPoints>
+	<system>
+		<partnerNo>${partnerNo}</partnerNo>
+		<charset>${charset}</charset>
+		<signType>${signType}</signType>
+		<signMsg>${signMsg}</signMsg>
+		<requestTime>${requestTime}</requestTime>
+	</system>
+</requestPayPointsApi>

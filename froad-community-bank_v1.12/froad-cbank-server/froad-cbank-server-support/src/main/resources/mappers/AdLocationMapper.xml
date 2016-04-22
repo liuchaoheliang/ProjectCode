@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.mysql.mapper.AdLocationMapper">
+
+	<resultMap type="AdLocation" id="adLocationResultMap">
+		<id property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="terminalType" column="terminal_type" />
+		<result property="positionPage" column="position_page" />
+		<result property="sizeLimit" column="size_limit" />
+		<result property="width" column="width" />
+		<result property="height" column="height" />
+		<result property="paramOneType" column="param_one_type" />
+		<result property="paramTwoType" column="param_two_type" />
+		<result property="paramThreeType" column="param_three_type" />
+		<result property="description" column="description" />
+		<result property="enableStatus" column="enable_status" />
+	</resultMap>
+
+
+	<!-- 添加  AdLocation -->
+	<insert id="addAdLocation" parameterType="AdLocation" useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[
+			INSERT INTO cb_ad_location (
+				name,terminal_type,position_page,size_limit,width,height
+				,param_one_type,param_two_type,param_three_type,description,enable_status
+			) VALUES (
+				#{name},#{terminalType},#{positionPage},#{sizeLimit},#{width},#{height}
+				,#{paramOneType},#{paramTwoType},#{paramThreeType},#{description},#{enableStatus}
+			) 
+		]]>
+	</insert>
+
+
+	<!-- 批量添加  AdLocation -->
+	<insert id="addAdLocationByBatch" parameterType="java.util.List">
+		INSERT INTO cb_ad_location (
+			name,terminal_type,position_page,size_limit,width,height
+			,param_one_type,param_two_type,param_three_type,description,enable_status
+		) VALUES 
+		<foreach collection="adLocationList" item="item" index="index" separator=",">
+			(#{name},#{terminalType},#{positionPage},#{sizeLimit},#{width},#{height}
+			,#{paramOneType},#{paramTwoType},#{paramThreeType},#{description},#{enableStatus})
+		</foreach>
+	</insert>
+	
+	<!-- 编辑更新 AdLocation -->
+	<update id="updateAdLocation" parameterType="AdLocation">
+		UPDATE cb_ad_location  
+			<set>
+				<if test="sizeLimit != null">
+					size_limit = #{sizeLimit},
+				</if>
+				<if test="width != null">
+					width = #{width},
+				</if>
+				<if test="height != null">
+					height = #{height},
+				</if>
+				<if test="description != null">
+					 description = #{description},
+				</if>
+			</set>
+		where id = #{id}
+	</update>
+	
+	<!-- 查询 AdLocation 列表 -->
+	<select id="findAdLocationList" parameterType="AdLocation" resultMap="adLocationResultMap">
+		SELECT
+			id,name,terminal_type,position_page,size_limit,width,height
+			,param_one_type,param_two_type,param_three_type,description,enable_status
+		FROM cb_ad_location
+		<where>
+			<if test="name != null">
+				AND name like CONCAT('%',#{name},'%' )
+			</if>
+			<if test="terminalType != null">
+				AND terminal_type = #{terminalType}
+			</if>
+			<if test="enableStatus != null">
+				AND enable_status = #{enableStatus}
+			</if>
+			and enable_status != 1
+		</where>
+	</select>
+	
+	<!-- 分页查询  AdLocation -->
+	<select id="findByPage" parameterType="java.util.HashMap" resultMap="adLocationResultMap">
+		SELECT 
+			id,name,terminal_type,position_page,size_limit,width,height
+			,param_one_type,param_two_type,param_three_type,description,enable_status 
+		from cb_ad_location
+		<if test="adLocation != null">
+			<where>
+				<if test="adLocation.name != null">
+					AND name like CONCAT('%',#{adLocation.name},'%' )
+				</if>
+				<if test="adLocation.terminalType != null">
+					AND terminal_type = #{adLocation.terminalType}
+				</if>
+				<if test="adLocation.enableStatus != null">
+					AND enable_status = #{adLocation.enableStatus}
+				</if>
+			<!-- and enable_status != 1 -->	
+			</where>
+		</if>
+	</select>
+	
+	<!-- 查询  AdLocation 单个 -->
+	<select id="findAdLocationById" parameterType="java.lang.Long" resultMap="adLocationResultMap">
+		SELECT 
+            id,name,terminal_type,position_page,size_limit,width,height
+			,param_one_type,param_two_type,param_three_type,description,enable_status  
+        FROM cb_ad_location 
+        WHERE 
+            id = #{id} and enable_status != 1
+	</select>
+<!-- 不带状态查询单个ad -->
+      <select id="selectAdLocationById" parameterType="java.lang.Long" resultMap="adLocationResultMap">
+		SELECT 
+            id,name,terminal_type,position_page,size_limit,width,height
+			,param_one_type,param_two_type,param_three_type,description,enable_status  
+        FROM cb_ad_location 
+        WHERE 
+            id = #{id} 
+	</select>
+	<!-- 禁用 AdLocation -->
+	<update id="disabledAdLocation" parameterType="java.lang.Long">
+		UPDATE cb_ad_location SET enable_status = 1 where id = #{id}
+	</update>
+
+	<select id="findAdLocationListByTerminalAndPosition" resultMap="adLocationResultMap">
+		SELECT 
+            id,name,terminal_type,position_page,size_limit,width,height
+			,param_one_type,param_two_type,param_three_type,description,enable_status  
+        FROM cb_ad_location 
+        WHERE 
+            terminal_type = #{terminalType} and position_page = #{positionPage} and enable_status != 1
+	</select>
+
+</mapper>
+

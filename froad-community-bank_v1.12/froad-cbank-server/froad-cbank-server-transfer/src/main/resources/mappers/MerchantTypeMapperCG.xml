@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.chonggou.mappers.MerchantTypeMapperCG">
+
+	<resultMap type="MerchantTypeCG" id="merchantTypeResultMap">
+		<id property="id" column="id" />
+		<result property="typeName" column="type_name" />
+		<result property="isDelete" column="is_delete" />
+	</resultMap>
+
+
+	<!-- 添加  MerchantType -->
+	<insert id="addMerchantType" parameterType="MerchantTypeCG" useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[
+			INSERT INTO cb_merchant_type (
+				type_name,is_delete
+			) VALUES (
+				#{typeName},#{isDelete}
+			) 
+		]]>
+	</insert>
+	
+	
+		<!-- 查询  MerchantType -->
+	<select id="findMerchantTypeById" parameterType="java.lang.Long" resultMap="merchantTypeResultMap">
+		SELECT 
+            id,type_name,is_delete 
+        FROM cb_merchant_type 
+        WHERE 
+            id = #{id}
+
+	</select>
+	
+	<select id="findMerchantTypeByTypeName" parameterType="java.lang.String" resultMap="merchantTypeResultMap">
+		SELECT 
+            id,type_name,is_delete 
+        FROM cb_merchant_type 
+        WHERE 
+            type_name = #{typeName}
+
+	</select>
+
+
+	<!-- 批量添加  MerchantType -->
+	<insert id="addMerchantTypeByBatch" parameterType="java.util.List">
+		INSERT INTO cb_merchant_type (
+			type_name,is_delete
+		) VALUES 
+		<foreach collection="merchantTypeList" item="item" index="index" separator=",">
+			(#{typeName},#{isDelete})
+		</foreach>
+	</insert>
+	
+	<select id="findMerchantAll" resultMap="merchantTypeResultMap">
+		select * from cb_merchant_type
+	</select>
+
+</mapper>
+

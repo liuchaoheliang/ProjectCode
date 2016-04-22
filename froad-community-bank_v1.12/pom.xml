@@ -1,0 +1,424 @@
+﻿﻿<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.froad.cbank</groupId>
+	<artifactId>froad-community-bank</artifactId>
+	<version>1.12.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<name>Froad Community Bank</name>
+
+	<modules>
+	<!--
+		<module>coremodule</module>
+		-->
+		<module>froad-cbank-server</module>
+	</modules>
+
+	<properties>
+		<junit.version>4.11</junit.version>
+		<apache.commons.beanutils.version>1.9.2</apache.commons.beanutils.version>
+		<apache.commons.pool.version>1.5.4</apache.commons.pool.version>
+		<fastjson.version>1.2.4</fastjson.version>
+		<thrift.version>0.9.2</thrift.version>
+		<slf4j-api.version>1.7.10</slf4j-api.version>
+		<logback.version>1.1.2</logback.version>
+		<mysql.version>5.1.31</mysql.version>
+		<mybatis.version>3.2.8</mybatis.version>
+		<druid.version>1.0.13</druid.version>
+		<jedis.version>2.6.2</jedis.version>
+		<mongo-java.version>2.13.0</mongo-java.version>
+		<janino.version>2.5.10</janino.version>
+		<zxing.version>2.0</zxing.version>
+		<apache.commons.version>2.6</apache.commons.version>
+		<ganymed.ssh2.version>build210</ganymed.ssh2.version>
+		<freemarker.version>2.3.19</freemarker.version>
+		<xstream.version>1.4.5</xstream.version>
+		<ca.juliusdavies.version>0.3.11</ca.juliusdavies.version>
+		<dom4j.version>1.6.1</dom4j.version>
+		<user-engine.version>0.0.2-SNAPSHOT</user-engine.version>
+		<pe-acct.version>0.0.1-SNAPSHOT</pe-acct.version>
+		<caucho.version>4.0.7</caucho.version>
+		<common-io.version>2.2</common-io.version>
+		<bouncycastle.version>1.46</bouncycastle.version>
+		<zk.version>3.4.6</zk.version>
+		<captcha.version>1.0-RC6</captcha.version>
+		<jetty.version>8.1.16.v20140903</jetty.version>
+		<glassfish.web.jsp.version>2.2.3</glassfish.web.jsp.version>
+		<beanstalkd.trendrr.version>0.0.1-20150417</beanstalkd.trendrr.version>
+		<oval.version>1.84</oval.version>
+		<poi.version>3.10-FINAL</poi.version>
+		<apache.ant.zip.version>1.8.0</apache.ant.zip.version>
+		<commons.net.version>3.3</commons.net.version>
+		<com.jcraft.version>0.1.51</com.jcraft.version>
+		<javacsv.version>2.0</javacsv.version>
+	</properties>
+
+	<dependencyManagement><!-- 可以继承 -->
+		<dependencies>
+			<!-- junit -->
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>${junit.version}</version>
+				<scope>test</scope>
+			</dependency>
+			
+			<!-- oval -->
+			<dependency>
+				<groupId>net.sf.oval</groupId>
+				<artifactId>oval</artifactId>
+				<version>${oval.version}</version>
+			</dependency>
+
+			<!-- beanutils -->
+			<dependency>
+				<groupId>commons-beanutils</groupId>
+				<artifactId>commons-beanutils</artifactId>
+				<version>${apache.commons.beanutils.version}</version>
+			</dependency>
+			
+			<!-- commons-pool -->
+			<dependency>
+				<groupId>commons-pool</groupId>
+				<artifactId>commons-pool</artifactId>
+				<version>${apache.commons.pool.version}</version>
+			</dependency>
+			
+			<!-- logback -->
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-api</artifactId>
+				<version>${slf4j-api.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>ch.qos.logback</groupId>
+				<artifactId>logback-core</artifactId>
+				<version>${logback.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>ch.qos.logback</groupId>
+				<artifactId>logback-access</artifactId>
+				<version>${logback.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>ch.qos.logback</groupId>
+				<artifactId>logback-classic</artifactId>
+				<version>${logback.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>janino</groupId>
+				<artifactId>janino</artifactId>
+				<version>${janino.version}</version>
+			</dependency>
+			<!-- fastjson -->
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>fastjson</artifactId>
+				<version>${fastjson.version}</version>
+			</dependency>
+
+			<!-- thrift -->
+			<dependency>
+				<groupId>org.apache.thrift</groupId>
+				<artifactId>libthrift</artifactId>
+				<version>${thrift.version}</version>
+			</dependency>
+
+			<!-- mybatis -->
+			<dependency>
+				<groupId>org.mybatis</groupId>
+				<artifactId>mybatis</artifactId>
+				<version>${mybatis.version}</version>
+			</dependency>
+
+			<!-- mysql -->
+			<dependency>
+				<groupId>mysql</groupId>
+				<artifactId>mysql-connector-java</artifactId>
+				<version>${mysql.version}</version>
+			</dependency>
+
+			<!-- druid -->
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>druid</artifactId>
+				<version>${druid.version}</version>
+			</dependency>
+
+			<!-- jedis -->
+			<dependency>
+				<groupId>redis.clients</groupId>
+				<artifactId>jedis</artifactId>
+				<version>${jedis.version}</version>
+			</dependency>
+
+			<!-- mongo-java-driver -->
+			<dependency>
+				<groupId>org.mongodb</groupId>
+				<artifactId>mongo-java-driver</artifactId>
+				<version>${mongo-java.version}</version>
+			</dependency>
+			<!-- google cqrcode -->
+			<dependency>
+				<groupId>com.google.zxing</groupId>
+				<artifactId>core</artifactId>
+				<version>${zxing.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.google.zxing</groupId>
+				<artifactId>javase</artifactId>
+				<version>${zxing.version}</version>
+			</dependency>
+
+			<!-- apache -->
+			<dependency>
+				<groupId>commons-lang</groupId>
+				<artifactId>commons-lang</artifactId>
+				<version>${apache.commons.version}</version>
+			</dependency>
+
+			<!-- scp -->
+			<dependency>
+				<groupId>ch.ethz.ganymed</groupId>
+				<artifactId>ganymed-ssh2</artifactId>
+				<version>${ganymed.ssh2.version}</version>
+			</dependency>
+
+			<!-- freemarker -->
+			<dependency>
+				<groupId>org.freemarker</groupId>
+				<artifactId>freemarker</artifactId>
+				<version>${freemarker.version}</version>
+			</dependency>
+
+			<!-- xstream -->
+			<dependency>
+				<groupId>com.thoughtworks.xstream</groupId>
+				<artifactId>xstream</artifactId>
+				<version>${xstream.version}</version>
+			</dependency>
+
+			<!-- org.apache.commons -->
+			<dependency>
+				<groupId>ca.juliusdavies</groupId>
+				<artifactId>not-yet-commons-ssl</artifactId>
+				<version>${ca.juliusdavies.version}</version>
+			</dependency>
+
+			<!-- dome4j -->
+			<dependency>
+				<groupId>dom4j</groupId>
+				<artifactId>dom4j</artifactId>
+				<version>${dom4j.version}</version>
+			</dependency>
+
+			<!-- userpe -->
+			<dependency>
+				<groupId>com.pay.user</groupId>
+				<artifactId>user-api</artifactId>
+				<version>${user-engine.version}</version>
+			</dependency>
+			
+			<!-- pe-acct -->
+			<dependency>
+				<groupId>com.pay.pe</groupId>
+				<artifactId>pe-acct-api</artifactId>
+				<version>${pe-acct.version}</version>
+			</dependency>
+			
+			<!-- caucho -->
+			<dependency>
+				<groupId>com.caucho</groupId>
+				<artifactId>hessian</artifactId>
+				<version>${caucho.version}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>commons-io</groupId>
+				<artifactId>commons-io</artifactId>
+				<version>${common-io.version}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>org.bouncycastle</groupId>
+				<artifactId>bctsp-jdk16</artifactId>
+				<version>${bouncycastle.version}</version>
+				<type>pom.sig</type>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.zookeeper</groupId>
+                <artifactId>zookeeper</artifactId>
+                <version>${zk.version}</version>
+            </dependency>
+            
+            <!--captcha  -->
+           	<dependency>
+				<groupId>com.octo.captcha</groupId>
+				<artifactId>jcaptcha-all</artifactId>
+				<version>${captcha.version}</version>
+	    	</dependency>
+	    	
+	    	<!-- Jetty -->
+	        <dependency>
+	            <groupId>org.eclipse.jetty.aggregate</groupId>
+	            <artifactId>jetty-all</artifactId>
+	            <version>${jetty.version}</version>
+	        </dependency>
+	 		
+	        <!-- Jetty Webapp -->
+	        <dependency>
+	            <groupId>org.eclipse.jetty</groupId>
+	            <artifactId>jetty-webapp</artifactId>
+	            <version>${jetty.version}</version>
+	        </dependency>
+	        <!-- JSP Support -->
+	        <dependency>
+	            <groupId>org.glassfish.web</groupId>
+	            <artifactId>javax.servlet.jsp</artifactId>
+	            <version>${glassfish.web.jsp.version}</version>
+	        </dependency>
+        	<!-- EL Support -->
+	        <dependency>
+	            <groupId>org.glassfish.web</groupId>
+	            <artifactId>javax.el</artifactId>
+	            <version>${glassfish.web.jsp.version}</version>
+	        </dependency>
+	        
+	    	<!-- Beanstalkd client in froad-release -->
+			<dependency>
+				<groupId>com.trendrr</groupId>
+				<artifactId>beanstalk-client</artifactId>
+				<version>${beanstalkd.trendrr.version}</version>
+			</dependency>
+			
+			<!-- poi -->
+			<dependency>
+				<groupId>org.apache.poi</groupId>
+				<artifactId>poi-ooxml</artifactId>
+				<version>${poi.version}</version>
+	        </dependency>
+	        
+	        <!-- zip -->
+			<dependency>
+				<groupId>org.apache.ant</groupId>
+				<artifactId>apache-ant-zip</artifactId>
+				<version>${apache.ant.zip.version}</version>
+			</dependency>
+			
+			<!--ftp-->
+			<dependency>
+				<groupId>commons-net</groupId>
+				<artifactId>commons-net</artifactId>
+				<version>${commons.net.version}</version>
+			</dependency>
+
+			<!--sftp-->
+			<dependency>
+				<groupId>com.jcraft</groupId>
+				<artifactId>jsch</artifactId>
+				<version>${com.jcraft.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>net.sourceforge.javacsv</groupId>
+				<artifactId>javacsv</artifactId>
+				<version>${javacsv.version}</version>
+			</dependency>
+			
+		</dependencies>
+
+	</dependencyManagement>
+
+	<build>
+		<!-- <plugins> <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-compiler-plugin</artifactId> 
+			<configuration> <encoding>utf-8</encoding> <target>1.6</target> <source>1.6</source> 
+			</configuration> </plugin> <plugin> <groupId>org.apache.maven.plugins</groupId> 
+			<artifactId>maven-source-plugin</artifactId> <configuration> <encoding>UTF-8</encoding> 
+			</configuration> </plugin> </plugins> -->
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<configuration>
+					<encoding>UTF-8</encoding>
+				</configuration>
+				<version>2.6</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.2</version>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+					<encoding>UTF-8</encoding>
+					<skip>true</skip>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-help-plugin</artifactId>
+				<version>2.1</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<version>2.5</version>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>findbugs-maven-plugin</artifactId>
+				<version>2.5.3</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-site-plugin</artifactId>
+				<version>3.3</version>
+				<configuration>
+					<reportPlugins>
+						<plugin>
+							<groupId>org.apache.maven.plugins</groupId>
+							<artifactId>maven-project-info-reports-plugin</artifactId>
+							<version>2.7</version>
+						</plugin>
+						<plugin>
+							<groupId>org.apache.maven.plugins</groupId>
+							<artifactId>maven-surefire-report-plugin</artifactId>
+							<version>2.4.2</version>
+						</plugin>
+					</reportPlugins>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<version>2.8.1</version>
+			</plugin>
+			<!-- 跳过测试 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.5</version>
+				<configuration>
+					<skipTests>true</skipTests>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	<distributionManagement>
+		<repository>
+			<id>froad-releases</id>
+			<name>fft-froad-releases</name>
+			<url>http://10.43.1.23:8081/content/repositories/froad-releases/</url>
+		</repository>
+		<snapshotRepository>
+			<id>froad-snapshot</id>
+			<name>fft-froad-snapshot</name>
+			<url>http://10.43.1.23:8081/content/repositories/froad-snapshot/</url>
+		</snapshotRepository>
+	</distributionManagement>
+
+</project>

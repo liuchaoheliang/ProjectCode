@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.mysql.mapper.VipProductMapper">
+
+	<resultMap type="VipProduct" id="vipProductResultMap">
+		<id property="id" column="id" />
+		<result property="vipId" column="vip_id" />
+		<result property="createTime" column="create_time" />
+		<result property="clientId" column="client_id" />
+		<result property="clientName" column="client_name" />
+		<result property="activitiesName" column="activities_name" />
+		<result property="vipPrice" column="vip_price" />
+		<result property="status" column="status" />
+		<result property="count" column="count" />
+		<result property="remark" column="remark" />
+	</resultMap>
+	
+	<resultMap type="Product" id="productResultMap">
+		<result property="productId" column="product_id" />
+		<result property="isMarketable" column="is_marketable" />
+		<result property="createTime" column="create_time" />
+		<result property="name" column="name" />
+		<result property="price" column="price" />
+	</resultMap>
+	<resultMap type="VipBindProductInfo" id="vipBindProductInfoMap">
+		<result property="productId" column="product_id" />
+		<result property="vipId" column="vip_id" />
+		<result property="createTime" column="create_time" />
+		<result property="vipPrice" column="vip_price" />
+		<result property="vipLimit" column="vip_limit" />
+	</resultMap>
+	
+	<resultMap type="Product" id="productPointResultMap">
+		<result property="productId" column="product_id" />
+		<result property="isMarketable" column="is_marketable" />
+		<result property="createTime" column="create_time" />
+		<result property="name" column="name" />
+		<result property="price" column="price" />
+		<result property="rackTime" column="rack_time" />
+		<result property="clientId" column="client_id" />
+		<result property="vipPrice" column="vip_price" />
+	</resultMap>
+	
+	<!-- 查询该客户端下是否已经存在一条启用的VIP规则 -->
+	<select id="isExistVipProduct" parameterType="String" resultMap="vipProductResultMap">
+		<![CDATA[
+		SELECT id,vip_id,create_time,client_id,client_name,activities_name,vip_price,status,count,remark   
+		FROM cb_vip_product WHERE client_id = #{clientId} AND status ='1' LIMIT 1
+		]]> 
+	</select>
+	
+	<!-- 添加VipProduct -->
+	<insert id="addVipProduct" parameterType="VipProduct" useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[
+			INSERT INTO cb_vip_product (
+				vip_id,create_time,client_id,client_name,activities_name,vip_price,status,count,remark
+			) VALUES (
+				#{vipId},#{createTime},#{clientId},#{clientName},#{activitiesName},#{vipPrice},#{status},#{count},#{remark} 
+			) 
+		]]>
+	</insert>
+	
+	<!-- 根据vipId查询VIP规则 -->
+	<select id="getVipProduct" parameterType="String" resultMap="vipProductResultMap">
+		<![CDATA[
+		SELECT id,vip_id,create_time,client_id,client_name,activities_name,vip_price,status,count,remark  
+		FROM cb_vip_product WHERE vip_id = #{vipId} AND status <>'3' LIMIT 1
+		]]> 
+	</select>
+
+	<!-- 更新Vip规则状态 -->
+	<update id="updateVipStatus" parameterType="VipProduct">
+		UPDATE cb_vip_product SET status = #{status} 
+		WHERE vip_id = #{vipId}
+	</update>
+	
+	<!-- 更新VipPrice -->
+	<update id="updateProductVipPrice" parameterType="Map">
+		UPDATE cb_product SET vip_price = #{newVipPrice} 
+			<if test="isLimit != null">
+				,is_limit = #{isLimit} 
+			</if> 
+		<where>
+		<if test="productId != null and productId !=''">
+			AND product_id = #{productId}
+		</if>
+		<if test="vipPrice != null and vipPrice !=''">
+			AND vip_price = #{vipPrice}
+		</if>
+		<if test="clientId != null and clientId !=''">
+			AND client_id = #{clientId} 
+		</if>
+		</where>
+	</update>
+	
+	<!-- 更新Vip已经绑定商品数量 -->
+	<update id="updateVipCount" parameterType="VipProduct">
+		UPDATE cb_vip_product SET count = count+#{count}  
+		WHERE vip_id = #{vipId}
+	</update>
+	
+	<!-- 重置Vip已经绑定商品数量 -->
+	<update id="resetVipCount" parameterType="VipProduct">
+		UPDATE cb_vip_product SET count = #{count}  
+		WHERE vip_id = #{vipId}
+	</update>
+
+	<!-- 修改Vip规则状态 -->
+	<update id="updateVipProduct" parameterType="VipProduct">
+		UPDATE cb_vip_product SET activities_name=#{activitiesName},remark = #{remark}  
+		WHERE vip_id = #{vipId}
+	</update>
+
+	<!-- 根据客户端id查询单独一条启用的vip规则 -->
+	<select id="getClientVipProduct" parameterType="String" resultMap="vipProductResultMap">
+		<![CDATA[
+		SELECT id,vip_id,create_time,client_id,client_name,activities_name,vip_price,status,count,remark   
+		FROM cb_vip_product WHERE client_id = #{clientId} AND status ='1' LIMIT 1
+		]]> 
+	</select>
+	
+	<!-- vip规则分页查询 -->
+	<select id="findVipProductByPage" parameterType="java.util.HashMap" resultMap="vipProductResultMap" >
+		<![CDATA[
+		SELECT id,vip_id,create_time,client_id,client_name,activities_name,vip_price,status,count,remark  
+		FROM cb_vip_product WHERE status <>'3' 
+		]]> 
+		<if test="vip.clientId != null and vip.clientId !=''">
+			 AND client_id = #{vip.clientId} 
+		</if>
+		<if test="vip.status != null and vip.status != ''">
+			 AND status = #{vip.status} 
+		</if>
+		<if test="vip.activitiesName != null and vip.activitiesName != ''">
+			 AND activities_name LIKE CONCAT('%',#{vip.activitiesName},'%' ) 
+		</if>
+		ORDER BY create_time DESC  
+	</select>
+	
+	<!-- 分页查询可以绑定vip规则的商品列表 -->
+	<select id="findProductForVipByPage" parameterType="java.util.HashMap" resultMap="productResultMap" >
+		<![CDATA[
+		SELECT p.product_id,p.create_time,p.name,p.is_marketable,p.price 
+		FROM cb_product p 
+		WHERE NOT EXISTS (SELECT vp.product_id FROM cb_vip_bind_product vp WHERE vp.product_id=p.product_id ) 
+		]]> 
+		<if test="p.clientId != null and p.clientId !=''">
+			 AND p.client_id = #{p.clientId} 
+		</if>
+		<if test="p.isMarketable != null and p.isMarketable != ''">
+			 AND p.is_marketable = #{p.isMarketable} 
+		</if>
+		<if test="p.type != null and p.type != ''">
+			 AND p.type = #{p.type}  
+		</if>
+		<if test="p.platType != null and p.platType != ''">
+			 AND p.plat_type = {p.platType}  
+		</if>
+		<if test="p.name != null and p.name != ''">
+			 AND name LIKE CONCAT('%',#{p.name},'%' )
+		</if>
+		<if test="p.priceStart != null">
+			<![CDATA[
+			 AND price >= #{p.priceStart}
+			]]>
+		</if>
+		<if test="p.priceEnd != null ">
+			<![CDATA[
+			 AND price <= #{p.priceEnd}
+			]]>
+		</if>
+		<if test="p.types!=null and p.types.size>0">
+             AND p.type IN  
+             <foreach collection="p.types" item="item" open="(" separator="," close=")">
+                      #{item}
+             </foreach>
+        </if>
+        <if test="p.isMarketables!=null and p.isMarketables.size>0">
+             AND p.is_marketable IN  
+             <foreach collection="p.isMarketables" item="item" open="(" separator="," close=")">
+                      #{item}
+             </foreach>
+        </if>
+        <if test="p.platTypes!=null and p.platTypes.size>0">
+             AND p.plat_type IN  
+             <foreach collection="p.platTypes" item="item" open="(" separator="," close=")">
+                      #{item}
+             </foreach>
+        </if>
+		 ORDER BY p.create_time DESC  
+	</select>
+	
+	<!-- 保存绑定关系中间表 -->
+	<insert id="addVipBindProducts" parameterType="java.util.List">  
+		INSERT INTO cb_vip_bind_product (product_id,vip_id,create_time,vip_price,vip_limit) 
+		VALUES 
+		<foreach collection="list" item="item" index="index" separator="," >  
+        (#{item.productId},#{item.vipId},#{item.createTime},#{item.vipPrice},#{item.vipLimit})  
+		</foreach>
+	</insert> 
+	
+	<!-- 删除绑定关系的中间表 -->
+	<delete id="deleteProductsFromVip" parameterType="java.util.HashMap">
+		DELETE  
+		FROM cb_vip_bind_product
+		WHERE vip_id=#{vipId} 
+		<if test="productIds!=null and productIds.size>0">
+             AND product_id IN  
+             <foreach collection="productIds" item="item" open="(" separator="," close=")">
+                      #{item}
+             </foreach>
+        </if>
+	</delete>
+	
+	<!-- 查询绑定过的vip规则关系的中间表 -->
+	<select id="findVipBindProducts" parameterType="String" resultMap="vipBindProductInfoMap" >
+		<![CDATA[
+		SELECT product_id,vip_id,create_time,vip_price,vip_limit 
+		FROM cb_vip_bind_product
+		WHERE vip_id=#{vipId} 
+		]]> 
+	</select>
+	
+	<!-- 分页查询vip规则绑定关系的中间表 -->
+	<select id="findVipBindProductsByPage" parameterType="java.util.HashMap" resultMap="vipBindProductInfoMap" >
+		<![CDATA[
+		SELECT product_id,vip_id,create_time,vip_price,vip_limit 
+		FROM cb_vip_bind_product 
+		WHERE vip_id=#{vipId} ORDER BY create_time DESC
+		]]> 
+	</select>
+	
+	<!-- 查询可以绑定vip规则的商品-->
+	<select id="findValidProductsForVip" parameterType="java.util.HashMap" resultType="String" >
+		<![CDATA[
+		SELECT p.product_id 
+		FROM cb_product p 
+		WHERE NOT EXISTS (SELECT vp.product_id FROM cb_vip_bind_product vp WHERE vp.product_id=p.product_id ) 
+		]]> 
+		<if test="clientId != null and clientId !=''">
+			 AND p.client_id = #{clientId} 
+		</if>
+		<if test="isMarketable != null and isMarketable != ''">
+			 AND p.is_marketable = #{isMarketable} 
+		</if>
+		<if test="type != null and type != ''">
+			 AND p.type = #{type}  
+		</if>
+		<if test="platType != null and platType != ''">
+			 AND p.plat_type = {platType}  
+		</if>
+		<if test="types!=null and types.size>0">
+             AND p.type IN  
+             <foreach collection="types" item="item" open="(" separator="," close=")">
+                      #{item}
+             </foreach>
+        </if>
+        <if test="isMarketables!=null and isMarketables.size>0">
+             AND p.is_marketable IN  
+             <foreach collection="isMarketables" item="item" open="(" separator="," close=")">
+                      #{item}
+             </foreach>
+        </if>
+        <if test="platTypes!=null and platTypes.size>0">
+             AND p.plat_type IN  
+             <foreach collection="platTypes" item="item" open="(" separator="," close=")">
+                      #{item}
+             </foreach>
+        </if>
+        <if test="productIds!=null and productIds.size>0">
+             AND p.product_id IN  
+             <foreach collection="productIds" item="item" open="(" separator="," close=")">
+                      #{item}
+             </foreach>
+        </if>
+	</select>
+		<!-- 分页查询vip规则绑定关系的中间表 -->
+	<select id="findVipBindProduct" parameterType="String" resultMap="vipBindProductInfoMap" >
+		<![CDATA[
+		SELECT product_id,vip_id,create_time,vip_price,vip_limit 
+		FROM cb_vip_bind_product 
+		WHERE product_id=#{productId} LIMIT 1
+		]]> 
+	</select>
+	<!-- 查询可以绑定point规则的商品-->
+	<select id="findProductsForActivtyByPage" parameterType="java.util.HashMap" resultMap="productPointResultMap" >
+		<![CDATA[
+		SELECT p.client_id,p.name,p.product_id,p.rack_time,p.price,p.is_marketable,p.create_time,a.vip_price FROM cb_product p left join cb_vip_bind_product a on p.product_id=a.product_id 
+		     where p.is_point!=1
+		]]> 
+		
+		<if test="t.clientId != null and t.clientId !=''">
+			 AND p.client_id = #{t.clientId} 
+		</if>
+		<if test="t.isMarketables!=null and t.isMarketables.size>0">
+             AND p.is_marketable IN  
+             <foreach collection="t.isMarketables" item="item" open="(" separator="," close=")">
+                      #{item}
+             </foreach>
+        </if>
+      <if test="t.types!=null and t.types.size>0">
+             AND p.type IN  
+             <foreach collection="t.types" item="item" open="(" separator="," close=")">
+                      #{item}
+             </foreach>
+        </if>
+        <if test="t.platTypes!=null and t.platTypes.size>0">
+             AND p.plat_type IN  
+             <foreach collection="t.platTypes" item="item" open="(" separator="," close=")">
+                      #{item}
+             </foreach>
+        </if>
+		<if test="t.points != null and t.points != ''">
+			 AND p.price > #{t.points}  
+		</if>
+		<if test="t.points != null and t.points != ''">
+			 AND (a.vip_price > #{t.points}  or a.vip_price is null)
+		</if>
+		<if test="t.name != null and t.name != ''">
+			 AND p.name LIKE CONCAT('%',#{t.name},'%')
+		</if>
+		<if test="t.type != null and t.type != ''">
+			 AND p.type = #{t.type}  
+		</if>
+		<if test="t.platType != null and t.platType != ''">
+			 AND p.plat_type = {t.platType}  
+		</if>
+	</select>
+</mapper>
+

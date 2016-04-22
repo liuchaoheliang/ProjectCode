@@ -1,0 +1,16 @@
+/*
+* Author:
+* pengling@f-road.com.cn 
+*/
+
+.adminexplain{width:80%; border:1px solid #feda8f; background:#fff9f0; padding:10px; margin:30px auto 10px; clear:both; overflow:hidden;}
+
+.adminexplain dl{ margin:0 auto;}
+
+.adminexplain dl dt { font:14px/24px "宋体"; color:#ff0000; width:95%; margin:10px auto 0;}
+
+.adminexplain dl dd{ font:12px/24px "宋体"; color:#222; width:95%; margin:0 auto;}
+
+.adminexplain dl dd a{ color:#09F; text-decoration:underline; font-family:Verdana, Geneva, sans-serif}
+
+.adminexplain dl dd a:hover{ color:#F90; text-decoration:none;}

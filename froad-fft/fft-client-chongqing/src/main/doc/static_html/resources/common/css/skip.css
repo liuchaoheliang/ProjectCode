@@ -1,0 +1,33 @@
+/*
+* Author:
+* pengling@f-road.com.cn 
+* QQ:4753953
+*/
+
+
+/*跳转页面*/
+.skip{width:630px; border:4px solid #e10f28; padding:50px 0 15px; margin:100px auto 0; overflow:hidden;}
+
+.skip .remind{font:14px/50px "Verdana"; text-align:center;}
+
+.skip .remind h1{ color:#09F; font-weight:bold; display:inline; font-size:14px;}
+
+.skip .remind h2{ color:#F60; font-weight:bold; display:inline; font-size:14px;}
+
+
+
+.skip .logoimg{margin-top:30px; margin-left:85px;}
+
+.skip .logobg{ background:url(../images/logo.png) left bottom no-repeat;background-size:100%; width:179px; height:55px; float:left;margin:0px 20px 0 -30px}
+
+.skip .gifbg{ background:url(../images/loadingarrow.gif); width:115px; height:38px; float:left; margin-top:23px;margin-left:30px}
+
+.skip .shangjialogo img{ margin-left:20px;  margin-top:20px;}
+
+.skip .linkweb{ float:right; margin-right:20px; font:12px/24px "宋体"; color:#333; margin-top:80px;}
+
+.skip .linkweb a{ color:#06F; text-decoration:underline;}
+
+.skip .linkweb a:hover{ color:#C60; text-decoration:underline;}
+
+

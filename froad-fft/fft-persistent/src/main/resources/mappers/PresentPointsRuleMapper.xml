@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+	<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  		 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.fft.persistent.api.PresentPointsRuleMapper">
+
+	<resultMap type="PresentPointsRule" id="PresentPointsRuleResultMap">
+		<id property="id" column="id" />		
+		<result property="createTime" column="create_time" />
+		<result property="updateTime" column="update_time" />
+		
+		<result property="name" column="name" />
+		<result property="merchantId" column="merchant_id" />
+		<result property="rule" column="rule" />
+		<result property="isEnabled" column="is_enabled" />
+		<result property="description" column="description"/>
+	</resultMap>
+	
+		<!-- 插入 -->
+	<insert id="savePresentPointsRule" parameterType="PresentPointsRule" useGeneratedKeys="true" keyProperty="id" >
+		insert into fft_present_point_rule values(
+			#{id},#{createTime},#{updateTime},#{name},#{merchantId},#{rule},#{isEnabled},#{description}
+		)
+	</insert>
+	<!-- 查询 -->
+	<select id="selectPresentPointsRuleById" parameterType="java.lang.Long" resultMap="PresentPointsRuleResultMap">
+		select * from fft_present_point_rule where id=#{id}
+	</select>
+	
+	<!-- 更新 -->
+	<update id="updatePresentPointsRuleById" parameterType="PresentPointsRule" >
+		update fft_present_point_rule set update_time = #{updateTime}
+		<if test="name != null">
+			,name = #{name}
+		</if>		
+		<if test="merchantId != null">
+			,merchant_id = #{merchantId}
+		</if>
+		<if test="rule != null">
+			,rule = #{rule}
+		</if>
+		<if test="isEnabled != null">
+			,is_enabled = #{isEnabled}
+		</if>	
+		<if test="description != null">
+			,description = #{description}
+		</if>		
+		where id = #{id}
+	</update>
+</mapper>

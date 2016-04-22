@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<systemConfig>
+	<systemName>分分通</systemName>
+	<systemVersion>v2014</systemVersion>
+	<isSystemDebug>true</isSystemDebug>
+	<isLoginFailureLock>true</isLoginFailureLock>
+	<loginFailureLockCount>5</loginFailureLockCount>
+	<loginFailureLockTime>5</loginFailureLockTime>
+	<uploadMaxSize>10</uploadMaxSize>
+	<allowedUploadImageExtension>jpg,jpge,bmp,gif,png</allowedUploadImageExtension>
+	<allowedUploadFileExtension>txt,doc,xlsx</allowedUploadFileExtension>
+	<cookiePath>/</cookiePath>
+	<cookieDomain></cookieDomain>
+	<ftpHost>172.18.5.133</ftpHost>
+	<ftpPort>21</ftpPort>
+	<ftpUsername>ftpuser</ftpUsername>
+	<ftpPassword>qaz123</ftpPassword>
+	<ftpEncoding>UTF-8</ftpEncoding>
+	<ftpDirectoryPath>/froad-fft</ftpDirectoryPath>
+	<ftpUrl>http://172.18.5.133</ftpUrl>
+</systemConfig>

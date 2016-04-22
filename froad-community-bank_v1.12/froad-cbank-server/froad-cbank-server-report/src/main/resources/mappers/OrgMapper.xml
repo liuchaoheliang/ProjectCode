@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.mysql.mappers.OrgMapper">
+	<resultMap type="Org" id="orgResultMap">
+		<id property="id" column="id" />
+		<result property="clientId" column="client_id" />
+		<result property="bankType" column="bank_type" />
+		<result property="orgCode" column="org_code" />
+		<result property="orgName" column="org_name" />
+		<result property="provinceAgency" column="province_agency" />
+		<result property="cityAgency" column="city_agency" />
+		<result property="countyAgency" column="county_agency" />
+		<result property="phone" column="phone" />
+		<result property="merchantId" column="merchant_id" />
+		<result property="outletId" column="outlet_id" />
+		<result property="areaId" column="area_id" />
+		<result property="orgLevel" column="org_level" />
+		<result property="needReview" column="need_review" />
+		<result property="orgType" column="org_type" />
+		<result property="isEnable" column="is_enable" />
+	</resultMap>
+	
+	<sql id="selectColumn">
+		id,client_id,bank_type,org_code,org_name,province_agency,city_agency,county_agency,phone,
+			merchant_id,outlet_id,area_id,org_level,need_review,org_type,is_enable 
+	</sql>
+	
+	<select id="findAllOrgInfoByPage" resultMap="orgResultMap">
+		SELECT <include refid="selectColumn" /> 
+		FROM cb_org 
+	</select>
+	
+	
+	<select id="findByOrgCode" resultMap="orgResultMap">
+		SELECT <include refid="selectColumn" /> 
+		FROM cb_org 
+		WHERE org_code=#{orgCode}
+	</select>
+	
+</mapper>

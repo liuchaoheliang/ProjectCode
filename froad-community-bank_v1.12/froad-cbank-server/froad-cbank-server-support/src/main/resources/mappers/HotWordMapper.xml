@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.mysql.mapper.HotWordMapper">
+
+	<resultMap type="HotWord" id="hotWordResultMap">
+		<id property="id" column="id" />
+		<result property="clientId" column="client_id" />
+		<result property="createTime" column="create_time" />
+		<result property="provinceAreaId" column="province_area_id" />
+		<result property="cityAreaId" column="city_area_id" />
+		<result property="countyAreaId" column="county_area_id" />
+		<result property="startTime" column="start_time" />
+		<result property="endTime" column="end_time" />
+		<result property="hotWord" column="hot_word" />
+		<result property="searchCount" column="search_count" />
+		<result property="searchCountResult" column="search_count_result" />
+		<result property="categoryType" column="category_type" />
+		<result property="type" column="type" />
+		<result property="sortId" column="sort_id" />
+	</resultMap>
+
+	<!-- 分页查询  hotWord -->
+	<select id="findByPage" parameterType="java.util.HashMap" resultMap="hotWordResultMap">
+		SELECT hot_word,SUM(search_count) search_count,SUM(search_count_result) search_count_result,category_type,client_id,province_area_id,city_area_id,county_area_id
+        from cb_hot_word 
+        WHERE 1=1 
+		<if test="hotWord != null">
+				<if test="hotWord.id != null and hotWord.id != 0">
+					 AND id = #{hotWord.id}
+				</if>
+				<if test="hotWord.clientId != null">
+					 AND client_id = #{hotWord.clientId}
+				</if>
+				<if test="hotWord.createTime != null">
+					 AND create_time = #{hotWord.createTime}
+				</if>
+				<if test="hotWord.provinceAreaId != null and hotWord.provinceAreaId != 0">
+					 AND province_area_id = #{hotWord.provinceAreaId}
+				</if>
+				<if test="hotWord.cityAreaId != null and hotWord.cityAreaId != 0">
+					 AND city_area_id = #{hotWord.cityAreaId}
+				</if>
+				<if test="hotWord.countyAreaId != null and hotWord.countyAreaId != 0 ">
+					 AND county_area_id = #{hotWord.countyAreaId}
+				</if>
+				<if test="hotWord.startTime != null">
+					 AND start_time <![CDATA[<=]]> #{hotWord.startTime}
+				</if>
+				<if test="hotWord.endTime != null">
+					 AND end_time <![CDATA[>=]]> #{hotWord.endTime}
+				</if>
+				<if test="hotWord.categoryType != null and hotWord.categoryType != 0">
+					 AND category_type = #{hotWord.categoryType}
+				</if>
+				<if test="hotWord.type != null and hotWord.type != 0 ">
+					 AND type = #{hotWord.type}
+				</if>
+		</if>
+		 GROUP BY hot_word  ORDER BY sort_id DESC 
+	</select>
+	<select id="findByCount" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+		select count(1) from (SELECT hot_word  from cb_hot_word WHERE 1=1 
+		<if test="hotWord != null">
+				<if test="hotWord.id != null and hotWord.id != 0">
+					 AND id = #{hotWord.id}
+				</if>
+				<if test="hotWord.clientId != null">
+					 AND client_id = #{hotWord.clientId}
+				</if>
+				<if test="hotWord.createTime != null">
+					 AND create_time = #{hotWord.createTime}
+				</if>
+				<if test="hotWord.provinceAreaId != null and hotWord.provinceAreaId != 0">
+					 AND province_area_id = #{hotWord.provinceAreaId}
+				</if>
+				<if test="hotWord.cityAreaId != null and hotWord.cityAreaId != 0">
+					 AND city_area_id = #{hotWord.cityAreaId}
+				</if>
+				<if test="hotWord.countyAreaId != null and hotWord.countyAreaId != 0 ">
+					 AND county_area_id = #{hotWord.countyAreaId}
+				</if>
+				<if test="hotWord.startTime != null">
+					 AND start_time <![CDATA[<=]]> #{hotWord.startTime}
+				</if>
+				<if test="hotWord.endTime != null">
+					 AND end_time <![CDATA[>=]]> #{hotWord.endTime}
+				</if>
+				<if test="hotWord.categoryType != null and hotWord.categoryType != 0">
+					 AND category_type = #{hotWord.categoryType}
+				</if>
+				<if test="hotWord.type != null and hotWord.type != 0 ">
+					 AND type = #{hotWord.type}
+				</if>
+		</if>
+		 GROUP BY hot_word ) t where 1=1
+	</select>
+</mapper>
+

@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="merchantPreferential" >
+
+  <typeAlias alias="merchantPreferential" type="com.froad.CB.po.merchant.MerchantPreferential"/>
+  
+  <resultMap id="MerchantPreferentialResult" class="merchantPreferential" >
+    <result column="id" property="id" jdbcType="INT" />
+    <result column="Merchant_id" property="merchantId" jdbcType="VARCHAR" />
+    <result column="photo_url" property="photoUrl" jdbcType="VARCHAR" />
+    <result column="photo_format_1" property="photoFormat1" jdbcType="VARCHAR" />
+    <result column="photo_format_2" property="photoFormat2" jdbcType="VARCHAR" />
+    <result column="Traffic_MAP_id" property="trafficMAPId" jdbcType="VARCHAR" />
+    <result column="array" property="array" jdbcType="VARCHAR" />
+    <result column="txt_1" property="txt1" jdbcType="VARCHAR" />
+    <result column="txt_2" property="txt2" jdbcType="VARCHAR" />
+    <result column="txt_3" property="txt3" jdbcType="VARCHAR" />
+    <result column="state" property="state" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="point_rate" property="pointRate" jdbcType="VARCHAR" />
+	<result column="preferential_rate" property="preferentialRate" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <select id="selectByPrimaryKey" resultMap="MerchantPreferentialResult" parameterClass="java.lang.Integer" >
+      select * from merchant_preferential where id = #id#
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterClass="merchantPreferential" >
+      delete from merchant_preferential
+    where id = #id:INT#
+  </delete>
+  
+  <!-- 按主键逻辑删除商户优惠  -->
+	<update id="deleteStateByPrimaryKey" parameterClass="merchantPreferential" >
+	     update merchant_preferential a 
+	     set a.state = '50',
+	     	a.update_time = DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s")
+	     where id = #id:INT#
+	</update>
+  <insert id="insert" parameterClass="merchantPreferential" >
+      insert into merchant_preferential (id, Merchant_id, photo_url, photo_format_1,point_rate,preferential_rate,
+      photo_format_2, Traffic_MAP_id, array, txt_1, txt_2, txt_3, state, create_time, update_time,
+      remark)
+     values(#id:INT#, #merchantId:VARCHAR#, #photoUrl:VARCHAR#, #photoFormat1:VARCHAR#,#pointRate:VARCHAR#, #preferentialRate:VARCHAR#,
+      #photoFormat2:VARCHAR#, #trafficMAPId:VARCHAR#, #array:VARCHAR#, #txt1:VARCHAR#,
+      #txt2:VARCHAR#, #txt3:VARCHAR#, #state:VARCHAR#, DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"), DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),
+      #remark:VARCHAR#)
+      <selectKey resultClass="int" keyProperty="id">
+	       select last_insert_id() as id
+	   </selectKey>
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterClass="merchantPreferential" >
+    update merchant_preferential set  update_time = DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s")
+    <dynamic prepend="" >
+      <isNotEmpty prepend="," property="merchantId" >
+        Merchant_id = #merchantId:VARCHAR#
+      </isNotEmpty>
+      <isNotEmpty prepend="," property="photoUrl" >
+        photo_url = #photoUrl:VARCHAR#
+      </isNotEmpty>
+      <isNotEmpty prepend="," property="photoFormat1" >
+        photo_format_1 = #photoFormat1:VARCHAR#
+      </isNotEmpty>
+      <isNotEmpty prepend="," property="photoFormat2" >
+        photo_format_2 = #photoFormat2:VARCHAR#
+      </isNotEmpty>
+      <isNotEmpty prepend="," property="trafficMAPId" >
+        Traffic_MAP_id = #trafficMAPId:VARCHAR#
+      </isNotEmpty>
+      <isNotEmpty prepend="," property="array" >
+        array = #array:VARCHAR#
+      </isNotEmpty>
+      <isNotEmpty prepend="," property="txt1" >
+        txt_1 = #txt1:VARCHAR#
+      </isNotEmpty>
+      <isNotEmpty prepend="," property="txt2" >
+        txt_2 = #txt2:VARCHAR#
+      </isNotEmpty>
+      <isNotEmpty prepend="," property="txt3" >
+        txt_3 = #txt3:VARCHAR#
+      </isNotEmpty>
+      <isNotEmpty prepend="," property="state" >
+        state = #state:VARCHAR#
+      </isNotEmpty>
+      <isNotEmpty prepend="," property="remark" >
+        remark = #remark:VARCHAR#
+      </isNotEmpty>
+      <isNotEmpty prepend="," property="pointRate" >
+	      point_rate= #pointRate:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="preferentialRate" >
+	    	preferential_rate = #preferentialRate:VARCHAR#
+	    </isNotEmpty>
+    </dynamic>
+    where id = #id:INT#
+  </update>
+  
+  <select id="selectMerchantPreferentials" resultMap="MerchantPreferentialResult" parameterClass="merchantPreferential" >
+    select * from merchant_preferential
+    <dynamic prepend="where" >
+     <isNotEmpty prepend="and" property="id" >
+       id = #id:INT#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="merchantId" >
+        Merchant_id = #merchantId:VARCHAR#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="photoUrl" >
+        photo_url = #photoUrl:VARCHAR#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="photoFormat1" >
+        photo_format_1 = #photoFormat1:VARCHAR#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="photoFormat2" >
+        photo_format_2 = #photoFormat2:VARCHAR#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="trafficMAPId" >
+        Traffic_MAP_id = #trafficMAPId:VARCHAR#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="array" >
+        array = #array:VARCHAR#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="txt1" >
+        txt_1 = #txt1:VARCHAR#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="txt2" >
+        txt_2 = #txt2:VARCHAR#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="txt3" >
+        txt_3 = #txt3:VARCHAR#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="state" >
+        state = #state:VARCHAR#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="createTime" >
+        create_time = #createTime:VARCHAR#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="updateTime" >
+        update_time = #updateTime:VARCHAR#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="remark" >
+        remark = #remark:VARCHAR#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="pointRate" >
+	      point_rate= #pointRate:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="and" property="preferentialRate" >
+	    	preferential_rate = #preferentialRate:VARCHAR#
+	    </isNotEmpty>
+    </dynamic>
+  </select>
+   
+    <!-- 根据商户ID查询优惠信息 -->
+    <select id="FIND-YOUHUI-BY-MERCHANTID"  parameterClass="java.lang.String" resultClass="merchantPreferential">
+    	<![CDATA[ SELECT a.id AS id, 
+    					a.Merchant_id AS merchantId,
+    					a.photo_url AS photoUrl, 
+    					a.photo_format_1 AS photoFormat1,
+    					a.photo_format_2 AS photoFormat2, 
+    					a.Traffic_MAP_id AS trafficMAPId,
+    					a.point_rate AS pointRate,
+    					a.preferential_rate AS preferentialRate,
+    					a.array AS array, 
+    					a.txt_1 AS txt1, 
+    					a.txt_2 AS txt2,
+    					a.txt_3 AS txt3, 
+    					a.state AS state, 
+				    	a.create_time AS createTime, 
+				    	a.update_time AS updateTime, 
+				    	a.remark AS remark
+                  FROM merchant_preferential a
+                  where a.Merchant_id=#merchantId# 
+		]]>
+    </select>
+    
+    
+    <!-- 分页 查询优惠信息 -->
+    <select id="getByPager"  parameterClass="merchantPreferential" resultMap="MerchantPreferentialResult">
+		SELECT * FROM merchant_preferential
+		<dynamic prepend="where" >
+	      <isNotEmpty prepend="and" property="id" >
+	       id = #id:INT#
+	      </isNotEmpty>
+	      <isNotEmpty prepend="and" property="merchantId" >
+	        Merchant_id = #merchantId:VARCHAR#
+	      </isNotEmpty>
+	      <isNotEmpty prepend="and" property="state" >
+	        state = #state:VARCHAR#
+	      </isNotEmpty>
+		  <isNotEmpty property="beginTime">
+	    	<isNotEmpty property="endTime" prepend="and">
+	    		create_time between #beginTime# and #endTime#
+	    	</isNotEmpty>
+	      </isNotEmpty>
+	    </dynamic>        
+        order by $orderBy$ $orderType$ limit #startRow#,#pageSize#  
+    </select>
+    
+    <select id="getByPagerCount"  parameterClass="merchantPreferential" resultClass="java.lang.Integer">
+		SELECT count(*) FROM merchant_preferential
+		<dynamic prepend="where" >
+	      <isNotEmpty prepend="and" property="id" >
+	       id = #id:INT#
+	      </isNotEmpty>
+	      <isNotEmpty prepend="and" property="merchantId" >
+	        Merchant_id = #merchantId:VARCHAR#
+	      </isNotEmpty>
+	      <isNotEmpty prepend="and" property="state" >
+	        state = #state:VARCHAR#
+	      </isNotEmpty>
+		  <isNotEmpty property="beginTime">
+	    	<isNotEmpty property="endTime" prepend="and">
+	    		create_time between #beginTime# and #endTime#
+	    	</isNotEmpty>
+	      </isNotEmpty>
+	    </dynamic> 
+    </select>
+</sqlMap>

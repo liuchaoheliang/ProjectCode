@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	
+	<!-- The content of element type "configuration" must match "(properties?,settings?,typeAliases?,typeHandlers?,objectFactory?,objectWrapperFactory?,plugins?,environments?,databaseIdProvider?,mappers?)". -->
+	
+	<properties url="file:./config/jdbc.properties"/>
+	
+	<!-- 指定结果集映射关系 -->
+	<typeAliases>
+		<typeAlias alias="Area" type="com.froad.po.Area" />
+		<typeAlias alias="Activities" type="com.froad.po.Activities" />
+		<typeAlias alias="Ad" type="com.froad.po.Ad" />
+		<typeAlias alias="AdPosition" type="com.froad.po.AdPosition" />
+		<typeAlias alias="Agreement" type="com.froad.po.Agreement" />
+		<typeAlias alias="Cash" type="com.froad.po.Cash" />
+		<typeAlias alias="DeliveryCorp" type="com.froad.po.DeliveryCorp" />
+		<typeAlias alias="SmsContent" type="com.froad.po.SmsContent" />
+		<typeAlias alias="SmsLog" type="com.froad.po.SmsLog" />
+		<typeAlias alias="BossSenseWords" type="com.froad.po.BossSenseWords" />
+		<typeAlias alias="BossUser" type="com.froad.po.BossUser" />
+		<typeAlias alias="BossRole" type="com.froad.po.BossRole" />
+		<typeAlias alias="SenseWord" type="com.froad.po.SenseWord" />
+		<typeAlias alias="TerminalStart" type="com.froad.po.TerminalStart" />
+		<typeAlias alias="HotWord" type="com.froad.po.HotWord" />
+		<typeAlias alias="AdLocation" type="com.froad.po.AdLocation" />
+		<typeAlias alias="Advertising" type="com.froad.po.Advertising" />
+		<typeAlias alias="Dictionaryitem" type="com.froad.po.Dictionaryitem" />
+		<typeAlias alias="Waybill" type="com.froad.po.Waybill" />
+	</typeAliases>
+	
+	<!-- 分页拦截器 mysql or oracle -->
+	<plugins>
+		<plugin interceptor="com.froad.db.mysql.interceptor.PageInterceptor">
+			<property name="databaseDialect" value="com.froad.db.mysql.dialet.MySQLDialect" />
+			<property name="pageSqlIdRegEx" value=".*ByPage" />
+		</plugin>
+	</plugins>
+
+	<!-- -->
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC" />
+			<dataSource type="com.froad.db.mysql.datasource.DruidDataSourceFactory">
+				<property name="driverClassName" value="${jdbc.driverClassName}" />
+				<property name="url" value="${jdbc.url}" />
+				<property name="username" value="${jdbc.username}" />
+				<property name="password" value="${jdbc.password}" />
+
+				<!-- 配置初始化大小、最小、最大 -->
+				<property name="initialSize" value="${pool.initialSize}" />
+				<property name="minIdle" value="${pool.minIdle}" />
+				<property name="maxActive" value="${pool.maxActive}" />
+
+				<!-- 配置获取连接等待超时的时间 -->
+				<property name="maxWait" value="${pool.maxWait}" />
+
+				<property name="validationQuery" value="select now()" />
+				<property name="testWhileIdle" value="true" />
+				<property name="testOnBorrow" value="false" />
+				<property name="testOnReturn" value="false" />
+				<property name="poolPreparedStatements" value="false" />
+				<property name="maxOpenPreparedStatements" value="-1" />
+
+				<!-- 对于长时间不使用的连接强制关闭 -->
+				<property name="removeAbandoned" value="true" />
+
+				<!-- 超过30分钟开始关闭空闲连接 -->
+				<property name="removeAbandonedTimeout" value="120" />
+
+				<!-- 将当前关闭动作记录到日志 -->
+				<property name="logAbandoned" value="true" />
+			</dataSource>
+		</environment>
+	</environments>
+
+	<!-- 指定mapper资源 -->
+	<mappers>
+		<mapper resource="mappers/ActivitiesMapper.xml" />
+		<mapper resource="mappers/AdMapper.xml" />
+		<mapper resource="mappers/AdPositionMapper.xml" />
+		<mapper resource="mappers/AgreementMapper.xml" />
+		<mapper resource="mappers/AreaMapper.xml" />
+		<mapper resource="mappers/CashMapper.xml" />
+		<mapper resource="mappers/DeliveryCorpMapper.xml" />
+		<mapper resource="mappers/SmsContentMapper.xml" />
+		<mapper resource="mappers/SmsLogMapper.xml" />
+		<mapper resource="mappers/BossSenseWordsMapper.xml"/>
+		<mapper resource="mappers/BossUserMapper.xml"/>
+		<mapper resource="mappers/BossRoleMapper.xml"/>
+		<mapper resource="mappers/SenseWordsMapper.xml"/>
+		<mapper resource="mappers/TerminalStartMapper.xml"/>
+		<mapper resource="mappers/HotWordMapper.xml"/>
+		<mapper resource="mappers/AdLocationMapper.xml"/>
+		<mapper resource="mappers/AdvertisingMapper.xml"/>
+		<mapper resource="mappers/AreaCommonMapper.xml" />
+		<mapper resource="mappers/WayBillCommonMapper.xml" />
+		<mapper resource="mappers/DictionaryItemMapper.xml" />
+	</mappers>
+
+</configuration>

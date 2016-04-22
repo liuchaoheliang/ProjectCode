@@ -1,0 +1,427 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.chongqing.mappers.MerchantOutletMapper">
+
+    <resultMap type="MerchantOutlet" id="merchantOutletResultMap">
+    	<!-- baseEntity prop -->
+        <id property="id" column="id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+		<result property="clientId" column="client_id"/>
+		<!-- baseEntity prop -->
+		<result column="name" property="name" />
+	    <result column="full_name" property="fullName" />
+	    <result column="logo" property="logo" />
+	    <result column="address" property="address" />
+	    <result column="business_hours" property="businessHours" />
+	    <result column="zip" property="zip" />
+	    <result column="fax" property="fax" />
+	    <result column="tel" property="tel" />
+	    <result column="contact_name" property="contactName" />
+	    <result column="contact_phone" property="contactPhone" />
+	    <result column="contact_email" property="contactEmail" />
+	    <result column="service_provider" property="serviceProvider" />
+	    <result column="longitude" property="longitude" />
+	    <result column="latitude" property="latitude" />
+	    <result column="order_value" property="orderValue" />
+	    <result column="is_top" property="isTop" />
+	    <result column="merchant_id" property="merchantId" />
+	    <result column="is_delete" property="isDelete"/>
+	    <result column="prefer_period" property="preferPeriod" />
+	    <result column="area_id" property="areaId" />
+	    <result column="outlet_details" property="outletDetails"/>
+    	<result column="prefer_details" property="preferDetails"/>
+    	<result column="discount" property="discount"/>
+    	
+    </resultMap>
+
+    <!-- 基础sql 数据新增 必须指明数据列  -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		insert into cb_merchant_outlet
+		(create_time, update_time, client_id, name, full_name, logo, address, business_hours, zip, fax, tel, contact_name,
+		 contact_phone, contact_email, service_provider, longitude, latitude, order_value, merchant_id, is_delete, prefer_period, 
+		 area_id,outlet_details, prefer_details, discount,is_top)
+		values
+		(
+		  #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+	      #{clientId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{fullName,jdbcType=VARCHAR}, 
+	      #{logo,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{businessHours,jdbcType=VARCHAR}, 
+	      #{zip,jdbcType=VARCHAR}, #{fax,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR}, #{contactName,jdbcType=VARCHAR}, 
+	      #{contactPhone,jdbcType=VARCHAR}, #{contactEmail,jdbcType=VARCHAR}, #{serviceProvider,jdbcType=VARCHAR}, 
+	      #{longitude,jdbcType=VARCHAR}, #{latitude,jdbcType=VARCHAR}, #{orderValue,jdbcType=INTEGER}, 
+	      #{merchantId,jdbcType=BIGINT}, #{isDelete,jdbcType=BIT}, #{preferPeriod,jdbcType=VARCHAR}, 
+	      #{areaId,jdbcType=BIGINT}, #{outletDetails,jdbcType=LONGVARCHAR}, #{preferDetails,jdbcType=LONGVARCHAR}, 
+	      #{discount,jdbcType=LONGVARCHAR},#{isTop}
+		)
+	</insert>
+	
+	<!-- 基础sql 通过分页查询 -->
+	<select id="selectOfPage" parameterType="com.froad.cbank.persistent.entity.base.PageEntity" resultMap="merchantOutletResultMap">
+		select * from cb_merchant_outlet fmo
+		<where>
+			<if test="condition != null">
+				<if test="condition.clientId != null">
+					and client_id = #{condition.clientId}
+				</if>
+				<if test="condition.name != null">
+					and (name like CONCAT('%',#{condition.name},'%' ) or full_name like CONCAT('%',#{condition.name},'%' ))
+				</if>
+				<if test="condition.fax != null">
+					and fax = #{condition.fax}
+				</if>
+				<if test="condition.tel != null">
+					and tel = #{condition.tel}
+				</if>
+				<if test="condition.contactName != null">
+					and contact_Name like CONCAT('%',#{condition.contactName},'%' )
+				</if>
+				<if test="condition.contactPhone != null">
+					and contact_Phone like CONCAT('%',#{condition.contactPhone},'%' )
+				</if>
+				<if test="condition.merchantId != null">
+					and merchant_Id = #{condition.merchantId}
+				</if>
+				<if test="condition.isDelete != null">
+					and is_Delete = #{condition.isDelete}
+				</if>
+				<if test="condition.areaId != null">
+					and area_Id = #{condition.areaId}
+				</if>
+				<if test="condition.areaIdList != null">
+					and area_id in 
+	           		<foreach collection="condition.areaIdList" item="areaId" index="index" open="(" close=")" separator=",">
+						#{areaId}
+					</foreach>
+	       		 </if>
+				<if test="condition.merchant != null">
+					<if test="condition.merchant.id != null">
+						and merchant_Id = #{condition.merchant.id}
+					</if>
+					<if test="condition.merchant.name != null">
+						and merchant_id in (select id from cb_merchant where `name` like CONCAT('%',#{condition.merchant.name},'%' ))
+					</if>
+			      	<if test="condition.merchant.merchantTypeList != null">
+			      	   and exists (select 'x' from cb_merchant_type_relation cmtr where merchant_type_id in
+			      	    	<foreach item="item" collection="condition.merchant.merchantTypeList"  separator="," open="(" close=")" index="">
+	                   			#{item.id}      	
+			      			</foreach>
+			      			and cmtr.merchant_id = fmo.merchant_id
+			      		)
+					</if>
+				</if>
+				<if test="condition.isTop != null" >
+		        	and is_Top = #{condition.isTop,jdbcType=BIT}
+		      	</if>
+			</if>
+		</where>
+		<if test="orderByColumn !=null">
+		 	order by ${orderByColumn} 
+			<if test="orderByType !=null">
+				${orderByType}
+			</if>
+		 </if>
+	</select>
+	
+	<!--  手机客户端附近搜索 通过分页查询 -->
+	<select id="selectAccessoryOfPage" parameterType="com.froad.cbank.persistent.entity.base.PageEntity" resultMap="merchantOutletResultMap">
+		select * from (
+			select fmo.*, IFNULL(temp_table.total_count, 0) total_count
+				<if test="condition.latitude != null and condition.longitude != null">
+				,
+				IFNULL(round((
+							2 * 6378.137 * ASIN(
+								SQRT(
+									POW(
+										SIN(
+											PI() * (#{condition.latitude} - fmo.latitude) / 360
+										),
+										2
+									) + COS(PI() * #{condition.latitude} / 180) * COS(fmo.latitude * PI() / 180) * POW(
+										SIN(
+											PI() * (#{condition.longitude} - fmo.longitude) / 360
+										),
+										2
+									)
+								)
+							)
+						) * 1000),0) as distance
+				</if>
+			 from cb_merchant_outlet fmo
+			 left JOIN (
+					SELECT 
+						count(0) total_count,
+						merchant_outlet_id 
+					FROM 
+						cb_merchant_outlet_favorite 
+						where is_delete = false 
+					GROUP BY 
+						merchant_outlet_id 
+						
+				)  temp_table ON temp_table.merchant_outlet_id = fmo.id
+			<where>
+				<if test="condition != null">
+					<if test="condition.clientId != null">
+						and client_id = #{condition.clientId}
+					</if>
+				    <if test="condition.merchant.merchantTypeList != null">
+			      	   and exists (select 'x' from cb_merchant_type_relation cmtr where merchant_type_id in
+			      	    	<foreach item="item" collection="condition.merchant.merchantTypeList"  separator="," open="(" close=")" index="">
+	                   			#{item.id}      	
+			      			</foreach>
+			      			and cmtr.merchant_id = fmo.merchant_id
+			      		)
+					</if>
+				    <if test="condition.merchant.merchantCategoryId != null or condition.merchant.auditState != null">
+			      	   and exists (select cm.id from cb_merchant cm where 1 = 1
+			      	   		<if test="condition.merchant.merchantCategoryId != null">
+			      	    		and cm.merchant_category_id = (select cmc.id from cb_merchant_category cmc where cmc.id = #{condition.merchant.merchantCategoryId} ) 
+			      	   		</if>
+			      	   		<if test="condition.merchant.auditState != null">
+			      	   			and cm.audit_State = #{condition.merchant.auditState,typeHandler=com.froad.db.extend.EnumTypeHandler}
+			      	   		</if>
+			      	   		<if test="condition.merchant.isDelete != null">
+			      	   			and cm.is_delete = #{condition.merchant.isDelete,jdbcType=BIT}
+			      	   		</if>
+			      	   		and cm.id = fmo.merchant_id
+			      	    )
+					</if>
+					<if test="condition.name != null">
+						and (name like CONCAT('%',#{condition.name},'%' ) or full_name like CONCAT('%',#{condition.name},'%' ))
+					</if>
+					<if test="condition.fax != null">
+						and fax = #{condition.fax}
+					</if>
+					<if test="condition.tel != null">
+						and tel = #{condition.tel}
+					</if>
+					<if test="condition.contactName != null">
+						and contact_Name like CONCAT('%',#{condition.contactName},'%' )
+					</if>
+					<if test="condition.contactPhone != null">
+						and contact_Phone like CONCAT('%',#{condition.contactPhone},'%' )
+					</if>
+					<if test="condition.merchantId != null">
+						and merchant_Id = #{condition.merchantId}
+					</if>
+					<if test="condition.isDelete != null">
+						and is_Delete = #{condition.isDelete}
+					</if>
+					<if test="condition.area != null">
+		            	and exists (select id from cb_area ca
+		            	    <where>
+		            	        <if test="condition.area.id != null">
+		            	         	and id = #{condition.area.id}
+		            	        </if>
+		            	        <if test="condition.area.name != null">
+									and name like CONCAT('%',#{condition.area.name},'%' )
+								</if>
+								<if test="condition.area.parentId != null">
+									and parent_id = #{condition.area.parentId}
+								</if>
+								<if test="condition.clientId != null">
+									and client_id = #{condition.clientId}
+								</if>
+								<if test="condition.area.parentCode != null">
+									and parent_code = #{condition.area.parentCode}
+								</if>
+								<if test="condition.area.areaCode != null">
+									and area_code = #{condition.area.areaCode}
+								</if>
+								<if test="condition.area.isEnabled != null">
+									and is_enabled = #{condition.area.isEnabled}
+								</if>
+								<if test="condition.area.treePath">
+									and tree_path like CONCAT(#{condition.area.treePath},'%' )
+								</if>
+								and fmo.area_id = ca.id
+		            	    </where>
+		            	 )									
+		       		 </if>
+					<!-- <if test="condition.areaId != null">
+						and area_Id = #{condition.areaId}
+					</if>
+					<if test="condition.areaIdList != null">
+						and area_id in 
+		           		<foreach collection="condition.areaIdList" item="areaId" index="index" open="(" close=")" separator=",">
+							#{areaId}
+						</foreach>
+		       		 </if> -->
+					<!-- <if test="condition.merchant != null">
+						<if test="condition.merchant.id != null">
+							and fmo.merchant_Id = #{condition.merchant.id}
+						</if>
+						<if test="condition.merchant.name != null">
+							and fmo.merchant_id in (select id from cb_merchant where `name` like CONCAT('%',#{condition.merchant.name},'%' ))
+						</if>
+					</if> -->
+					<if test="condition.isTop != null" >
+			        	and is_Top = #{condition.isTop,jdbcType=BIT}
+			      	</if>
+				</if>
+			</where>			
+			) cb_merchant_outlet 
+		where 1 = 1 
+			<if test="condition.latitude != null and condition.longitude != null and condition.distance != null">
+				and distance <![CDATA[${condition.innerouter}]]> #{condition.distance}
+			</if>
+		order by 		 		
+		 	<if test="condition.popularity != null">
+		 		total_count <![CDATA[${condition.popularity}]]> , 
+		 	</if>
+			<if test="condition.latitude != null and condition.longitude != null and condition.distance != null">
+				distance asc ,
+			</if>
+			create_time desc
+	</select>
+	
+	<!-- 基础sql 通过主键查询 -->
+	<select id="selectById" parameterType="java.lang.Long" resultMap="merchantOutletResultMap">
+		select * from cb_merchant_outlet where id = #{id}
+	</select>
+	
+	<!-- 通过主键更新数据 -->
+	<update id="updateById" parameterType="java.lang.Boolean" >
+		update cb_merchant_outlet 
+		<set >
+	      <if test="updateTime != null" >
+	        update_time = #{updateTime,jdbcType=TIMESTAMP},
+	      </if>
+	      <if test="name != null" >
+	        name = #{name,jdbcType=VARCHAR},
+	      </if>
+	      <if test="fullName != null" >
+	        full_name = #{fullName,jdbcType=VARCHAR},
+	      </if>
+	      <if test="logo != null" >
+	        logo = #{logo,jdbcType=VARCHAR},
+	      </if>
+	      <if test="address != null" >
+	        address = #{address,jdbcType=VARCHAR},
+	      </if>
+	      <if test="businessHours != null" >
+	        business_hours = #{businessHours,jdbcType=VARCHAR},
+	      </if>
+	      <if test="zip != null" >
+	        zip = #{zip,jdbcType=VARCHAR},
+	      </if>
+	      <if test="fax != null" >
+	        fax = #{fax,jdbcType=VARCHAR},
+	      </if>
+	      <if test="tel != null" >
+	        tel = #{tel,jdbcType=VARCHAR},
+	      </if>
+	      <if test="contactName != null" >
+	        contact_name = #{contactName,jdbcType=VARCHAR},
+	      </if>
+	      <if test="contactPhone != null" >
+	        contact_phone = #{contactPhone,jdbcType=VARCHAR},
+	      </if>
+	      <if test="contactEmail != null" >
+	        contact_email = #{contactEmail,jdbcType=VARCHAR},
+	      </if>
+	      <if test="serviceProvider != null" >
+	        service_provider = #{serviceProvider,jdbcType=VARCHAR},
+	      </if>
+	      <if test="longitude != null" >
+	        longitude = #{longitude,jdbcType=VARCHAR},
+	      </if>
+	      <if test="latitude != null" >
+	        latitude = #{latitude,jdbcType=VARCHAR},
+	      </if>
+	      <if test="orderValue != null" >
+	        order_value = #{orderValue,jdbcType=INTEGER},
+	      </if>
+	      <if test="merchantId != null" >
+	        merchant_id = #{merchantId,jdbcType=BIGINT},
+	      </if>
+	      <if test="isDelete != null" >
+	        is_delete = #{isDelete,jdbcType=BIT},
+	      </if>
+	      <if test="preferPeriod != null" >
+	        prefer_period = #{preferPeriod,jdbcType=VARCHAR},
+	      </if>
+	      <if test="areaId != null" >
+	        area_id = #{areaId,jdbcType=BIGINT},
+	      </if>
+	      <if test="outletDetails != null" >
+	        outlet_details = #{outletDetails,jdbcType=LONGVARCHAR},
+	      </if>
+	      <if test="preferDetails != null" >
+	        prefer_details = #{preferDetails,jdbcType=LONGVARCHAR},
+	      </if>
+	      <if test="discount != null" >
+	        discount = #{discount,jdbcType=LONGVARCHAR},
+	      </if>
+	      <if test="isTop != null" >
+	        is_top = #{isTop,jdbcType=BIT},
+	      	</if>
+	    </set>
+		where id = #{id}
+	</update>
+	
+	<select id="selectByCondition" resultMap="merchantOutletResultMap">
+		select * from cb_merchant_outlet
+		<where>
+			<if test="clientId != null">
+				and client_id = #{clientId}
+			</if>
+			<if test="name != null">
+				and (name like CONCAT('%',#{name},'%' ) or full_name like CONCAT('%',#{name},'%' ))
+			</if>
+			<if test="fax != null">
+				and fax = #{fax}
+			</if>
+			<if test="tel != null">
+				and tel = #{tel}
+			</if>
+			<if test="contactName != null">
+				and contact_Name like CONCAT('%',#{contactName},'%' )
+			</if>
+			<if test="contactPhone != null">
+				and contact_Phone like CONCAT('%',#{contactPhone},'%' )
+			</if>
+			<if test="merchantId != null">
+				and merchant_Id = #{merchantId}
+			</if>
+			<if test="isDelete != null">
+				and is_Delete = #{isDelete}
+			</if>
+			<if test="areaId != null">
+				and area_Id = #{areaId}
+			</if>
+			<if test="merchant != null">
+				<if test="merchant.id != null">
+				and merchant_Id = #{merchant.id}
+				</if>
+			</if>
+			<if test="isTop != null" >
+	        	and is_top = #{isTop,jdbcType=BIT}
+	      	</if>
+	      	<if test="merchant != null">
+				<if test="merchant.name != null">
+				and merchant_id in (select id from cb_merchant where `name` like CONCAT('%',#{merchant.name},'%' ))
+				</if>
+			</if>
+		</where>
+	</select>
+	
+	<!-- 按商品ID查询门店信息 -->
+	<select id="selectByProductId" resultMap="merchantOutletResultMap">
+		select mo.* from cb_merchant_outlet mo where  
+		exists(select 'z' from cb_product_merchant_outlet pmo where pmo.product_id =#{productId} and pmo.merchant_outlet_id=mo.id)
+		<if test="null != clientId">
+			and mo.client_id = #{clientId}  
+		</if> 
+		order by mo.create_time 
+	</select>
+	
+	<!-- 按商户ID查询门店信息 -->
+	<select id="selectByMerchantId" resultMap="merchantOutletResultMap">
+		select mo.* from cb_merchant_outlet mo where mo.client_id = #{clientId} and merchant_id =#{merchantId} 
+	</select>
+ <!-- 按商户ID查询门店信息 -->
+	<select id="selectOutletByOultetId" parameterType="java.lang.Long" resultMap="merchantOutletResultMap">
+		select * from cb_merchant_outlet  where id=#{id}
+	</select>
+</mapper>

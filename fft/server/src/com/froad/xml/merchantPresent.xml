@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="merchantPresent" >
+
+	<typeAlias alias="merchantPresent" type="com.froad.CB.po.merchant.MerchantPresent"/>
+	 	
+	<resultMap id="MerchantPresentResult" class="com.froad.CB.po.merchant.MerchantPresent" >
+	  <result column="id" property="id" jdbcType="INT" />
+	  <result column="Merchant_id" property="merchantId" jdbcType="VARCHAR" />
+	  <result column="photo_url" property="photoUrl" jdbcType="VARCHAR" />
+	  <result column="photo_format" property="photoFormat" jdbcType="VARCHAR" />
+	  <result column="txt" property="txt" jdbcType="VARCHAR" />
+	  <result column="txt_1" property="txt1" jdbcType="VARCHAR" />
+	  <result column="tag_value" property="tagValue" jdbcType="VARCHAR" />
+	  <result column="state" property="state" jdbcType="VARCHAR" />
+	  <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+	  <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
+	  <result column="remark" property="remark" jdbcType="VARCHAR" />
+	</resultMap>
+	  	
+	<select id="selectByPrimaryKey" resultMap="MerchantPresentResult" parameterClass="java.lang.Integer" >
+	   select * from merchant_present where id = #id:INT#
+	</select>
+	
+	<select id="selectByMerchantId" resultMap="MerchantPresentResult" parameterClass="java.lang.String" >
+	   select * from merchant_present where Merchant_id = #value#
+	</select>
+	
+	<delete id="deleteByPrimaryKey" parameterClass="java.lang.Integer" >
+	   delete from merchant_present where id = #id#
+	</delete>
+	
+	<insert id="insert" parameterClass="com.froad.CB.po.merchant.MerchantPresent" >
+	   insert into merchant_present (id, Merchant_id, photo_url, photo_format,txt_1, txt, state,
+	   create_time, update_time, remark)
+	   values(#id:INTEGER#, #merchantId:VARCHAR#, #photoUrl:VARCHAR#, #photoFormat:VARCHAR#,#txt1:VARCHAR#,
+	   #txt:VARCHAR#, #state:VARCHAR#, DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"), DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"), #remark:VARCHAR#)
+	   <selectKey keyProperty="id" resultClass="int">
+			select last_insert_id() as id
+		</selectKey>
+	</insert>
+	
+	<update id="updateByPrimaryKeySelective" parameterClass="com.froad.CB.po.merchant.MerchantPresent" >
+	  update merchant_present set update_time = DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s")
+	  <dynamic prepend="">
+	    <isNotEmpty prepend="," property="merchantId" >
+	      Merchant_id = #merchantId:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="photoUrl" >
+	      photo_url = #photoUrl:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="photoFormat" >
+	      photo_format = #photoFormat:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="txt1" >
+	      txt_1 = #txt1:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="txt" >
+	      txt = #txt:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="state" >
+	      state = #state:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="remark" >
+	      remark = #remark:VARCHAR#
+	    </isNotEmpty>
+	  </dynamic>
+	  where id = #id:INT#
+	</update>
+	
+	<update id="updateByMerchantId" parameterClass="com.froad.CB.po.merchant.MerchantPresent" >
+	  update merchant_present set update_time = DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s")
+	  <dynamic prepend="">
+	    <isNotEmpty prepend="," property="photoUrl" >
+	      photo_url = #photoUrl:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="photoFormat" >
+	      photo_format = #photoFormat:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="txt1" >
+	      txt_1 = #txt1:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="txt" >
+	      txt = #txt:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="state" >
+	      state = #state:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="remark" >
+	      remark = #remark:VARCHAR#
+	    </isNotEmpty>
+	  </dynamic>
+	  WHERE Merchant_id = #merchantId:VARCHAR#
+	</update>
+	
+	<select id="selectMerchantPresents" resultMap="MerchantPresentResult" parameterClass="com.froad.CB.po.merchant.MerchantPresent" >
+	  select * from merchant_present
+	  <dynamic prepend="where" >
+	    <isNotEmpty prepend="and" property="id" >
+	      id = #id:INT#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="and" property="merchantId" >
+	      Merchant_id = #merchantId:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="and" property="photoUrl" >
+	      photo_url = #photoUrl:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="and" property="photoFormat" >
+	      photo_format = #photoFormat:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="and" property="txt1" >
+	      txt_1 = #txt1:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="and" property="txt" >
+	      txt = #txt:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="and" property="state" >
+	      state = #state:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="and" property="createTime" >
+	      create_time = #createTime:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="and" property="updateTime" >
+	      update_time = #updateTime:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="and" property="remark" >
+	      remark = #remark:VARCHAR#
+	    </isNotEmpty>
+	  </dynamic>
+	
+	</select>
+	
+	<select id="getMerchantPresents" resultMap="MerchantPresentResult" parameterClass="java.lang.String" >
+	  select * from merchant_present a where a.Merchant_id=#merchantId#
+	</select>
+</sqlMap>

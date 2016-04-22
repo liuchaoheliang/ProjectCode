@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="merchantUserSet">
+	<typeAlias alias="merchantUserSet" type="com.froad.CB.po.MerchantUserSet"/>
+	
+	<resultMap id="MerchantUserSetResult" class="merchantUserSet">
+		<result column="id" jdbcType="INTEGER" property="id" />
+		<result column="merchant_id" property="merchantId" jdbcType="VARCHAR" />
+		<result column="user_id" property="userId" jdbcType="VARCHAR" />		
+		<result column="login_name" property="loginName" jdbcType="VARCHAR" />
+		<result column="be_code" property="beCode" jdbcType="VARCHAR" />
+		<result column="be_codepwd" property="beCodepwd" jdbcType="VARCHAR" />
+		<result column="be_name" property="beName" jdbcType="VARCHAR" />
+		<result column="be_spec" property="beSpec" jdbcType="VARCHAR" />		
+		<result column="is_admin" property="isAdmin" jdbcType="VARCHAR" />
+		<result column="state" jdbcType="VARCHAR" property="state" />
+		<result column="create_time" jdbcType="VARCHAR" property="createTime" />
+		<result column="update_time" jdbcType="VARCHAR" property="updateTime" />
+		<result column="remark" jdbcType="VARCHAR" property="remark" />
+		<result column="is_account_locked" jdbcType="VARCHAR" property="isAccountLocked" />
+		<result column="login_failure_count" jdbcType="INTEGER" property="loginFailureCount" />
+		<result column="locked_date" jdbcType="VARCHAR" property="lockedDate" />
+		<result column="last_try_time" jdbcType="VARCHAR" property="lastTryTime" />
+		
+		<result column="belong_store_id" jdbcType="VARCHAR" property="belongStoreId" />
+		<result column="role_type" jdbcType="VARCHAR" property="roleType" />
+	</resultMap>
+	
+	<!-- 增加商户操作组 -->
+	<insert id="addMerchantUserSet" parameterClass="merchantUserSet">
+		insert into merchant_user_set
+		(id,merchant_id,user_id,login_name,be_code,be_codepwd,be_name,be_spec,is_admin,state,create_time,update_time,remark,belong_store_id,role_type)
+		values
+		(#id#,#merchantId#,#userId#,#loginName#,#beCode#,#beCodepwd#,#beName#,#beSpec#,#isAdmin#,#state#,DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),#remark#,#belongStoreId#,#roleType#)
+		<selectKey keyProperty="id" resultClass="int">
+			select last_insert_id() as id
+		</selectKey> 
+	</insert>
+	
+	<!-- 按uerId,loginName,becode逻辑删除操作员 -->
+	<update id="deleteStateByPrimaryKey" parameterClass="merchantUserSet" >
+	     update merchant_user_set a 
+	     set a.state = '50',
+	     	a.update_time = DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s") 
+	     <dynamic prepend="where" >
+		  	<isNotEmpty prepend="and" property="id" >
+		      a.id = #id:INT#
+		    </isNotEmpty>
+		    <isNotEmpty prepend="and" property="state" >
+		      a.state = #state:VARCHAR#
+		    </isNotEmpty>
+		    <isNotEmpty prepend="and" property="userId" >
+		      a.user_id = #userId:VARCHAR#
+		    </isNotEmpty>
+		    <isNotEmpty prepend="and" property="loginName" >
+		      a.login_name = #loginName:VARCHAR#
+		    </isNotEmpty>
+		    <isNotEmpty prepend="and" property="beCode" >
+		      a.be_code = #beCode:VARCHAR#
+		    </isNotEmpty>
+		    <isNotEmpty prepend="and" property="belongStoreId" >
+		      a.belong_store_id = #belongStoreId:VARCHAR#
+		    </isNotEmpty>
+		    <isNotEmpty prepend="and" property="roleType" >
+		      a.role_type = #roleType:VARCHAR#
+		    </isNotEmpty>
+		  </dynamic>
+	</update>
+	
+	<!-- 查询操作员 -->
+	<select id="selectClerkSeletive" resultMap="MerchantUserSetResult" parameterClass="merchantUserSet" >
+		select * from merchant_user_set a
+		where (a.state = '30' or a.state = '50')
+	  <dynamic>
+	  		<isNotEmpty prepend="and" property="id" >
+		      a.id = #id:INT#
+		    </isNotEmpty>
+		    <isNotEmpty prepend="and" property="userId" >
+		      a.user_id = #userId:VARCHAR#
+		    </isNotEmpty>
+		    <isNotEmpty prepend="and" property="loginName" >
+		      a.login_name = #loginName:VARCHAR#
+		    </isNotEmpty>
+		    <isNotEmpty prepend="and" property="beCode" >
+		      a.be_code = #beCode:VARCHAR#
+		    </isNotEmpty>
+		    <isNotEmpty prepend="and" property="belongStoreId" >
+		      a.belong_store_id = #belongStoreId:VARCHAR#
+		    </isNotEmpty>
+		    <isNotEmpty prepend="and" property="roleType" >
+		      a.role_type = #roleType:VARCHAR#
+		    </isNotEmpty>
+	  </dynamic>
+	</select>
+	
+	<!-- 查询操作员当前最大工号 -->
+	<select id="selectClerkMAXBeCode" resultClass="java.lang.String" parameterClass="merchantUserSet">
+		select MAX(a.be_code) from merchant_user_set a where a.user_id = #userId# and a.login_name = #loginName#
+	</select>
+	
+	<!-- 修改密码 -->
+	<update id="updClerkPassword" parameterClass="merchantUserSet">
+		update merchant_user_set a set a.be_codepwd = #beCodepwd:VARCHAR# ,update_time = DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s") where a.user_id = #userId# and a.be_code = #beCode#
+	</update>
+	
+	<!-- 修改操作员信息 -->
+	<update id="updateByUserIdAndBecode" parameterClass="merchantUserSet">
+		update merchant_user_set set update_time=DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s")
+		<dynamic>
+			<isNotEmpty prepend="," property="beName">
+				be_name = #beName:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="beCodepwd">
+				be_codepwd = #beCodepwd:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="beSpec">
+				be_spec = #beSpec:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="isAdmin">
+				is_admin = #isAdmin:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="remark">
+				remark = #remark:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="state">
+				state = #state:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="isAccountLocked">
+				is_account_locked = #isAccountLocked:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="loginFailureCount">
+				login_failure_count = #loginFailureCount:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="lockedDate">
+				locked_date = #lockedDate:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="lastTryTime">
+				last_try_time = #lastTryTime:VARCHAR#
+			</isNotEmpty>
+			<isNotNull prepend="," property="belongStoreId" >
+		      belong_store_id = #belongStoreId:VARCHAR#
+		    </isNotNull>
+		    <isNotEmpty prepend="," property="roleType" >
+		      role_type = #roleType:VARCHAR#
+		    </isNotEmpty>
+		</dynamic>
+		<dynamic prepend="where">
+		  	<isNotEmpty prepend="and" property="id" >
+		      id = #id:INT#
+		    </isNotEmpty>
+		    <isNotEmpty prepend="and" property="userId" >
+		      user_id = #userId:VARCHAR#
+		    </isNotEmpty>
+		    <isNotEmpty prepend="and" property="loginName" >
+		      login_name = #loginName:VARCHAR#
+		    </isNotEmpty>
+		    <isNotEmpty prepend="and" property="beCode" >
+		      be_code = #beCode:VARCHAR#
+		    </isNotEmpty>
+		  </dynamic>
+	</update>
+	
+	<!-- 分页 查询操作员列表  -->
+    <select id="getMerchantUserSetListByPager"  parameterClass="merchantUserSet" resultMap="MerchantUserSetResult">
+    	select * from merchant_user_set a
+    	<dynamic prepend="where">
+    		<isNotEmpty prepend="AND" property="id">
+		         <![CDATA[  a.id = #id# ]]>
+		     </isNotEmpty>
+    		 <isNotEmpty prepend="AND" property="userId">
+		         <![CDATA[  a.user_id = #userId# ]]>
+		     </isNotEmpty> 
+		     <isNotEmpty prepend="AND" property="merchantId">
+		         <![CDATA[  a.merchant_id = #merchantId# ]]>
+		     </isNotEmpty> 
+		     <isNotEmpty prepend="AND" property="loginName">
+		         <![CDATA[  a.login_name = #loginName# ]]>
+		     </isNotEmpty> 
+		     <isNotEmpty prepend="AND" property="beCode">
+		         <![CDATA[  a.be_code = #beCode# ]]>
+		      </isNotEmpty>
+		      <isNotEmpty prepend="AND" property="beName">
+		         <![CDATA[  a.be_name = #beName# ]]>
+		      </isNotEmpty>
+		      <isNotEmpty prepend="AND" property="beSpec">
+		         <![CDATA[  a.be_spec like concat('%',#beSpec#,'%') ]]>
+		      </isNotEmpty>
+		      <isNotEmpty prepend="AND" property="isAdmin">
+		         <![CDATA[  a.is_admin = #isAdmin# ]]>
+		     </isNotEmpty> 
+		     <isNotEmpty prepend="AND" property="state">
+		         <![CDATA[  a.state = #state# ]]>
+		     </isNotEmpty> 
+		     <isNotEmpty prepend="AND" property="remark">
+		         <![CDATA[  a.remark = #remark# ]]>
+		      </isNotEmpty> 
+    		<isNotEmpty property="beginTime">
+    			<isNotEmpty property="endTime" prepend="and">
+    			<![CDATA[	a.create_time between #beginTime# and #endTime# ]]>
+    			</isNotEmpty>
+    		</isNotEmpty>
+    		<isNotEmpty prepend="and" property="belongStoreId" >
+		      a.belong_store_id = #belongStoreId:VARCHAR#
+		    </isNotEmpty>
+		    <isNotEmpty prepend="and" property="roleType" >
+		      a.role_type = #roleType:VARCHAR#
+		    </isNotEmpty>
+    	</dynamic>            
+            <![CDATA[ 
+            		order by $orderBy$ $orderType$ 
+            		limit #startRow#,#pageSize#  
+            ]]> 
+    </select>
+    
+    <select id="getMerchantUserSetListByPagerCount"  parameterClass="merchantUserSet" resultClass="java.lang.Integer">
+    	select count(*) from merchant_user_set a
+    	<dynamic prepend="where">
+    		<isNotEmpty prepend="AND" property="id">
+		         <![CDATA[  a.id = #id# ]]>
+		     </isNotEmpty>
+    		 <isNotEmpty prepend="AND" property="userId">
+		         <![CDATA[  a.user_id = #userId# ]]>
+		     </isNotEmpty> 
+		     <isNotEmpty prepend="AND" property="merchantId">
+		         <![CDATA[  a.merchant_id = #merchantId# ]]>
+		     </isNotEmpty> 
+		     <isNotEmpty prepend="AND" property="loginName">
+		         <![CDATA[  a.login_name = #loginName# ]]>
+		     </isNotEmpty> 
+		     <isNotEmpty prepend="AND" property="beCode">
+		         <![CDATA[  a.be_code = #beCode# ]]>
+		      </isNotEmpty>
+		      <isNotEmpty prepend="AND" property="beName">
+		         <![CDATA[  a.be_name = #beName# ]]>
+		      </isNotEmpty>
+		      <isNotEmpty prepend="AND" property="beSpec">
+		         <![CDATA[  a.be_spec like concat('%',#beSpec#,'%') ]]>
+		      </isNotEmpty>
+		      <isNotEmpty prepend="AND" property="isAdmin">
+		         <![CDATA[  a.is_admin = #isAdmin# ]]>
+		     </isNotEmpty> 
+		     <isNotEmpty prepend="AND" property="state">
+		         <![CDATA[  a.state = #state# ]]>
+		     </isNotEmpty> 
+		     <isNotEmpty prepend="AND" property="remark">
+		         <![CDATA[  a.remark = #remark# ]]>
+		      </isNotEmpty> 
+    		<isNotEmpty property="beginTime">
+    			<isNotEmpty property="endTime" prepend="and">
+    			<![CDATA[	a.create_time between #beginTime# and #endTime# ]]>
+    			</isNotEmpty>
+    		</isNotEmpty>
+    		<isNotEmpty prepend="and" property="belongStoreId" >
+		      a.belong_store_id = #belongStoreId:VARCHAR#
+		    </isNotEmpty>
+		    <isNotEmpty prepend="and" property="roleType" >
+		      a.role_type = #roleType:VARCHAR#
+		    </isNotEmpty>
+    	</dynamic>
+    </select>
+    
+    
+    
+    <!-- 财务查询专用功能 -->
+    <select id="getBelongUserBecode" parameterClass="java.lang.String" resultClass="java.lang.String">
+    	SELECT concat(concat(user_id,'|'),be_code) tempval from merchant_user_set WHERE role_type = '0' and 
+    	belong_store_id = #belongStoreId#
+    </select>
+</sqlMap>

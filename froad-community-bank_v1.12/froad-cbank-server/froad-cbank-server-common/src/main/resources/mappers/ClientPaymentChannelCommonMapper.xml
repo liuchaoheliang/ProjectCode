@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.mysql.mapper.ClientPaymentChannelCommonMapper">
+
+	<resultMap type="ClientPaymentChannel" id="clientPaymentChannelCommonResultMap">
+		<id property="id" column="id" />
+		<result property="clientId" column="client_id" />
+		<result property="paymentChannelId" column="payment_channel_id" />
+		<result property="name" column="name" />
+		<result property="fullName" column="full_name" />
+		<result property="type" column="type" />
+		<result property="icoUrl" column="ico_url" />
+		<result property="paymentOrgNo" column="payment_org_no" />
+		<result property="isFroadCheckToken" column="is_froad_check_token" />
+		<result property="pointRate" column="point_rate" />
+		<result property="isDelete" column="is_delete" />
+	</resultMap>
+
+
+
+	<!-- 查询  ClientPaymentChannel -->
+	<select id="findClientPaymentChannel" parameterType="ClientPaymentChannel" resultMap="clientPaymentChannelCommonResultMap">
+		select 
+			id,client_id,payment_channel_id,name,full_name,type,ico_url,payment_org_no,is_froad_check_token,point_rate,is_delete 
+		from cb_client_payment_channel 
+			<where>
+				<if test="isDelete != null">
+					and is_delete = #{isDelete}
+				</if>
+				<if test="clientId != null">
+					and client_id = #{clientId}
+				</if>
+				<if test="paymentChannelId != null">
+					and payment_channel_id = #{paymentChannelId}
+				</if>
+			</where>
+	</select>
+
+
+</mapper>
+

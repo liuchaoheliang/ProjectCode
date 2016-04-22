@@ -1,0 +1,17 @@
+<requestValidateCheckCodeApi>
+	<partnerAccount>
+		<accountMarked>${accountMarked!""}</accountMarked>
+		<accountMarkedType>${accountMarkedType!""}</accountMarkedType>
+	</partnerAccount>
+	<userParam>
+		<checkCode>${checkCode!""}</checkCode>
+		<orgNo>${orgNo!""}</orgNo>
+	</userParam>
+	<system>
+		<partnerNo>${partnerNo!""}</partnerNo>
+		<charset>${charset!""}</charset>
+		<signType>${signType!""}</signType>
+		<signMsg>${signMsg!""}</signMsg>
+		<requestTime>${requestTime!""}</requestTime>
+	</system>
+</requestValidateCheckCodeApi>

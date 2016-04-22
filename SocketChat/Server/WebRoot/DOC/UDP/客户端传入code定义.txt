@@ -1,0 +1,7 @@
+0001 Login.login 登录
+0002 Register.register 注册
+0003 AboutFriend.addFriend 添加好友
+0004 AboutFriend.removeFriend 删除好友
+0005 AboutUser.getUserDetailInfo 查看用户详细信息
+0006 AboutFriend.getFriendList 获取好友列表
+0007 System.getServerVersion 获取服务器版本信息

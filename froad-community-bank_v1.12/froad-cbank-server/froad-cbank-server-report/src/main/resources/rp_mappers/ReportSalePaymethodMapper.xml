@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.mysql.rp_mappers.ReportSalePaymethodMapper">
+	
+	<sql id="selectColumn">
+		create_time,client_id,merchant_id,merchant_name,order_type,org_code,forg_code,forg_name,sorg_code,sorg_name,
+		torg_code,torg_name,lorg_code,lorg_name,payment_method,total_order,total_amount 
+	</sql>	
+	
+	<insert id="addSalePayMethod">
+		INSERT INTO cb_report_sale_paymethod(
+			<include refid="selectColumn" /> 
+		) VALUES (
+			#{createTime},#{clientId},#{merchantId},#{merchantName},#{orderType},#{orgCode},
+			#{fOrgCode},#{fOrgName},#{sOrgCode},#{sOrgName},#{tOrgCode},#{tOrgName},
+			#{lOrgCode},#{lOrgName},#{payMethod},#{totalOrder},#{totalAmount} 
+		)
+	</insert>	
+	
+	<insert id="addByBatch">
+		INSERT INTO cb_report_sale_paymethod(
+			<include refid="selectColumn" /> 
+		) VALUES 
+		<foreach collection="items" item="item" index="index" separator=",">
+			(#{item.createTime},#{item.clientId},#{item.merchantId},#{item.merchantName},#{item.orderType},#{item.orgCode},#{item.fOrgCode},
+			#{item.fOrgName},#{item.sOrgCode},#{item.sOrgName},#{item.tOrgCode},#{item.tOrgName},#{item.lOrgCode},
+			#{item.lOrgName},#{item.payMethod},#{item.totalOrder},#{item.totalAmount})
+		</foreach>
+	</insert>
+	
+</mapper>

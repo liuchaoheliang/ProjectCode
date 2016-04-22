@@ -1,0 +1,603 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="goodsPresellRack">
+	<typeAlias alias="goodsPresellRack" type="com.froad.CB.po.GoodsPresellRack" />	
+	<resultMap class="goodsPresellRack" id="goodsPresellRackResult">
+		<result property="id" column="id" jdbcType="INTEGER"/>
+		<result property="goodsId" column="goods_id" jdbcType="VARCHAR"/>
+		<result property="goods" column="goods_id" select="goods.selectById"/>
+		<result property="merchantId" column="merchant_id" jdbcType="VARCHAR"/>
+		<result property="merchant" column="merchant_id" select="merchant.selectByPrimaryKey"/>
+		<result property="groupPrice" column="group_price" jdbcType="VARCHAR"/>
+		<result property="beginTime" column="begin_time" jdbcType="VARCHAR"/>
+		<result property="endTime" column="end_time" jdbcType="VARCHAR"/>
+		<result property="isAllowrefund" column="is_allowrefund" jdbcType="VARCHAR"/>
+		
+		<result property="clusteringNum" column="clustering_num" jdbcType="INTEGER"/>
+		<result property="trueBuyerNum" column="true_buyer_num" jdbcType="INTEGER"/>
+		<result property="virtualBuyerNum" column="virtual_buyer_num" jdbcType="INTEGER"/>
+		<result property="isCluster" column="is_cluster" jdbcType="VARCHAR"/>
+		<result property="clusterType" column="cluster_type" jdbcType="VARCHAR"/>
+		
+		<result column="seo_title" property="seoTitle" jdbcType="VARCHAR" />
+		<result column="seo_keyword" property="seoKeyword" jdbcType="VARCHAR" />
+		<result column="seo_description" property="seoDescription" jdbcType="VARCHAR" />
+		<result column="is_rack" property="isRack" jdbcType="VARCHAR" />
+		<result column="rack_time" property="rackTime" jdbcType="VARCHAR" />
+		<result column="inspectors" property="inspectors" jdbcType="VARCHAR" />
+		
+		<result column="is_cash" property="isCash" jdbcType="VARCHAR" />
+		<result column="is_fft_point" property="isFftPoint" jdbcType="VARCHAR" />
+		<result column="is_bank_point" property="isBankPoint" jdbcType="VARCHAR" />
+		<result column="is_fftpoint_cash" property="isFftpointCash" jdbcType="VARCHAR" />
+		<result column="is_bankpoint_cash" property="isBankpointCash" jdbcType="VARCHAR" />
+		<result column="is_fftpointcash_ratio_pricing" property="isFftpointcashRatioPricing" jdbcType="VARCHAR" />
+		<result column="is_bankpointcash_ratio_pricing" property="isBankpointcashRatioPricing" jdbcType="VARCHAR" />
+		<result column="cash_pricing" property="cashPricing" jdbcType="VARCHAR" />
+		<result column="fft_point_pricing" property="fftPointPricing" jdbcType="VARCHAR" />
+		<result column="bank_point_pricing" property="bankPointPricing" jdbcType="VARCHAR" />
+		<result column="fftpoint_cash_pricing" property="fftpointCashPricing" jdbcType="VARCHAR" />
+		<result column="bankpoint_cash_pricing" property="bankpointCashPricing" jdbcType="VARCHAR" />
+		<result column="fftpointcash_ratio_pricing" property="fftpointcashRatioPricing" jdbcType="VARCHAR" />
+		<result column="bankpointcash_ratio_pricing" property="bankpointcashRatioPricing" jdbcType="VARCHAR" />
+		<result column="state" property="state" jdbcType="VARCHAR" />
+		
+		<result property="buyKnow" column="buy_know" jdbcType="VARCHAR"/>
+		<result property="sellerId" column="seller_id" jdbcType="VARCHAR"/>
+		<result property="goodsRackDetail" column="goods_rack_detail" jdbcType="VARCHAR"/>
+		<result property="deliveryStartTime" column="delivery_start_time" jdbcType="VARCHAR"/>
+		<result property="deliveryEndTime" column="delivery_end_time" jdbcType="VARCHAR"/>
+		<result property="createTime" column="create_time" jdbcType="VARCHAR"/>
+		<result property="updateTime" column="update_time" jdbcType="VARCHAR"/>	
+		<result property="remark" column="remark" jdbcType="VARCHAR"/>	
+		<result property="priority" column="priority"/>
+		<result property="maxSaleNum" column="max_sale_num"/>
+		<result property="goodsPresellRackImages" column="id" select="goodsPresellRackImages.getByGoodsRackId"/>	
+	</resultMap>
+		
+	<insert id="insert" parameterClass="goodsPresellRack">
+		insert into goods_presell_rack 
+			(
+				goods_id,merchant_id,group_price,begin_time,end_time,is_allowrefund,
+				clustering_num,true_buyer_num,virtual_buyer_num,is_cluster,cluster_type,
+				seo_title,seo_keyword,seo_description,is_rack,rack_time,inspectors,
+				is_cash, is_fft_point,is_bank_point, is_fftpoint_cash, is_bankpoint_cash,
+				is_fftpointcash_ratio_pricing, is_bankpointcash_ratio_pricing,
+				cash_pricing, fft_point_pricing, bank_point_pricing,
+				fftpoint_cash_pricing, bankpoint_cash_pricing,
+				fftpointcash_ratio_pricing, bankpointcash_ratio_pricing,state,
+				buy_know,seller_id,goods_rack_detail,delivery_start_time,delivery_end_time,
+				create_time,update_time,remark,priority,max_sale_num
+			) values(
+				#goodsId#,#merchantId#,#groupPrice#,#beginTime#,#endTime#,#isAllowrefund#,
+				#clusteringNum#,0,0,0,1,
+				#seoTitle#, #seoKeyword#,#seoDescription#,0,#rackTime#,#inspectors#,
+				#isCash#,#isFftPoint#, #isBankPoint#,#isFftpointCash#,#isBankpointCash#,
+				#isFftpointcashRatioPricing#,#isBankpointcashRatioPricing#,
+				#cashPricing#,#fftPointPricing#,#bankPointPricing#,
+				#fftpointCashPricing#,#bankpointCashPricing#,#fftpointcashRatioPricing#,#bankpointcashRatioPricing#,20,
+				#buyKnow#,#sellerId#,#goodsRackDetail#,#deliveryStartTime#,#deliveryEndTime#,	
+				DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),#remark#,#priority#,#maxSaleNum#
+			)	
+		<selectKey keyProperty="id" resultClass="int">
+			select last_insert_id() as id
+		</selectKey>
+	</insert>
+	
+	<update id="updateById" parameterClass="goodsPresellRack" >
+		update goods_presell_rack set update_time=DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s")
+		<dynamic prepend="">
+			<isNotEmpty property="goodsId" prepend=",">
+				goods_id=#goodsId#
+			</isNotEmpty>
+			<isNotEmpty property="merchantId" prepend=",">
+				merchant_id=#merchantId#
+			</isNotEmpty>
+			<isNotEmpty property="groupPrice" prepend=",">
+				group_price=#groupPrice#
+			</isNotEmpty>
+			<isNotEmpty property="beginTime" prepend=",">
+				begin_time=#beginTime#
+			</isNotEmpty>
+			<isNotEmpty property="endTime" prepend=",">
+				end_time=#endTime#
+			</isNotEmpty>
+			<isNotEmpty property="isAllowrefund" prepend=",">
+				is_allowrefund=#isAllowrefund#
+			</isNotEmpty>
+			<isNotEmpty property="clusteringNum" prepend=",">
+				clustering_num=#clusteringNum#
+			</isNotEmpty>
+			<isNotEmpty property="trueBuyerNum" prepend=",">
+				true_buyer_num=#trueBuyerNum#
+			</isNotEmpty>
+			<isNotEmpty property="virtualBuyerNum" prepend=",">
+				virtual_buyer_num=#virtualBuyerNum#
+			</isNotEmpty>
+			<isNotEmpty property="isCluster" prepend=",">
+				is_cluster=#isCluster#
+			</isNotEmpty>
+			<isNotEmpty property="clusterType" prepend=",">
+				cluster_type=#clusterType#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="seoTitle">
+				seo_title = #seoTitle:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="seoKeyword">
+				seo_keyword = #seoKeyword:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="seoDescription">
+				seo_description = #seoDescription:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="isRack">
+				is_rack = #isRack:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="rackTime">
+				rack_time = #rackTime:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="inspectors">
+				inspectors = #inspectors:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="isCash">
+				is_cash = #isCash:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="isFftPoint">
+				is_fft_point = #isFftPoint:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="isBankPoint">
+				is_bank_point = #isBankPoint:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="isFftpointCash">
+				is_fftpoint_cash = #isFftpointCash:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="isBankpointCash">
+				is_bankpoint_cash = #isBankpointCash:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="isFftpointcashRatioPricing">
+				is_fftpointcash_ratio_pricing =
+				#isFftpointcashRatioPricing:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="isBankpointcashRatioPricing">
+				is_bankpointcash_ratio_pricing =
+				#isBankpointcashRatioPricing:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="cashPricing">
+				cash_pricing = #cashPricing:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="fftPointPricing">
+				fft_point_pricing = #fftPointPricing:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="bankPointPricing">
+				bank_point_pricing = #bankPointPricing:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="fftpointCashPricing">
+				fftpoint_cash_pricing = #fftpointCashPricing:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="bankpointCashPricing">
+				bankpoint_cash_pricing = #bankpointCashPricing:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="fftpointcashRatioPricing">
+				fftpointcash_ratio_pricing =
+				#fftpointcashRatioPricing:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="bankpointcashRatioPricing">
+				bankpointcash_ratio_pricing =
+				#bankpointcashRatioPricing:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="state">
+				state = #state:VARCHAR#
+			</isNotEmpty>	
+			<isNotEmpty prepend="," property="sellerId">
+				seller_id = #sellerId#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="buyKnow">
+				buy_know = #buyKnow#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="deliveryStartTime">
+				delivery_start_time = #deliveryStartTime#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="deliveryEndTime">
+				delivery_end_time = #deliveryEndTime#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="goodsRackDetail">
+				goods_rack_detail = #goodsRackDetail#
+			</isNotEmpty>			
+			<isNotEmpty prepend="," property="remark">
+				remark = #remark:VARCHAR#
+			</isNotEmpty>	
+			<isNotEmpty prepend="," property="priority">
+				priority = #priority#
+			</isNotEmpty>	
+			<isNotEmpty prepend="," property="maxSaleNum">
+				max_sale_num = #maxSaleNum#
+			</isNotEmpty>		
+		</dynamic>		
+			where id=#id#	
+	</update>
+	
+	<select id="selectByPrimaryKey" parameterClass="java.lang.Integer" resultMap="goodsPresellRackResult">
+		select * from goods_presell_rack where id=#id#	
+	</select>
+	
+	<select id="getHistory" parameterClass="goodsPresellRack" resultMap="goodsPresellRackResult">
+		select * from  goods_presell_rack where #endTime#>end_time 
+		<isNotEmpty property="state" prepend="and">
+			state=#state#
+		</isNotEmpty>			    
+		<![CDATA[ 
+            	order by end_time desc 
+            	limit #startRow#,#pageSize#  
+            ]]> 	
+	</select>
+	
+	<select id="getByConditions" parameterClass="goodsPresellRack" resultMap="goodsPresellRackResult">
+		select * from goods_presell_rack where <![CDATA[ state <> '50' ]]>	
+		<dynamic prepend="">
+			<isNotEmpty property="id" prepend="and">
+				id=#id#
+			</isNotEmpty>			
+			<isNotEmpty property="goodsId" prepend="and">
+				goods_id=#goodsId#
+			</isNotEmpty>
+			<isNotEmpty property="merchantId" prepend="and">
+				merchant_id=#merchantId#
+			</isNotEmpty>
+			<isNotEmpty property="groupPrice" prepend="and">
+				group_price=#groupPrice#
+			</isNotEmpty>
+			<isNotEmpty property="isAllowrefund" prepend="and">
+				is_allowrefund=#isAllowrefund#
+			</isNotEmpty>
+			<isNotEmpty property="clusteringNum" prepend="and">
+				clustering_num=#clusteringNum#
+			</isNotEmpty>
+			<isNotEmpty property="trueBuyerNum" prepend="and">
+				true_buyer_num=#trueBuyerNum#
+			</isNotEmpty>
+			<isNotEmpty property="virtualBuyerNum" prepend="and">
+				virtual_buyer_num=#virtualBuyerNum#
+			</isNotEmpty>
+			<isNotEmpty property="isCluster" prepend="and">
+				is_cluster=#isCluster#
+			</isNotEmpty>
+			<isNotEmpty property="clusterType" prepend="and">
+				cluster_type=#clusterType#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="seoTitle">
+				seo_title = #seoTitle:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="seoKeyword">
+				seo_keyword = #seoKeyword:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="seoDescription">
+				seo_description = #seoDescription:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="isRack">
+				is_rack = #isRack:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="rackTime">
+				rack_time = #rackTime:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="inspectors">
+				inspectors = #inspectors:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="isCash">
+				is_cash = #isCash:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="isFftPoint">
+				is_fft_point = #isFftPoint:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="isBankPoint">
+				is_bank_point = #isBankPoint:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="isFftpointCash">
+				is_fftpoint_cash = #isFftpointCash:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="isBankpointCash">
+				is_bankpoint_cash = #isBankpointCash:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="isFftpointcashRatioPricing">
+				is_fftpointcash_ratio_pricing =
+				#isFftpointcashRatioPricing:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="isBankpointcashRatioPricing">
+				is_bankpointcash_ratio_pricing =
+				#isBankpointcashRatioPricing:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="cashPricing">
+				cash_pricing = #cashPricing:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="fftPointPricing">
+				fft_point_pricing = #fftPointPricing:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="bankPointPricing">
+				bank_point_pricing = #bankPointPricing:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="fftpointCashPricing">
+				fftpoint_cash_pricing = #fftpointCashPricing:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="bankpointCashPricing">
+				bankpoint_cash_pricing = #bankpointCashPricing:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="fftpointcashRatioPricing">
+				fftpointcash_ratio_pricing =
+				#fftpointcashRatioPricing:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="bankpointcashRatioPricing">
+				bankpointcash_ratio_pricing =
+				#bankpointcashRatioPricing:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="state">
+				state = #state:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="buyKnow">
+				buy_know = #buyKnow#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="sellerId">
+				seller_id = #sellerId#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="deliveryStartTime">
+				delivery_start_time = #deliveryStartTime#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="deliveryEndTime">
+				delivery_end_time = #deliveryEndTime#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="goodsRackDetail">
+				goods_rack_detail = #goodsRackDetail#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="remark">
+				remark = #remark:VARCHAR#
+			</isNotEmpty>				
+		</dynamic> 				
+	</select>	
+	
+	<select id="getByPager" parameterClass="goodsPresellRack" resultMap="goodsPresellRackResult"> 
+		select * from goods_presell_rack where <![CDATA[ state <> '50' ]]>	
+		<dynamic prepend="">
+			<isNotEmpty property="id" prepend="and">
+				id=#id#
+			</isNotEmpty>			
+			<isNotEmpty property="goodsId" prepend="and">
+				goods_id=#goodsId#
+			</isNotEmpty>
+			<isNotEmpty property="merchantId" prepend="and">
+				merchant_id=#merchantId#
+			</isNotEmpty>
+			<isNotEmpty property="groupPrice" prepend="and">
+				group_price=#groupPrice#
+			</isNotEmpty>
+			<isNotEmpty property="isAllowrefund" prepend="and">
+				is_allowrefund=#isAllowrefund#
+			</isNotEmpty>
+			<isNotEmpty property="clusteringNum" prepend="and">
+				clustering_num=#clusteringNum#
+			</isNotEmpty>
+			<isNotEmpty property="trueBuyerNum" prepend="and">
+				true_buyer_num=#trueBuyerNum#
+			</isNotEmpty>
+			<isNotEmpty property="virtualBuyerNum" prepend="and">
+				virtual_buyer_num=#virtualBuyerNum#
+			</isNotEmpty>
+			<isNotEmpty property="isCluster" prepend="and">
+				is_cluster=#isCluster#
+			</isNotEmpty>
+			<isNotEmpty property="clusterType" prepend="and">
+				cluster_type=#clusterType#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="seoTitle">
+				seo_title = #seoTitle:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="seoKeyword">
+				seo_keyword = #seoKeyword:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="seoDescription">
+				seo_description = #seoDescription:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="isRack">
+				is_rack = #isRack:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="rackTime">
+				rack_time = #rackTime:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="inspectors">
+				inspectors = #inspectors:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="isCash">
+				is_cash = #isCash:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="isFftPoint">
+				is_fft_point = #isFftPoint:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="isBankPoint">
+				is_bank_point = #isBankPoint:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="isFftpointCash">
+				is_fftpoint_cash = #isFftpointCash:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="isBankpointCash">
+				is_bankpoint_cash = #isBankpointCash:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="isFftpointcashRatioPricing">
+				is_fftpointcash_ratio_pricing =
+				#isFftpointcashRatioPricing:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="isBankpointcashRatioPricing">
+				is_bankpointcash_ratio_pricing =
+				#isBankpointcashRatioPricing:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="cashPricing">
+				cash_pricing = #cashPricing:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="fftPointPricing">
+				fft_point_pricing = #fftPointPricing:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="bankPointPricing">
+				bank_point_pricing = #bankPointPricing:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="fftpointCashPricing">
+				fftpoint_cash_pricing = #fftpointCashPricing:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="bankpointCashPricing">
+				bankpoint_cash_pricing = #bankpointCashPricing:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="fftpointcashRatioPricing">
+				fftpointcash_ratio_pricing =
+				#fftpointcashRatioPricing:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="bankpointcashRatioPricing">
+				bankpointcash_ratio_pricing =
+				#bankpointcashRatioPricing:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="state">
+				state = #state:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="buyKnow">
+				buy_know = #buyKnow#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="sellerId">
+				seller_id = #sellerId#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="goodsRackDetail">
+				goods_rack_detail = #goodsRackDetail#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="remark">
+				remark = #remark:VARCHAR#
+			</isNotEmpty>					
+			<isNotEmpty property="beginTime">
+    			<isNotEmpty property="endTime" prepend="and">
+    				create_time between #beginTime# and #endTime#
+    			</isNotEmpty>
+    		</isNotEmpty>	
+		</dynamic>
+			<![CDATA[ 
+            	order by $orderBy$ $orderType$ ,update_time DESC
+            	limit #startRow#,#pageSize#  
+            ]]> 
+	</select>
+	
+	<select id="getByPagerCount" parameterClass="goodsPresellRack" resultClass="java.lang.Integer"> 
+		select count(*) from goods_presell_rack where <![CDATA[ state <> '50' ]]>
+		<dynamic prepend="">		
+			<isNotEmpty property="id" prepend="and">
+				id=#id#
+			</isNotEmpty>			
+			<isNotEmpty property="goodsId" prepend="and">
+				goods_id=#goodsId#
+			</isNotEmpty>
+			<isNotEmpty property="merchantId" prepend="and">
+				merchant_id=#merchantId#
+			</isNotEmpty>
+			<isNotEmpty property="groupPrice" prepend="and">
+				group_price=#groupPrice#
+			</isNotEmpty>
+			<isNotEmpty property="isAllowrefund" prepend="and">
+				is_allowrefund=#isAllowrefund#
+			</isNotEmpty>
+			<isNotEmpty property="clusteringNum" prepend="and">
+				clustering_num=#clusteringNum#
+			</isNotEmpty>
+			<isNotEmpty property="trueBuyerNum" prepend="and">
+				true_buyer_num=#trueBuyerNum#
+			</isNotEmpty>
+			<isNotEmpty property="virtualBuyerNum" prepend="and">
+				virtual_buyer_num=#virtualBuyerNum#
+			</isNotEmpty>
+			<isNotEmpty property="isCluster" prepend="and">
+				is_cluster=#isCluster#
+			</isNotEmpty>
+			<isNotEmpty property="clusterType" prepend="and">
+				cluster_type=#clusterType#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="seoTitle">
+				seo_title = #seoTitle:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="seoKeyword">
+				seo_keyword = #seoKeyword:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="seoDescription">
+				seo_description = #seoDescription:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="isRack">
+				is_rack = #isRack:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="rackTime">
+				rack_time = #rackTime:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="inspectors">
+				inspectors = #inspectors:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="isCash">
+				is_cash = #isCash:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="isFftPoint">
+				is_fft_point = #isFftPoint:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="isBankPoint">
+				is_bank_point = #isBankPoint:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="isFftpointCash">
+				is_fftpoint_cash = #isFftpointCash:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="isBankpointCash">
+				is_bankpoint_cash = #isBankpointCash:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="isFftpointcashRatioPricing">
+				is_fftpointcash_ratio_pricing =
+				#isFftpointcashRatioPricing:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="isBankpointcashRatioPricing">
+				is_bankpointcash_ratio_pricing =
+				#isBankpointcashRatioPricing:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="cashPricing">
+				cash_pricing = #cashPricing:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="fftPointPricing">
+				fft_point_pricing = #fftPointPricing:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="bankPointPricing">
+				bank_point_pricing = #bankPointPricing:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="fftpointCashPricing">
+				fftpoint_cash_pricing = #fftpointCashPricing:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="bankpointCashPricing">
+				bankpoint_cash_pricing = #bankpointCashPricing:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="fftpointcashRatioPricing">
+				fftpointcash_ratio_pricing =
+				#fftpointcashRatioPricing:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="bankpointcashRatioPricing">
+				bankpointcash_ratio_pricing =
+				#bankpointcashRatioPricing:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="state">
+				state = #state:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="buyKnow">
+				buy_know = #buyKnow#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="sellerId">
+				seller_id = #sellerId#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="goodsRackDetail">
+				goods_rack_detail = #goodsRackDetail#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="remark">
+				remark = #remark:VARCHAR#
+			</isNotEmpty>	
+			<isNotEmpty property="beginTime">
+    			<isNotEmpty property="endTime" prepend="and">
+    				create_time between #beginTime# and #endTime#
+    			</isNotEmpty>
+    		</isNotEmpty>			
+		</dynamic>
+		
+	</select>
+
+</sqlMap>

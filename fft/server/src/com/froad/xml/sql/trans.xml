@@ -1,0 +1,2262 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="trans">
+    <typeAlias alias="trans" type="com.froad.CB.po.Trans"/>
+    <resultMap id="TransResult" class="trans">
+        <result column="id" property="id" jdbcType="INTEGER"/>
+        <result column="id" property="transDetailsList" select="transDetails.selectByTranId"/>
+        <result column="id" property="transGoodsAttrList" select="transGoodsAttribute.getByTransId"/>
+        <result column="id" property="payList" select="pay.selectByTranId"/>
+        <result column="bill_no" property="billNo" jdbcType="VARCHAR"/>
+        <result column="trans_sn" property="transSn" jdbcType="VARCHAR"/>
+        <result column="trans_type" property="transType" jdbcType="VARCHAR"/>
+        <result column="seller_id" property="sellerId" jdbcType="VARCHAR"/>
+        <result column="seller_id" property="seller" select="seller.selectByPrimaryKey"/>
+        <result column="merchant_id" property="merchantId" jdbcType="Integer"/>
+        <result column="merchant_id" property="merchant" select="merchant.selectByPrimaryKey"/>
+        <result column="buyers_id" property="buyersId" jdbcType="VARCHAR"/>
+        <result column="buyers_id" property="buyer" select="buyers.selectByPrimaryKey"/>
+        <result column="seller_channel_id" property="sellerChannelId" jdbcType="VARCHAR"/>
+        <result column="seller_channel_id" property="sellerChannel" select="sellerChannel.selectByPrimaryKey"/>
+        <result column="buyer_channel_id" property="buyerChannelId" jdbcType="VARCHAR"/>
+        <result column="buyer_channel_id" property="buyerChannel" select="buyerChannel.selectByPrimaryKey"/>
+        <result column="currency" property="currency" jdbcType="VARCHAR"/>
+        <result column="costprice_total" property="costpriceTotal" jdbcType="VARCHAR"/>
+        <result column="currency_value_all" property="currencyValueAll" jdbcType="VARCHAR"/>
+        <result column="currency_value_real_all" property="currencyValueRealAll" jdbcType="VARCHAR"/>
+        <result column="bank_points_account" property="bankPointsAccount" jdbcType="VARCHAR"/>
+        <result column="bank_points_value_all" property="bankPointsValueAll" jdbcType="VARCHAR"/>
+        <result column="bank_points_value_real_all" property="bankPointsValueRealAll" jdbcType="VARCHAR"/>
+        <result column="fft_points_account" property="fftPointsAccount" jdbcType="VARCHAR"/>
+        <result column="fft_points_value_all" property="fftPointsValueAll" jdbcType="VARCHAR"/>
+        <result column="fft_points_value_real_all" property="fftPointsValueRealAll" jdbcType="VARCHAR"/>
+        <result column="failure_time" property="failureTime" jdbcType="VARCHAR"/>
+        <result column="state" property="state" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="VARCHAR"/>
+        <result column="update_time" property="updateTime" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="client_type" property="clientType" jdbcType="VARCHAR"/>
+        <result column="pay_method" property="payMethod" jdbcType="VARCHAR"/>
+        <result column="fft_factorage" property="fftFactorage" jdbcType="VARCHAR"/>
+        <result column="user_id" property="userId" jdbcType="VARCHAR"/>
+        <result column="channel_id" property="channelId" jdbcType="VARCHAR"/>
+        <result column="point_bill_no" property="pointBillNo" jdbcType="VARCHAR"/>
+        <result column="id" property="authTicketList" select="authTicket.getConsumedTicketByTransId"/>
+        <result column="pay_channel" property="payChannel" jdbcType="VARCHAR"/>
+        <result column="belong_user_becode" property="belongUserBecode" jdbcType="VARCHAR"/>
+        <result column="lottery_bill_no" property="lotteryBillNo" jdbcType="VARCHAR"/>
+        <result column="phone" property="phone" jdbcType="VARCHAR"/>
+        <result column="seller_type" property="sellerType" jdbcType="VARCHAR"/>
+        <result column="points_amount_value" property="pointsAmountValue" jdbcType="VARCHAR"/>
+        <result column="points_amount_real_value" property="pointsAmountRealValue" jdbcType="VARCHAR"/>
+        <result column="virtual_type" property="virtualType" jdbcType="VARCHAR"/>
+        <result column="refund_order_id" property="refundOrderId" jdbcType="VARCHAR"/>
+        <result column="present_points_value" property="presentPointsValue" jdbcType="VARCHAR"/>
+        <result column="present_rule_id" property="presentRuleId" jdbcType="INTEGER"/>
+    </resultMap>
+    <resultMap id="GroupExchangeTransResult" class="trans">
+        <result column="id" property="id" jdbcType="INTEGER"/>
+        <result column="id" property="transDetailsList" select="transDetails.selectByTranId"/>
+        <result column="id" property="transGoodsAttrList" select="transGoodsAttribute.getByTransId"/>
+        <result column="id" property="payList" select="pay.selectByTranId"/>
+        <result column="bill_no" property="billNo" jdbcType="VARCHAR"/>
+        <result column="trans_sn" property="transSn" jdbcType="VARCHAR"/>
+        <result column="trans_type" property="transType" jdbcType="VARCHAR"/>
+        <result column="seller_id" property="sellerId" jdbcType="VARCHAR"/>
+        <result column="seller_id" property="seller" select="seller.selectByPrimaryKey"/>
+        <result column="merchant_id" property="merchantId" jdbcType="Integer"/>
+        <result column="merchant_id" property="merchant" select="merchant.selectByPrimaryKey"/>
+        <result column="buyers_id" property="buyersId" jdbcType="VARCHAR"/>
+        <result column="buyers_id" property="buyer" select="buyers.selectByPrimaryKey"/>
+        <result column="seller_channel_id" property="sellerChannelId" jdbcType="VARCHAR"/>
+        <result column="seller_channel_id" property="sellerChannel" select="sellerChannel.selectByPrimaryKey"/>
+        <result column="buyer_channel_id" property="buyerChannelId" jdbcType="VARCHAR"/>
+        <result column="buyer_channel_id" property="buyerChannel" select="buyerChannel.selectByPrimaryKey"/>
+        <result column="currency" property="currency" jdbcType="VARCHAR"/>
+        <result column="costprice_total" property="costpriceTotal" jdbcType="VARCHAR"/>
+        <result column="currency_value_all" property="currencyValueAll" jdbcType="VARCHAR"/>
+        <result column="currency_value_real_all" property="currencyValueRealAll" jdbcType="VARCHAR"/>
+        <result column="bank_points_account" property="bankPointsAccount" jdbcType="VARCHAR"/>
+        <result column="bank_points_value_all" property="bankPointsValueAll" jdbcType="VARCHAR"/>
+        <result column="bank_points_value_real_all" property="bankPointsValueRealAll" jdbcType="VARCHAR"/>
+        <result column="fft_points_account" property="fftPointsAccount" jdbcType="VARCHAR"/>
+        <result column="fft_points_value_all" property="fftPointsValueAll" jdbcType="VARCHAR"/>
+        <result column="fft_points_value_real_all" property="fftPointsValueRealAll" jdbcType="VARCHAR"/>
+        <result column="failure_time" property="failureTime" jdbcType="VARCHAR"/>
+        <result column="state" property="state" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="VARCHAR"/>
+        <result column="update_time" property="updateTime" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="client_type" property="clientType" jdbcType="VARCHAR"/>
+        <result column="pay_method" property="payMethod" jdbcType="VARCHAR"/>
+        <result column="fft_factorage" property="fftFactorage" jdbcType="VARCHAR"/>
+        <result column="user_id" property="userId" jdbcType="VARCHAR"/>
+        <result column="channel_id" property="channelId" jdbcType="VARCHAR"/>
+        <result column="point_bill_no" property="pointBillNo" jdbcType="VARCHAR"/>
+        <result column="id" property="authTicketList" select="authTicket.getConsumedTicketByTransId"/>
+        <result column="pay_channel" property="payChannel" jdbcType="VARCHAR"/>
+        <result column="belong_user_becode" property="belongUserBecode" jdbcType="VARCHAR"/>
+        <result column="lottery_bill_no" property="lotteryBillNo" jdbcType="VARCHAR"/>
+        <result column="phone" property="phone" jdbcType="VARCHAR"/>
+        <result column="seller_type" property="sellerType" jdbcType="VARCHAR"/>
+        <result column="points_amount_value" property="pointsAmountValue" jdbcType="VARCHAR"/>
+        <result column="points_amount_real_value" property="pointsAmountRealValue" jdbcType="VARCHAR"/>
+        <result column="virtual_type" property="virtualType" jdbcType="VARCHAR"/>
+        <result column="authTicketId" property="authTicketId" jdbcType="VARCHAR"/>
+        <result column="securitiesNo" property="securitiesNo" jdbcType="VARCHAR"/>
+        <result column="isConsume" property="isConsume" jdbcType="VARCHAR"/>
+        <result column="smsNumber" property="smsNumber" jdbcType="VARCHAR"/>
+        <result column="consumeTime" property="consumeTime" jdbcType="VARCHAR"/>
+        <result column="belongUserBecodeAuth" property="belongUserBecodeAuth" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!-- excel导出 trans resultMap -->
+    <resultMap id="excelTransData" class="trans">
+        <result column="id" property="id" jdbcType="INTEGER"/>
+        <result column="trans_type" property="transType" jdbcType="VARCHAR"/>
+        <result column="merchant_id" property="merchant" select="merchant.selectByPrimaryKey"/>
+        <result column="currency_value_real_all" property="currencyValueRealAll" jdbcType="VARCHAR"/>
+        <result column="fft_points_value_real_all" property="fftPointsValueRealAll" jdbcType="VARCHAR"/>
+        <result column="state" property="state" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="VARCHAR"/>
+        <result column="belong_user_becode" property="belongUserBecode" jdbcType="VARCHAR"/>
+    </resultMap>
+    <!-- excel导出 exchange group resultMap -->
+    <resultMap id="excelGroupExchangeData" class="trans">
+        <result column="id" property="id" jdbcType="INTEGER"/>
+        <result column="id" property="transDetailsList" select="transDetails.selectByTranId"/>
+        <!-- <result column="id" property="transGoodsAttrList" select="transGoodsAttribute.getByTransId"/> -->
+        <result column="id" property="payList" select="pay.selectByTranId"/>
+        <result column="trans_type" property="transType" jdbcType="VARCHAR"/>
+        <result column="merchant_id" property="merchant" select="merchant.selectByPrimaryKey"/>
+        <result column="costprice_total" property="costpriceTotal" jdbcType="VARCHAR"/>
+        <result column="currency_value_all" property="currencyValueAll" jdbcType="VARCHAR"/>
+        <result column="currency_value_real_all" property="currencyValueRealAll" jdbcType="VARCHAR"/>
+        <result column="bank_points_account" property="bankPointsAccount" jdbcType="VARCHAR"/>
+        <result column="bank_points_value_all" property="bankPointsValueAll" jdbcType="VARCHAR"/>
+        <result column="bank_points_value_real_all" property="bankPointsValueRealAll" jdbcType="VARCHAR"/>
+        <result column="fft_points_account" property="fftPointsAccount" jdbcType="VARCHAR"/>
+        <result column="fft_points_value_all" property="fftPointsValueAll" jdbcType="VARCHAR"/>
+        <result column="fft_points_value_real_all" property="fftPointsValueRealAll" jdbcType="VARCHAR"/>
+        <result column="failure_time" property="failureTime" jdbcType="VARCHAR"/>
+        <result column="state" property="state" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="VARCHAR"/>
+        <result column="update_time" property="updateTime" jdbcType="VARCHAR"/>
+        <result column="client_type" property="clientType" jdbcType="VARCHAR"/>
+        <result column="pay_method" property="payMethod" jdbcType="VARCHAR"/>
+        <result column="fft_factorage" property="fftFactorage" jdbcType="VARCHAR"/>
+        <result column="channel_id" property="channelId" jdbcType="VARCHAR"/>
+        <result column="point_bill_no" property="pointBillNo" jdbcType="VARCHAR"/>
+        <result column="pay_channel" property="payChannel" jdbcType="VARCHAR"/>
+        <result column="belong_user_becode" property="belongUserBecode" jdbcType="VARCHAR"/>
+        <result column="lottery_bill_no" property="lotteryBillNo" jdbcType="VARCHAR"/>
+        <result column="phone" property="phone" jdbcType="VARCHAR"/>
+        <result column="seller_type" property="sellerType" jdbcType="VARCHAR"/>
+        <result column="points_amount_value" property="pointsAmountValue" jdbcType="VARCHAR"/>
+        <result column="points_amount_real_value" property="pointsAmountRealValue" jdbcType="VARCHAR"/>
+        <result column="virtual_type" property="virtualType" jdbcType="VARCHAR"/>
+        <result column="belongUserBecodeAuth" property="belongUserBecodeAuth" jdbcType="VARCHAR"/>
+    </resultMap>
+    <select id="selectByPrimaryKey" resultMap="TransResult"
+            parameterClass="java.lang.Integer">
+		select * from trans where id = #id#
+	</select>
+	
+	<select id="getTransByRefundOrderId" resultMap="TransResult"
+            parameterClass="java.lang.String">
+		select * from trans where refund_order_id = #refundOrderId#
+	</select>
+
+    <select id="getTransStateById" resultClass="string" parameterClass="java.lang.Integer">
+		select state from trans where id = #id#
+	</select>
+
+    <select id="getTransByBuyerId" resultMap="TransResult" parameterClass="string">
+		select * from trans where buyers_id=#value#
+	</select>
+
+    <select id="getTransByMerchantId" resultMap="TransResult" parameterClass="string">
+		select * from trans where merchant_id=#value#
+	</select>
+
+    <select id="getTransBySellerId" resultMap="TransResult" parameterClass="string">
+		select * from trans where seller_id=#value#
+	</select>
+
+    <select id="getTransByLotteryBillNo" resultMap="TransResult" parameterClass="string">
+		select * from trans where lottery_bill_no=#value#
+	</select>
+
+    <delete id="deleteByPrimaryKey" parameterClass="java.lang.Integer">
+		delete from trans where id = #id:INTEGER#
+	</delete>
+
+    <insert id="insert" parameterClass="trans">
+        insert into trans (id,virtual_type,points_amount_value,points_amount_real_value, seller_type,merchant_id,phone,belong_user_becode,pay_channel, point_bill_no,user_id,channel_id, fft_factorage, bill_no, trans_sn, trans_type, seller_id, buyers_id, seller_channel_id, buyer_channel_id, currency, costprice_total, currency_value_all, currency_value_real_all, bank_points_account, bank_points_value_all, bank_points_value_real_all, fft_points_account, fft_points_value_all, fft_points_value_real_all, failure_time, state, remark, client_type,pay_method,present_points_value,present_rule_id,create_time, update_time) values ( #id:INTEGER#,#virtualType#,#pointsAmountValue#,#pointsAmountRealValue#,#sellerType#, #merchantId:INTEGER#,#phone#,#belongUserBecode#,#payChannel:VARCHAR#,#pointBillNo#,#userId#,#channelId#,#fftFactorage:VARCHAR#, #billNo:VARCHAR#, #transSn:VARCHAR#, #transType:VARCHAR#, #sellerId:VARCHAR#, #buyersId:VARCHAR#, #sellerChannelId:VARCHAR#, #buyerChannelId:VARCHAR#, #currency:VARCHAR#, #costpriceTotal:VARCHAR#, #currencyValueAll:VARCHAR#, #currencyValueRealAll:VARCHAR#, #bankPointsAccount:VARCHAR#, #bankPointsValueAll:VARCHAR#, #bankPointsValueRealAll:VARCHAR#, #fftPointsAccount:VARCHAR#, #fftPointsValueAll:VARCHAR#, #fftPointsValueRealAll:VARCHAR#, #failureTime:VARCHAR#, #state:VARCHAR#,#remark:VARCHAR#,#clientType#,#payMethod#,#presentPointsValue#,#presentRuleId#, #createTime#, #updateTime#)
+        <selectKey keyProperty="id" resultClass="int">
+            select last_insert_id() as id
+        </selectKey>
+
+    </insert>
+
+    <update id="updateStateById" parameterClass="java.util.HashMap">
+		update trans set update_time =DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),state=#state# where id=#id#
+	</update>
+
+    <update id="updateStateSuccessById" parameterClass="java.lang.Integer">
+		update trans set update_time =DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),state="02" where id=#id#
+	</update>
+
+    <!-- 更新退款订单号 -->
+    <update id="updateRefundOrderIdById" parameterClass="java.util.HashMap">
+		update trans set update_time =DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),refund_order_id=#refundOrderId# where id=#id#
+	</update>
+
+    <!-- 关闭IdList指定的交易 -->
+    <update id="closeTransByIdList" parameterClass="java.util.ArrayList">
+        update trans set update_time =DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),state="04" where id in
+        <iterate open="(" conjunction="," close=")">
+            #[]#
+        </iterate>
+    </update>
+
+    <update id="updateBillNo" parameterClass="java.util.HashMap">
+		update trans set update_time =DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),bill_no=#billNo# where id=#id#
+	</update>
+
+    <update id="updatePointBillNo" parameterClass="java.util.HashMap">
+		update trans set update_time =DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),point_bill_no=#pointBillNo# where id=#id#
+	</update>
+
+    <update id="updateLotteryBillNo" parameterClass="java.util.HashMap">
+		update trans set update_time =DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),lottery_bill_no=#lotteryBillNo# where id=#id#
+	</update>
+
+    <update id="updateById" parameterClass="trans">
+        update trans set update_time =DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s")
+        <dynamic>
+            <isNotEmpty prepend="," property="pointBillNo">
+                point_bill_no = #pointBillNo:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="," property="phone">
+                phone = #phone:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="," property="belongUserBecode">
+                belong_user_becode = #belongUserBecode:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="," property="payChannel">
+                pay_channel = #payChannel:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="," property="userId">
+                user_id = #userId:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="," property="channelId">
+                channel_id = #channelId:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="," property="fftFactorage">
+                fft_factorage = #fftFactorage:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="," property="billNo">
+                bill_no = #billNo:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="," property="payMethod">
+                pay_method = #payMethod:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="," property="transSn">
+                trans_sn = #transSn:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="," property="transType">
+                trans_type = #transType:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="," property="sellerId">
+                seller_id = #sellerId:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="," property="buyersId">
+                buyers_id = #buyersId:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="," property="sellerChannelId">
+                seller_channel_id = #sellerChannelId:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="," property="buyerChannelId">
+                buyer_channel_id = #buyerChannelId:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="," property="currency">
+                currency = #currency:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="," property="costpriceTotal">
+                costprice_total = #costpriceTotal:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="," property="currencyValueAll">
+                currency_value_all = #currencyValueAll:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="," property="currencyValueRealAll">
+                currency_value_real_all = #currencyValueRealAll:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="," property="bankPointsAccount">
+                bank_points_account = #bankPointsAccount:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="," property="bankPointsValueAll">
+                bank_points_value_all = #bankPointsValueAll:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="," property="bankPointsValueRealAll">
+                bank_points_value_real_all = #bankPointsValueRealAll:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="," property="fftPointsAccount">
+                fft_points_account = #fftPointsAccount:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="," property="fftPointsValueAll">
+                fft_points_value_all = #fftPointsValueAll:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="," property="fftPointsValueRealAll">
+                fft_points_value_real_all = #fftPointsValueRealAll:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="," property="failureTime">
+                failure_time = #failureTime:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="," property="state">
+                state = #state:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="," property="updateTime">
+                update_time = #updateTime:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="," property="remark">
+                remark = #remark:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="," property="clientType">
+                client_type = #clientType:VARCHAR#
+            </isNotEmpty>
+        </dynamic>
+        where id = #id:INTEGER#
+    </update>
+
+    <!-- *********************分页查询交易********************* -->
+    <select id="getTransByPager" resultMap="TransResult" parameterClass="trans">
+        <![CDATA[
+					select * from trans
+					where trans_type <> '07'
+		]]>
+        <dynamic>
+            <isNotEmpty prepend="and" property="id">
+                id = #id:INTEGER#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="merchantId">
+                merchant_id = #merchantId:INTEGER#
+            </isNotEmpty>
+            <isEqual property="transType" compareValue="02">
+                <isNotEmpty prepend="and" property="isConsume">
+                    id in(select trans_id from auth_ticket where is_consume=#isConsume#)
+                </isNotEmpty>
+            </isEqual>
+            <isEqual property="transType" compareValue="01">
+                <isNotEmpty prepend="and" property="isConsume">
+                    id in(select trans_id from auth_ticket where is_consume=#isConsume#)
+                </isNotEmpty>
+            </isEqual>
+            <isNotEmpty prepend="and" property="virtualType">
+                virtual_type = #virtualType:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="phone">
+                phone = #phone:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="belongUserBecode">
+                belong_user_becode = #belongUserBecode:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="payChannel">
+                pay_channel = #payChannel:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="pointBillNo">
+                point_bill_no = #pointBillNo:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="userId">
+                user_id = #userId:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="channelId">
+                channel_id = #channelId:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="fftFactorage">
+                fft_factorage = #fftFactorage:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="billNo">
+                bill_no = #billNo:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="payMethod">
+                pay_method = #payMethod:VARCHAR#
+            </isNotEmpty>
+
+            <isNotEmpty prepend="and" property="transSn">
+                trans_sn = #transSn:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="transType">
+                trans_type = #transType:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty property="payMethodList" prepend="and">
+                trans_type in
+                <iterate open="(" conjunction="," close=")" property="payMethodList">
+                    #payMethodList[]#
+                </iterate>
+            </isNotEmpty>
+
+            <isNotEmpty prepend="and" property="sellerId">
+                seller_id = #sellerId:VARCHAR#
+            </isNotEmpty>
+            <isEmpty property="sellerId">
+                <isNotEmpty property="sellerIdList" prepend="and">
+                    seller_id in
+                    <iterate open="(" conjunction="," close=")" property="sellerIdList">
+                        #sellerIdList[]#
+                    </iterate>
+                </isNotEmpty>
+            </isEmpty>
+            <isNotEmpty prepend="and" property="buyersId">
+                buyers_id = #buyersId:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="sellerChannelId">
+                seller_channel_id = #sellerChannelId:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="buyerChannelId">
+                buyer_channel_id = #buyerChannelId:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="currency">
+                currency = #currency:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="costpriceTotal">
+                costprice_total = #costpriceTotal:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="currencyValueAll">
+                currency_value_all = #currencyValueAll:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="currencyValueRealAll">
+                currency_value_real_all = #currencyValueRealAll:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="bankPointsAccount">
+                bank_points_account = #bankPointsAccount:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="bankPointsValueAll">
+                bank_points_value_all = #bankPointsValueAll:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="bankPointsValueRealAll">
+                bank_points_value_real_all = #bankPointsValueRealAll:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="fftPointsAccount">
+                fft_points_account = #fftPointsAccount:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="fftPointsValueAll">
+                fft_points_value_all = #fftPointsValueAll:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="fftPointsValueRealAll">
+                fft_points_value_real_all = #fftPointsValueRealAll:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="failureTime">
+                failure_time = #failureTime:VARCHAR#
+            </isNotEmpty>
+
+            <isNotEmpty prepend="and" property="state">
+                state = #state:VARCHAR#
+            </isNotEmpty>
+
+            <isNotEmpty property="updateTime">
+                <isNotEmpty property="beginTime">
+                    <isNotEmpty property="endTime" prepend="and">
+                        update_time between #beginTime# and #endTime#
+                    </isNotEmpty>
+                </isNotEmpty>
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="remark">
+                remark = #remark:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="clientType">
+                client_type = #clientType:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty property="MerchantIdList" prepend="and">
+                merchant_id in
+                <iterate open="(" conjunction="," close=")" property="MerchantIdList">
+                    #MerchantIdList[]#
+                </iterate>
+            </isNotEmpty>
+            <isEmpty property="updateTime">
+                <isNotEmpty property="beginTime">
+                    <isNotEmpty property="endTime" prepend="and">
+                        create_time between #beginTime# and #endTime#
+                    </isNotEmpty>
+                </isNotEmpty>
+            </isEmpty>
+        </dynamic>
+        <![CDATA[
+         order by $orderBy$ $orderType$ 
+         limit #startRow#,#pageSize#  
+         ]]>
+    </select>
+
+    <select id="getTransByPagerCount" resultClass="java.lang.Integer" parameterClass="trans">
+        <![CDATA[
+			select count(*) from trans
+			where trans_type <> '07'
+		]]>
+        <dynamic>
+            <isNotEmpty prepend="and" property="id">
+                id = #id:INTEGER#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="merchantId">
+                merchant_id = #merchantId:INTEGER#
+            </isNotEmpty>
+            <isEqual property="transType" compareValue="02">
+                <isNotEmpty prepend="and" property="isConsume">
+                    id in(select trans_id from auth_ticket where is_consume=#isConsume#)
+                </isNotEmpty>
+            </isEqual>
+            <isEqual property="transType" compareValue="01">
+                <isNotEmpty prepend="and" property="isConsume">
+                    id in(select trans_id from auth_ticket where is_consume=#isConsume#)
+                </isNotEmpty>
+            </isEqual>
+            <isNotEmpty prepend="and" property="virtualType">
+                virtual_type = #virtualType:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="phone">
+                phone = #phone:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="belongUserBecode">
+                belong_user_becode = #belongUserBecode:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="payChannel">
+                pay_channel = #payChannel:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="pointBillNo">
+                point_bill_no = #pointBillNo:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="userId">
+                user_id = #userId:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="channelId">
+                channel_id = #channelId:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="fftFactorage">
+                fft_factorage = #fftFactorage:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="billNo">
+                bill_no = #billNo:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="payMethod">
+                pay_method = #payMethod:VARCHAR#
+            </isNotEmpty>
+
+            <isNotEmpty prepend="and" property="transSn">
+                trans_sn = #transSn:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="transType">
+                trans_type = #transType:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty property="payMethodList" prepend="and">
+                trans_type in
+                <iterate open="(" conjunction="," close=")" property="payMethodList">
+                    #payMethodList[]#
+                </iterate>
+            </isNotEmpty>
+
+            <isNotEmpty prepend="and" property="sellerId">
+                seller_id = #sellerId:VARCHAR#
+            </isNotEmpty>
+            <isEmpty property="sellerId">
+                <isNotEmpty property="sellerIdList" prepend="and">
+                    seller_id in
+                    <iterate open="(" conjunction="," close=")" property="sellerIdList">
+                        #sellerIdList[]#
+                    </iterate>
+                </isNotEmpty>
+            </isEmpty>
+            <isNotEmpty prepend="and" property="buyersId">
+                buyers_id = #buyersId:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="sellerChannelId">
+                seller_channel_id = #sellerChannelId:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="buyerChannelId">
+                buyer_channel_id = #buyerChannelId:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="currency">
+                currency = #currency:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="costpriceTotal">
+                costprice_total = #costpriceTotal:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="currencyValueAll">
+                currency_value_all = #currencyValueAll:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="currencyValueRealAll">
+                currency_value_real_all = #currencyValueRealAll:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="bankPointsAccount">
+                bank_points_account = #bankPointsAccount:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="bankPointsValueAll">
+                bank_points_value_all = #bankPointsValueAll:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="bankPointsValueRealAll">
+                bank_points_value_real_all = #bankPointsValueRealAll:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="fftPointsAccount">
+                fft_points_account = #fftPointsAccount:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="fftPointsValueAll">
+                fft_points_value_all = #fftPointsValueAll:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="fftPointsValueRealAll">
+                fft_points_value_real_all = #fftPointsValueRealAll:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="failureTime">
+                failure_time = #failureTime:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="state">
+                state = #state:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty property="updateTime">
+                <isNotEmpty property="beginTime">
+                    <isNotEmpty property="endTime" prepend="and">
+                        update_time between #beginTime# and #endTime#
+                    </isNotEmpty>
+                </isNotEmpty>
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="remark">
+                remark = #remark:VARCHAR#
+            </isNotEmpty>
+
+            <isNotEmpty prepend="and" property="clientType">
+                client_type = #clientType:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty property="MerchantIdList" prepend="and">
+                merchant_id in
+                <iterate open="(" conjunction="," close=")" property="MerchantIdList">
+                    #MerchantIdList[]#
+                </iterate>
+            </isNotEmpty>
+            <isEmpty property="updateTime">
+                <isNotEmpty property="beginTime">
+                    <isNotEmpty property="endTime" prepend="and">
+                        create_time between #beginTime# and #endTime#
+                    </isNotEmpty>
+                </isNotEmpty>
+            </isEmpty>
+        </dynamic>
+    </select>
+
+    <!-- *********************分页查询积分兑换、团购交易********************* -->
+    <select id="getGroupOrExchangeTransByPager" resultMap="GroupExchangeTransResult" parameterClass="trans">
+        <![CDATA[
+		select a.id,
+			a.virtual_type,
+			a.points_amount_value,
+			a.points_amount_real_value,
+			a.seller_type,
+			a.merchant_id,
+			a.phone,
+			a.belong_user_becode,
+			a.pay_channel,
+			a.point_bill_no,
+			a.user_id,
+			a.channel_id, 
+			a.fft_factorage, 
+			a.bill_no, 
+			a.trans_sn, 
+			a.trans_type,
+			a.seller_id, 
+			a.buyers_id, 
+			a.seller_channel_id,
+			a.buyer_channel_id, 
+			a.currency, 
+			a.costprice_total,
+			a.currency_value_all, 
+			a.currency_value_real_all,
+			a.bank_points_account, 
+			a.bank_points_value_all,
+			a.bank_points_value_real_all, 
+			a.fft_points_account,
+			a.fft_points_value_all, 
+			a.fft_points_value_real_all, 
+			a.failure_time,
+			a.state, 
+			a.remark, 
+			a.client_type,
+			a.pay_method,
+			a.create_time, 
+			a.update_time,
+			a.lottery_bill_no,
+			b.id as authTicketId,
+			b.securities_no	as securitiesNo,	
+			b.is_consume as isConsume,
+			b.sms_number as smsNumber,
+			b.consume_time as consumeTime,
+			b.belong_user_becode as belongUserBecodeAuth
+		 from trans a LEFT JOIN auth_ticket b ON a.id = b.trans_id
+		 where a.trans_type <> '07'
+		]]>
+        <dynamic>
+            <isEqual property="transType" compareValue="02">
+                <isNotEmpty prepend="and" property="isConsume">
+                    b.is_consume=#isConsume#
+                </isNotEmpty>
+            </isEqual>
+            <isEqual property="transType" compareValue="01">
+                <isNotEmpty prepend="and" property="isConsume">
+                    b.is_consume=#isConsume#
+                </isNotEmpty>
+            </isEqual>
+            <isEqual property="transType" compareValue="08">
+                <isNotEmpty prepend="and" property="isConsume">
+                    b.is_consume=#isConsume#
+                </isNotEmpty>
+            </isEqual>
+            <isNotEmpty prepend="and" property="virtualType">
+                a.virtual_type = #virtualType:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="phone">
+                a.phone = #phone:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="belongUserBecode">
+                a.belong_user_becode = #belongUserBecode:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="payChannel">
+                a.pay_channel = #payChannel:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="pointBillNo">
+                a.point_bill_no = #pointBillNo:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="userId">
+                a.user_id = #userId:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="channelId">
+                a.channel_id = #channelId:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="fftFactorage">
+                a.fft_factorage = #fftFactorage:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="billNo">
+                a.bill_no = #billNo:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="payMethod">
+                a.pay_method = #payMethod:VARCHAR#
+            </isNotEmpty>
+
+            <isNotEmpty prepend="and" property="transSn">
+                a.trans_sn = #transSn:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="transType">
+                a.trans_type = #transType:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty property="payMethodList" prepend="and">
+                a.trans_type in
+                <iterate open="(" conjunction="," close=")" property="payMethodList">
+                    #payMethodList[]#
+                </iterate>
+            </isNotEmpty>
+
+            <isNotEmpty prepend="and" property="sellerId">
+                a.seller_id = #sellerId:VARCHAR#
+            </isNotEmpty>
+            <isEmpty property="sellerId">
+                <isNotEmpty property="sellerIdList" prepend="and">
+                    a.seller_id in
+                    <iterate open="(" conjunction="," close=")" property="sellerIdList">
+                        #sellerIdList[]#
+                    </iterate>
+                </isNotEmpty>
+            </isEmpty>
+            <isNotEmpty prepend="and" property="buyersId">
+                a.buyers_id = #buyersId:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="sellerChannelId">
+                a.seller_channel_id = #sellerChannelId:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="buyerChannelId">
+                a.buyer_channel_id = #buyerChannelId:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="currency">
+                a.currency = #currency:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="costpriceTotal">
+                a.costprice_total = #costpriceTotal:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="currencyValueAll">
+                a.currency_value_all = #currencyValueAll:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="currencyValueRealAll">
+                a.currency_value_real_all = #currencyValueRealAll:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="bankPointsAccount">
+                a.bank_points_account = #bankPointsAccount:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="bankPointsValueAll">
+                a.bank_points_value_all = #bankPointsValueAll:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="bankPointsValueRealAll">
+                a.bank_points_value_real_all = #bankPointsValueRealAll:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="fftPointsAccount">
+                a.fft_points_account = #fftPointsAccount:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="fftPointsValueAll">
+                a.fft_points_value_all = #fftPointsValueAll:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="fftPointsValueRealAll">
+                a.fft_points_value_real_all = #fftPointsValueRealAll:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="failureTime">
+                a.failure_time = #failureTime:VARCHAR#
+            </isNotEmpty>
+
+            <isNotEmpty prepend="and" property="state">
+                a.state = #state:VARCHAR#
+            </isNotEmpty>
+
+            <isNotEmpty property="updateTime">
+                <isNotEmpty property="beginTime">
+                    <isNotEmpty property="endTime" prepend="and">
+                        a.update_time between #beginTime# and #endTime#
+                    </isNotEmpty>
+                </isNotEmpty>
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="remark">
+                a.remark = #remark:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="clientType">
+                a.client_type = #clientType:VARCHAR#
+            </isNotEmpty>
+            <isEmpty property="updateTime">
+                <isNotEmpty property="beginTime">
+                    <isNotEmpty property="endTime" prepend="and">
+                        a.create_time between #beginTime# and #endTime#
+                    </isNotEmpty>
+                </isNotEmpty>
+            </isEmpty>
+            <isNotEmpty prepend="and" property="id">
+                a.id = #id:INTEGER#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="merchantId">
+                a.merchant_id = #merchantId:INTEGER#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="belongUserBecodeAuth">
+                b.belong_user_becode = #belongUserBecodeAuth:VARCHAR#
+            </isNotEmpty>
+
+        </dynamic>
+        <![CDATA[
+         order by $orderBy$ $orderType$ 
+         limit #startRow#,#pageSize#  
+         ]]>
+    </select>
+
+    <select id="getGroupOrExchangeTransByPagerCount" resultClass="java.lang.Integer" parameterClass="trans">
+        <![CDATA[
+			select count(*) 
+			from trans a LEFT JOIN auth_ticket b ON a.id = b.trans_id
+			where trans_type <> '07'
+		]]>
+        <dynamic>
+            <isEqual property="transType" compareValue="02">
+                <isNotEmpty prepend="and" property="isConsume">
+                    b.is_consume=#isConsume#
+                </isNotEmpty>
+            </isEqual>
+            <isEqual property="transType" compareValue="01">
+                <isNotEmpty prepend="and" property="isConsume">
+                    b.is_consume=#isConsume#
+                </isNotEmpty>
+            </isEqual>
+            <isEqual property="transType" compareValue="08">
+                <isNotEmpty prepend="and" property="isConsume">
+                    b.is_consume=#isConsume#
+                </isNotEmpty>
+            </isEqual>
+            <isNotEmpty prepend="and" property="virtualType">
+                a.virtual_type = #virtualType:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="phone">
+                a.phone = #phone:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="belongUserBecode">
+                a.belong_user_becode = #belongUserBecode:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="payChannel">
+                a.pay_channel = #payChannel:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="pointBillNo">
+                a.point_bill_no = #pointBillNo:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="userId">
+                a.user_id = #userId:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="channelId">
+                a.channel_id = #channelId:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="fftFactorage">
+                a.fft_factorage = #fftFactorage:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="billNo">
+                a.bill_no = #billNo:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="payMethod">
+                a.pay_method = #payMethod:VARCHAR#
+            </isNotEmpty>
+
+            <isNotEmpty prepend="and" property="transSn">
+                a.trans_sn = #transSn:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="transType">
+                a.trans_type = #transType:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty property="payMethodList" prepend="and">
+                a.trans_type in
+                <iterate open="(" conjunction="," close=")" property="payMethodList">
+                    #payMethodList[]#
+                </iterate>
+            </isNotEmpty>
+
+            <isNotEmpty prepend="and" property="sellerId">
+                a.seller_id = #sellerId:VARCHAR#
+            </isNotEmpty>
+            <isEmpty property="sellerId">
+                <isNotEmpty property="sellerIdList" prepend="and">
+                    a.seller_id in
+                    <iterate open="(" conjunction="," close=")" property="sellerIdList">
+                        #sellerIdList[]#
+                    </iterate>
+                </isNotEmpty>
+            </isEmpty>
+            <isNotEmpty prepend="and" property="buyersId">
+                a.buyers_id = #buyersId:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="sellerChannelId">
+                a.seller_channel_id = #sellerChannelId:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="buyerChannelId">
+                a.buyer_channel_id = #buyerChannelId:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="currency">
+                a.currency = #currency:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="costpriceTotal">
+                a.costprice_total = #costpriceTotal:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="currencyValueAll">
+                a.currency_value_all = #currencyValueAll:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="currencyValueRealAll">
+                a.currency_value_real_all = #currencyValueRealAll:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="bankPointsAccount">
+                a.bank_points_account = #bankPointsAccount:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="bankPointsValueAll">
+                a.bank_points_value_all = #bankPointsValueAll:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="bankPointsValueRealAll">
+                a.bank_points_value_real_all = #bankPointsValueRealAll:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="fftPointsAccount">
+                a.fft_points_account = #fftPointsAccount:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="fftPointsValueAll">
+                a.fft_points_value_all = #fftPointsValueAll:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="fftPointsValueRealAll">
+                a.fft_points_value_real_all = #fftPointsValueRealAll:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="failureTime">
+                a.failure_time = #failureTime:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="state">
+                a.state = #state:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty property="updateTime">
+                <isNotEmpty property="beginTime">
+                    <isNotEmpty property="endTime" prepend="and">
+                        a.update_time between #beginTime# and #endTime#
+                    </isNotEmpty>
+                </isNotEmpty>
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="remark">
+                a.remark = #remark:VARCHAR#
+            </isNotEmpty>
+
+            <isNotEmpty prepend="and" property="clientType">
+                a.client_type = #clientType:VARCHAR#
+            </isNotEmpty>
+
+            <isEmpty property="updateTime">
+                <isNotEmpty property="beginTime">
+                    <isNotEmpty property="endTime" prepend="and">
+                        a.create_time between #beginTime# and #endTime#
+                    </isNotEmpty>
+                </isNotEmpty>
+            </isEmpty>
+            <isNotEmpty prepend="and" property="id">
+                a.id = #id:INTEGER#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="merchantId">
+                a.merchant_id = #merchantId:INTEGER#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="belongUserBecodeAuth">
+                b.belong_user_becode = #belongUserBecodeAuth:VARCHAR#
+            </isNotEmpty>
+        </dynamic>
+    </select>
+
+    <!-- ***********************查询需要冲正的交易 begin******************** -->    <!-- 退积分：(积分+现金)支付时，现金支付失败，需要退积分，积分也退失败了 -->
+    <select id="getRefundPointsTrans" resultMap="TransResult">
+		select distinct t.* from trans t inner join pay p on t.id=p.trans_id where p.state="2004"
+	</select>
+
+    <!-- 退积分：(积分+现金)支付时，支付了积分，而一直不支付现金时，超过24小时，且不属于提现交易 -->
+    <select id="getTimeoutPointsTrans" resultMap="TransResult">
+		<![CDATA[
+
+
+
+
+
+		  select distinct t.* from trans t inner join pay p on t.id=p.trans_id where (t.trans_type="01" or t.trans_type="02") and t.state="01" and TIMEDIFF(DATE_FORMAT(NOW(),"%Y-%m-%d %H:%i:%s"),REPLACE(t.update_time,"|"," "))>"24:00:00" and p.state="2001"
+
+
+
+
+
+        ]]>
+	</select>
+
+    <!-- 退积分：查出所有需要退积分的交易，即上面两种情况的和 -->
+    <select id="getAllRefundPointsTrans" resultMap="TransResult">
+		<![CDATA[
+
+
+
+
+
+		  select distinct t.* from trans t inner join pay p on t.id=p.trans_id where (t.trans_type="01" or t.trans_type="02") and t.state="01" and TIMEDIFF(DATE_FORMAT(NOW(),"%Y-%m-%d %H:%i:%s"),REPLACE(t.update_time,"|"," "))>"24:00:00" and p.state="2001" or p.state="2004"
+
+
+
+
+
+        ]]>
+	</select>
+
+    <!-- 退款：退款失败 -->
+    <select id="getRefundTrans" resultMap="TransResult">
+		select distinct t.* from trans t inner join pay p on t.id=p.trans_id where p.state="3002" or p.state="3004"
+	</select>
+
+    <!-- (代扣+返积分)：收银台收款时，收款成功，会代扣，如果代扣失败 -->
+    <select id="getDeductTrans" resultMap="TransResult">
+		select distinct t.* from trans t inner join pay p on t.id=p.trans_id where t.state="03" and t.trans_type="03" and p.state="1004"
+	</select>
+
+    <!-- 返积分：收银台收款或赠送积分时，代扣成功，积分返失败 -->
+    <select id="getRebateTrans" resultMap="TransResult">
+		select distinct t.* from trans t inner join pay p on t.id=p.trans_id where p.state="2006"
+	</select>
+    <!-- 关闭超时的现金支付的积分兑换和团购交易 -->
+    <update id="closeTimeoutCashTrans">
+		<![CDATA[
+
+
+
+
+
+			update trans t set t.state="04",t.update_time=DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s") where (t.trans_type="01" or t.trans_type="02") and t.state="01" and t.pay_method="02" and UNIX_TIMESTAMP(DATE_FORMAT(NOW(),"%Y-%m-%d %H:%i:%s"))-UNIX_TIMESTAMP(REPLACE(t.update_time,"|"," "))>(3600*24)
+
+
+
+
+
+        ]]>
+	</update>
+    <!-- 查询出付款成功且状态处于处理中的交易 -->
+    <select id="getNoNeedCloseTransId" resultClass="java.lang.Integer">
+		<![CDATA[
+
+
+
+
+
+			select distinct(t.id) from trans t inner join pay p on t.id=p.trans_id where (t.trans_type="01" or t.trans_type="02") and t.state="01" and p.state="1004"
+
+
+
+
+
+        ]]>
+	</select>
+
+    <!-- 关闭只下订单未做任何支付的trans -->
+    <update id="closeWithoutPayTrans" parameterClass="java.util.List">
+        update trans t set t.state="04",t.update_time=DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s") where t.id in
+        <iterate open="(" conjunction="," close=")">
+            #[]#
+        </iterate>
+    </update>
+
+
+    <!-- ***********************查询需要冲正的交易 end******************** -->
+
+
+    <!-- 按预售商品id查询正在处理中的预售类型的交易 -->
+    <select id="queryPresellTransByGoodsRackId" resultMap="TransResult" parameterClass="java.lang.Integer">
+		select tr.* from trans tr inner join trans_details td on tr.id=td.trans_id where tr.state="01" and tr.trans_type="08" and td.goods_rack_id=#goodsRackId#
+	</select>
+
+    <!-- 查询所有状态为处理中的预售类型的交易，已经到达预售结束时间，并且已经成团 -->
+    <select id="queryPresellTrans" resultMap="TransResult">
+		<![CDATA[
+
+
+
+
+
+			select tr.* from trans tr inner join trans_details td on tr.id=td.trans_id inner join 
+			goods_presell_rack gpr on td.goods_rack_id=gpr.id where tr.state="01" and tr.trans_type="08" and 
+			gpr.is_cluster="1" and gpr.end_time<=DATE_FORMAT(now(),"%Y-%m-%d %H:%i:%s")
+
+
+
+
+
+        ]]>
+	</select>
+
+
+    <!-- excel data begin -->    <!-- 积分返利 -->
+    <select id="excelTrans" resultMap="excelTransData" parameterClass="trans">
+        <![CDATA[
+					select * from trans
+					where trans_type <> '07'
+		]]>
+        <dynamic>
+            <isNotEmpty prepend="and" property="id">
+                id = #id:INTEGER#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="merchantId">
+                merchant_id = #merchantId:INTEGER#
+            </isNotEmpty>
+            <isEqual property="transType" compareValue="02">
+                <isNotEmpty prepend="and" property="isConsume">
+                    id in(select trans_id from auth_ticket where is_consume=#isConsume#)
+                </isNotEmpty>
+            </isEqual>
+            <isEqual property="transType" compareValue="01">
+                <isNotEmpty prepend="and" property="isConsume">
+                    id in(select trans_id from auth_ticket where is_consume=#isConsume#)
+                </isNotEmpty>
+            </isEqual>
+            <!-- 精品预售数据 add  by 侯国权-->
+            <isEqual property="transType" compareValue="08">
+                <isNotEmpty prepend="and" property="isConsume">
+                    id in(select trans_id from auth_ticket where is_consume=#isConsume#)
+                </isNotEmpty>
+            </isEqual>
+            <isNotEmpty prepend="and" property="virtualType">
+                virtual_type = #virtualType:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="phone">
+                phone = #phone:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="belongUserBecode">
+                belong_user_becode = #belongUserBecode:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="payChannel">
+                pay_channel = #payChannel:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="pointBillNo">
+                point_bill_no = #pointBillNo:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="userId">
+                user_id = #userId:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="channelId">
+                channel_id = #channelId:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="fftFactorage">
+                fft_factorage = #fftFactorage:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="billNo">
+                bill_no = #billNo:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="payMethod">
+                pay_method = #payMethod:VARCHAR#
+            </isNotEmpty>
+
+            <isNotEmpty prepend="and" property="transSn">
+                trans_sn = #transSn:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="transType">
+                trans_type = #transType:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty property="payMethodList" prepend="and">
+                trans_type in
+                <iterate open="(" conjunction="," close=")" property="payMethodList">
+                    #payMethodList[]#
+                </iterate>
+            </isNotEmpty>
+
+            <isNotEmpty prepend="and" property="sellerId">
+                seller_id = #sellerId:VARCHAR#
+            </isNotEmpty>
+            <isEmpty property="sellerId">
+                <isNotEmpty property="sellerIdList" prepend="and">
+                    seller_id in
+                    <iterate open="(" conjunction="," close=")" property="sellerIdList">
+                        #sellerIdList[]#
+                    </iterate>
+                </isNotEmpty>
+            </isEmpty>
+            <isNotEmpty prepend="and" property="buyersId">
+                buyers_id = #buyersId:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="sellerChannelId">
+                seller_channel_id = #sellerChannelId:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="buyerChannelId">
+                buyer_channel_id = #buyerChannelId:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="currency">
+                currency = #currency:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="costpriceTotal">
+                costprice_total = #costpriceTotal:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="currencyValueAll">
+                currency_value_all = #currencyValueAll:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="currencyValueRealAll">
+                currency_value_real_all = #currencyValueRealAll:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="bankPointsAccount">
+                bank_points_account = #bankPointsAccount:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="bankPointsValueAll">
+                bank_points_value_all = #bankPointsValueAll:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="bankPointsValueRealAll">
+                bank_points_value_real_all = #bankPointsValueRealAll:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="fftPointsAccount">
+                fft_points_account = #fftPointsAccount:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="fftPointsValueAll">
+                fft_points_value_all = #fftPointsValueAll:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="fftPointsValueRealAll">
+                fft_points_value_real_all = #fftPointsValueRealAll:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="failureTime">
+                failure_time = #failureTime:VARCHAR#
+            </isNotEmpty>
+
+            <isNotEmpty prepend="and" property="state">
+                state = #state:VARCHAR#
+            </isNotEmpty>
+
+            <isNotEmpty property="updateTime">
+                <isNotEmpty property="beginTime">
+                    <isNotEmpty property="endTime" prepend="and">
+                        update_time between #beginTime# and #endTime#
+                    </isNotEmpty>
+                </isNotEmpty>
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="remark">
+                remark = #remark:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="clientType">
+                client_type = #clientType:VARCHAR#
+            </isNotEmpty>
+            <isEmpty property="updateTime">
+                <isNotEmpty property="beginTime">
+                    <isNotEmpty property="endTime" prepend="and">
+                        create_time between #beginTime# and #endTime#
+                    </isNotEmpty>
+                </isNotEmpty>
+            </isEmpty>
+        </dynamic>
+        <![CDATA[
+         order by $orderBy$ $orderType$ 
+         ]]>
+    </select>
+
+    <select id="excelGroupOrExchange" resultMap="excelGroupExchangeData" parameterClass="trans">
+        <![CDATA[
+		select a.id,
+			a.virtual_type,
+			a.points_amount_value,
+			a.points_amount_real_value,
+			a.seller_type,
+			a.merchant_id,
+			a.phone,
+			a.belong_user_becode,
+			a.pay_channel,
+			a.point_bill_no,
+			a.user_id,
+			a.channel_id, 
+			a.fft_factorage, 
+			a.bill_no, 
+			a.trans_sn, 
+			a.trans_type,
+			a.seller_id, 
+			a.buyers_id, 
+			a.seller_channel_id,
+			a.buyer_channel_id, 
+			a.currency, 
+			a.costprice_total,
+			a.currency_value_all, 
+			a.currency_value_real_all,
+			a.bank_points_account, 
+			a.bank_points_value_all,
+			a.bank_points_value_real_all, 
+			a.fft_points_account,
+			a.fft_points_value_all, 
+			a.fft_points_value_real_all, 
+			a.failure_time,
+			a.state, 
+			a.remark, 
+			a.client_type,
+			a.pay_method,
+			a.create_time, 
+			a.update_time,
+			a.lottery_bill_no,
+			b.id as authTicketId,
+			b.securities_no	as securitiesNo,	
+			b.is_consume as isConsume,
+			b.sms_number as smsNumber,
+			b.consume_time as consumeTime,
+			b.belong_user_becode as belongUserBecodeAuth
+		 from trans a LEFT JOIN auth_ticket b ON a.id = b.trans_id
+		 where a.trans_type <> '07'
+		]]>
+        <dynamic>
+            <isEqual property="transType" compareValue="02">
+                <isNotEmpty prepend="and" property="isConsume">
+                    b.is_consume=#isConsume#
+                </isNotEmpty>
+            </isEqual>
+            <isEqual property="transType" compareValue="01">
+                <isNotEmpty prepend="and" property="isConsume">
+                    b.is_consume=#isConsume#
+                </isNotEmpty>
+            </isEqual>
+            <isEqual property="transType" compareValue="08">
+                <isNotEmpty prepend="and" property="isConsume">
+                    b.is_consume=#isConsume#
+                </isNotEmpty>
+            </isEqual>
+            <isNotEmpty prepend="and" property="virtualType">
+                a.virtual_type = #virtualType:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="phone">
+                a.phone = #phone:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="belongUserBecode">
+                a.belong_user_becode = #belongUserBecode:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="payChannel">
+                a.pay_channel = #payChannel:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="pointBillNo">
+                a.point_bill_no = #pointBillNo:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="userId">
+                a.user_id = #userId:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="channelId">
+                a.channel_id = #channelId:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="fftFactorage">
+                a.fft_factorage = #fftFactorage:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="billNo">
+                a.bill_no = #billNo:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="payMethod">
+                a.pay_method = #payMethod:VARCHAR#
+            </isNotEmpty>
+
+            <isNotEmpty prepend="and" property="transSn">
+                a.trans_sn = #transSn:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="transType">
+                a.trans_type = #transType:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty property="payMethodList" prepend="and">
+                a.trans_type in
+                <iterate open="(" conjunction="," close=")" property="payMethodList">
+                    #payMethodList[]#
+                </iterate>
+            </isNotEmpty>
+
+            <isNotEmpty prepend="and" property="sellerId">
+                a.seller_id = #sellerId:VARCHAR#
+            </isNotEmpty>
+            <isEmpty property="sellerId">
+                <isNotEmpty property="sellerIdList" prepend="and">
+                    a.seller_id in
+                    <iterate open="(" conjunction="," close=")" property="sellerIdList">
+                        #sellerIdList[]#
+                    </iterate>
+                </isNotEmpty>
+            </isEmpty>
+            <isNotEmpty prepend="and" property="buyersId">
+                a.buyers_id = #buyersId:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="sellerChannelId">
+                a.seller_channel_id = #sellerChannelId:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="buyerChannelId">
+                a.buyer_channel_id = #buyerChannelId:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="currency">
+                a.currency = #currency:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="costpriceTotal">
+                a.costprice_total = #costpriceTotal:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="currencyValueAll">
+                a.currency_value_all = #currencyValueAll:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="currencyValueRealAll">
+                a.currency_value_real_all = #currencyValueRealAll:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="bankPointsAccount">
+                a.bank_points_account = #bankPointsAccount:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="bankPointsValueAll">
+                a.bank_points_value_all = #bankPointsValueAll:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="bankPointsValueRealAll">
+                a.bank_points_value_real_all = #bankPointsValueRealAll:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="fftPointsAccount">
+                a.fft_points_account = #fftPointsAccount:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="fftPointsValueAll">
+                a.fft_points_value_all = #fftPointsValueAll:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="fftPointsValueRealAll">
+                a.fft_points_value_real_all = #fftPointsValueRealAll:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="failureTime">
+                a.failure_time = #failureTime:VARCHAR#
+            </isNotEmpty>
+
+            <isNotEmpty prepend="and" property="state">
+                a.state = #state:VARCHAR#
+            </isNotEmpty>
+
+            <isNotEmpty property="updateTime">
+                <isNotEmpty property="beginTime">
+                    <isNotEmpty property="endTime" prepend="and">
+                        a.update_time between #beginTime# and #endTime#
+                    </isNotEmpty>
+                </isNotEmpty>
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="remark">
+                a.remark = #remark:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="clientType">
+                a.client_type = #clientType:VARCHAR#
+            </isNotEmpty>
+            <isEmpty property="updateTime">
+                <isNotEmpty property="beginTime">
+                    <isNotEmpty property="endTime" prepend="and">
+                        a.create_time between #beginTime# and #endTime#
+                    </isNotEmpty>
+                </isNotEmpty>
+            </isEmpty>
+            <isNotEmpty prepend="and" property="id">
+                a.id = #id:INTEGER#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="merchantId">
+                a.merchant_id = #merchantId:INTEGER#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="belongUserBecodeAuth">
+                b.belong_user_becode = #belongUserBecodeAuth:VARCHAR#
+            </isNotEmpty>
+        </dynamic>
+        <![CDATA[
+         order by $orderBy$ $orderType$ 
+         ]]>
+    </select>
+    <!-- excel data end -->
+
+
+    <!--
+            财务专用查询
+    ********************************************************************************************************************** -->    <!-- 积分返利分页统计 -->
+    <select id="getTransByPagerCountFinance" resultClass="java.lang.Integer" parameterClass="trans">
+        <![CDATA[
+			select count(*) from trans
+			where trans_type <> '07'
+		]]>
+        <dynamic>
+            <isNotEmpty prepend="and" property="id">
+                id = #id:INTEGER#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="merchantId">
+                merchant_id = #merchantId:INTEGER#
+            </isNotEmpty>
+            <isEqual property="transType" compareValue="02">
+                <isNotEmpty prepend="and" property="isConsume">
+                    id in(select trans_id from auth_ticket where is_consume=#isConsume#)
+                </isNotEmpty>
+            </isEqual>
+            <isEqual property="transType" compareValue="01">
+                <isNotEmpty prepend="and" property="isConsume">
+                    id in(select trans_id from auth_ticket where is_consume=#isConsume#)
+                </isNotEmpty>
+            </isEqual>
+            <isNotEmpty prepend="and" property="virtualType">
+                virtual_type = #virtualType:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="phone">
+                phone = #phone:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="belongUserBecode">
+                belong_user_becode in ($belongUserBecode$)
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="payChannel">
+                pay_channel = #payChannel:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="pointBillNo">
+                point_bill_no = #pointBillNo:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="userId">
+                user_id = #userId:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="channelId">
+                channel_id = #channelId:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="fftFactorage">
+                fft_factorage = #fftFactorage:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="billNo">
+                bill_no = #billNo:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="payMethod">
+                pay_method = #payMethod:VARCHAR#
+            </isNotEmpty>
+
+            <isNotEmpty prepend="and" property="transSn">
+                trans_sn = #transSn:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="transType">
+                trans_type = #transType:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty property="payMethodList" prepend="and">
+                trans_type in
+                <iterate open="(" conjunction="," close=")" property="payMethodList">
+                    #payMethodList[]#
+                </iterate>
+            </isNotEmpty>
+
+            <isNotEmpty prepend="and" property="sellerId">
+                seller_id = #sellerId:VARCHAR#
+            </isNotEmpty>
+            <isEmpty property="sellerId">
+                <isNotEmpty property="sellerIdList" prepend="and">
+                    seller_id in
+                    <iterate open="(" conjunction="," close=")" property="sellerIdList">
+                        #sellerIdList[]#
+                    </iterate>
+                </isNotEmpty>
+            </isEmpty>
+            <isNotEmpty prepend="and" property="buyersId">
+                buyers_id = #buyersId:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="sellerChannelId">
+                seller_channel_id = #sellerChannelId:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="buyerChannelId">
+                buyer_channel_id = #buyerChannelId:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="currency">
+                currency = #currency:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="costpriceTotal">
+                costprice_total = #costpriceTotal:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="currencyValueAll">
+                currency_value_all = #currencyValueAll:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="currencyValueRealAll">
+                currency_value_real_all = #currencyValueRealAll:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="bankPointsAccount">
+                bank_points_account = #bankPointsAccount:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="bankPointsValueAll">
+                bank_points_value_all = #bankPointsValueAll:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="bankPointsValueRealAll">
+                bank_points_value_real_all = #bankPointsValueRealAll:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="fftPointsAccount">
+                fft_points_account = #fftPointsAccount:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="fftPointsValueAll">
+                fft_points_value_all = #fftPointsValueAll:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="fftPointsValueRealAll">
+                fft_points_value_real_all = #fftPointsValueRealAll:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="failureTime">
+                failure_time = #failureTime:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="state">
+                state = #state:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty property="updateTime">
+                <isNotEmpty property="beginTime">
+                    <isNotEmpty property="endTime" prepend="and">
+                        update_time between #beginTime# and #endTime#
+                    </isNotEmpty>
+                </isNotEmpty>
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="remark">
+                remark = #remark:VARCHAR#
+            </isNotEmpty>
+
+            <isNotEmpty prepend="and" property="clientType">
+                client_type = #clientType:VARCHAR#
+            </isNotEmpty>
+
+            <isEmpty property="updateTime">
+                <isNotEmpty property="beginTime">
+                    <isNotEmpty property="endTime" prepend="and">
+                        create_time between #beginTime# and #endTime#
+                    </isNotEmpty>
+                </isNotEmpty>
+            </isEmpty>
+        </dynamic>
+    </select>
+
+    <!--财务相关专用 resultMap -->
+    <resultMap id="transFinance" class="trans">
+        <result column="id" property="id" jdbcType="INTEGER"/>
+        <result column="update_time" property="updateTime" jdbcType="VARCHAR"/>
+        <result column="trans_type" property="transType" jdbcType="VARCHAR"/>
+        <result column="currency_value_real_all" property="currencyValueRealAll" jdbcType="VARCHAR"/>
+        <result column="fft_points_value_real_all" property="fftPointsValueRealAll" jdbcType="VARCHAR"/>
+        <result column="be_code" property="beCode" jdbcType="VARCHAR"/>
+        <result column="be_name" property="beName" jdbcType="VARCHAR"/>
+        <result column="short_name" property="storeStortName" jdbcType="VARCHAR"/>
+        <result column="state" property="state" jdbcType="VARCHAR"/>
+        <result column="phone" property="phone" jdbcType="VARCHAR"/>
+    </resultMap>
+    <select id="getTransByPagerFinance" resultMap="transFinance" parameterClass="trans">
+        <![CDATA[
+					SELECT
+						t.id id,
+						t.update_time update_time,
+						t.trans_type trans_type,
+						t.currency_value_real_all currency_value_real_all,
+						t.fft_points_value_real_all fft_points_value_real_all,
+						mus.be_code be_code,
+						mus.be_name be_name,
+						s.short_name short_name,
+						t.state state,
+						t.phone phone
+					FROM
+						trans t
+					LEFT JOIN merchant_user_set mus ON t.belong_user_becode = concat(concat(mus.user_id,'|'),mus.be_code)
+					LEFT JOIN store s on mus.belong_store_id = s.id
+					WHERE
+						t.trans_type <> '07'
+		]]>
+        <dynamic>
+            <isNotEmpty prepend="and" property="id">
+                t.id = #id:INTEGER#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="merchantId">
+                t.merchant_id = #merchantId:INTEGER#
+            </isNotEmpty>
+            <isEqual property="transType" compareValue="02">
+                <isNotEmpty prepend="and" property="isConsume">
+                    t.id in(select trans_id from auth_ticket where is_consume=#isConsume#)
+                </isNotEmpty>
+            </isEqual>
+            <isEqual property="transType" compareValue="01">
+                <isNotEmpty prepend="and" property="isConsume">
+                    t.id in(select trans_id from auth_ticket where is_consume=#isConsume#)
+                </isNotEmpty>
+            </isEqual>
+            <isNotEmpty prepend="and" property="virtualType">
+                t.virtual_type = #virtualType:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="phone">
+                t.phone = #phone:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="belongUserBecode">
+                t.belong_user_becode in ($belongUserBecode$)
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="payChannel">
+                t.pay_channel = #payChannel:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="pointBillNo">
+                t.point_bill_no = #pointBillNo:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="userId">
+                t.user_id = #userId:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="channelId">
+                t.channel_id = #channelId:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="fftFactorage">
+                t.fft_factorage = #fftFactorage:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="billNo">
+                t.bill_no = #billNo:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="payMethod">
+                t.pay_method = #payMethod:VARCHAR#
+            </isNotEmpty>
+
+            <isNotEmpty prepend="and" property="transSn">
+                t.trans_sn = #transSn:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="transType">
+                t.trans_type = #transType:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty property="payMethodList" prepend="and">
+                t.trans_type in
+                <iterate open="(" conjunction="," close=")" property="payMethodList">
+                    #payMethodList[]#
+                </iterate>
+            </isNotEmpty>
+
+            <isNotEmpty prepend="and" property="sellerId">
+                t.seller_id = #sellerId:VARCHAR#
+            </isNotEmpty>
+            <isEmpty property="sellerId">
+                <isNotEmpty property="sellerIdList" prepend="and">
+                    t.seller_id in
+                    <iterate open="(" conjunction="," close=")" property="sellerIdList">
+                        #sellerIdList[]#
+                    </iterate>
+                </isNotEmpty>
+            </isEmpty>
+            <isNotEmpty prepend="and" property="buyersId">
+                t.buyers_id = #buyersId:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="sellerChannelId">
+                t.seller_channel_id = #sellerChannelId:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="buyerChannelId">
+                t.buyer_channel_id = #buyerChannelId:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="currency">
+                t.currency = #currency:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="costpriceTotal">
+                t.costprice_total = #costpriceTotal:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="currencyValueAll">
+                t.currency_value_all = #currencyValueAll:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="currencyValueRealAll">
+                t.currency_value_real_all = #currencyValueRealAll:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="bankPointsAccount">
+                t.bank_points_account = #bankPointsAccount:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="bankPointsValueAll">
+                t.bank_points_value_all = #bankPointsValueAll:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="bankPointsValueRealAll">
+                t.bank_points_value_real_all = #bankPointsValueRealAll:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="fftPointsAccount">
+                t.fft_points_account = #fftPointsAccount:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="fftPointsValueAll">
+                t.fft_points_value_all = #fftPointsValueAll:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="fftPointsValueRealAll">
+                t.fft_points_value_real_all = #fftPointsValueRealAll:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="failureTime">
+                t.failure_time = #failureTime:VARCHAR#
+            </isNotEmpty>
+
+            <isNotEmpty prepend="and" property="state">
+                t.state = #state:VARCHAR#
+            </isNotEmpty>
+
+            <isNotEmpty property="updateTime">
+                <isNotEmpty property="beginTime">
+                    <isNotEmpty property="endTime" prepend="and">
+                        t.update_time between #beginTime# and #endTime#
+                    </isNotEmpty>
+                </isNotEmpty>
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="remark">
+                t.remark = #remark:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="clientType">
+                t.client_type = #clientType:VARCHAR#
+            </isNotEmpty>
+            <isEmpty property="updateTime">
+                <isNotEmpty property="beginTime">
+                    <isNotEmpty property="endTime" prepend="and">
+                        t.create_time between #beginTime# and #endTime#
+                    </isNotEmpty>
+                </isNotEmpty>
+            </isEmpty>
+        </dynamic>
+
+        order by t.$orderBy$ $orderType$
+        <isEmpty prepend="" property="financeExcel">
+            limit #startRow#,#pageSize#
+        </isEmpty>
+
+    </select>
+    <resultMap id="GroupExchangeTransResultFinance" class="trans">
+        <result column="id" property="id" jdbcType="INTEGER"/>
+        <result column="id" property="transDetailsList" select="transDetails.selectByTranId"/>
+        <result column="id" property="transGoodsAttrList" select="transGoodsAttribute.getByTransId"/>
+        <result column="id" property="payList" select="pay.selectByTranId"/>
+        <result column="bill_no" property="billNo" jdbcType="VARCHAR"/>
+        <result column="trans_sn" property="transSn" jdbcType="VARCHAR"/>
+        <result column="trans_type" property="transType" jdbcType="VARCHAR"/>
+        <result column="seller_id" property="sellerId" jdbcType="VARCHAR"/>
+        <result column="seller_id" property="seller" select="seller.selectByPrimaryKey"/>
+        <result column="merchant_id" property="merchantId" jdbcType="Integer"/>
+        <result column="merchant_id" property="merchant" select="merchant.selectByPrimaryKey"/>
+        <result column="buyers_id" property="buyersId" jdbcType="VARCHAR"/>
+        <result column="buyers_id" property="buyer" select="buyers.selectByPrimaryKey"/>
+        <result column="seller_channel_id" property="sellerChannelId" jdbcType="VARCHAR"/>
+        <result column="seller_channel_id" property="sellerChannel" select="sellerChannel.selectByPrimaryKey"/>
+        <result column="buyer_channel_id" property="buyerChannelId" jdbcType="VARCHAR"/>
+        <result column="buyer_channel_id" property="buyerChannel" select="buyerChannel.selectByPrimaryKey"/>
+        <result column="currency" property="currency" jdbcType="VARCHAR"/>
+        <result column="costprice_total" property="costpriceTotal" jdbcType="VARCHAR"/>
+        <result column="currency_value_all" property="currencyValueAll" jdbcType="VARCHAR"/>
+        <result column="currency_value_real_all" property="currencyValueRealAll" jdbcType="VARCHAR"/>
+        <result column="bank_points_account" property="bankPointsAccount" jdbcType="VARCHAR"/>
+        <result column="bank_points_value_all" property="bankPointsValueAll" jdbcType="VARCHAR"/>
+        <result column="bank_points_value_real_all" property="bankPointsValueRealAll" jdbcType="VARCHAR"/>
+        <result column="fft_points_account" property="fftPointsAccount" jdbcType="VARCHAR"/>
+        <result column="fft_points_value_all" property="fftPointsValueAll" jdbcType="VARCHAR"/>
+        <result column="fft_points_value_real_all" property="fftPointsValueRealAll" jdbcType="VARCHAR"/>
+        <result column="failure_time" property="failureTime" jdbcType="VARCHAR"/>
+        <result column="state" property="state" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="VARCHAR"/>
+        <result column="update_time" property="updateTime" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="client_type" property="clientType" jdbcType="VARCHAR"/>
+        <result column="pay_method" property="payMethod" jdbcType="VARCHAR"/>
+        <result column="fft_factorage" property="fftFactorage" jdbcType="VARCHAR"/>
+        <result column="user_id" property="userId" jdbcType="VARCHAR"/>
+        <result column="channel_id" property="channelId" jdbcType="VARCHAR"/>
+        <result column="point_bill_no" property="pointBillNo" jdbcType="VARCHAR"/>
+        <result column="id" property="authTicketList" select="authTicket.getConsumedTicketByTransId"/>
+        <result column="pay_channel" property="payChannel" jdbcType="VARCHAR"/>
+        <result column="belong_user_becode" property="belongUserBecode" jdbcType="VARCHAR"/>
+        <result column="lottery_bill_no" property="lotteryBillNo" jdbcType="VARCHAR"/>
+        <result column="phone" property="phone" jdbcType="VARCHAR"/>
+        <result column="seller_type" property="sellerType" jdbcType="VARCHAR"/>
+        <result column="points_amount_value" property="pointsAmountValue" jdbcType="VARCHAR"/>
+        <result column="points_amount_real_value" property="pointsAmountRealValue" jdbcType="VARCHAR"/>
+        <result column="virtual_type" property="virtualType" jdbcType="VARCHAR"/>
+        <result column="authTicketId" property="authTicketId" jdbcType="VARCHAR"/>
+        <result column="securitiesNo" property="securitiesNo" jdbcType="VARCHAR"/>
+        <result column="isConsume" property="isConsume" jdbcType="VARCHAR"/>
+        <result column="smsNumber" property="smsNumber" jdbcType="VARCHAR"/>
+        <result column="consumeTime" property="consumeTime" jdbcType="VARCHAR"/>
+        <result column="belongUserBecodeAuth" property="belongUserBecodeAuth" jdbcType="VARCHAR"/>
+        <result column="be_code" property="beCode" jdbcType="VARCHAR"/>
+        <result column="be_name" property="beName" jdbcType="VARCHAR"/>
+        <result column="short_name" property="storeStortName" jdbcType="VARCHAR"/>
+    </resultMap>
+    <select id="getGroupOrExchangeTransByPagerFinance" resultMap="GroupExchangeTransResultFinance" parameterClass="trans">
+        <![CDATA[
+		select a.id,
+			a.virtual_type,
+			a.points_amount_value,
+			a.points_amount_real_value,
+			a.seller_type,
+			a.merchant_id,
+			a.phone,
+			a.belong_user_becode,
+			a.pay_channel,
+			a.point_bill_no,
+			a.user_id,
+			a.channel_id, 
+			a.fft_factorage, 
+			a.bill_no, 
+			a.trans_sn, 
+			a.trans_type,
+			a.seller_id, 
+			a.buyers_id, 
+			a.seller_channel_id,
+			a.buyer_channel_id, 
+			a.currency, 
+			a.costprice_total,
+			a.currency_value_all, 
+			a.currency_value_real_all,
+			a.bank_points_account, 
+			a.bank_points_value_all,
+			a.bank_points_value_real_all, 
+			a.fft_points_account,
+			a.fft_points_value_all, 
+			a.fft_points_value_real_all, 
+			a.failure_time,
+			a.state, 
+			a.remark, 
+			a.client_type,
+			a.pay_method,
+			a.create_time, 
+			a.update_time,
+			a.lottery_bill_no,
+			b.id as authTicketId,
+			b.securities_no	as securitiesNo,	
+			b.is_consume as isConsume,
+			b.sms_number as smsNumber,
+			b.consume_time as consumeTime,
+			b.belong_user_becode as belongUserBecodeAuth,
+			mus.be_code be_code,
+			mus.be_name be_name,
+			s.short_name short_name
+		 from trans a LEFT JOIN auth_ticket b ON a.id = b.trans_id
+LEFT JOIN merchant_user_set mus ON b.belong_user_becode = concat(concat(mus.user_id,'|'),mus.be_code)
+					LEFT JOIN store s on mus.belong_store_id = s.id
+		 where a.trans_type <> '07'
+		]]>
+        <dynamic>
+            <isEqual property="transType" compareValue="02">
+                <isNotEmpty prepend="and" property="isConsume">
+                    b.is_consume=#isConsume#
+                </isNotEmpty>
+            </isEqual>
+            <isEqual property="transType" compareValue="01">
+                <isNotEmpty prepend="and" property="isConsume">
+                    b.is_consume=#isConsume#
+                </isNotEmpty>
+            </isEqual>
+            <isEqual property="transType" compareValue="08">
+                <isNotEmpty prepend="and" property="isConsume">
+                    b.is_consume=#isConsume#
+                </isNotEmpty>
+            </isEqual>
+            <isNotEmpty prepend="and" property="virtualType">
+                a.virtual_type = #virtualType:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="phone">
+                a.phone = #phone:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="belongUserBecode">
+                a.belong_user_becode = #belongUserBecode:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="payChannel">
+                a.pay_channel = #payChannel:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="pointBillNo">
+                a.point_bill_no = #pointBillNo:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="userId">
+                a.user_id = #userId:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="channelId">
+                a.channel_id = #channelId:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="fftFactorage">
+                a.fft_factorage = #fftFactorage:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="billNo">
+                a.bill_no = #billNo:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="payMethod">
+                a.pay_method = #payMethod:VARCHAR#
+            </isNotEmpty>
+
+            <isNotEmpty prepend="and" property="transSn">
+                a.trans_sn = #transSn:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="transType">
+                a.trans_type = #transType:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty property="payMethodList" prepend="and">
+                a.trans_type in
+                <iterate open="(" conjunction="," close=")" property="payMethodList">
+                    #payMethodList[]#
+                </iterate>
+            </isNotEmpty>
+
+            <isNotEmpty prepend="and" property="sellerId">
+                a.seller_id = #sellerId:VARCHAR#
+            </isNotEmpty>
+            <isEmpty property="sellerId">
+                <isNotEmpty property="sellerIdList" prepend="and">
+                    a.seller_id in
+                    <iterate open="(" conjunction="," close=")" property="sellerIdList">
+                        #sellerIdList[]#
+                    </iterate>
+                </isNotEmpty>
+            </isEmpty>
+            <isNotEmpty prepend="and" property="buyersId">
+                a.buyers_id = #buyersId:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="sellerChannelId">
+                a.seller_channel_id = #sellerChannelId:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="buyerChannelId">
+                a.buyer_channel_id = #buyerChannelId:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="currency">
+                a.currency = #currency:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="costpriceTotal">
+                a.costprice_total = #costpriceTotal:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="currencyValueAll">
+                a.currency_value_all = #currencyValueAll:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="currencyValueRealAll">
+                a.currency_value_real_all = #currencyValueRealAll:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="bankPointsAccount">
+                a.bank_points_account = #bankPointsAccount:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="bankPointsValueAll">
+                a.bank_points_value_all = #bankPointsValueAll:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="bankPointsValueRealAll">
+                a.bank_points_value_real_all = #bankPointsValueRealAll:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="fftPointsAccount">
+                a.fft_points_account = #fftPointsAccount:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="fftPointsValueAll">
+                a.fft_points_value_all = #fftPointsValueAll:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="fftPointsValueRealAll">
+                a.fft_points_value_real_all = #fftPointsValueRealAll:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="failureTime">
+                a.failure_time = #failureTime:VARCHAR#
+            </isNotEmpty>
+
+            <isNotEmpty prepend="and" property="state">
+                a.state = #state:VARCHAR#
+            </isNotEmpty>
+
+            <isNotEmpty property="updateTime">
+                <isNotEmpty property="beginTime">
+                    <isNotEmpty property="endTime" prepend="and">
+                        a.update_time between #beginTime# and #endTime#
+                    </isNotEmpty>
+                </isNotEmpty>
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="remark">
+                a.remark = #remark:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="clientType">
+                a.client_type = #clientType:VARCHAR#
+            </isNotEmpty>
+            <isEmpty property="updateTime">
+                <isNotEmpty property="beginTime">
+                    <isNotEmpty property="endTime" prepend="and">
+                        a.create_time between #beginTime# and #endTime#
+                    </isNotEmpty>
+                </isNotEmpty>
+            </isEmpty>
+            <isNotEmpty prepend="and" property="id">
+                a.id = #id:INTEGER#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="merchantId">
+                a.merchant_id = #merchantId:INTEGER#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="belongUserBecodeAuth">
+                b.belong_user_becode in ($belongUserBecodeAuth$)
+            </isNotEmpty>
+
+        </dynamic>
+        order by $orderBy$ $orderType$
+        <isEmpty prepend="" property="financeExcel">
+            limit #startRow#,#pageSize#
+        </isEmpty>
+    </select>
+    <select id="getGroupOrExchangeTransByPagerCountFinance" resultClass="java.lang.Integer" parameterClass="trans">
+        <![CDATA[
+			select count(*) 
+			from trans a LEFT JOIN auth_ticket b ON a.id = b.trans_id
+			where trans_type <> '07'
+		]]>
+        <dynamic>
+            <isEqual property="transType" compareValue="02">
+                <isNotEmpty prepend="and" property="isConsume">
+                    b.is_consume=#isConsume#
+                </isNotEmpty>
+            </isEqual>
+            <isEqual property="transType" compareValue="01">
+                <isNotEmpty prepend="and" property="isConsume">
+                    b.is_consume=#isConsume#
+                </isNotEmpty>
+            </isEqual>
+            <isEqual property="transType" compareValue="08">
+                <isNotEmpty prepend="and" property="isConsume">
+                    b.is_consume=#isConsume#
+                </isNotEmpty>
+            </isEqual>
+            <isNotEmpty prepend="and" property="virtualType">
+                a.virtual_type = #virtualType:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="phone">
+                a.phone = #phone:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="belongUserBecode">
+                a.belong_user_becode = #belongUserBecode:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="payChannel">
+                a.pay_channel = #payChannel:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="pointBillNo">
+                a.point_bill_no = #pointBillNo:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="userId">
+                a.user_id = #userId:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="channelId">
+                a.channel_id = #channelId:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="fftFactorage">
+                a.fft_factorage = #fftFactorage:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="billNo">
+                a.bill_no = #billNo:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="payMethod">
+                a.pay_method = #payMethod:VARCHAR#
+            </isNotEmpty>
+
+            <isNotEmpty prepend="and" property="transSn">
+                a.trans_sn = #transSn:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="transType">
+                a.trans_type = #transType:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty property="payMethodList" prepend="and">
+                a.trans_type in
+                <iterate open="(" conjunction="," close=")" property="payMethodList">
+                    #payMethodList[]#
+                </iterate>
+            </isNotEmpty>
+
+            <isNotEmpty prepend="and" property="sellerId">
+                a.seller_id = #sellerId:VARCHAR#
+            </isNotEmpty>
+            <isEmpty property="sellerId">
+                <isNotEmpty property="sellerIdList" prepend="and">
+                    a.seller_id in
+                    <iterate open="(" conjunction="," close=")" property="sellerIdList">
+                        #sellerIdList[]#
+                    </iterate>
+                </isNotEmpty>
+            </isEmpty>
+            <isNotEmpty prepend="and" property="buyersId">
+                a.buyers_id = #buyersId:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="sellerChannelId">
+                a.seller_channel_id = #sellerChannelId:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="buyerChannelId">
+                a.buyer_channel_id = #buyerChannelId:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="currency">
+                a.currency = #currency:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="costpriceTotal">
+                a.costprice_total = #costpriceTotal:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="currencyValueAll">
+                a.currency_value_all = #currencyValueAll:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="currencyValueRealAll">
+                a.currency_value_real_all = #currencyValueRealAll:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="bankPointsAccount">
+                a.bank_points_account = #bankPointsAccount:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="bankPointsValueAll">
+                a.bank_points_value_all = #bankPointsValueAll:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="bankPointsValueRealAll">
+                a.bank_points_value_real_all = #bankPointsValueRealAll:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="fftPointsAccount">
+                a.fft_points_account = #fftPointsAccount:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="fftPointsValueAll">
+                a.fft_points_value_all = #fftPointsValueAll:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="fftPointsValueRealAll">
+                a.fft_points_value_real_all = #fftPointsValueRealAll:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="failureTime">
+                a.failure_time = #failureTime:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="state">
+                a.state = #state:VARCHAR#
+            </isNotEmpty>
+            <isNotEmpty property="updateTime">
+                <isNotEmpty property="beginTime">
+                    <isNotEmpty property="endTime" prepend="and">
+                        a.update_time between #beginTime# and #endTime#
+                    </isNotEmpty>
+                </isNotEmpty>
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="remark">
+                a.remark = #remark:VARCHAR#
+            </isNotEmpty>
+
+            <isNotEmpty prepend="and" property="clientType">
+                a.client_type = #clientType:VARCHAR#
+            </isNotEmpty>
+
+            <isEmpty property="updateTime">
+                <isNotEmpty property="beginTime">
+                    <isNotEmpty property="endTime" prepend="and">
+                        a.create_time between #beginTime# and #endTime#
+                    </isNotEmpty>
+                </isNotEmpty>
+            </isEmpty>
+            <isNotEmpty prepend="and" property="id">
+                a.id = #id:INTEGER#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="merchantId">
+                a.merchant_id = #merchantId:INTEGER#
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="belongUserBecodeAuth">
+                b.belong_user_becode in ($belongUserBecodeAuth$)
+            </isNotEmpty>
+        </dynamic>
+    </select>
+
+    <!--查询预售商品需要退款的交易记录 -->
+    <select id="getPresellRefundTrans">
+		select distinct t.* from trans t inner join pay p on t.id=p.trans_id where t.trans_type="08" and t.state="01" and  p.state in("1004","3002","3004")
+	</select>
+    <!--查询预售商品需要退积分的交易记录 -->
+    <select id="getPresellRefundPontsTrans">
+		select distinct t.* from trans t inner join pay p on t.id=p.trans_id where t.trans_type="08" and t.state="01" and p.state in("2001","2004")
+	</select>
+    <!--根据商品Id查询预售商品交易 -->
+	<select id="getPresellByRackId" resultMap="TransResult" parameterClass="java.lang.String">
+		select tr.* from trans tr inner join trans_details td on tr.id=td.trans_id where tr.trans_type="08" and td.goods_rack_id=#goodsRackId#
+	</select>
+
+	<!-- 定时任务关闭预售交易纯现金支付>24小时 -->
+	<update id="closePresellOutOfTimeCash">
+		update trans t inner join pay p on t.id=p.trans_id set t.state="04",t.update_time=DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s") where t.trans_type="08" and t.state="01" and t.pay_method in("02","09","00","01") and p.state in("1001","1002","1003") and UNIX_TIMESTAMP(DATE_FORMAT(NOW(),"%Y-%m-%d %H:%i:%s"))-UNIX_TIMESTAMP(REPLACE(t.update_time,"|"," "))>(3600*24)
+	</update>	
+	
+	
+	<!-- 需要退分的预售交易>24小时 -->
+	<select id="getPresellOutOfTimePionts" resultMap="TransResult">
+		select  t.* from trans t where t.trans_type="08" and t.state="01" and t.pay_method in("05","06","07","08") and UNIX_TIMESTAMP(DATE_FORMAT(NOW(),"%Y-%m-%d %H:%i:%s"))-UNIX_TIMESTAMP(REPLACE(t.update_time,"|"," "))>(3600*24)
+	</select>
+</sqlMap>

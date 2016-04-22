@@ -1,0 +1,176 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+<link href="../../resources/common/css/base.css" rel="stylesheet" type="text/css" />
+<link href="../../resources/common/css/public.css" rel="stylesheet" type="text/css" />
+<link href="../../resources/shop/css/booking.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="../../resources/common/js/jquery-1.8.3.min.js"></script>
+</head>
+<script type="text/javascript">
+$(function(){
+	$(".tishired a").click(function(){
+      $(this).parent().hide();
+	});
+	
+	$("#add").click(function(){
+		if(parseInt($("#totle").text()) > parseInt($("#number").val())){
+        $("#number").val(parseInt($("#number").val()) + 1) ;
+		$("#num").css("color","#999");
+		$(".tishired").find("span").html($("#totle").text())
+	  }
+	  else if(parseInt($("#totle").text()) == parseInt($("#number").val())){
+		  $(".tishired").show();
+		   $("#add").css("color","#ccc");
+		}			
+	});			
+
+	  $("#num").click(function(){
+		  if( $("#number").val() > 1){
+           $("#number").val(parseInt($("#number").val()) - 1) ;	
+		   	$("#add").css("color","#999");   
+		     if (parseInt($("#totle").text()) >= parseInt($("#number").val())){
+			   $(".tishired").hide();  
+		    }
+		 }	
+		 
+		 else if($("#number").val() == 1){
+			 $("#num").css("color","#ccc");
+			 }  
+	 });			
+})
+</script>
+<body>
+<!--
+* Author:
+* pengling@f-road.com.cn 
+*/
+--> 
+<!--头部开始-->
+<div class="navBox">
+  <div class="logo"><img src="../../resources/common/images/logo.png" /></div>
+  <!--头部结束--> 
+  <!--导航开始-->
+  <div class="nav">
+    <ul>
+      <li><a href="#">首页</a></li>
+      <li><a href="#">个人中心</a></li>
+      <li><a href="#">帮助</a></li>
+      <li class="navright"><a href="#">登录</a> </li>
+      <li class="navright"><a href="#">注册</a></li>
+      <li class="navright"><a href="#">商户登录</a> </li>
+    </ul>
+    <div class="bg"></div>
+  </div>
+</div>
+<!--头部结束-->
+<div class="main detailsie7">
+  <div class="group">
+    <div class="list">
+      <li>
+        <div class="icon"><img src="../../resources/common/images/icon_booking.png" /></div>
+        <div class="imgShow" id="xiangqing">
+        <span class="imgShow"><a href="#"><img src="../../resources/common/images/testpic/banner.jpg" /></a></span>
+        <span class="bookingnum">成团数：<b class="mr50">20 </b> 已预订：<font class="redFont"> 17</font> <font class=" mr50">件</font> 还差<font class="redFont"> 3</font>件成团</span></div>
+        <div class="bookingtext">
+          <dl>
+            <dt><a href="#">享食者开心果</a></dt>
+            <dd>详情简介详情简介详情简介详情简介详情简介详情简介详情简介详情简介详情简介详情简介详情简介详情简介详情简介详情简介详情简介详情简介详情简介详情简介详情简介详情简介</dd>
+            <dd>限购：<b class="redFont" id="totle"> 10</b> 件</dd>
+          </dl>
+          <div class="groupPrice">
+            <div class="firstPrice"><font class=" f12 grayFont">单价：</font><b class="f14">￥</b>45.5</div>
+            <div class="secondPrice">市场价：<font>￥95.5</font></div>
+          </div>
+          <div class="mebuy"> 我要买： <a href="javascript:void(0)" id="num">-</a>
+            <input type="text"  class="loginText5"  value="1" readonly="readonly" id="number">
+            <a href="javascript:void(0)" id="add">+</a> </div>
+          <div><a href="#"><img src="../../resources/common/images/buy.png"/></a></div>
+          <div class="tishired">提示：不能超过<span>0</span> 件<a href="javascript:void(0)">×</a></div>
+          <div class="discount">
+            <div class="leftDiscount mt15">
+              <p>预售期：2013-02-01 至 2013-02-28</p>
+              <p>提货期：2013-02-01 至 2013-02-28</p>
+            </div>
+            <div class="time"></div>
+            <div><img src="../../resources/shop/images/payicon.png" width="378" height="46" /></div>
+          </div>
+        </div>
+      </li>
+    </div>
+    <div class="details">
+      <div>
+        <h2>预售详情</h2>
+        <h5 >品名品名品名品名品名品名</h5>
+        <span>产地：重庆</span> </div>
+      <div class="blk" >
+        <div class="tit">购买须知<br />
+          选择附近的提货点</div>
+        <div class="map"><img src="../../resources/common/images/testpic/ditu.png" /></div>
+        <span class="fl" id="uboxstyle">
+        <li><font>A</font><a href="#">重庆农商农商银
+          行<br />
+          </a> <span >地址：ＸＸＸＸＸＸＸＸＸＸＸＸ</span></li>
+        <li><font>A</font><a href="#">重庆农商农商银
+          行<br />
+          </a> <span >地址：ＸＸＸＸＸＸＸＸＸＸＸＸ</span></li>
+        <li><font>A</font><a href="#">重庆农商农商银
+          行<br />
+          </a> <span >地址：ＸＸＸＸＸＸＸＸＸＸＸＸ</span></li>
+        <li><font>A</font><a href="#">重庆农商农商银
+          行<br />
+          </a> <span >地址：ＸＸＸＸＸＸＸＸＸＸＸＸ</span></li>
+        <li><font>A</font><a href="#">重庆农商农商银
+          行<br />
+          </a> <span >地址：ＸＸＸＸＸＸＸＸＸＸＸＸ</span></li>
+        <li><font>A</font><a href="#">重庆农商农商银
+          行<br />
+          </a> <span >地址：ＸＸＸＸＸＸＸＸＸＸＸＸ</span></li>
+        <li><font>A</font><a href="#">重庆农商农商银
+          行<br />
+          </a> <span >地址：ＸＸＸＸＸＸＸＸＸＸＸＸ</span></li>
+        <li><font>A</font><a href="#">重庆农商农商银
+          行<br />
+          </a> <span >地址：ＸＸＸＸＸＸＸＸＸＸＸＸ</span></li>
+        </span> </div>
+      <div class="info">
+        <dt class="f18 fb">商品介绍</dt>
+        <dd>面料质地紧密
+          3.不宜暴晒，建议翻转晾干。质地紧密
+          不宜暴晒，建议翻转晾干。质地紧密
+          不宜暴晒，建议翻转晾干。
+          
+          4.尺寸稳定,固型性好。 </dd>
+        <dd><img src="../../resources/common/images/testpic/ewrqr.jpg" /></dd>
+      </div>
+      <div class="blk f12">温馨提示:商品售出后，非质量问题，恕不退货。</div>
+      <!--团购详情结束--> 
+    </div>
+  </div>
+  <div class="fl">
+    <div class="also">
+      <dl>
+        <dt><b>预售动态</b></dt>
+        <div>
+          <dd> <a href="#"><b>徐先生</b><br />
+            5月10日购买农产品大礼包2份</a></dd>
+          <dd> <a href="#"><b>徐先生</b><br />
+            5月10日购买农产品大礼包2份</a></dd>
+          <dd> <a href="#"><b>徐先生</b><br />
+            5月10日购买农产品大礼包2份</a></dd>
+          <dd> <a href="#"><b>徐先生</b><br />
+            5月10日购买农产品大礼包2份</a></dd>
+        </div>
+      </dl>
+    </div>
+    <div class="also fr"><img src="../../resources/common/images/testpic/dasfe.jpg" width="227" height="389" /></div>
+  </div>
+</div>
+
+<!--底部开始-->
+<div class="foot">地址：重庆市江北区洋河东路10号 邮编：400020 客户服务热线：966866<br />
+  Copyrights @ 2010 重庆农村商业银行 版权所有</div>
+<!--底部结束-->
+</body>
+</html>

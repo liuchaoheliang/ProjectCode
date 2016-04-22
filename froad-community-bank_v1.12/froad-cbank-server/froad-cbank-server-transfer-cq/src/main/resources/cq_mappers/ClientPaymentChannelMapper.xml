@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.chongqing.mappers.ClientPaymentChannelMapper">
+
+	<resultMap type="ClientPaymentChannel" id="clientPaymentChannelResultMap">
+    	<result property="clientId" column="client_id"/>
+        <result property="paymentChannelId" column="payment_channel_id"/>
+    </resultMap>
+    
+    
+    <!-- 基础sql 数据新增 必须指明数据列  -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		insert into cb_client_payment_channel
+		(client_id,payment_channel_id)
+		values
+		(
+			#{clientId},#{paymentChannelId}
+		)
+	</insert>
+
+	<!-- 删除 -->
+	<delete id="delete" parameterType="java.lang.Long" >
+		delete from cb_client_payment_channel where client_id = #{clientId} and payment_channel_id =#{paymentChannelId}
+	</delete>
+    
+</mapper>

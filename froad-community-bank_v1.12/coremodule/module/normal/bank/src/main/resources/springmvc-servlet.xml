@@ -1,0 +1,149 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:task="http://www.springframework.org/schema/task"  
+	xsi:schemaLocation="http://www.springframework.org/schema/beans   
+           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd  
+           http://www.springframework.org/schema/context   
+           http://www.springframework.org/schema/context/spring-context-3.0.xsd
+           http://www.springframework.org/schema/mvc
+           http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+           http://www.springframework.org/schema/task
+           http://www.springframework.org/schema/task/spring-task-3.0.xsd"
+	default-autowire="byName">
+
+	<mvc:annotation-driven>
+		<mvc:message-converters register-defaults="true">
+			<bean class="com.froad.cbank.coremodule.framework.web.basic.spring.MappingJacksonHttpMessageConverter">
+			</bean>
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+	
+	<context:annotation-config />
+	
+	<context:component-scan base-package="com.froad.cbank.coremodule" name-generator="com.froad.cbank.coremodule.framework.web.basic.spring.SdpAnnotationBeanNameGenerator"/>
+	
+<!-- 	<bean -->
+<!-- 		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter"> -->
+<!-- 		<property name="messageConverters"> -->
+<!-- 			<list> -->
+<!-- 				<ref bean="mappingJacksonHttpMessageConverter" /> -->
+<!-- 			</list> -->
+<!-- 		</property> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="mappingJacksonHttpMessageConverter" -->
+<!-- 		class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter"> -->
+<!-- 		<property name="supportedMediaTypes"> -->
+<!-- 			<list> -->
+<!-- 				<value>text/html;charset=UTF-8</value> -->
+<!-- 			</list> -->
+<!-- 		</property> -->
+<!-- 	</bean> -->
+
+	<bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+		<property name="ignoreAcceptHeader" value="true" />
+		<property name="order" value="1" />
+		<property name="mediaTypes">
+			<map>
+				<entry key="json" value="application/json" />
+			</map>
+		</property>
+		<property name="defaultViews">
+			<list>
+				<!-- JSON View -->
+				<bean class="com.froad.cbank.coremodule.framework.common.util.web.MappingJsonView">
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- 设置上传文件的最大尺寸为2MB -->
+		<property name="maxUploadSize">
+			<value>2100000</value>
+		</property>
+	</bean>
+	<!-- SpringMVC在超出上传文件限制时，会抛出org.springframework.web.multipart.MaxUploadSizeExceededException -->
+	<!-- 该异常是SpringMVC在检查上传的文件信息时抛出来的，而且此时还没有进入到Controller方法中 -->
+	<bean id="exceptionResolver"
+		class="com.froad.cbank.coremodule.framework.web.basic.spring.JsonHandlerExceptionResolver" p:order="1">
+		<property name="exceptionMappings">
+			<props>
+				<prop key="org.springframework.web.multipart.MaxUploadSizeExceededException">500,上传图片不能超过2M</prop>
+				<prop key="org.springframework.http.converter.HttpMessageNotReadableException">608</prop>
+				<prop key="java.lang.Exception">500,系统错误</prop>
+			</props>
+		</property>
+	</bean>
+
+	<!-- 资源文件绑定器 -->
+	<bean id="messageSource"
+		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="basenames">
+			<list>
+				<value>/WEB-INF/i18n/message</value>
+			</list>
+		</property>
+		<property name="cacheSeconds" value="3600" />
+		<property name="useCodeAsDefaultMessage" value="true" />
+	</bean>
+	<bean id="localeChangeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" />
+
+	<!-- *设置拦截器* 基于request的拦截器,将拦截器注入到你的UrlHandlerMapping中 -->
+	<!-- 注意请求参数为locale，例如locale=zh_CN, 在controller里面获取资源文件的时候, 注意使用RequestContextUtils.getLocale(request)替代request.getLocale()获取locale信息. -->
+	<bean id="defaultUrlMapping"
+		class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping">
+		<property name="interceptors" ref="localeChangeInterceptor" />
+		<property name="order">
+			<value>1</value>
+		</property>
+	</bean>
+ 
+	<!-- TOKEN拦截 -->
+ 	<mvc:interceptors>  
+ 		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<bean id="bankBaseInterceptor" class="com.froad.cbank.coremodule.module.normal.bank.interceptor.BaseInterceptor" />
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<bean id="checkPermissionInterceptor" class="com.froad.cbank.coremodule.module.normal.bank.interceptor.CheckPermissionInterceptor" />
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<mvc:exclude-mapping path="/login/ve"/>
+			<mvc:exclude-mapping path="/login/bankVe"/>
+			<mvc:exclude-mapping path="/login/gic"/>
+			<mvc:exclude-mapping path="/login/olt"/>
+			<mvc:exclude-mapping path="/login/getFailsCount"/>
+			<mvc:exclude-mapping path="/img/upload"/>
+			<!-- 商户报表 -->
+			<mvc:exclude-mapping path="/report/merchant/detailListExport"/>
+			<mvc:exclude-mapping path="/report/merchant/bussinessExport"/>
+			<mvc:exclude-mapping path="/report/merchantContract/detailListExport"/>
+			<mvc:exclude-mapping path="/report/merchant/outletExport"/>
+ 			<!-- 银行 报表添加  -->
+			<mvc:exclude-mapping path="/report/bussiness/statisticListExport"/>
+			<mvc:exclude-mapping path="/report/bussiness/bussinessSaleExport"/>
+			<mvc:exclude-mapping path="/report/bussiness/merchantSaleExport"/>
+			<mvc:exclude-mapping path="/report/product/saleDetailListExport"/>
+			<!-- 银行用户报表添加  --> 
+			<mvc:exclude-mapping path="/report/user/userSummaryExport"/>
+			<mvc:exclude-mapping path="/report/user/userTradeDetailExport"/>
+			<mvc:exclude-mapping path="/report/user/userTradeInfoExport"/>
+			<!-- 二维码下载 -->
+			<mvc:exclude-mapping path="/outlet/qrcodeDown"/>
+			<bean id="bankTokenInterceptor" class="com.froad.cbank.coremodule.module.normal.bank.interceptor.TokenInterceptor" />
+		</mvc:interceptor>
+	</mvc:interceptors> 
+
+	<task:executor id="executor" pool-size="5" />  
+    <task:scheduler id="scheduler" pool-size="10" />  
+    <task:annotation-driven executor="executor" scheduler="scheduler" /> 
+
+	<import resource="classpath*:applicationContext.xml" />
+	
+	<import resource="springmvc-thrift.xml"/>
+	
+</beans>  

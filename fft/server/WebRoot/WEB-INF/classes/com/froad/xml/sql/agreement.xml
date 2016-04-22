@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="agreement">
+	<typeAlias alias="agreement" type="com.froad.CB.po.Agreement" />
+	
+	<resultMap class="agreement" id="agreementResult">
+		<result property="id" column="id"/>
+		<result property="type" column="type"/>
+		<result property="content" column="content"/>
+		<result property="state" column="state"/>
+		<result property="createTime" column="create_time"/>
+		<result property="updateTime" column="update_time"/>
+		<result property="remark" column="remark"/>
+	</resultMap>
+		
+	 <!-- 增加协议 -->	
+	<insert id="addAgreement" parameterClass="agreement">
+		insert into agreement
+		(id,type,content,state,create_time,update_time,remark) 
+		values
+		(#id#,#type#,#content#,#state#,DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),#remark#)
+		<selectKey keyProperty="id" resultClass="int">
+			select last_insert_id() as id
+		</selectKey>
+	</insert>
+	
+	<!-- 根据ID 查找协议 -->
+	<select id="getAgreementById" parameterClass="java.lang.Integer" resultMap="agreementResult">
+		select * from agreement where id=#id#
+	</select>
+	
+	 <!-- 更新协议 -->
+	<update id="updateAgreement" parameterClass="agreement">
+		update agreement set update_time = DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s")
+		<dynamic prepend="">
+			<isNotEmpty prepend="," property="type">
+				type = #type#
+		      </isNotEmpty>
+		    <isNotEmpty prepend="," property="content">
+				content = #content#
+		      </isNotEmpty>
+			<isNotEmpty prepend="," property="state">
+				state = #state#
+		      </isNotEmpty>
+			<isNotEmpty prepend="," property="remark">
+				remark = #remark#
+		      </isNotEmpty>
+		</dynamic>
+		where id = #id#
+	</update>
+	
+    <select id="selectAgreement" parameterClass="agreement"
+		resultMap="agreementResult">
+		select * from agreement
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="id">
+				id = #id#
+		      </isNotEmpty>
+			<isNotEmpty prepend="and" property="type">
+				type = #type#
+		      </isNotEmpty>
+		    <isNotEmpty prepend="and" property="content">
+				content like concat('%',#content#,'%')
+		      </isNotEmpty>
+			<isNotEmpty prepend="and" property="state">
+				state = #state#
+		      </isNotEmpty>
+		</dynamic>
+		order by create_time desc
+	</select>
+    
+</sqlMap>

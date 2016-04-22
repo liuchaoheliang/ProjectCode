@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="test" basedir="." default="Hello">
+
+    <!-- 此脚本由开发人员维护  -->
+
+    <property file="build_client.properties"/>
+    <property name="src" value="${basedir}/src"/>
+	<property name="lib" value="${basedir}/lib"/>
+
+    <!-- 引用jar包 -->
+    <path id="cxf.classpath">
+        <fileset dir="${lib}">
+            <include name="*.jar"/>
+        </fileset>
+    </path>
+    <target name="Hello">
+        <echo message="生成Hello client文件......"/>
+        <java classname="org.apache.cxf.tools.wsdlto.WSDLToJava" fork="true">
+            <arg value="-client"/>
+            <arg value="-d"/>
+            <arg value="${src}"/>
+            <arg value="-p"/>
+            <arg value="com.service"/>
+            <arg value="${wsdl.Hello_dir}"/>
+            <classpath>
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+    	<echo message="${wsdl.Hello_dir}"/>
+    </target>
+
+   
+</project>

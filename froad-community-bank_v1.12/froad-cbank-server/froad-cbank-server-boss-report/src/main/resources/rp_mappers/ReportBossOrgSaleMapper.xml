@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.mysql.rp_mappers.ReportBossOrgSaleMapper">
+	<resultMap id="BaseResultMap" type="ReportBossOrgSale">
+		<result column="id" jdbcType="BIGINT" property="id" />
+		<result column="report_date" jdbcType="INTEGER" property="reportDate" />
+		<result column="report_beg_date" jdbcType="TIMESTAMP" property="reportBegDate" />
+		<result column="report_end_date" jdbcType="TIMESTAMP" property="reportEndDate" />
+		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="client_id" jdbcType="VARCHAR" property="clientId" />
+		<result column="order_type" jdbcType="VARCHAR" property="orderType" />
+		<result column="org_code" jdbcType="VARCHAR" property="orgCode" />
+		<result column="org_name" jdbcType="VARCHAR" property="orgName" />
+		<result column="cur_sold_count" jdbcType="BIGINT" property="curSoldCount" />
+		<result column="cur_sold_amount" jdbcType="BIGINT" property="curSoldAmount" />
+		<result column="total_sold_count" jdbcType="BIGINT" property="totalSoldCount" />
+		<result column="total_sold_amount" jdbcType="BIGINT" property="totalSoldAmount" />
+	</resultMap>
+	
+	<insert id="addByBatch">
+		insert into cb_report_boss_org_sale 
+		(
+			report_date, 
+			report_beg_date,
+			report_end_date, 
+			create_time, 
+			client_id,
+			order_type,
+			org_code, 
+			org_name, 
+			cur_sold_count,
+			cur_sold_amount, 
+			total_sold_count, 
+			total_sold_amount
+		)
+		values 
+		<foreach collection="orgSaleList" item="item" index="index" separator=",">
+		(
+			#{item.reportDate,jdbcType=INTEGER},
+			#{item.reportBegDate,jdbcType=TIMESTAMP},
+			#{item.reportEndDate,jdbcType=TIMESTAMP}, 
+			#{item.createTime,jdbcType=TIMESTAMP},
+			#{item.clientId,jdbcType=VARCHAR},
+			#{item.orderType,jdbcType=VARCHAR},
+			#{item.orgCode,jdbcType=VARCHAR}, 
+			#{item.orgName,jdbcType=VARCHAR}, 
+			#{item.curSoldCount,jdbcType=INTEGER},
+			#{item.curSoldAmount,jdbcType=INTEGER}, 
+			#{item.totalSoldCount,jdbcType=INTEGER},
+			#{item.totalSoldAmount,jdbcType=INTEGER}
+		)
+		</foreach>
+	</insert>
+	
+	<delete id="deleteHistoryData" parameterType="java.lang.Integer">
+		DELETE FROM cb_report_boss_org_sale WHERE report_date = #{reportDate}
+	</delete>
+	
+	<select id="findByClientId" resultMap="BaseResultMap">
+		SELECT 
+			id,
+			report_date, 
+			report_beg_date,
+			report_end_date, 
+			create_time, 
+			client_id,
+			order_type,
+			org_code, 
+			org_name, 
+			cur_sold_count,
+			cur_sold_amount, 
+			total_sold_count, 
+			total_sold_amount 
+		FROM cb_report_boss_org_sale 
+		<where>
+			client_id = #{clientId} AND report_date = #{reportDate} 
+			<if test="orderType != null and orderType != ''">
+			AND order_type = #{orderType}
+			</if>
+		</where>
+	</select>
+	
+</mapper>

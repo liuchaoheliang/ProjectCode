@@ -1,0 +1,43 @@
+/*
+* Author:
+* pengling@f-road.com.cn 
+*/
+/*积分兑换详情*/
+.points{width:758px; border:1px solid #b7b7b7; overflow:hidden; padding-bottom:10px; background:#FFF;}
+
+.points .leffShow{ float:left; width: 350px; height:220px; border:1px solid #ddd; margin-left:10px; margin-top:10px; display:inline;}
+
+.points .leffShow img{width:346px; height:216px; padding:2px;}
+
+.points .rightInfor{width:370px; float:left; margin-left:10px; display:inline; margin-top:10px; font-size:12px; font-family:Arial, Helvetica, sans-serif; height:230px;}
+
+.points .rightInfor dt{ height:30px; font:bold 20px/20px "微软雅黑"; color:#F00; border-bottom:1px dashed #ddd;}
+
+.points .rightInfor dd{line-height:22px; word-break: break-all; white-space:normal; word-wrap:break-word;}
+
+.points .rightInfor dd b{ color:#F00; margin-right:5px; font-size:14px; font-family:Arial, Helvetica, sans-serif;}
+
+.points .rightInfor dd.redFont{ color:#F00; font-size:14px;}
+
+.points .buyBox{width:710px; margin:0 auto;  border:1px solid #ccc; background:#f4f4f4;color:#333; padding:10px 0 10px 20px; clear:both; font-size:12px;}
+
+.points .buyBox .mebuy{ height:40px;}
+
+.points .buyBox .mebuy a{ font-size:16px; margin:0 2px; color:#999; text-decoration:none; padding:0px 5px; font-weight:bold; font-family:Arial, Helvetica, sans-serif;}
+
+.points .buyBox .meinput{ margin-top:10px;}
+
+.points .buyBox .meSelect{height:30px;}
+
+.points .buyBox .userpoints{ margin-top:15px;}
+
+.points .buyBox .userpoints b{ color:#F00; margin-right:5px; font-size:14px; font-family:Arial, Helvetica, sans-serif;}
+
+.points .buyBox img{ margin-top:15px;  display:inline;}
+
+.points .contantInr{width:96%; margin:10px auto; line-height:30px; font-size:14px;}
+
+.points .contantInr img{width:500px; height:313px; display:block;}
+
+.points .exchangetext{ vertical-align:top;line-height:60px;color:red;font-size:16px;margin-left:15px}
+

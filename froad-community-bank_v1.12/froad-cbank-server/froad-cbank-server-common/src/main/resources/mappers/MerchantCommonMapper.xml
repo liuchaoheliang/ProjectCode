@@ -1,0 +1,398 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.mysql.mapper.MerchantCommonMapper">
+	
+	<resultMap type="Merchant" id="merchantResultMap">
+		<id property="id" column="id" />
+		<result property="createTime" column="create_time" />
+		<result property="clientId" column="client_id" />
+		<result property="merchantId" column="merchant_id" />
+		<result property="proOrgCode" column="pro_org_code" />
+		<result property="cityOrgCode" column="city_org_code" />
+		<result property="countyOrgCode" column="county_org_code" />
+		<result property="orgCode" column="org_code" />
+		<result property="merchantName" column="merchant_name" />
+		<result property="merchantFullname" column="merchant_fullname" />
+		<result property="logo" column="logo" />
+		<result property="address" column="address" />
+		<result property="phone" column="phone" />
+		<result property="areaId" column="area_id" />
+		<result property="merchantStatus" column="merchant_status" />
+		<result property="isEnable" column="is_enable" />
+		<result property="disableStatus" column="disable_status" />
+		<result property="isTop" column="is_top" />
+		<result property="introduce" column="introduce" />
+		<result property="license" column="license" />
+		<result property="taxReg" column="tax_reg" />
+		<result property="contractBegintime" column="contract_begintime" />
+		<result property="contractEndtime" column="contract_endtime" />
+		<result property="contractStaff" column="contract_staff" />
+		<result property="auditStartOrgCode" column="audit_start_org_code" />
+		<result property="auditEndOrgCode" column="audit_end_org_code" />
+		<result property="auditState" column="audit_state" />
+		<result property="auditOrgCode" column="audit_org_code" />
+		<result property="auditStage" column="audit_stage" />
+		<result property="auditTime" column="audit_time" />
+		<result property="auditComment" column="audit_comment" />
+		<result property="auditStaff" column="audit_staff" />
+		<result property="reviewStaff" column="review_staff" />
+		<result property="contactName" column="contact_name" />
+		<result property="contactPhone" column="contact_phone" />
+		<result property="contactEmail" column="contact_email" />
+		<result property="legalName" column="legal_name" />
+		<result property="legalCredentType" column="legal_credent_type" />
+		<result property="legalCredentNo" column="legal_credent_no" />
+		<result property="complaintPhone" column="complaint_phone" />
+		<result property="userOrgCode" column="user_org_code" />
+		<result property="companyCredential" column="company_credential" />
+		<!-- <result property="monthMoney" column="month_money" />
+		<result property="groupOrderCount" column="group_order_count" />
+		<result property="sellOrderCount" column="sell_order_count" /> -->
+		
+		<!-- 商户用户表 		
+		<result property="merchantUserId" column="merchantUserId" />
+		<result property="merchantUserName" column="username" />
+		<result property="merchantRoleId" column="merchant_role_id" />
+		-->
+	</resultMap>
+	
+	
+	<resultMap type="ProductOutletInfo" id="outletResultMap">
+		<id property="id" column="id" />
+		<result property="clientId" column="client_id" />
+		<result property="outletId" column="outlet_id" />
+		<result property="outletName" column="outlet_name" />
+		<result property="address" column="address" />
+		<result property="phone" column="phone" />
+		<result property="areaId" column="area_id" />
+		<result property="orgCode" column="org_code" />
+	</resultMap>
+	
+	<resultMap type="MerchantAccount" id="merchantAccountResultMap">
+		<id property="id" column="id" />
+		<result property="clientId" column="client_id" />
+		<result property="createTime" column="create_time" />
+		<result property="merchantId" column="merchant_id" />
+		<result property="outletId" column="outlet_id" />
+		<result property="acctName" column="acct_name" />
+		<result property="acctNumber" column="acct_number" />
+		<result property="acctType" column="acct_type" />
+		<result property="openingBank" column="opening_bank" />
+		<result property="isDelete" column="is_delete" />
+		<result property="synchState" column="synch_state" />
+		<result property="auditState" column="audit_state" />
+	</resultMap>
+	
+	<resultMap type="Outlet" id="outletInfoResultMap">
+		<id property="id" column="id" />
+		<result property="createTime" column="create_time" />
+		<result property="clientId" column="client_id" />
+		<result property="merchantId" column="merchant_id" />
+		<result property="outletId" column="outlet_id" />
+		<result property="areaId" column="area_id" />
+		<result property="orderValue" column="order_value" />
+		<result property="outletName" column="outlet_name" />
+		<result property="outletFullname" column="outlet_fullname" />
+		<result property="outletStatus" column="outlet_status" />
+		<result property="address" column="address" />
+		<result property="businessHours" column="business_hours" />
+		<result property="zip" column="zip" />
+		<result property="fax" column="fax" />
+		<result property="phone" column="phone" />
+		<result property="contactName" column="contact_name" />
+		<result property="contactPhone" column="contact_phone" />
+		<result property="contactEmail" column="contact_email" />
+		<result property="serviceProvider" column="service_provider" />
+		<result property="longitude" column="longitude" />
+		<result property="latitude" column="latitude" />
+		<result property="isEnable" column="is_enable" />
+		<result property="disableStatus" column="disable_status" />
+		<result property="description" column="description" />
+		<result property="preferDetails" column="prefer_details" />
+		<result property="preferStartPeriod" column="prefer_start_period" />
+		<result property="preferEndPeriod" column="prefer_end_period" />
+		<result property="discount" column="discount" />
+		<result property="discountCode" column="discount_code" />
+		<result property="discountRate" column="discount_rate" />
+		<result property="auditComment" column="audit_comment" />
+		<result property="auditStaff" column="audit_staff" />
+		<result property="auditState" column="audit_state" />
+		<result property="editAuditState" column="edit_audit_state" />
+		<result property="auditTime" column="audit_time" />
+		<!-- <result property="storeCount" column="store_count" /> -->
+
+	</resultMap>
+
+	<!-- 查询  MerchantAccount -->
+	<select id="findMerchantAccount" parameterType="MerchantAccount" resultMap="merchantAccountResultMap">
+		SELECT 
+            id,create_time,client_id,merchant_id,outlet_id,acct_name,acct_number,acct_type,opening_bank,is_delete,synch_state,audit_state 
+        FROM cb_merchant_account 
+		<where>
+			<if test="id != null">
+				 AND id = #{id}
+			</if>
+			<if test="clientId != null">
+				 AND client_id = #{clientId}
+			</if>
+			<if test="merchantId != null">
+				 AND merchant_id = #{merchantId}
+			</if>
+			<if test="outletId != null">
+				 AND outlet_id = #{outletId}
+			</if>
+			<if test="acctName != null">
+				 AND acct_name = #{acctName}
+			</if>
+			<if test="acctNumber != null">
+				 AND acct_number = #{acctNumber}
+			</if>
+			<if test="acctType != null">
+				 AND acct_type = #{acctType}
+			</if>
+			<if test="openingBank != null">
+				 AND opening_bank = #{openingBank}
+			</if>
+			<if test="isDelete != null">
+				 AND is_delete = #{isDelete}
+			</if>
+			<if test="createTime != null">
+				 AND create_time = #{createTime}
+			</if>
+			<if test="synchState != null">
+				 AND synch_state = #{synchState} 
+			</if>
+			<if test="auditState != null">
+				 AND audit_state = #{auditState}
+			</if>
+		</where>
+	</select>
+		
+	<!-- 查询  Outlet -->
+	<select id="findOutlet" parameterType="Outlet" resultMap="outletInfoResultMap">
+		SELECT 
+            id,client_id,merchant_id,outlet_id,area_id,outlet_name,outlet_fullname,outlet_status,address,longitude,latitude,is_enable,disable_status,phone 
+        FROM cb_outlet 
+		<where>
+			<if test="outletId != null">
+				 AND outlet_id = #{outletId}
+			</if>
+			<if test="merchantId != null">
+				 AND merchant_id = #{merchantId}
+			</if>
+			<if test="areaId != null">
+				 AND area_id = #{areaId}
+			</if>
+			<if test="clientId != null">
+				 AND client_id = #{clientId}
+			</if>
+			<if test="outletName != null">
+				 AND outlet_name like CONCAT('%',#{outletName},'%' )
+			</if>
+			<if test="outletFullname != null">
+				 AND outlet_fullname like CONCAT('%',#{outletFullname},'%' )
+			</if>
+			<if test="outletStatus != null">
+				 AND outlet_status = #{outletStatus}
+			</if>
+			<if test="isEnable != null">
+				 AND is_enable = #{isEnable}
+			</if>
+			<if test="disableStatus != null">
+				 AND disable_status = #{disableStatus}
+			</if>
+		</where>
+	</select>
+
+	
+	<!-- 查询  Merchant -->
+	<select id="findMerchantByMerchantId" parameterType="java.lang.String" resultMap="merchantResultMap">
+		SELECT 
+           create_time,client_id,merchant_id,pro_org_code,city_org_code,county_org_code,org_code,merchant_name,merchant_fullname,logo,address,phone,area_id,merchant_status,is_enable,disable_status,is_top,introduce,license,tax_reg,contract_begintime,contract_endtime,contract_staff,audit_start_org_code,audit_end_org_code,audit_state,audit_org_code,audit_stage,audit_time,audit_comment,audit_staff,review_staff,contact_name,contact_phone,contact_email,legal_name,legal_credent_type,legal_credent_no,complaint_phone,user_org_code,company_credential    
+        FROM cb_merchant 
+        WHERE 
+            merchant_id = #{merchantId}
+
+	</select>
+
+	
+	<!-- 查询  Merchant -->
+	<select id="findMerchant" parameterType="Merchant" resultMap="merchantResultMap">
+		SELECT 
+            cm.create_time,cm.client_id,cm.merchant_id,cm.pro_org_code,cm.city_org_code,cm.county_org_code,cm.org_code,cm.merchant_name,cm.merchant_fullname,cm.logo,cm.address,cm.phone,cm.area_id,cm.merchant_status,cm.is_enable,cm.disable_status,cm.is_top,cm.introduce,cm.license,cm.tax_reg,cm.contract_begintime,cm.contract_endtime,cm.contract_staff,cm.audit_start_org_code,cm.audit_end_org_code,cm.audit_state,cm.audit_org_code,cm.audit_stage,cm.audit_time,cm.audit_comment,cm.audit_staff,cm.review_staff,cm.contact_name,cm.contact_phone,cm.contact_email,cm.legal_name,cm.legal_credent_type,cm.legal_credent_no,cm.complaint_phone,cm.user_org_code,cm.company_credential   
+        FROM cb_merchant cm 
+		<where>
+			<if test="id != null">
+				 AND cm.id = #{id}
+			</if>
+			<if test="createTime != null">
+				 AND cm.create_time <![CDATA[ = ]]> #{createTime}
+			</if>
+			<if test="startCreateTime != null">
+				 AND cm.create_time <![CDATA[ >= ]]> #{startCreateTime}
+			</if>
+			<if test="endCreateTime != null">				
+				 AND cm.create_time <![CDATA[ <= ]]> #.endCreateTime}
+			</if>
+			<if test="clientId != null">
+				 AND cm.client_id = #{clientId}
+			</if>
+			<if test="merchantId != null">
+				 AND cm.merchant_id = #{merchantId}
+			</if>
+			<if test="proOrgCode != null">
+				 AND cm.pro_org_code = #{proOrgCode}
+			</if>
+			<if test="cityOrgCode != null">
+				 AND cm.city_org_code = #{cityOrgCode}
+			</if>
+			<if test="countyOrgCode != null">
+				 AND cm.county_org_code = #{countyOrgCode}
+			</if>
+			<if test="orgCode != null">
+				 AND cm.org_code = #{orgCode}
+			</if>
+			<if test="merchantName != null">
+				 AND cm.merchant_name like CONCAT('%',#{merchantName},'%' )
+			</if>
+			<if test="merchantFullname != null">
+				 AND cm.merchant_fullname like CONCAT('%',#{merchantFullname},'%' )
+			</if>
+			<if test="logo != null">
+				 AND cm.logo = #{logo}
+			</if>
+			<if test="address != null">
+				 AND cm.address = #{address}
+			</if>
+			<if test="phone != null">
+				 AND cm.phone = #{phone}
+			</if>
+			<if test="areaId != null">
+				 AND cm.area_id = #{areaId}
+			</if>
+			<if test="merchantStatus != null">
+				 AND cm.merchant_status = #{merchantStatus}
+			</if>
+			<if test="isEnable != null">
+				 AND cm.is_enable = #{isEnable}
+			</if>
+			<if test="disableStatus != null">
+				 AND cm.disable_status = #{disableStatus}
+			</if>
+			<if test="isTop != null">
+				 AND cm.is_top = #{isTop}
+			</if>
+			<if test="introduce != null">
+				 AND cm.introduce = #{introduce}
+			</if>
+			<if test="license != null">
+				 AND cm.license = #{license}
+			</if>
+			<if test="taxReg != null">
+				 AND cm.tax_reg = #{taxReg}
+			</if>
+			<if test="contractBegintime != null">
+				 AND cm.contract_begintime <![CDATA[ = ]]> #{contractBegintime}
+			</if>
+			<if test="startContractBegintime != null">
+				 AND cm.contract_begintime <![CDATA[ >= ]]> #{startContractBegintime}
+			</if>
+			<if test="endContractBegintime != null">
+				 AND cm.contract_begintime <![CDATA[ <= ]]> #{endContractBegintime}
+			</if>
+			<if test="contractEndtime != null">
+				 AND cm.contract_endtime <![CDATA[ = ]]> #{contractEndtime}
+			</if>
+			<if test="startContractEndtime != null">
+				 AND cm.contract_endtime <![CDATA[ >= ]]> #{startContractEndtime}
+			</if>
+			<if test="endContractEndtime != null">
+				 AND cm.contract_endtime <![CDATA[ <= ]]> #{endContractEndtime}
+			</if>
+			<if test="contractStaff != null">
+				 AND cm.contract_staff = #{contractStaff}
+			</if>
+			<if test="auditStartOrgCode != null">
+				 AND cm.audit_start_org_code = #{auditStartOrgCode}
+			</if>
+			<if test="auditEndOrgCode != null">
+				 AND cm.audit_end_org_code = #{auditEndOrgCode}
+			</if>
+			<if test="auditState != null">
+				 AND cm.audit_state = #{auditState}
+			</if>
+			<if test="auditOrgCode != null">
+				 AND cm.audit_org_code = #{auditOrgCode}
+			</if>
+			<if test="auditStage != null">
+				 AND cm.audit_stage = #{auditStage}
+			</if>
+			<if test="auditTime != null">
+				 AND cm.audit_time = #{auditTime}
+			</if>
+			<if test="auditComment != null">
+				 AND cm.audit_comment = #{auditComment}
+			</if>
+			<if test="auditTime != null">
+				 AND cm.audit_time <![CDATA[ = ]]> #{auditTime}
+			</if>
+			<if test="startAuditTime != null">
+				 AND cm.audit_time <![CDATA[ >= ]]> #{startAuditTime}
+			</if>
+			<if test="endAuditTime != null">				
+				 AND cm.audit_time <![CDATA[ <= ]]> #{endAuditTime}
+			</if>
+			<if test="auditStaff != null">
+				 AND cm.audit_staff = #{auditStaff}
+			</if>
+			<if test="reviewStaff != null">
+				 AND cm.review_staff = #{reviewStaff}
+			</if>
+			<if test="contactName != null">
+				 AND cm.contact_name = #{contactName}
+			</if>
+			<if test="contactPhone != null">
+				 AND cm.contact_phone = #{contactPhone}
+			</if>
+			<if test="contactEmail != null">
+				 AND cm.contact_email = #{contactEmail}
+			</if>
+			<if test="legalName != null">
+				 AND cm.legal_name = #{legalName}
+			</if>
+			<if test="legalCredentType != null">
+				 AND cm.legal_credent_type = #{legalCredentType}
+			</if>
+			<if test="legalCredentNo != null">
+				 AND cm.legal_credent_no = #{legalCredentNo}
+			</if>
+			
+		</where>
+	</select>
+	
+	
+	<!-- 查询客户端的所有虚拟门店  Outlet id;outletId;outletName;address;areaId;orgCode;phone;-->
+	<select id="findBankOutletsByClientId" parameterType="Map" resultMap="outletResultMap">
+		<![CDATA[
+		SELECT 
+            o.id,o.client_id,o.outlet_id,o.outlet_name,o.address,o.phone,o.area_id,org.org_code 
+        FROM cb_outlet o
+        LEFT JOIN cb_org org ON org.outlet_id=o.outlet_id 
+        WHERE o.is_enable = 1 AND o.outlet_status=1 AND o.client_id = #{clientId}
+        ]]>
+	</select>
+	
+	
+	<!-- 查询  Outlet -->
+	<select id="findOutletByOutletId" parameterType="java.lang.String" resultMap="outletInfoResultMap">
+		SELECT 
+            id,create_time,client_id,merchant_id,outlet_id,area_id,order_value,outlet_name,outlet_fullname,outlet_status,address,business_hours,zip,fax,phone,contact_name,contact_phone,contact_email,service_provider,longitude,latitude,is_enable,disable_status,description,prefer_details,prefer_start_period,prefer_end_period,discount,audit_state
+        FROM cb_outlet 
+        WHERE 
+            outlet_id = #{outletId}
+	</select>
+
+
+</mapper>
+

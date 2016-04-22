@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="goods">
+	<typeAlias alias="prod" type="com.froad.CB.po.Goods"/>
+	
+	<resultMap id="GoodsResult" class="prod">
+		<result column="id" property="id" jdbcType="INTEGER" />
+		<result column="id" property="goodsRackAttrList" select="goodsRackAttribute.selectByGoodsRackId"/>
+		<result column="merchant_id" property="merchantId" jdbcType="VARCHAR" />
+		<result column="merchant_id" property="merchant" select="merchant.selectByPrimaryKey"/>
+		<result column="goods_sn" property="goodsSn" jdbcType="VARCHAR" />
+		<result column="goods_name" property="goodsName" jdbcType="VARCHAR" />
+		<result column="origin_price" property="originPrice" jdbcType="VARCHAR"/>
+		<result column="price" property="price" jdbcType="VARCHAR" />
+		<result column="market_price" property="marketPrice" jdbcType="VARCHAR" />
+		<result column="weight" property="weight" jdbcType="VARCHAR" />
+		<result column="weight_unit" property="weightUnit" jdbcType="VARCHAR" />
+		<result column="store" property="store" jdbcType="INTEGER" />
+		<result column="freeze_store" property="freezeStore" jdbcType="INTEGER" />
+		<result column="warn_number" property="warnNumber" jdbcType="VARCHAR" />
+		<result column="is_best" property="isBest" jdbcType="VARCHAR" />
+		<result column="is_new" property="isNew" jdbcType="VARCHAR" />
+		<result column="is_hot" property="isHot" jdbcType="VARCHAR" />
+		<result column="keywords" property="keywords" jdbcType="VARCHAR" />
+		<result column="goods_desc" property="goodsDesc" jdbcType="VARCHAR" />
+		<result column="source_url" property="sourceUrl" jdbcType="VARCHAR" />
+		<result column="big_url" property="bigUrl" jdbcType="VARCHAR" />
+		<result column="small_url" property="smallUrl" jdbcType="VARCHAR" />
+		<result column="thumbnail_url" property="thumbnailUrl" jdbcType="VARCHAR" />
+		<result column="goods_category_id" property="goodsCategoryId" jdbcType="VARCHAR" />
+		<result column="goods_category_id" property="goodsCategory" select="goodsCategory.getGoodsCategoryById"/>
+		<result column="brand_id" property="brandId" jdbcType="VARCHAR" />
+		<result column="goods_type" property="goodsType" jdbcType="VARCHAR" />
+		<result column="state" property="state" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="VARCHAR" />
+		<result column="update_time" property="updateTime" jdbcType="VARCHAR" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+		<result column="is_auto" property="isAuto" jdbcType="VARCHAR"/>
+		
+		<result column="goods_image_list_store" property="goodsImageListStore"/>
+	</resultMap>
+	
+	<select id="selectById" resultMap="GoodsResult" parameterClass="java.lang.Integer">
+		select * from goods where id = #id#
+	</select>
+	
+	<select id="getStoreById" resultClass="java.lang.Integer" parameterClass="java.lang.Integer">
+		select store from goods where id = #id#
+	</select>
+	
+	<select id="getGoodsByMerchantId" resultMap="GoodsResult" parameterClass="string">
+		select * from goods where merchant_id = #value#
+	</select>
+	
+	<delete id="deleteById" parameterClass="java.lang.Integer">
+		delete from goods where id = #id:INTEGER#
+	</delete>
+	
+	<insert id="insert" parameterClass="prod">
+		insert into goods (id,origin_price,merchant_id, goods_sn, goods_name, price,
+		market_price, weight, weight_unit, store, freeze_store,
+		warn_number, is_best, is_new, is_hot, keywords, goods_desc,
+		source_url, big_url, small_url, thumbnail_url,
+		goods_category_id, brand_id, goods_type, state,remark,
+		goods_image_list_store,is_auto,create_time,update_time) values (
+		#id:INTEGER#, #originPrice#,#merchantId:VARCHAR#,
+		#goodsSn:VARCHAR#, #goodsName:VARCHAR#, #price:VARCHAR#,
+		#marketPrice:VARCHAR#, #weight:VARCHAR#, #weightUnit:VARCHAR#,
+		#store:INTEGER#, #freezeStore:INTEGER#, #warnNumber:VARCHAR#,
+		#isBest:VARCHAR#, #isNew:VARCHAR#, #isHot:VARCHAR#,
+		#keywords:VARCHAR#, #goodsDesc:VARCHAR#, #sourceUrl:VARCHAR#,
+		#bigUrl:VARCHAR#, #smallUrl:VARCHAR#, #thumbnailUrl:VARCHAR#,
+		#goodsCategoryId:VARCHAR#, #brandId:VARCHAR#,
+		#goodsType:VARCHAR#, #state:VARCHAR#,#remark:VARCHAR#,#goodsImageListStore#,#isAuto#,
+		DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"))
+		<selectKey keyProperty="id" resultClass="int">
+			select last_insert_id() as id
+		</selectKey>
+	</insert>
+	
+	<update id="updateStateById" parameterClass="java.util.HashMap">
+		update goods set update_time =DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),state=#state# where id=#id#
+	</update>
+	
+	<!-- 减库存 -->
+	<update id="reduceStoreById" parameterClass="java.util.HashMap">
+		<![CDATA[
+			update goods set update_time=DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),
+			store=store-#num# where id=#id#
+		]]>
+	</update>
+	
+	<update id="updateById" parameterClass="prod">
+		update goods set update_time =DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s")
+		<dynamic>
+			<isNotEmpty prepend="," property="isAuto">
+				is_auto=#isAuto#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="merchantId">
+				merchant_id = #merchantId:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="originPrice">
+				origin_price = #originPrice:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="goodsSn">
+				goods_sn = #goodsSn:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="goodsName">
+				goods_name = #goodsName:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="price">
+				price = #price:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="marketPrice">
+				market_price = #marketPrice:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="weight">
+				weight = #weight:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="weightUnit">
+				weight_unit = #weightUnit:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="store">
+				store = #store:INTEGER#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="freezeStore">
+				freeze_store = #freezeStore:INTEGER#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="warnNumber">
+				warn_number = #warnNumber:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="isBest">
+				is_best = #isBest:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="isNew">
+				is_new = #isNew:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="isHot">
+				is_hot = #isHot:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="keywords">
+				keywords = #keywords:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="goodsDesc">
+				goods_desc = #goodsDesc:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="sourceUrl">
+				source_url = #sourceUrl:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="bigUrl">
+				big_url = #bigUrl:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="smallUrl">
+				small_url = #smallUrl:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="thumbnailUrl">
+				thumbnail_url = #thumbnailUrl:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="goodsCategoryId">
+				goods_category_id = #goodsCategoryId:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="brandId">
+				brand_id = #brandId:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="goodsType">
+				goods_type = #goodsType:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="state">
+				state = #state:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="remark">
+				remark = #remark:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="goodsImageListStore">
+				goods_image_list_store = #goodsImageListStore#
+			</isNotEmpty>
+		</dynamic>
+		where id = #id:INTEGER#
+	</update>
+	
+	<!-- 分页查询 -->
+	<select id="getByPager" resultMap="GoodsResult" parameterClass="prod">
+		select * from goods
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="isAuto">
+				is_auto=#isAuto#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="id">
+				id = #id:INTEGER#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="merchantId">
+				merchant_id = #merchantId:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="originPrice">
+				origin_price = #originPrice:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="goodsSn">
+				goods_sn = #goodsSn:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="goodsName">
+				goods_name = #goodsName:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="price">
+				price = #price:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="marketPrice">
+				market_price = #marketPrice:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="weight">
+				weight = #weight:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="weightUnit">
+				weight_unit = #weightUnit:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="store">
+				store = #store:INTEGER#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="freezeStore">
+				freeze_store = #freezeStore:INTEGER#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="warnNumber">
+				warn_number = #warnNumber:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="isBest">
+				is_best = #isBest:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="isNew">
+				is_new = #isNew:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="isHot">
+				is_hot = #isHot:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="keywords">
+				keywords = #keywords:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="goodsDesc">
+				goods_desc = #goodsDesc:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="sourceUrl">
+				source_url = #sourceUrl:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="bigUrl">
+				big_url = #bigUrl:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="smallUrl">
+				small_url = #smallUrl:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="thumbnailUrl">
+				thumbnail_url = #thumbnailUrl:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="goodsCategoryId">
+				goods_category_id = #goodsCategoryId:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="brandId">
+				brand_id = #brandId:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="goodsType">
+				goods_type = #goodsType:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="state">
+				state = #state:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="remark">
+				remark = #remark:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="goodsImageListStore">
+				goods_image_list_store = #goodsImageListStore#
+			</isNotEmpty>
+			<isNotEmpty property="beginTime">
+    			<isNotEmpty property="endTime" prepend="and">
+    				create_time between #beginTime# and #endTime#
+    			</isNotEmpty>
+    		</isNotEmpty>
+    	</dynamic>
+         <![CDATA[ 
+         order by $orderBy$ $orderType$ 
+         limit #startRow#,#pageSize#
+         ]]>
+	</select>
+	
+	<select id="getByPagerCount" resultClass="java.lang.Integer" parameterClass="prod">
+		select count(*) from goods
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="isAuto">
+				is_auto=#isAuto#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="id">
+				id = #id:INTEGER#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="merchantId">
+				merchant_id = #merchantId:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="originPrice">
+				origin_price = #originPrice:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="goodsSn">
+				goods_sn = #goodsSn:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="goodsName">
+				goods_name = #goodsName:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="price">
+				price = #price:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="marketPrice">
+				market_price = #marketPrice:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="weight">
+				weight = #weight:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="weightUnit">
+				weight_unit = #weightUnit:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="store">
+				store = #store:INTEGER#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="freezeStore">
+				freeze_store = #freezeStore:INTEGER#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="warnNumber">
+				warn_number = #warnNumber:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="isBest">
+				is_best = #isBest:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="isNew">
+				is_new = #isNew:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="isHot">
+				is_hot = #isHot:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="keywords">
+				keywords = #keywords:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="goodsDesc">
+				goods_desc = #goodsDesc:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="sourceUrl">
+				source_url = #sourceUrl:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="bigUrl">
+				big_url = #bigUrl:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="smallUrl">
+				small_url = #smallUrl:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="thumbnailUrl">
+				thumbnail_url = #thumbnailUrl:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="goodsCategoryId">
+				goods_category_id = #goodsCategoryId:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="brandId">
+				brand_id = #brandId:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="goodsType">
+				goods_type = #goodsType:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="state">
+				state = #state:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="remark">
+				remark = #remark:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="goodsImageListStore">
+				goods_image_list_store = #goodsImageListStore#
+			</isNotEmpty>
+			<isNotEmpty property="beginTime">
+    			<isNotEmpty property="endTime" prepend="and">
+    				create_time between #beginTime# and #endTime#
+    			</isNotEmpty>
+    		</isNotEmpty>
+    	</dynamic>
+	</select>
+	
+	<!-- 通过goods_rackid和对应的table 查询商品名 -->
+	<select id="getGoodsInfoByGoodsRackId" resultClass="java.lang.String" parameterClass="prod">
+		<![CDATA[
+		select g.goods_name goodName
+		from 
+	 		goods g join $table$  gr
+		on gr.goods_id = g.id where gr.id = #goodsRockId#
+		]]>
+	</select>
+</sqlMap>

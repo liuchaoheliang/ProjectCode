@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.mysql.mappers.ProductMapper">
+	<resultMap type="ReportMerchantProduct" id="reportMerchantProductResultMap">
+		<id property="id" column="id" />
+		<result property="createTime" column="create_time" />
+		<result property="clientId" column="client_id" />
+		<result property="productId" column="product_id" />
+		<result property="type" column="type" />
+		<result property="merchantId" column="merchant_id" />
+		<result property="merchantName" column="merchant_name" />
+		<result property="orgCode" column="org_code" />
+		<result property="category" column="category" />
+		<result property="totalProducts" column="total_products" />
+		<result property="isMarketable" column="is_marketable"/>
+		<result property="auditState" column="audit_state"/>
+		<result property="auditTime" column="audit_time"/>
+	</resultMap>
+	
+	<resultMap type="Product" id="productResultMap">
+		<id property="id" column="id" />
+		<result property="clientId" column="client_id" />
+		<result property="merchantId" column="merchant_id" />
+		<result property="merchantName" column="merchant_name" />
+		<result property="orgCode" column="org_code" />
+		<result property="productId" column="product_id" />
+		<result property="isMarketable" column="is_marketable" />
+		<result property="createTime" column="create_time" />
+		<result property="rackTime" column="rack_time" />
+		<result property="downTime" column="down_time" />
+		<result property="startTime" column="start_time" />
+		<result property="endTime" column="end_time" />
+		<result property="type" column="type" />
+		<result property="deliveryOption" column="delivery_option" />
+		<result property="name" column="name" />
+		<result property="fullName" column="full_name" />
+		<result property="price" column="price" />
+		<result property="cost" column="cost" />
+		<result property="marketPrice" column="market_price" />
+		<result property="weight" column="weight" />
+		<result property="weightUnit" column="weight_unit" />
+		<result property="store" column="store" />
+		<result property="isBest" column="is_best" />
+		<result property="isLimit" column="is_limit" />
+		<result property="point" column="point" />
+		<result property="briefIntroduction" column="brief_introduction" />
+		<result property="introduction" column="introduction" />
+		<result property="buyKnow" column="buy_know" />
+		<result property="auditState" column="audit_state" />
+		<result property="auditOrgCode" column="audit_org_code" />
+		<result property="auditStartOrgCode" column="audit_start_org_code" />
+		<result property="auditEndOrgCode" column="audit_end_org_code" /> 
+		<result property="auditStage" column="audit_stage" />
+		<result property="auditTime" column="audit_time" />
+		<result property="auditComment" column="audit_comment" />
+		<result property="reviewStaff" column="review_staff" />
+		<result property="auditStaff" column="audit_staff" />
+		<result property="orderValue" column="order_value" />
+		<result property="sellCount" column="sell_count" />
+		<result property="deliveryMoney" column="delivery_money" />
+		<result property="isSeckill" column="is_seckill" />
+		<result property="proOrgCode" column="province_agency" />
+		<result property="cityOrgCode" column="city_agency" />
+		<result property="countryOrgCode" column="county_agency" />
+		<result property="categoryTreePath" column="category_tree_path" />
+	</resultMap>
+	
+	<resultMap type="ProductCategory" id="productCategoryResultMap">
+		<id property="id" column="id" />
+		<result property="clientId" column="client_id" />
+		<result property="name" column="name" />
+		<result property="treePath" column="tree_path" />
+		<result property="parentId" column="parent_id" />
+		<result property="isDelete" column="is_delete" />
+		<result property="icoUrl" column="ico_url" />
+		<result property="orderValue" column="order_value" />
+	</resultMap>
+	
+	<sql id="selectColumn">
+		id,client_id,merchant_id,org_code,product_id,is_marketable,create_time,rack_time,down_time,start_time,end_time,type,
+		delivery_option,name,full_name,price,cost,market_price,weight,weight_unit,store,is_best,is_limit,point,brief_introduction,
+		introduction,buy_know,audit_state,audit_org_code,audit_start_org_code,audit_end_org_code,audit_stage,audit_time,audit_comment,
+		review_staff,audit_staff,order_value,sell_count,delivery_money,is_seckill,province_agency,city_agency,county_agency,
+		category_tree_path,merchant_name
+	</sql>
+	
+    <!-- presell("2","预售"),onlinePoint("4","在线积分兑换"),dotGift("5","网点礼品")取机构码，其他取真实商户ID -->
+	<select id="makeReportMerchantProductDataByPage" resultMap="reportMerchantProductResultMap">
+		SELECT 
+			client_id,type,merchant_id,org_code,product_id,create_time,merchant_name,category_tree_path as category, 
+			count(id) as total_products,is_marketable,audit_state,audit_time 
+		FROM cb_product 
+		<where>
+			audit_time IS NOT NULL AND type in ('1', '2', '3') 
+			<if test="date != null">
+			<![CDATA[
+				AND create_time <= #{date} 
+			]]>
+			</if>
+		</where>
+		GROUP BY type,category_tree_path,merchant_id,product_id 
+	</select>
+	
+	<select id="findRecordCountByDate" resultType="int">
+		SELECT COUNT(1) FROM (
+			SELECT 1 FROM cb_product 
+			<where>
+				audit_time IS NOT NULL AND type in ('1', '2', '3')  
+				<if test="date != null">
+				<![CDATA[
+					AND create_time <= #{date} 
+				]]>
+				</if>				
+			</where>
+			GROUP BY type,category_tree_path,merchant_id,product_id
+		) AS cb_result
+	</select>	
+	
+	<select id="findProductCategory" resultMap="productCategoryResultMap">
+		SELECT id,client_id,name,tree_path,parent_id,is_delete,ico_url,order_value 
+		FROM cb_product_category
+	</select>
+	
+	
+	<!-- 查询  Product -->
+	<select id="getProducts" parameterType="Map" resultType="java.lang.String">
+		SELECT product_id 
+		FROM cb_product 
+		<where>
+			is_marketable = 1 AND audit_state = 1 
+			<if test="clientId != null and clientId !=''">
+				 AND client_id = #{clientId} 
+			</if>
+			<if test="merchantId != null and merchantId !=''">
+				 AND merchant_id = #{merchantId} 
+			</if>
+			<if test="productId != null and productId !=''">
+				 AND product_id = #{productId} 
+			</if>
+			<if test="type != null and type !=''">
+				 AND type = #{type} 
+			</if>
+			<if test="category != null">
+			<![CDATA[
+				AND category_tree_path = #{category}
+			]]>
+			</if>
+			<if test="startDate != null">
+				AND create_time >= #{startDate} 
+			</if>
+			<if test="endDate != null">
+				<![CDATA[
+				AND create_time <= #{endDate} 
+				]]>
+			</if>
+			<if test="productIds!=null and productIds.size>0">
+				 AND product_id IN  
+				 <foreach collection="productIds" item="item" open="(" separator="," close=")">
+                      #{item}
+				 </foreach>
+			</if>
+		</where>
+	</select>
+	
+	<select id="findProductCountByPage" resultMap="reportMerchantProductResultMap">
+		SELECT client_id, org_code, COUNT(1) as total_products FROM cb_product 
+		<where>
+			is_marketable = '1' AND audit_state = '1' AND type in ('1', '2', '3')  
+			<if test="endDate != null">
+				<![CDATA[
+				AND audit_time <= #{endDate} 
+				]]>
+			</if>								
+		</where>
+		GROUP BY client_id, org_code
+	</select>		
+	
+</mapper>

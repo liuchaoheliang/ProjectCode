@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.mysql.rp_mappers.BatchNodeMapper">
+	
+	<resultMap type="BatchNode" id="BatchNodeRM">
+		<result property="nodeId" column="node_id"/>
+		<result property="nodeName" column="node_name"/>
+		<result property="nodeIp" column="node_ip"/>
+		<result property="nodePort" column="node_port"/>
+		<result property="masterNode" column="master_node"/>
+		<result property="remark" column="remark"/>
+	</resultMap>
+	
+	<select id="findAll" resultMap="BatchNodeRM">
+		select node_id, node_name, node_ip, node_port, master_node, remark from cb_report_batch_node
+	</select>	
+</mapper>

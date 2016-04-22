@@ -1,0 +1,580 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.mysql.mapper.TaskMapper">
+
+	<resultMap type="Task" id="taskResultMap">
+		<id property="id" column="id" />
+		<result property="createTime" column="create_time" />
+		<result property="updateTime" column="update_time" />
+		<result property="clientId" column="client_id" />
+		<result property="instanceId" column="instance_id" />
+		<result property="nodeId" column="node_id" />
+		<result property="taskId" column="task_id" />
+		<result property="parentTaskId" column="parent_task_id" />
+		<result property="name" column="name" />
+		<result property="displayName" column="display_name" />
+		<result property="performType" column="perform_type" />
+		<result property="taskType" column="task_type" />
+		<result property="operator" column="operator" />
+		<result property="finishTime" column="finish_time" />
+		<result property="orgId" column="org_id" />
+	</resultMap>
+
+
+	<!-- 所有字段list -->
+	<sql id="Base_Column_List">
+		id,create_time,update_time,client_id,instance_id,node_id,task_id,parent_task_id,name,display_name,perform_type,task_type,operator,finish_time,org_id
+	</sql>
+
+
+	<!-- 不包含ID字段list -->
+	<sql id="Not_ID_Column_List">
+		create_time,update_time,client_id,instance_id,node_id,task_id,parent_task_id,name,display_name,perform_type,task_type,operator,finish_time,org_id
+	</sql>
+
+
+	<!-- 添加  Task -->
+	<insert id="addTask" parameterType="Task" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO cb_task (
+			<include refid="Not_ID_Column_List" />
+		) VALUES (
+			#{createTime},#{updateTime},#{clientId},#{instanceId},#{nodeId},#{taskId},#{parentTaskId},#{name},#{displayName},#{performType},#{taskType},#{operator},#{finishTime},#{orgId}
+		) 
+	</insert>
+
+
+	<!-- 批量添加  Task -->
+	<insert id="addTaskByBatch" parameterType="java.util.List">
+		INSERT INTO cb_task (
+			<include refid="Not_ID_Column_List" />
+		) VALUES 
+		<foreach collection="taskList" item="item" index="index" separator=",">
+			(#{item.createTime},#{item.updateTime},#{item.clientId},#{item.instanceId},#{item.nodeId},#{item.taskId},#{item.parentTaskId},#{item.name},#{item.displayName},#{item.performType},#{item.taskType},#{item.operator},#{item.finishTime},#{item.orgId})
+		</foreach>
+	</insert>
+
+
+	<!-- 删除  Task -->
+	<delete id="deleteTask" parameterType="Task">
+		DELETE FROM cb_task 
+		<where>
+			<if test="id != null">
+				AND id = #{id}
+			</if>
+			<if test="createTime != null">
+				AND create_time = #{createTime}
+			</if>
+			<if test="updateTime != null">
+				AND update_time = #{updateTime}
+			</if>
+			<if test="clientId != null">
+				AND client_id = #{clientId}
+			</if>
+			<if test="instanceId != null">
+				AND instance_id = #{instanceId}
+			</if>
+			<if test="nodeId != null">
+				AND node_id = #{nodeId}
+			</if>
+			<if test="taskId != null">
+				AND task_id = #{taskId}
+			</if>
+			<if test="parentTaskId != null">
+				AND parent_task_id = #{parentTaskId}
+			</if>
+			<if test="name != null">
+				AND name = #{name}
+			</if>
+			<if test="displayName != null">
+				AND display_name = #{displayName}
+			</if>
+			<if test="performType != null">
+				AND perform_type = #{performType}
+			</if>
+			<if test="taskType != null">
+				AND task_type = #{taskType}
+			</if>
+			<if test="operator != null">
+				AND operator = #{operator}
+			</if>
+			<if test="finishTime != null">
+				AND finish_time = #{finishTime}
+			</if>
+			<if test="orgId != null">
+				AND org_id = #{orgId}
+			</if>
+		</where>
+	</delete>
+
+
+	<!-- 根据id删除  Task -->
+	<delete id="deleteTaskById" parameterType="java.lang.Long">
+		DELETE FROM cb_task 
+		 WHERE 
+			 id = #{id} 
+	</delete>
+
+
+	<!-- 根据taskId删除  Task -->
+	<delete id="deleteTaskByTaskId" parameterType="java.lang.String">
+		DELETE FROM cb_task 
+		 WHERE 
+            task_id = #{taskId}
+	</delete>
+
+
+	<!-- 根据instanceId删除  Task -->
+	<delete id="deleteTaskByInstanceId" parameterType="java.lang.String">
+		DELETE FROM cb_task 
+		 WHERE 
+            instance_id = #{instanceId}
+	</delete>
+
+
+	<!-- 修改  Task -->
+	<update id="updateTask" parameterType="Task">
+		UPDATE cb_task 
+		<set>
+			<if test="id != null">
+				id = #{id}, 
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime}, 
+			</if>
+			<if test="updateTime != null">
+				update_time = #{updateTime}, 
+			</if>
+			<if test="clientId != null">
+				client_id = #{clientId}, 
+			</if>
+			<if test="instanceId != null">
+				instance_id = #{instanceId}, 
+			</if>
+			<if test="nodeId != null">
+				node_id = #{nodeId}, 
+			</if>
+			<if test="taskId != null">
+				task_id = #{taskId}, 
+			</if>
+			<if test="parentTaskId != null">
+				parent_task_id = #{parentTaskId}, 
+			</if>
+			<if test="name != null">
+				name = #{name}, 
+			</if>
+			<if test="displayName != null">
+				display_name = #{displayName}, 
+			</if>
+			<if test="performType != null">
+				perform_type = #{performType}, 
+			</if>
+			<if test="taskType != null">
+				task_type = #{taskType}, 
+			</if>
+			<if test="operator != null">
+				operator = #{operator}, 
+			</if>
+			<if test="finishTime != null">
+				finish_time = #{finishTime}, 
+			</if>
+		</set>
+
+		<where>
+			<if test="id != null">
+				AND id = #{id}
+			</if>
+			<if test="createTime != null">
+				AND create_time = #{createTime}
+			</if>
+			<if test="updateTime != null">
+				AND update_time = #{updateTime}
+			</if>
+			<if test="clientId != null">
+				AND client_id = #{clientId}
+			</if>
+			<if test="instanceId != null">
+				AND instance_id = #{instanceId}
+			</if>
+			<if test="nodeId != null">
+				AND node_id = #{nodeId}
+			</if>
+			<if test="taskId != null">
+				AND task_id = #{taskId}
+			</if>
+			<if test="parentTaskId != null">
+				AND parent_task_id = #{parentTaskId}
+			</if>
+			<if test="name != null">
+				AND name = #{name}
+			</if>
+			<if test="displayName != null">
+				AND display_name = #{displayName}
+			</if>
+			<if test="performType != null">
+				AND perform_type = #{performType}
+			</if>
+			<if test="taskType != null">
+				AND task_type = #{taskType}
+			</if>
+			<if test="operator != null">
+				AND operator = #{operator}
+			</if>
+			<if test="finishTime != null">
+				AND finish_time = #{finishTime}
+			</if>
+			<if test="orgId != null">
+				AND org_id = #{orgId}
+			</if>
+		</where>
+	</update>
+
+
+	<!-- 根据id修改  Task -->
+	<update id="updateTaskById" parameterType="Task">
+		UPDATE cb_task 
+		<set>
+			<if test="createTime != null">
+				create_time = #{createTime}, 
+			</if>
+			<if test="updateTime != null">
+				update_time = #{updateTime}, 
+			</if>
+			<if test="clientId != null">
+				client_id = #{clientId}, 
+			</if>
+			<if test="instanceId != null">
+				instance_id = #{instanceId}, 
+			</if>
+			<if test="nodeId != null">
+				node_id = #{nodeId}, 
+			</if>
+			<if test="taskId != null">
+				task_id = #{taskId}, 
+			</if>
+			<if test="parentTaskId != null">
+				parent_task_id = #{parentTaskId}, 
+			</if>
+			<if test="name != null">
+				name = #{name}, 
+			</if>
+			<if test="displayName != null">
+				display_name = #{displayName}, 
+			</if>
+			<if test="performType != null">
+				perform_type = #{performType}, 
+			</if>
+			<if test="taskType != null">
+				task_type = #{taskType}, 
+			</if>
+			<if test="operator != null">
+				operator = #{operator}, 
+			</if>
+			<if test="finishTime != null">
+				finish_time = #{finishTime}, 
+			</if>
+			<if test="orgId != null">
+				org_id = #{orgId}, 
+			</if>
+		</set>
+
+		 WHERE 
+            id = #{id} 
+	</update>
+
+
+	<!-- 根据taskId修改  Task -->
+	<update id="updateTaskByTaskId" parameterType="Task">
+		UPDATE cb_task 
+		<set>
+			<if test="createTime != null">
+				create_time = #{createTime}, 
+			</if>
+			<if test="updateTime != null">
+				update_time = #{updateTime}, 
+			</if>
+			<if test="clientId != null">
+				client_id = #{clientId}, 
+			</if>
+			<if test="instanceId != null">
+				instance_id = #{instanceId}, 
+			</if>
+			<if test="nodeId != null">
+				node_id = #{nodeId}, 
+			</if>
+			<if test="parentTaskId != null">
+				parent_task_id = #{parentTaskId}, 
+			</if>
+			<if test="name != null">
+				name = #{name}, 
+			</if>
+			<if test="displayName != null">
+				display_name = #{displayName}, 
+			</if>
+			<if test="performType != null">
+				perform_type = #{performType}, 
+			</if>
+			<if test="taskType != null">
+				task_type = #{taskType}, 
+			</if>
+			<if test="operator != null">
+				operator = #{operator}, 
+			</if>
+			<if test="finishTime != null">
+				finish_time = #{finishTime}, 
+			</if>
+			<if test="orgId != null">
+				org_id = #{orgId}, 
+			</if>
+		</set>
+
+		 WHERE 
+            task_id = #{taskId}
+	</update>
+
+
+	<!-- 根据id查询  Task -->
+	<select id="findTaskById" parameterType="java.lang.Long" resultMap="taskResultMap">
+		SELECT 
+			<include refid="Base_Column_List" />
+        FROM cb_task 
+        WHERE 
+            id = #{id}
+
+	</select>
+
+	<!-- 根据taskId查询 Task -->
+	<select id="findTaskByTaskId" parameterType="java.lang.String" resultMap="taskResultMap">
+		SELECT 
+			<include refid="Base_Column_List" />
+        FROM cb_task 
+        WHERE 
+            task_id = #{taskId}
+
+	</select>
+
+	<!-- 查询一个  Task -->
+	<select id="findOneTask" parameterType="Task" resultMap="taskResultMap">
+		SELECT 
+			<include refid="Base_Column_List" />
+        FROM cb_task 
+		<where>
+			<if test="id != null">
+				 AND id = #{id}
+			</if>
+			<if test="createTime != null">
+				 AND create_time = #{createTime}
+			</if>
+			<if test="updateTime != null">
+				 AND update_time = #{updateTime}
+			</if>
+			<if test="clientId != null">
+				 AND client_id = #{clientId}
+			</if>
+			<if test="instanceId != null">
+				 AND instance_id = #{instanceId}
+			</if>
+			<if test="nodeId != null">
+				 AND node_id = #{nodeId}
+			</if>
+			<if test="taskId != null">
+				 AND task_id = #{taskId}
+			</if>
+			<if test="parentTaskId != null">
+				 AND parent_task_id = #{parentTaskId}
+			</if>
+			<if test="name != null">
+				 AND name = #{name}
+			</if>
+			<if test="displayName != null">
+				 AND display_name = #{displayName}
+			</if>
+			<if test="performType != null">
+				 AND perform_type = #{performType}
+			</if>
+			<if test="taskType != null">
+				 AND task_type = #{taskType}
+			</if>
+			<if test="operator != null">
+				 AND operator = #{operator}
+			</if>
+			<if test="finishTime != null">
+				 AND finish_time = #{finishTime}
+			</if>
+			<if test="orgId != null">
+				 AND org_id = #{orgId}
+			</if>
+		 LIMIT 1 
+		</where>
+	</select>
+
+	<!-- 统计  Task -->
+	<select id="countTask" parameterType="Task" resultType="java.lang.Integer">
+		SELECT COUNT(0) FROM cb_task 
+		<where>
+			<if test="id != null">
+				 AND id = #{id}
+			</if>
+			<if test="createTime != null">
+				 AND create_time = #{createTime}
+			</if>
+			<if test="updateTime != null">
+				 AND update_time = #{updateTime}
+			</if>
+			<if test="clientId != null">
+				 AND client_id = #{clientId}
+			</if>
+			<if test="instanceId != null">
+				 AND instance_id = #{instanceId}
+			</if>
+			<if test="nodeId != null">
+				 AND node_id = #{nodeId}
+			</if>
+			<if test="taskId != null">
+				 AND task_id = #{taskId}
+			</if>
+			<if test="parentTaskId != null">
+				 AND parent_task_id = #{parentTaskId}
+			</if>
+			<if test="name != null">
+				 AND name = #{name}
+			</if>
+			<if test="displayName != null">
+				 AND display_name = #{displayName}
+			</if>
+			<if test="performType != null">
+				 AND perform_type = #{performType}
+			</if>
+			<if test="taskType != null">
+				 AND task_type = #{taskType}
+			</if>
+			<if test="operator != null">
+				 AND operator = #{operator}
+			</if>
+			<if test="finishTime != null">
+				 AND finish_time = #{finishTime}
+			</if>
+			<if test="orgId != null">
+				 AND org_id = #{orgId}
+			</if>
+		</where>
+	</select>
+
+	<!-- 查询  Task -->
+	<select id="findTask" parameterType="Task" resultMap="taskResultMap">
+		SELECT 
+			<include refid="Base_Column_List" />
+        FROM cb_task 
+		<if test="task != null">
+			<where>
+				<if test="task.id != null">
+					 AND id = #{task.id}
+				</if>
+				<if test="task.createTime != null">
+					 AND create_time = #{task.createTime}
+				</if>
+				<if test="task.updateTime != null">
+					 AND update_time = #{task.updateTime}
+				</if>
+				<if test="task.clientId != null">
+					 AND client_id = #{task.clientId}
+				</if>
+				<if test="task.instanceId != null">
+					 AND instance_id = #{task.instanceId}
+				</if>
+				<if test="task.nodeId != null">
+					 AND node_id = #{task.nodeId}
+				</if>
+				<if test="task.taskId != null">
+					 AND task_id = #{task.taskId}
+				</if>
+				<if test="task.parentTaskId != null">
+					 AND parent_task_id = #{task.parentTaskId}
+				</if>
+				<if test="task.name != null">
+					 AND name = #{task.name}
+				</if>
+				<if test="task.displayName != null">
+					 AND display_name = #{task.displayName}
+				</if>
+				<if test="task.performType != null">
+					 AND perform_type = #{task.performType}
+				</if>
+				<if test="task.taskType != null">
+					 AND task_type = #{task.taskType}
+				</if>
+				<if test="task.operator != null">
+					 AND operator = #{task.operator}
+				</if>
+				<if test="task.finishTime != null">
+					 AND finish_time = #{task.finishTime}
+				</if>
+				<if test="task.orgId != null">
+					 AND org_id = #{task.orgId}
+				</if>
+			</where>
+		</if>
+		<if test="order != null">
+		 ORDER BY ${order} 
+		</if>
+	</select>
+
+	<!-- 分页查询  Task -->
+	<select id="findByPage" parameterType="java.util.HashMap" resultMap="taskResultMap">
+		SELECT 
+			<include refid="Base_Column_List" />
+        FROM cb_task 
+		<if test="task != null">
+			<where>
+				<if test="task.id != null">
+					 AND id = #{task.id}
+				</if>
+				<if test="task.createTime != null">
+					 AND create_time = #{task.createTime}
+				</if>
+				<if test="task.updateTime != null">
+					 AND update_time = #{task.updateTime}
+				</if>
+				<if test="task.clientId != null">
+					 AND client_id = #{task.clientId}
+				</if>
+				<if test="task.instanceId != null">
+					 AND instance_id = #{task.instanceId}
+				</if>
+				<if test="task.nodeId != null">
+					 AND node_id = #{task.nodeId}
+				</if>
+				<if test="task.taskId != null">
+					 AND task_id = #{task.taskId}
+				</if>
+				<if test="task.parentTaskId != null">
+					 AND parent_task_id = #{task.parentTaskId}
+				</if>
+				<if test="task.name != null">
+					 AND name = #{task.name}
+				</if>
+				<if test="task.displayName != null">
+					 AND display_name = #{task.displayName}
+				</if>
+				<if test="task.performType != null">
+					 AND perform_type = #{task.performType}
+				</if>
+				<if test="task.taskType != null">
+					 AND task_type = #{task.taskType}
+				</if>
+				<if test="task.operator != null">
+					 AND operator = #{task.operator}
+				</if>
+				<if test="task.finishTime != null">
+					 AND finish_time = #{task.finishTime}
+				</if>
+				<if test="task.orgId != null">
+					 AND org_id = #{task.orgId}
+				</if>
+			</where>
+		</if>
+	</select>
+
+
+</mapper>
+

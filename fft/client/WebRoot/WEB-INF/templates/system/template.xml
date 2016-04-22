@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fenfentong>
+	<description>模板配置文件</description>
+	
+	<smsConfig>
+		<userRegister>
+			<description>用户注册</description>
+			<templateFilePath>/templates/system/sms_user_register.ftl</templateFilePath>
+		</userRegister>
+		<modifyMobile>
+			<description>修改手机号码</description>
+			<templateFilePath>/templates/system/sms_modify_mobile.ftl</templateFilePath>
+		</modifyMobile>
+		<findPwdCode>
+			<description>找回密码发送验证码</description>
+			<templateFilePath>/templates/system/sms_modify_mobile_code.ftl</templateFilePath>
+		</findPwdCode>
+		<forgetPassword>
+			<description>忘记密码</description>
+			<templateFilePath>/templates/system/sms_forget_password.ftl</templateFilePath>
+		</forgetPassword>
+		<userShare>
+			<description>用户分享</description>
+			<templateFilePath>/templates/system/sms_user_share.ftl</templateFilePath>
+		</userShare>
+		<groupTicket>
+			<description>团购券</description>
+			<templateFilePath>/templates/system/sms_group_ticket.ftl</templateFilePath>
+		</groupTicket>
+		<exchangeTicket>
+			<description>兑换券</description>
+			<templateFilePath>/templates/system/sms_exchange_ticket.ftl</templateFilePath>
+		</exchangeTicket>
+	</smsConfig>
+	
+	<dynamicConfig>
+		<indexChange>
+			<description>首页自定义模块</description>
+			<templateFilePath>/WEB-INF/templates/common/index_change.ftl</templateFilePath>
+		</indexChange>
+	</dynamicConfig>
+</fenfentong>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.mysql.mappers.MerchantTypeMapper">
+	<resultMap type="MerchantType" id="typeInfoResultMap">
+		<result property="id" column="id" />
+		<result property="typeName" column="type_name" />
+		<result property="type" column="type" />
+		<result property="isDelete" column="is_delete" />
+		<result property="clientId" column="client_id"/>
+	</resultMap>
+	
+	<select id="findAllTypeInfo" resultMap="typeInfoResultMap">
+		SELECT id,type_name,type,is_delete,client_id FROM cb_merchant_type 
+		<where>
+			is_delete = 0 
+			<if test="clientId != null">
+				AND client_id = #{clientId} 
+			</if>
+		</where>
+	</select>
+	
+</mapper>

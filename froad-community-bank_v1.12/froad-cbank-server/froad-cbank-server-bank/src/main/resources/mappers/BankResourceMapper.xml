@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.mysql.mapper.BankResourceMapper">
+
+	<resultMap type="BankResource" id="bankResourceResultMap">
+		<id property="id" column="id"/>
+		<result property="clientId" column="client_id" />
+		<result property="resourceName" column="resource_name" />
+		<result property="resourceType" column="resource_type" />
+		<result property="parentResourceId" column="parent_resource_id" />
+		<result property="status" column="status" />
+		<result property="resourceUrl" column="resource_url" />
+		<result property="api" column="api" />
+		<result property="resourceIcon" column="resource_icon" />
+		<result property="treePath" column="tree_path" />
+		<result property="isDelete" column="is_delete" />
+		<result property="orderValue" column="order_value" />
+		
+	</resultMap>
+
+
+	<!-- 添加  BankResource -->
+	<insert id="addBankResource" parameterType="BankResource" useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[
+			insert into cb_bank_resource (
+				id,client_id,resource_name,resource_type,parent_resource_id,status,resource_url,api,resource_icon,tree_path,is_delete,order_value 
+			) values (
+				#{id},#{clientId},#{resourceName},#{resourceType},#{parentResourceId},#{status},#{resourceUrl},#{api},#{resourceIcon},#{treePath},#{isDelete},#{orderValue}
+			) 
+		]]>
+	</insert>
+
+
+	<!-- 批量添加  BankResource -->
+	<insert id="addBankResourceByBatch" parameterType="java.util.List">
+		insert into cb_bank_resource (
+			id,client_id,resource_name,resource_type,parent_resource_id,status,resource_url,api,resource_icon,tree_path,is_delete,order_value 
+		) values 
+		<foreach collection="bankResourceList" item="item" index="index" separator=",">
+			(#{id},#{clientId},#{resourceName},#{resourceType},#{parentResourceId},#{status},#{resourceUrl},#{api},#{resourceIcon},#{treePath},#{isDelete},#{orderValue})
+		</foreach>
+	</insert>
+
+
+	<!-- 删除  BankResource -->
+	<update id="deleteBankResource" parameterType="java.lang.Long">
+		update cb_bank_resource set is_delete = 1 where id = #{id} 
+	</update>
+
+	<!-- 修改  BankResource -->
+	<update id="updateBankResource" parameterType="BankResource">
+		update cb_bank_resource 
+            <set>
+            	<if test="resourceName != null">
+            		resource_name=#{resourceName},
+            	</if>
+            	<if test="resourceType != null">
+            		resource_type=#{resourceType},
+            	</if>
+            	<if test="parentResourceId != null">
+            		parent_resource_id=#{parentResourceId},
+            	</if>
+            	<if test="status != null">
+            		status=#{status},
+            	</if>
+            	<if test="resourceUrl != null">
+            		resource_url=#{resourceUrl},
+            	</if>
+            	<if test="resourceIcon != null">
+            		resource_icon=#{resourceIcon},
+            	</if>
+            	<if test="treePath != null">
+            		tree_path=#{treePath},
+            	</if>
+            	<if test="api != null">
+            		api = #{api}, 
+            	</if>
+            	<if test="orderValue != null">
+            		order_value = #{orderValue}, 
+            	</if> 
+            </set>
+            
+			where id = #{id} and is_delete = 0
+	</update>
+
+	<!-- 删除父资源下所有的子资源 -->
+	<update id="deleteSubResource" parameterType="java.lang.Long">
+		update cb_bank_resource set is_delete = 1 where parent_resource_id=#{resourceId}
+	</update>
+	
+	<!--根据资源id集合查询资源对象集合 -->
+	<select id="findBankResourceByList" resultMap="bankResourceResultMap">
+		select 
+			id,client_id,resource_name,resource_type,parent_resource_id,status,resource_url,api,resource_icon,tree_path,is_delete,order_value 
+		from cb_bank_resource  
+		where is_delete=0  
+			<if test="resourceIdList != null">
+			 	 AND id IN 
+				<foreach collection="resourceIdList" item="resourceId" open="(" close=")" separator=",">
+					#{resourceId}
+			 	</foreach>
+			</if>
+	</select>
+	
+
+	<!-- 查询  BankResource -->
+	<select id="findBankResource" parameterType="BankResource" resultMap="bankResourceResultMap">
+		select 
+			id,client_id,resource_name,resource_type,parent_resource_id,status,resource_url,api,resource_icon,tree_path,is_delete,order_value 
+		from cb_bank_resource  
+			<where>
+				<if test="id != null">
+					and id = #{id}
+				</if>
+				<if test="clientId != null">
+					and client_id = #{clientId}
+				</if>
+				<if test="resourceName != null">
+					and resource_name = #{resourceName}
+				</if>
+				<if test="resourceType != null">
+					and resource_type = #{resourceType}
+				</if>
+				<if test="parentResourceId != null">
+					and parent_resource_id = #{parentResourceId}
+				</if>
+				<if test="status != null">
+					and status = #{status}
+				</if>
+				<if test="resourceUrl != null">
+					and resource_url = #{resourceUrl}
+				</if>
+				<if test="resourceIcon != null">
+					and resource_icon = #{resourceIcon}
+				</if>
+				<if test="treePath != null">
+					and tree_path = #{treePath}
+				</if>
+				<if test="isDelete != null">
+					and is_delete = #{isDelete}
+				</if>
+			</where>
+			order by order_value asc 
+	</select>
+
+	<!-- 分页查询  BankResource -->
+	<select id="findByPage" parameterType="java.util.HashMap" resultMap="bankResourceResultMap">
+		select 
+			id,client_id,resource_name,resource_type,parent_resource_id,status,resource_url,api,resource_icon,tree_path,is_delete,order_value 
+		from cb_bank_resource   
+		<if test="bankResource != null">
+			<where>
+				<if test="bankResource.id != null">
+					and id = #{bankResource.id}
+				</if>
+				<if test="bankResource.clientId != null">
+					and client_id = #{bankResource.clientId}
+				</if>
+				<if test="bankResource.resourceName != null">
+					and resource_name = #{bankResource.resourceName}
+				</if>
+				<if test="bankResource.resourceType != null">
+					and resource_type = #{bankResource.resourceType}
+				</if>
+				<if test="bankResource.parentResourceId != null">
+					and parent_resource_id = #{bankResource.parentResourceId}
+				</if>
+				<if test="bankResource.status != null">
+					and status = #{bankResource.status}
+				</if>
+				<if test="bankResource.resourceUrl != null">
+					and resource_url = #{bankResource.resourceUrl}
+				</if>
+				<if test="bankResource.resourceIcon != null">
+					and resource_icon = #{bankResource.resourceIcon}
+				</if>
+				<if test="bankResource.treePath != null">
+					and tree_path = #{bankResource.treePath}
+				</if>
+				<if test="bankResource.isDelete != null">
+					and is_delete = #{bankResource.isDelete}
+				</if>
+			</where>
+		</if>
+		order by order_value asc 
+	</select>
+
+	
+	
+</mapper>
+

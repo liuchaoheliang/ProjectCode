@@ -1,0 +1,3 @@
+1、所有JavaBean对应boolean的字段  数据库值  0:false 1:true
+2、所有JavaBean对应枚举类型的字段（除已设定枚举值） 数据库值从 0 开始，以后每次+1，分别从上到下对应JavaBean中枚举的具体意思
+（勿任意调整JavaBean中枚举值位置，新枚举值请往后面添加）

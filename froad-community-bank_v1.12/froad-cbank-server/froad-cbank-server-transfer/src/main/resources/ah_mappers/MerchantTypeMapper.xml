@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="com.froad.db.ahui.mappers.MerchantTypeMapper">
+	<resultMap type="MerchantType" id="MerchantTypeResultMap">
+		<id property="id" column="id" />
+		<result property="createTime" column="create_time" />
+		<result property="updateTime" column="update_time" />
+
+		<result property="typeName" column="type_name" />
+		<result property="isEnabled" column="is_enabled"/>
+		<result property="isFroadType" column="is_froad_type" />
+		<result property="isSysType" column="is_sys_type" />
+		<result property="code" column="code"/>
+		
+	</resultMap>
+	
+	<select id="selectAllMerchantType" resultMap="MerchantTypeResultMap">
+		select * from fft_merchant_type
+	</select>
+	
+</mapper>

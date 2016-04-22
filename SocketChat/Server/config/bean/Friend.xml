@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bean table="tb_friend" class="team.core.bean.os.FriendBean">
+	<property column="f_id" attr="id" jdbcType="vac" />
+	<property column="f_iid" attr="iid" jdbcType="vac" />
+	<property column="f_fiid" attr="fiid" jdbcType="vac" />
+	<property column="f_state" attr="state" jdbcType="vac" />
+	<property column="create_time" attr="createTime" jdbcType="vac" />
+	<property column="update_time" attr="updateTime" jdbcType="vac" />
+</bean>

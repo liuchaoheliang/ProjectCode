@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.chongqing.mappers.MerchantTypeRelationMapper">
+
+    <resultMap type="MerchantTypeRelation" id="MerchantTypeRelationResultMap">
+        <result property="merchantId" column="merchant_id"/>
+        <result property="merchantTypeId" column="merchant_type_id"/>
+    </resultMap>
+
+
+    <!-- 基础sql 数据新增 必须指明数据列  -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		insert into cb_merchant_type_relation
+		(merchant_id,merchant_type_id)
+		values
+		(
+			#{merchantId},#{merchantTypeId}
+		)
+	</insert>
+
+	<!-- 删除 -->
+	<delete id="delete" parameterType="java.lang.Long" >
+		delete from cb_merchant_type_relation where merchant_id = #{merchantId} 
+		<if test="merchantTypeId != null">
+			and merchant_type_id =#{merchantTypeId}
+		</if>
+	</delete>
+	
+	<select id="findMerchantByMerchantId" parameterType="java.lang.Long" resultMap="MerchantTypeRelationResultMap">
+		select merchant_id,merchant_type_id from cb_merchant_type_relation where merchant_id=#{merchantId}
+	</select>
+</mapper>

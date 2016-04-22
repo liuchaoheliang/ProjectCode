@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.ahui.mappers.MerchantFavoriteMapper">
+
+    <resultMap type="MerchantFavorite" id="merchantFavoriteResultMap">
+        <id property="id" column="id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+
+        <result property="merchantId" column="merchant_id"/>
+        <result property="merchantOutletId" column="merchant_outlet_id"/>
+        <result property="memberCode" column="member_code"/>
+        <result property="clientId" column="client_id"/>
+        <result property="dataState" column="data_state" typeHandler="com.froad.db.extend.EnumTypeHandler"/>
+    </resultMap>
+    <!-- 插入 -->
+    <insert id="saveMerchantFavorite" parameterType="MerchantFavorite" useGeneratedKeys="true" keyProperty="id">
+		insert into fft_merchant_favorite values(
+			#{id},#{createTime},#{updateTime},#{merchantId},#{merchantOutletId},#{memberCode},#{clientId},#{dataState,typeHandler=com.froad.db.extend.EnumTypeHandler}
+		)
+	</insert>
+    <!-- 查询（根据id） -->
+    <select id="selectMerchantFavoriteById" parameterType="java.lang.Long" resultMap="merchantFavoriteResultMap">
+		select * from fft_merchant_favorite where id = #{id}
+	</select>
+
+    <!-- 查询（根据会员号） -->
+    <select id="selectByMemberCode" parameterType="java.lang.Long" resultMap="merchantFavoriteResultMap">
+		select * from fft_merchant_favorite where member_code = #{memberCode}
+	</select>
+	
+	<!-- 查询（根据条件） -->
+    <select id="selectByConditions" resultMap="merchantFavoriteResultMap">
+		select * from fft_merchant_favorite  where data_state = 30
+	</select>
+
+    <!-- 更新 -->
+    <update id="updateMerchantFavoriteById" parameterType="MerchantFavorite">
+        update fft_merchant_favorite set update_time = #{updateTime}
+        <if test="merchantId != null">
+            ,merchant_id = #{merchantId}
+        </if>
+        <if test="merchantOutletId != null">
+            ,merchant_outlet_id = #{merchantOutletId}
+        </if>
+        <if test="memberCode != null">
+            ,member_code = #{memberCode}
+        </if>
+        <if test="clientId != null">
+            ,client_id = #{clientId}
+        </if>
+        <if test="dataState != null">
+            ,data_state = #{dataState,typeHandler=com.froad.db.extend.EnumTypeHandler}
+        </if>
+        where id = #{id}
+    </update>
+
+    <!--分页数据-->
+    <select id="selectMerchantFavoriteByPage" parameterType="com.froad.fft.persistent.bean.page.Page" resultMap="merchantFavoriteResultMap">
+        select * from fft_merchant_favorite
+        <if test="pageFilter != null">
+            <where>
+                <if test="pageFilter.filterEntity != null">
+                    <if test="pageFilter.filterEntity.id!= null">
+                        <if test="pageFilter.filterEntity.id!= ''">
+                            and id = #{pageFilter.filterEntity.id}
+                        </if>
+                    </if>
+                    <if test="pageFilter.filterEntity.merchantOutletId!= null">
+                        and merchant_outlet_id = #{pageFilter.filterEntity.merchantOutletId}
+                    </if>
+                    <if test="pageFilter.filterEntity.memberCode!= null">
+                        <if test="pageFilter.filterEntity.memberCode!= ''">
+                            and member_code = #{pageFilter.filterEntity.memberCode}
+                        </if>
+                    </if>
+                    <if test="pageFilter.filterEntity.clientId!= null">
+                        and client_id = #{pageFilter.filterEntity.clientId}
+                    </if>
+                    <if test="pageFilter.filterEntity.dataState!= null">
+                        and data_state = #{pageFilter.filterEntity.dataState,typeHandler=com.froad.db.extend.EnumTypeHandler}
+                    </if>
+                    <if test="pageFilter.filterEntity.merchantId!= null">
+                        and merchant_id = #{pageFilter.filterEntity.merchantId}
+                    </if>
+                </if>
+
+                <!-- 时间段条件 -->
+                <if test="pageFilter.property != null and pageFilter.startTime != null">
+                    <![CDATA[
+     					 and ${pageFilter.property} >= #{pageFilter.startTime}
+     					]]>
+                </if>
+                <if test="pageFilter.property != null and pageFilter.endTime != null">
+                    <![CDATA[
+     					 and ${pageFilter.property} <= #{pageFilter.endTime}
+     					]]>
+                </if>
+            </where>
+        </if>
+        <!-- 排序 -->
+        <if test="order != null">
+            <if test="order.property != null and order.direction != null">
+                order by ${order.property} ${order.direction}
+            </if>
+        </if>
+    </select>
+
+    <select id="selectMerchantFavoriteByPageCount" parameterType="com.froad.fft.persistent.bean.page.Page" resultType="java.lang.Integer">
+        select count(*) from fft_merchant_favorite
+        <if test="pageFilter != null">
+            <where>
+                <if test="pageFilter.filterEntity != null">
+                    <if test="pageFilter.filterEntity.id!= null">
+                        <if test="pageFilter.filterEntity.id!= ''">
+                            and id = #{pageFilter.filterEntity.id}
+                        </if>
+                    </if>
+                    <if test="pageFilter.filterEntity.merchantOutletId!= null">
+                        and merchant_outlet_id = #{pageFilter.filterEntity.merchantOutletId}
+                    </if>
+                    <if test="pageFilter.filterEntity.memberCode!= null">
+                            and member_code = #{pageFilter.filterEntity.memberCode}
+                    </if>
+                    <if test="pageFilter.filterEntity.clientId!= null">
+                        and client_id = #{pageFilter.filterEntity.clientId}
+                    </if>
+                    <if test="pageFilter.filterEntity.dataState!= null">
+                        and data_state = #{pageFilter.filterEntity.dataState,typeHandler=com.froad.db.extend.EnumTypeHandler}
+                    </if>
+                    <if test="pageFilter.filterEntity.merchantId!= null">
+                        and merchant_id = #{pageFilter.filterEntity.merchantId}
+                    </if>
+                </if>
+
+                <!-- 时间段条件 -->
+                <if test="pageFilter.property != null and pageFilter.startTime != null">
+                    <![CDATA[
+     					 and ${pageFilter.property} >= #{pageFilter.startTime}
+     					]]>
+                </if>
+                <if test="pageFilter.property != null and pageFilter.endTime != null">
+                    <![CDATA[
+     					 and ${pageFilter.property} <= #{pageFilter.endTime}
+     					]]>
+                </if>
+            </where>
+        </if>
+    </select>
+    
+    
+    <select id="selectMerchantFavoriteUseDistanceByPage" parameterType="com.froad.fft.persistent.bean.page.Page" resultMap="merchantFavoriteResultMap">
+       	SELECT *,
+       			round((
+						2 * 6378.137 * ASIN(
+							SQRT(
+								POW(
+									SIN(
+										PI() * (#{pageFilter.filterEntity.latitude} - fmo.latitude) / 360
+									),
+									2
+								) + COS(PI() * #{pageFilter.filterEntity.latitude} / 180) * COS(fmo.latitude * PI() / 180) * POW(
+									SIN(
+										PI() * (#{pageFilter.filterEntity.longitude} - fmo.longitude) / 360
+									),
+									2
+								)
+							)
+						)
+					) * 1000) distance
+		FROM
+			fft_merchant_favorite fmf
+		LEFT JOIN fft_merchant_outlet fmo ON fmf.merchant_outlet_id = fmo.id
+        <if test="pageFilter != null">
+            <where>
+                <if test="pageFilter.filterEntity != null">
+                    <if test="pageFilter.filterEntity.id!= null">
+                        <if test="pageFilter.filterEntity.id!= ''">
+                            and fmf.id = #{pageFilter.filterEntity.id}
+                        </if>
+                    </if>
+                    <if test="pageFilter.filterEntity.merchantOutletId!= null">
+                        and fmf.merchant_outlet_id = #{pageFilter.filterEntity.merchantOutletId}
+                    </if>
+                    <if test="pageFilter.filterEntity.memberCode!= null">
+                        <if test="pageFilter.filterEntity.memberCode!= ''">
+                            and fmf.member_code = #{pageFilter.filterEntity.memberCode}
+                        </if>
+                    </if>
+                    <if test="pageFilter.filterEntity.clientId!= null">
+                        and fmf.client_id = #{pageFilter.filterEntity.clientId}
+                    </if>
+                    <if test="pageFilter.filterEntity.dataState!= null">
+                        and fmf.data_state = #{pageFilter.filterEntity.dataState,typeHandler=com.froad.db.extend.EnumTypeHandler}
+                    </if>
+                    <if test="pageFilter.filterEntity.merchantId!= null">
+                        and fmf.merchant_id = #{pageFilter.filterEntity.merchantId}
+                    </if>
+                </if>
+
+                <!-- 时间段条件 -->
+                <if test="pageFilter.property != null and pageFilter.startTime != null">
+                    <![CDATA[
+     					 and ${pageFilter.property} >= #{pageFilter.startTime}
+     					]]>
+                </if>
+                <if test="pageFilter.property != null and pageFilter.endTime != null">
+                    <![CDATA[
+     					 and ${pageFilter.property} <= #{pageFilter.endTime}
+     					]]>
+                </if>
+            </where>
+        </if>
+        order by distance asc
+    </select>
+    
+
+    <select id="selectMerchantFavoriteUseDistanceByPageCount" parameterType="com.froad.fft.persistent.bean.page.Page" resultType="java.lang.Integer">
+       	SELECT count(0)
+		FROM
+			fft_merchant_favorite fmf
+		LEFT JOIN fft_merchant_outlet fmo ON fmf.merchant_outlet_id = fmo.id
+        <if test="pageFilter != null">
+            <where>
+                 <if test="pageFilter.filterEntity != null">
+                    <if test="pageFilter.filterEntity.id!= null">
+                        <if test="pageFilter.filterEntity.id!= ''">
+                            and fmf.id = #{pageFilter.filterEntity.id}
+                        </if>
+                    </if>
+                    <if test="pageFilter.filterEntity.merchantOutletId!= null">
+                        and fmf.merchant_outlet_id = #{pageFilter.filterEntity.merchantOutletId}
+                    </if>
+                    <if test="pageFilter.filterEntity.memberCode!= null">
+                        <if test="pageFilter.filterEntity.memberCode!= ''">
+                            and fmf.member_code = #{pageFilter.filterEntity.memberCode}
+                        </if>
+                    </if>
+                    <if test="pageFilter.filterEntity.clientId!= null">
+                        and fmf.client_id = #{pageFilter.filterEntity.clientId}
+                    </if>
+                    <if test="pageFilter.filterEntity.dataState!= null">
+                        and fmf.data_state = #{pageFilter.filterEntity.dataState,typeHandler=com.froad.db.extend.EnumTypeHandler}
+                    </if>
+                    <if test="pageFilter.filterEntity.merchantId!= null">
+                        and fmf.merchant_id = #{pageFilter.filterEntity.merchantId}
+                    </if>
+                </if>
+            </where>
+        </if>
+    </select>
+</mapper>

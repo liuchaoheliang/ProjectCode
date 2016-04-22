@@ -1,0 +1,106 @@
+@charset "utf-8";
+
+.ajaxLinkWindow {
+	width: 700px;
+	margin-left: -200px;
+	display: none;
+	position:fixed;
+	cursor: move;
+	top: 15%;
+	left: 40%;
+	z-index: 100;
+}
+
+.ajaxLinkWindow .windowTop {
+	width: 700px;
+	height: 37px;
+	clear: both;
+	overflow: hidden;
+	cursor: move;
+	background:url(../images/ajax_dialog_bg700.png) no-repeat 0px 0px;
+}
+
+.ajaxLinkWindow .windowMiddle {
+	width: 700px;
+	clear: both;
+	padding: 10px 10px 5px 15px;
+	text-align: center;
+	background: url(../images/ajax_dialog_y_bg700.png) repeat-y 0px 0px;
+}
+
+.ajaxLinkWindow  table{
+    font-size:14px;
+	font-family:"微软雅黑";
+    padding-left:10px;
+    padding-right:0px;
+    line-height:20px;
+    text-align:center;
+	padding-left:5px;
+	padding-right:10px;
+}
+
+.ajaxLinkWindow th {
+	font-weight: normal;
+    line-height: 28px;
+    padding-right: 0;
+    text-align: right;
+    width: 350px;
+}
+
+.ajaxLinkWindow td {
+	line-height: 28px;
+	text-align: left;
+	word-wrap:break-word;
+	word-break:break-all;
+	width:570px;
+}
+
+.ajaxLinkWindow .windowBottom {
+	width: 700px;
+	height: 20px;
+	clear: both;
+	overflow: hidden;
+	background: url(../images/ajax_dialog_bg700.png) no-repeat 0px -38px;
+}
+
+.ajaxLinkWindow .windowTitle {
+	height: 29px;
+	line-height: 37px;
+	_display: inline;
+	float: left;
+	margin-left: 20px;
+	font-size: 12px;
+	font-weight: bold;
+	color: #a0d8f9;
+}
+
+.ajaxLinkWindow .windowClose {
+	width: 29px;
+	height: 29px;
+	line-height: 37px;
+	display: block;
+	outline: none;
+	float: right;
+	margin-top:5px;
+	margin-right:5px;
+	display:inline;
+	cursor: pointer;
+	background: url(../images/ajax_dialog_bg700.png) no-repeat 0px -60px;
+}
+
+.ajaxLinkWindow .windowClose:hover {
+	background: url(../images/ajax_dialog_bg700.png) no-repeat -30px -60px;
+}
+
+* iframe.jqm {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	z-index: -1;
+	width: expression(this.parentNode.offsetWidth+'px');
+	height: expression(this.parentNode.offsetHeight+'px');
+}
+
+.ajaxLinkWindow {
+	top: expression( Math.round(25 * (document.documentElement.offsetHeight || document.body.clientHeight) / 100) + 'px');
+}

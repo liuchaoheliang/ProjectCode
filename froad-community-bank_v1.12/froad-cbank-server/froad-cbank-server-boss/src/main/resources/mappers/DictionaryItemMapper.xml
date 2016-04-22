@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.mysql.mapper.DictionaryItemMapper">
+
+	<resultMap type="DictionaryItem" id="dictionaryItemResultMap">
+		<id property="id" column="id" />
+		<result property="itemCode" column="item_code" />
+		<result property="itemName" column="item_name" />
+		<result property="itemValue" column="item_value" />
+		<result property="depiction" column="depiction" />
+		<result property="dicId" column="dic_id" />
+		<result property="clientId" column="client_id" />
+		<result property="orderValue" column="order_value" />
+		<result property="isEnable" column="is_enable" />
+	</resultMap>
+
+
+	<!-- 添加  DictionaryItem -->
+	<insert id="addDictionaryItem" parameterType="DictionaryItem" useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[
+			INSERT INTO cb_dictionary_item (
+				item_code,item_name,item_value,depiction,dic_id,client_id,order_value,is_enable   
+			) VALUES (
+				#{itemCode},#{itemName},#{itemValue},#{depiction},#{dicId},#{clientId},#{orderValue},#{isEnable} 
+			) 
+		]]>
+	</insert>
+
+
+	<!-- 批量添加  DictionaryItem -->
+	<insert id="addDictionaryItemByBatch" parameterType="java.util.List">
+		INSERT INTO cb_dictionary_item (
+			item_code,item_name,item_value,depiction,dic_id,client_id,order_value,is_enable      
+		) VALUES 
+		<foreach collection="dictionaryItemList" item="item" index="index" separator=",">
+			(#{itemCode},#{itemName},#{itemValue},#{depiction},#{dicId},#{clientId},#{orderValue},#{isEnable})
+		</foreach>
+	</insert>
+
+
+	<!-- 删除  DictionaryItem -->
+	<delete id="deleteDictionaryItem" parameterType="java.lang.Long">
+		update cb_dictionary_item  set is_enable=false  where id = #{id} 
+	</delete>
+
+
+    <!-- 批量删除  DictionaryItem -->
+	<delete id="deleteDictionaryItemBatch">
+		update cb_dictionary_item  set is_enable=false 
+		where  1=1      
+			<if test="itemIdList != null">
+			 	 AND id IN 
+				<foreach collection="itemIdList" item="id" open="(" close=")" separator=",">
+					#{id}
+			 	</foreach>
+			</if>
+	</delete>
+	
+	<!-- 批量删除该字典下多个条目 -->
+	<delete id="deleteDictionaryItemBatchByDicId">
+		update cb_dictionary_item  set is_enable=false  
+		where  1=1      
+			<if test="dicIdList != null">
+			 	 AND dic_id IN 
+				<foreach collection="dicIdList" item="dicId" open="(" close=")" separator=",">
+					#{dicId}
+			 	</foreach>
+			</if>
+	</delete>
+	
+	
+	
+	
+	<!-- 修改  DictionaryItem -->
+	<update id="updateDictionaryItem" parameterType="DictionaryItem">
+		UPDATE cb_dictionary_item      
+		<set>
+				<if test="itemCode != null">
+					  item_code = #{itemCode}, 
+				</if>
+				<if test="itemName != null">
+					  item_name = #{itemName}, 
+				</if>
+				<if test="itemValue != null">
+					  item_value = #{itemValue}, 
+				</if>
+				<if test="depiction != null">
+					  depiction = #{depiction}, 
+				</if>
+				<if test="dicId != null">
+					  dic_id = #{dicId}, 
+				</if>
+				<if test="clientId != null">
+					  client_id = #{clientId}, 
+				</if>
+				<if test="orderValue != null">
+					  order_value = #{orderValue}, 
+				</if>
+				<if test="isEnable != null">
+					  is_enable = #{isEnable}, 
+				</if>
+		</set>
+		<where>
+			<if test="id != null">
+				 AND id = #{id} 
+			</if>
+		</where>
+	</update>
+
+
+	<!-- 查询  DictionaryItem -->
+	<select id="findDictionaryItemById" parameterType="java.lang.Long" resultMap="dictionaryItemResultMap">
+		SELECT 
+            id,item_code,item_name,item_value,depiction,dic_id,client_id,order_value,is_enable     
+        FROM cb_dictionary_item   
+        WHERE 
+            id = #{id}
+
+	</select>
+
+	<!-- 查询  DictionaryItem -->
+	<select id="findDictionaryItem" parameterType="DictionaryItem" resultMap="dictionaryItemResultMap">
+		SELECT 
+            id,item_code,item_name,item_value,depiction,dic_id,client_id,order_value,is_enable     
+        FROM cb_dictionary_item   
+		<where>
+			<if test="id != null">
+				 AND id = #{id}  
+			</if>
+			<if test="itemCode != null">
+				 AND item_code = #{itemCode} 
+			</if>
+			<if test="itemName != null">
+				 AND item_name = #{itemName}  
+			</if>
+			<if test="itemValue != null">
+				 AND item_value = #{itemValue}  
+			</if>
+			<if test="depiction != null">
+				AND  depiction = #{depiction} 
+			</if>
+			<if test="dicId != null">
+				AND  dic_id = #{dicId}  
+			</if>
+			<if test="clientId != null">
+				AND  client_id = #{clientId}  
+			</if>
+			<if test="orderValue != null">
+				 AND order_value = #{orderValue}  
+			</if>
+			<if test="isEnable != null">
+				 AND is_enable = #{isEnable}  
+			</if>
+		</where>
+	</select>
+
+	<!-- 分页查询  DictionaryItem -->
+	<select id="findByPage" parameterType="java.util.HashMap" resultMap="dictionaryItemResultMap">
+		SELECT 
+             id,item_code,item_name,item_value,depiction,dic_id,client_id,order_value,is_enable     
+        FROM cb_dictionary_item   
+		<if test="dictionaryItem != null">
+			<where>
+				<if test="dictionaryItem.id != null">
+					 AND id = #{dictionaryItem.id} 
+				</if>
+				<if test="dictionaryItem.itemCode != null">
+					 AND item_code = #{dictionaryItem.itemCode} 
+				</if>
+				<if test="dictionaryItem.itemName != null">
+					 AND item_name like CONCAT('%',#{dictionaryItem.itemName},'%' )       
+				</if>
+				<if test="dictionaryItem.itemValue != null">
+					 AND item_value = #{dictionaryItem.itemValue}  
+				</if>
+				<if test="dictionaryItem.depiction != null">
+					AND  depiction = #{dictionaryItem.depiction} 
+				</if>
+				<if test="dictionaryItem.dicId != null">
+					AND  dic_id = #{dictionaryItem.dicId}  
+				</if>
+				<if test="dictionaryItem.clientId != null">
+					AND  client_id = #{dictionaryItem.clientId}  
+				</if>
+				<if test="dictionaryItem.orderValue != null">
+					 AND order_value = #{dictionaryItem.orderValue} 
+				</if>
+				<if test="dictionaryItem.isEnable != null">
+					 AND is_enable = #{dictionaryItem.isEnable} 
+				</if>
+			</where>
+			order by id desc 
+		</if>
+	</select>
+
+
+</mapper>
+

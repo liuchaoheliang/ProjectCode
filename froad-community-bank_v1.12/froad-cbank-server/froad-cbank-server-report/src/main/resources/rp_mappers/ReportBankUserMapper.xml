@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.mysql.rp_mappers.ReportBankUserMapper">
+	<resultMap type="ReportBankUser" id="reportBankUserResultMap">
+		<id property="id" column="id" />
+		<result property="clientId" column="client_id" />
+		<result property="createTime" column="create_time" />
+		<result property="forgCode" column="forg_code" />
+		<result property="forgName" column="forg_name" />
+		<result property="sorgCode" column="sorg_code" />
+		<result property="sorgName" column="sorg_name" />
+		<result property="torgCode" column="torg_code" />
+		<result property="torgName" column="torg_name" />
+		<result property="lorgCode" column="lorg_code" />
+		<result property="lorgName" column="lorg_name" />
+		<result property="signUserName" column="sign_user_name" />
+		<result property="remark" column="remark" />
+	</resultMap>
+	
+	<sql id="selectColumn">
+		id,client_id,create_time,forg_code,forg_name,sorg_code,sorg_name,torg_code,torg_name,
+		lorg_code,lorg_name,sign_user_name,remark 
+	</sql>
+	
+	<select id="selectAllCount" resultType="java.lang.Integer">
+		SELECT COUNT(0) FROM cb_report_bank_user
+	</select>
+	
+	
+	<select id="selectIsExist" parameterType="ReportBankUser" resultMap="reportBankUserResultMap">
+		SELECT <include refid="selectColumn" /> 
+		FROM cb_report_bank_user 
+		<where>
+			<if test="clientId != null">
+				AND client_id=#{clientId} 
+			</if>
+			<if test="clientId == null">
+				AND client_id is null 
+			</if>
+			<if test="forgCode != null">
+				AND forg_code=#{forgCode} 
+			</if>
+			<if test="forgCode == null">
+				AND forg_code is null 
+			</if>
+			<if test="sorgCode != null">
+				AND sorg_code=#{sorgCode} 
+			</if>
+			<if test="sorgCode == null">
+				AND sorg_code is null 
+			</if>
+			<if test="torgCode != null">
+				AND torg_code=#{torgCode} 
+			</if>
+			<if test="torgCode == null">
+				AND torg_code is null 
+			</if>
+			<if test="lorgCode != null">
+				AND lorg_code=#{lorgCode} 
+			</if>
+			<if test="lorgCode == null">
+				AND lorg_code is null 
+			</if>
+			<if test="signUserName != null">
+				AND sign_user_name=#{signUserName} 
+			</if>
+			<if test="signUserName == null">
+				AND sign_user_name is null 
+			</if>
+		</where>
+		LIMIT 1
+	</select>
+	
+	
+	<insert id="addByBatch">
+		INSERT INTO cb_report_bank_user(
+			client_id,create_time,forg_code,forg_name,sorg_code,sorg_name,torg_code,torg_name,
+			lorg_code,lorg_name,sign_user_name,remark
+		) VALUES 
+		<foreach collection="users" item="item" index="index" separator=",">
+			(#{item.clientId},#{item.createTime},#{item.forgCode},#{item.forgName},
+			#{item.sorgCode},#{item.sorgName},#{item.torgCode},#{item.torgName},
+			#{item.lorgCode},#{item.lorgName},#{item.signUserName},#{item.remark})
+		</foreach>
+	</insert>
+	
+	
+	<select id="findAllByPage" resultMap="reportBankUserResultMap">
+		SELECT <include refid="selectColumn" /> 
+		FROM cb_report_bank_user 
+		<where>
+			<if test="endDate != null">
+			<![CDATA[
+				AND create_time <= #{endDate}
+			]]> 
+			</if>
+		</where>
+		ORDER BY client_id,forg_code,sorg_code,torg_code,lorg_code,sign_user_name 
+	</select>
+	
+	<select id="findTotalRecordCount" resultType="int">
+		SELECT COUNT(1)  
+		FROM cb_report_bank_user 
+		<where>
+			<if test="endDate != null">
+			<![CDATA[
+				AND create_time <= #{endDate}
+			]]> 
+			</if>
+		</where>
+	</select>	
+	
+</mapper>

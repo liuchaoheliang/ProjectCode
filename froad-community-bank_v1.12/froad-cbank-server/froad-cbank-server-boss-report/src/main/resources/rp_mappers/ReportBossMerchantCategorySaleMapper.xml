@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.froad.db.mysql.rp_mappers.ReportBossMerchantCategorySaleMapper">
+
+	<resultMap id="BaseResultMap" type="ReportBossMerchantCategorySale">
+		<result column="id" property="id" jdbcType="BIGINT" />
+		<result column="report_date" property="reportDate" jdbcType="INTEGER" />
+		<result column="report_beg_date" property="reportBegDate"
+			jdbcType="TIMESTAMP" />
+		<result column="report_end_date" property="reportEndDate"
+			jdbcType="TIMESTAMP" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="client_id" property="clientId" jdbcType="VARCHAR" />
+		<result column="merchant_category_id" property="merchantCategoryId"
+			jdbcType="BIGINT" />
+		<result column="merchant_category_name" property="merchantCategoryName"
+			jdbcType="VARCHAR" />
+		<result column="total_sold_count" property="totalSoldCount"
+			jdbcType="BIGINT" />
+		<result column="total_sold_count_percent" property="totalSoldCountPercent"
+			jdbcType="VARCHAR" />
+		<result column="total_sold_amount" property="totalSoldAmount"
+			jdbcType="BIGINT" />
+		<result column="total_sold_amount_percent" property="totalSoldAmountPercent"
+			jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<insert id="addByBatch">
+		insert into cb_report_boss_merchant_category_sale 
+		(report_date,
+		report_beg_date,
+		report_end_date, 
+		create_time, 
+		client_id,
+		merchant_category_id, 
+		merchant_category_name,
+		total_sold_count, 
+		total_sold_count_percent,
+		total_sold_amount, 
+		total_sold_amount_percent
+		)
+		values 
+		<foreach collection="mcsList" item="item" index="index" separator=",">
+		(#{item.reportDate,jdbcType=INTEGER},
+		#{item.reportBegDate,jdbcType=TIMESTAMP},
+		#{item.reportEndDate,jdbcType=TIMESTAMP}, 
+		#{item.createTime,jdbcType=TIMESTAMP},
+		#{item.clientId,jdbcType=VARCHAR},
+		#{item.merchantCategoryId,jdbcType=BIGINT}, 
+		#{item.merchantCategoryName,jdbcType=VARCHAR},
+		#{item.totalSoldCount,jdbcType=BIGINT},
+		#{item.totalSoldCountPercent,jdbcType=VARCHAR},
+		#{item.totalSoldAmount,jdbcType=BIGINT},
+		#{item.totalSoldAmountPercent,jdbcType=VARCHAR}
+		)
+		</foreach>
+	</insert>
+	
+	<delete id="deleteHistoryData" parameterType="java.lang.Integer">
+		DELETE FROM cb_report_boss_merchant_category_sale WHERE report_date = #{reportDate}
+	</delete>
+	
+	
+	<select id="findByClientId" resultMap="BaseResultMap">
+		SELECT 
+			id,
+			report_date,
+			report_beg_date,
+			report_end_date, 
+			create_time, 
+			client_id,
+			merchant_category_id, 
+			merchant_category_name,
+			total_sold_count, 
+			total_sold_count_percent,
+			total_sold_amount, 
+			total_sold_amount_percent 
+		FROM cb_report_boss_merchant_category_sale 
+		<where>
+			client_id = #{clientId} AND report_date = #{reportDate} 
+		</where>
+	</select>
+</mapper>

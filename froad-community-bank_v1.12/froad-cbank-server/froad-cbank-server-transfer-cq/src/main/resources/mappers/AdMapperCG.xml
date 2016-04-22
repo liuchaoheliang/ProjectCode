@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.chonggou.mappers.AdMapperCG">
+
+	<resultMap type="AdCG" id="adResultMap">
+		<id property="id" column="id" />
+		<result property="clientId" column="client_id" />
+		<result property="title" column="title" />
+		<result property="type" column="type" />
+		<result property="beginTime" column="begin_time" />
+		<result property="endTime" column="end_time" />
+		<result property="content" column="content" />
+		<result property="path" column="path" />
+		<result property="link" column="link" />
+		<result property="isEnabled" column="is_enabled" />
+		<result property="isBlankTarge" column="is_blank_targe" />
+		<result property="clickCount" column="click_count" />
+		<result property="adPositionId" column="ad_position_id" />
+	</resultMap>
+
+
+	<!-- 添加  Ad -->
+	<insert id="addAd" parameterType="AdCG" useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[
+			INSERT INTO cb_ad (
+				client_id,title,type,begin_time,end_time,content,path,link,is_enabled,is_blank_targe,click_count,ad_position_id
+			) VALUES (
+				#{clientId},#{title},#{type},#{beginTime},#{endTime},#{content},#{path},#{link},#{isEnabled},#{isBlankTarge},#{clickCount},#{adPositionId}
+			) 
+		]]>
+	</insert>
+
+
+
+	<!-- 查询  Ad -->
+	<select id="findAd" parameterType="AdCG" resultMap="adResultMap">
+		SELECT 
+            id,client_id,title,type,begin_time,end_time,content,path,link,is_enabled,is_blank_targe,click_count,ad_position_id 
+        FROM cb_ad 
+		<where>
+			<if test="id != null">
+				 AND id = #{id}
+			</if>
+			<if test="clientId != null">
+				 AND client_id = #{clientId}
+			</if>
+			<if test="title != null">
+				 AND title = #{title}
+			</if>
+			<if test="type != null">
+				 AND type = #{type}
+			</if>
+			<if test="beginTime != null">
+				 AND begin_time = #{beginTime}
+			</if>
+			<if test="endTime != null">
+				 AND end_time = #{endTime}
+			</if>
+			<if test="content != null">
+				 AND content = #{content}
+			</if>
+			<if test="path != null">
+				 AND path = #{path}
+			</if>
+			<if test="link != null">
+				 AND link = #{link}
+			</if>
+			<if test="isEnabled != null">
+				 AND is_enabled = #{isEnabled}
+			</if>
+			<if test="isBlankTarge != null">
+				 AND is_blank_targe = #{isBlankTarge}
+			</if>
+			<if test="clickCount != null">
+				 AND click_count = #{clickCount}
+			</if>
+			<if test="adPositionId != null">
+				 AND ad_position_id = #{adPositionId}
+			</if>
+		</where>
+	</select>
+
+</mapper>
+

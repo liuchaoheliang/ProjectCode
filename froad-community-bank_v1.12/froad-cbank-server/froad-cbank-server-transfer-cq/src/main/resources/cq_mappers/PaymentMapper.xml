@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.chongqing.mappers.PaymentMapper">
+
+	<resultMap type="Payment" id="paymentResultMap">
+		<id property="id" column="id" javaType="java.lang.Long" />
+		<result property="createTime" column="create_time" />
+		<result property="updateTime" column="update_time" />
+		<result property="sn" column="sn" />
+		<result property="orderId" column="order_id" />
+		<result property="paymentType" column="payment_type"
+			typeHandler="com.froad.db.extend.EnumTypeHandler" />
+		<result property="paymentTypeDetails" column="payment_type_details"
+			typeHandler="com.froad.db.extend.EnumTypeHandler" />
+		<result property="step" column="step" />
+		<result property="paymentStatus" column="payment_status"
+			typeHandler="com.froad.db.extend.EnumTypeHandler" />
+		<result property="paymentOrgNo" column="payment_org_no" />
+		<result property="billNo" column="bill_no" />
+		<result property="pointNo" column="point_no" />
+		<result property="paymentValue" column="payment_value" />
+		<result property="fromAccountName" column="from_account_name" />
+		<result property="fromAccountNo" column="from_account_no" />
+		<result property="toAccountName" column="to_account_name" />
+		<result property="toAccountNo" column="to_account_no" />
+		<result property="fromPhone" column="from_phone" />
+		<result property="toPhone" column="to_phone" />
+		<result property="fromRole" column="from_role"
+			typeHandler="com.froad.db.extend.EnumTypeHandler" />
+		<result property="toRole" column="to_role"
+			typeHandler="com.froad.db.extend.EnumTypeHandler" />
+		<result property="fromUserName" column="from_user_name" />
+		<result property="toUserName" column="to_user_name" />
+		<result property="isEnabled" column="is_enabled" />
+		<result property="merchantId" column="merchant_id" />
+		<result property="resultCode" column="result_code" />
+		<result property="resultDesc" column="result_desc" />
+		<result property="remark" column="remark" />
+		<result property="ticketId" column="ticket_id" />
+	</resultMap>
+
+
+	<!-- 基础sql 通过主键查询 -->
+	<select id="selectById" parameterType="java.lang.Long"
+		resultMap="paymentResultMap">
+		select * from cb_payment where id = #{id}
+	</select>
+	<!-- 基础sql 通过SN查询 -->
+	<select id="selectBySN" resultMap="paymentResultMap">
+		select * from cb_payment where
+		sn = #{sn}
+	</select>
+	
+	<!-- 查询全部 -->
+	<select id="selectAll" resultMap="paymentResultMap">
+		select * from cb_payment
+	</select>
+	
+	<!-- 查询全部 -->
+	<select id="selectSettlementAll" resultMap="paymentResultMap">
+		SELECT sn,order_id,ticket_id FROM cb_payment WHERE payment_type_details='104'
+	</select>
+
+</mapper>

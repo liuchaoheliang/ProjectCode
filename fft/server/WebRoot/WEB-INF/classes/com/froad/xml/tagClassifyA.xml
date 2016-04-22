@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="tagClassifyA" >
+
+	<typeAlias alias="tagClassifyA" type="com.froad.CB.po.tag.TagClassifyA"/>
+
+	<resultMap id="TagClassifyAResult" class="tagClassifyA" >
+	  <result column="id" property="id" jdbcType="INT" />
+	  <result column="tag_value" property="tagValue" jdbcType="VARCHAR" />
+	  <result column="tag_hyperlink" property="tagClassifyAId" jdbcType="VARCHAR" />
+	  <result column="site_value" property="siteValue" jdbcType="VARCHAR" />
+	  <result column="sort_value" property="sortValue" jdbcType="VARCHAR" />
+	  <result column="description" property="description" jdbcType="VARCHAR" />
+	  <result column="state" property="state" jdbcType="VARCHAR" />
+	  <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+	  <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
+	  <result column="remark" property="remark" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<select id="selectByPrimaryKey" resultMap="TagClassifyAResult" parameterClass="java.lang.Integer" >
+	    select * from tag_classify_a where id = #id#
+	</select>
+	
+	<delete id="deleteByPrimaryKey" parameterClass="java.lang.Integer" >
+	     delete from tag_classify_a where id = #id#
+	</delete>
+	
+	<insert id="insert" parameterClass="tagClassifyA" >
+	   insert into tag_classify_a (id, tag_value, tag_hyperlink, site_value, sort_value, description,
+	   state, create_time, update_time, remark)
+	   values(#id:INT#, #tagValue:VARCHAR#, #tagClassifyAId:VARCHAR#, #siteValue:VARCHAR#,
+	    #sortValue:VARCHAR#, #description:VARCHAR#, #state:VARCHAR#,DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),
+	    DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"), #remark:VARCHAR#)
+	    <selectKey resultClass="int" keyProperty="id">
+      	select last_insert_id() as id
+      </selectKey>
+	</insert>
+	
+	<update id="updateByPrimaryKeySelective" parameterClass="tagClassifyA" >
+	      update tag_classify_a set update_time = DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s")
+	  <dynamic prepend="set" >
+	    <isNotEmpty prepend="," property="tagValue" >
+	      tag_value = #tagValue:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="tagClassifyAId" >
+	      tag_hyperlink = #tagClassifyAId:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="siteValue" >
+	      site_value = #siteValue:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="sort_value" >
+	      sort_value = #sortValue:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="description" >
+	      description = #description:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="state" >
+	      state = #state:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="remark" >
+	      remark = #remark:VARCHAR#
+	    </isNotEmpty>
+	  </dynamic>
+	  where id = #id:INT#
+	</update>
+	
+	<select id="selectTagClassifyA" resultMap="TagClassifyAResult" parameterClass="tagClassifyA">
+	 select * from tag_classify_a
+	  <dynamic prepend="where" >
+	    <isNotEmpty prepend="and" property="id" >
+	     	id = #id:INT#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="and" property="tagValue" >
+	      tag_value like concat('%',#tagValue#,'%')
+	    </isNotEmpty>
+	    <isNotEmpty prepend="and" property="tagClassifyAId" >
+	      tag_hyperlink = #tagClassifyAId:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="and" property="siteValue" >
+	      site_value = #siteValue:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="and" property="sortValue" >
+	      sort_value = #sortValue:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="and" property="description" >
+	      description = #description:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="and" property="state" >
+	      state = #state:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="and" property="createTime" >
+	      create_time = #createTime:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="and" property="updateTime" >
+	      update_time = #updateTime:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="and" property="remark" >
+	      remark = #remark:VARCHAR#
+	    </isNotEmpty>
+	  </dynamic>
+	</select>
+	
+	
+	
+	<!-- 根据商户ID查询分类1标签信息 -->
+	<select id="GET-CLASSA-TAGVALUE-BY-MERCHANTID"  parameterClass="java.lang.String" resultMap="TagClassifyAResult">
+		<![CDATA[ SELECT *
+	       FROM tag_classify_a a,tag_map b
+	       where b.Merchant_id=#merchantId#
+		AND a.id = b.tag_classify_a_id
+		]]>
+	</select>
+	
+	
+	<!-- 查询一级分类信息 -->
+  	<select id="getAllTagClassifyA" resultMap="TagClassifyAResult">
+   		<![CDATA[ 
+    		SELECT * FROM tag_classify_a order by create_time desc
+    	]]>
+  	</select>
+    
+     <!-- 查询所有启用 一级分类-->
+    <select id="getAllTagClassifyAByEnabled" resultMap="TagClassifyAResult">
+    	<![CDATA[ 
+    		SELECT * FROM tag_classify_a WHERE state='30' order by create_time desc
+    	]]>
+    </select>
+	
+</sqlMap>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.ahui.mappers.ProductCommentMapper">
+
+    <resultMap type="ProductComment" id="productCommentResultMap">
+        <id property="id" column="id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+
+        <result property="starLevel" column="star_level" typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"/>
+        <result property="pricePoint" column="price_point" typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"/>
+        <result property="qualityPoint" column="quality_point" typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"/>
+        <result property="servePoint" column="serve_point" typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"/>
+        <result property="environmentPoint" column="environment_point" typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler"/>
+        <result property="commentDescription" column="comment_description"/>
+        <result property="productName" column="name"/>
+        <result property="productId" column="product_id"/>
+        <result property="memberCode" column="member_code"/>
+        <result property="memberName" column="member_name"/>
+        <result property="memberMobile" column="member_mobile"/>
+    	<result property="clientId" column="client_id"/>
+        <result property="isAudit" column="is_audit"/>
+        <result property="dataState" column="data_state" typeHandler="com.froad.db.extend.EnumTypeHandler"/>
+        <result property="isTop" column="is_top"/>
+        <result property="transSn" column="trans_sn"/>
+    </resultMap>
+
+    <!-- 查询 -->
+    <select id="selectProductCommentById" parameterType="java.lang.Long" resultMap="productCommentResultMap">
+		select * from fft_product_comment where id = #{id} 
+	</select>
+
+	
+    
+   <select id="selectAllProductComment" resultMap="productCommentResultMap">
+   select fc.id,fp.name,fc.create_time,fc.star_level,fc.comment_description,product_id,fc.member_code,fc.member_name,fc.member_mobile,fc.trans_sn,fc.data_state from fft_product_comment fc 
+   LEFT JOIN fft_product fp on fc.product_id=fp.id
+   </select>
+    
+    
+    <!-- 条件查询 -->
+    <select id="selectByCondition" parameterType="ProductComment" resultMap="productCommentResultMap">
+    	select * from fft_product_comment
+    </select>
+      <!-- 条件查询 -->
+    <select id="selectProductCommentByProductId" parameterType="java.lang.Long" resultMap="productCommentResultMap">
+    	select price_point,quality_point,serve_point,environment_point from fft_product_comment where product_id=#{id}
+    </select>
+</mapper>

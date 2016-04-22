@@ -1,0 +1,729 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.mysql.mapper.ProcessNodeMapper">
+
+	<resultMap type="ProcessNode" id="processNodeResultMap">
+		<id property="id" column="id" />
+		<result property="createTime" column="create_time" />
+		<result property="updateTime" column="update_time" />
+		<result property="clientId" column="client_id" />
+		<result property="processId" column="process_id" />
+		<result property="nodeId" column="node_id" />
+		<result property="name" column="name" />
+		<result property="preNodeId" column="pre_node_id" />
+		<result property="nextNodeId" column="next_node_id" />
+		<result property="type" column="type" />
+		<result property="nodeLogic" column="node_logic" />
+		<result property="runnerFlag" column="runner_flag" />
+		<result property="nextRunnerOrg" column="next_runner_org" />
+		<result property="status" column="status" />
+		<result property="runnerUserId" column="runner_user_id" />
+		<result property="runnerPostId" column="runner_post_id" />
+		<result property="runnerDepartId" column="runner_depart_id" />
+		<result property="runnerUsergroupId" column="runner_usergroup_id" />
+		<result property="runnerOrgLevel" column="runner_org_level" />
+		<result property="isMultiselect" column="is_multiselect" />
+		<result property="isOtherMan" column="is_other_man" />
+		<result property="isAssignMan" column="is_assign_man" />
+		<result property="isRevoke" column="is_revoke" />
+		<result property="isFallback" column="is_fallback" />
+	</resultMap>
+
+
+	<!-- 所有字段list -->
+	<sql id="Base_Column_List">
+		id,create_time,update_time,client_id,process_id,node_id,name,pre_node_id,next_node_id,type,node_logic,runner_flag,next_runner_org,status,runner_user_id,runner_post_id,runner_depart_id,runner_usergroup_id,runner_org_level,is_multiselect,is_other_man,is_assign_man,is_revoke,is_fallback
+	</sql>
+
+
+	<!-- 不包含ID字段list -->
+	<sql id="Not_ID_Column_List">
+		create_time,update_time,client_id,process_id,node_id,name,pre_node_id,next_node_id,type,node_logic,runner_flag,next_runner_org,status,runner_user_id,runner_post_id,runner_depart_id,runner_usergroup_id,runner_org_level,is_multiselect,is_other_man,is_assign_man,is_revoke,is_fallback
+	</sql>
+
+
+	<!-- 添加  ProcessNode -->
+	<insert id="addProcessNode" parameterType="ProcessNode" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO cb_process_node (
+			<include refid="Not_ID_Column_List" />
+		) VALUES (
+			#{createTime},#{updateTime},#{clientId},#{processId},#{nodeId},#{name},#{preNodeId},#{nextNodeId},#{type},#{nodeLogic},#{runnerFlag},#{nextRunnerOrg},#{status},#{runnerUserId},#{runnerPostId},#{runnerDepartId},#{runnerUsergroupId},#{runnerOrgLevel},#{isMultiselect},#{isOtherMan},#{isAssignMan},#{isRevoke},#{isFallback}
+		) 
+	</insert>
+
+
+	<!-- 批量添加  ProcessNode -->
+	<insert id="addProcessNodeByBatch" parameterType="java.util.List">
+		INSERT INTO cb_process_node (
+			<include refid="Not_ID_Column_List" />
+		) VALUES 
+		<foreach collection="processNodeList" item="item" index="index" separator=",">
+			(#{item.createTime},#{item.updateTime},#{item.clientId},#{item.processId},#{item.nodeId},#{item.name},#{item.preNodeId},#{item.nextNodeId},#{item.type},#{item.nodeLogic},#{item.runnerFlag},#{item.nextRunnerOrg},#{item.status},#{item.runnerUserId},#{item.runnerPostId},#{item.runnerDepartId},#{item.runnerUsergroupId},#{item.runnerOrgLevel},#{item.isMultiselect},#{item.isOtherMan},#{item.isAssignMan},#{item.isRevoke},#{item.isFallback})
+		</foreach>
+	</insert>
+
+
+	<!-- 删除  ProcessNode -->
+	<delete id="deleteProcessNode" parameterType="ProcessNode">
+		DELETE FROM cb_process_node 
+		<where>
+			<if test="id != null">
+				AND id = #{id}
+			</if>
+			<if test="createTime != null">
+				AND create_time = #{createTime}
+			</if>
+			<if test="updateTime != null">
+				AND update_time = #{updateTime}
+			</if>
+			<if test="clientId != null">
+				AND client_id = #{clientId}
+			</if>
+			<if test="processId != null">
+				AND process_id = #{processId}
+			</if>
+			<if test="nodeId != null">
+				AND node_id = #{nodeId}
+			</if>
+			<if test="name != null">
+				AND name = #{name}
+			</if>
+			<if test="preNodeId != null">
+				AND pre_node_id = #{preNodeId}
+			</if>
+			<if test="nextNodeId != null">
+				AND next_node_id = #{nextNodeId}
+			</if>
+			<if test="type != null">
+				AND type = #{type}
+			</if>
+			<if test="nodeLogic != null">
+				AND node_logic = #{nodeLogic}
+			</if>
+			<if test="runnerFlag != null">
+				AND runner_flag = #{runnerFlag}
+			</if>
+			<if test="nextRunnerOrg != null">
+				AND next_runner_org = #{nextRunnerOrg}
+			</if>
+			<if test="status != null">
+				AND status = #{status}
+			</if>
+			<if test="runnerUserId != null">
+				AND runner_user_id = #{runnerUserId}
+			</if>
+			<if test="runnerPostId != null">
+				AND runner_post_id = #{runnerPostId}
+			</if>
+			<if test="runnerDepartId != null">
+				AND runner_depart_id = #{runnerDepartId}
+			</if>
+			<if test="runnerUsergroupId != null">
+				AND runner_usergroup_id = #{runnerUsergroupId}
+			</if>
+			<if test="runnerOrgLevel != null">
+				AND runner_org_level = #{runnerOrgLevel}
+			</if>
+			<if test="isMultiselect != null">
+				AND is_multiselect = #{isMultiselect}
+			</if>
+			<if test="isOtherMan != null">
+				AND is_other_man = #{isOtherMan}
+			</if>
+			<if test="isAssignMan != null">
+				AND is_assign_man = #{isAssignMan}
+			</if>
+			<if test="isRevoke != null">
+				AND is_revoke = #{isRevoke}
+			</if>
+			<if test="isFallback != null">
+				AND is_fallback = #{isFallback}
+			</if>
+		</where>
+	</delete>
+
+
+	<!-- 根据id删除  ProcessNode -->
+	<delete id="deleteProcessNodeById" parameterType="java.lang.Long">
+		DELETE FROM cb_process_node 
+		 WHERE 
+			 id = #{id} 
+	</delete>
+
+
+	<!-- 修改  ProcessNode -->
+	<update id="updateProcessNode" parameterType="ProcessNode">
+		UPDATE cb_process_node 
+		<set>
+			<if test="id != null">
+				id = #{id}, 
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime}, 
+			</if>
+			<if test="updateTime != null">
+				update_time = #{updateTime}, 
+			</if>
+			<if test="clientId != null">
+				client_id = #{clientId}, 
+			</if>
+			<if test="processId != null">
+				process_id = #{processId}, 
+			</if>
+			<if test="nodeId != null">
+				node_id = #{nodeId}, 
+			</if>
+			<if test="name != null">
+				name = #{name}, 
+			</if>
+			<if test="preNodeId != null">
+				pre_node_id = #{preNodeId}, 
+			</if>
+			<if test="nextNodeId != null">
+				next_node_id = #{nextNodeId}, 
+			</if>
+			<if test="type != null">
+				type = #{type}, 
+			</if>
+			<if test="nodeLogic != null">
+				node_logic = #{nodeLogic}, 
+			</if>
+			<if test="runnerFlag != null">
+				runner_flag = #{runnerFlag}, 
+			</if>
+			<if test="nextRunnerOrg != null">
+				next_runner_org = #{nextRunnerOrg}, 
+			</if>
+			<if test="status != null">
+				status = #{status}, 
+			</if>
+			<if test="runnerUserId != null">
+				runner_user_id = #{runnerUserId}, 
+			</if>
+			<if test="runnerPostId != null">
+				runner_post_id = #{runnerPostId}, 
+			</if>
+			<if test="runnerDepartId != null">
+				runner_depart_id = #{runnerDepartId}, 
+			</if>
+			<if test="runnerUsergroupId != null">
+				runner_usergroup_id = #{runnerUsergroupId}, 
+			</if>
+			<if test="runnerOrgLevel != null">
+				runner_org_level = #{runnerOrgLevel}, 
+			</if>
+			<if test="isMultiselect != null">
+				is_multiselect = #{isMultiselect}, 
+			</if>
+			<if test="isOtherMan != null">
+				is_other_man = #{isOtherMan}, 
+			</if>
+			<if test="isAssignMan != null">
+				is_assign_man = #{isAssignMan}, 
+			</if>
+			<if test="isRevoke != null">
+				is_revoke = #{isRevoke}, 
+			</if>
+		</set>
+
+		<where>
+			<if test="id != null">
+				AND id = #{id}
+			</if>
+			<if test="createTime != null">
+				AND create_time = #{createTime}
+			</if>
+			<if test="updateTime != null">
+				AND update_time = #{updateTime}
+			</if>
+			<if test="clientId != null">
+				AND client_id = #{clientId}
+			</if>
+			<if test="processId != null">
+				AND process_id = #{processId}
+			</if>
+			<if test="nodeId != null">
+				AND node_id = #{nodeId}
+			</if>
+			<if test="name != null">
+				AND name = #{name}
+			</if>
+			<if test="preNodeId != null">
+				AND pre_node_id = #{preNodeId}
+			</if>
+			<if test="nextNodeId != null">
+				AND next_node_id = #{nextNodeId}
+			</if>
+			<if test="type != null">
+				AND type = #{type}
+			</if>
+			<if test="nodeLogic != null">
+				AND node_logic = #{nodeLogic}
+			</if>
+			<if test="runnerFlag != null">
+				AND runner_flag = #{runnerFlag}
+			</if>
+			<if test="nextRunnerOrg != null">
+				AND next_runner_org = #{nextRunnerOrg}
+			</if>
+			<if test="status != null">
+				AND status = #{status}
+			</if>
+			<if test="runnerUserId != null">
+				AND runner_user_id = #{runnerUserId}
+			</if>
+			<if test="runnerPostId != null">
+				AND runner_post_id = #{runnerPostId}
+			</if>
+			<if test="runnerDepartId != null">
+				AND runner_depart_id = #{runnerDepartId}
+			</if>
+			<if test="runnerUsergroupId != null">
+				AND runner_usergroup_id = #{runnerUsergroupId}
+			</if>
+			<if test="runnerOrgLevel != null">
+				AND runner_org_level = #{runnerOrgLevel}
+			</if>
+			<if test="isMultiselect != null">
+				AND is_multiselect = #{isMultiselect}
+			</if>
+			<if test="isOtherMan != null">
+				AND is_other_man = #{isOtherMan}
+			</if>
+			<if test="isAssignMan != null">
+				AND is_assign_man = #{isAssignMan}
+			</if>
+			<if test="isRevoke != null">
+				AND is_revoke = #{isRevoke}
+			</if>
+			<if test="isFallback != null">
+				AND is_fallback = #{isFallback}
+			</if>
+		</where>
+	</update>
+
+
+	<!-- 根据id修改  ProcessNode -->
+	<update id="updateProcessNodeById" parameterType="ProcessNode">
+		UPDATE cb_process_node 
+		<set>
+			<if test="createTime != null">
+				create_time = #{createTime}, 
+			</if>
+			<if test="updateTime != null">
+				update_time = #{updateTime}, 
+			</if>
+			<if test="clientId != null">
+				client_id = #{clientId}, 
+			</if>
+			<if test="processId != null">
+				process_id = #{processId}, 
+			</if>
+			<if test="nodeId != null">
+				node_id = #{nodeId}, 
+			</if>
+			<if test="name != null">
+				name = #{name}, 
+			</if>
+			<if test="preNodeId != null">
+				pre_node_id = #{preNodeId}, 
+			</if>
+			<if test="nextNodeId != null">
+				next_node_id = #{nextNodeId}, 
+			</if>
+			<if test="type != null">
+				type = #{type}, 
+			</if>
+			<if test="nodeLogic != null">
+				node_logic = #{nodeLogic}, 
+			</if>
+			<if test="runnerFlag != null">
+				runner_flag = #{runnerFlag}, 
+			</if>
+			<if test="nextRunnerOrg != null">
+				next_runner_org = #{nextRunnerOrg}, 
+			</if>
+			<if test="status != null">
+				status = #{status}, 
+			</if>
+			<if test="runnerUserId != null">
+				runner_user_id = #{runnerUserId}, 
+			</if>
+			<if test="runnerPostId != null">
+				runner_post_id = #{runnerPostId}, 
+			</if>
+			<if test="runnerDepartId != null">
+				runner_depart_id = #{runnerDepartId}, 
+			</if>
+			<if test="runnerUsergroupId != null">
+				runner_usergroup_id = #{runnerUsergroupId}, 
+			</if>
+			<if test="runnerOrgLevel != null">
+				runner_org_level = #{runnerOrgLevel}, 
+			</if>
+			<if test="isMultiselect != null">
+				is_multiselect = #{isMultiselect}, 
+			</if>
+			<if test="isOtherMan != null">
+				is_other_man = #{isOtherMan}, 
+			</if>
+			<if test="isAssignMan != null">
+				is_assign_man = #{isAssignMan}, 
+			</if>
+			<if test="isRevoke != null">
+				is_revoke = #{isRevoke}, 
+			</if>
+			<if test="isFallback != null">
+				is_fallback = #{isFallback}, 
+			</if>
+		</set>
+
+		 WHERE 
+            id = #{id} 
+	</update>
+
+
+	<!-- 根据id查询  ProcessNode -->
+	<select id="findProcessNodeById" parameterType="java.lang.Long" resultMap="processNodeResultMap">
+		SELECT 
+			<include refid="Base_Column_List" />
+        FROM cb_process_node 
+        WHERE 
+            id = #{id}
+
+	</select>
+
+	<!-- 查询一个  ProcessNode -->
+	<select id="findOneProcessNode" parameterType="ProcessNode" resultMap="processNodeResultMap">
+		SELECT 
+			<include refid="Base_Column_List" />
+        FROM cb_process_node 
+		<where>
+			<if test="id != null">
+				 AND id = #{id}
+			</if>
+			<if test="createTime != null">
+				 AND create_time = #{createTime}
+			</if>
+			<if test="updateTime != null">
+				 AND update_time = #{updateTime}
+			</if>
+			<if test="clientId != null">
+				 AND client_id = #{clientId}
+			</if>
+			<if test="processId != null">
+				 AND process_id = #{processId}
+			</if>
+			<if test="nodeId != null">
+				 AND node_id = #{nodeId}
+			</if>
+			<if test="name != null">
+				 AND name = #{name}
+			</if>
+			<if test="preNodeId != null">
+				 AND pre_node_id = #{preNodeId}
+			</if>
+			<if test="nextNodeId != null">
+				 AND next_node_id = #{nextNodeId}
+			</if>
+			<if test="type != null">
+				 AND type = #{type}
+			</if>
+			<if test="nodeLogic != null">
+				 AND node_logic = #{nodeLogic}
+			</if>
+			<if test="runnerFlag != null">
+				 AND runner_flag = #{runnerFlag}
+			</if>
+			<if test="nextRunnerOrg != null">
+				 AND next_runner_org = #{nextRunnerOrg}
+			</if>
+			<if test="status != null">
+				 AND status = #{status}
+			</if>
+			<if test="runnerUserId != null">
+				 AND runner_user_id = #{runnerUserId}
+			</if>
+			<if test="runnerPostId != null">
+				 AND runner_post_id = #{runnerPostId}
+			</if>
+			<if test="runnerDepartId != null">
+				 AND runner_depart_id = #{runnerDepartId}
+			</if>
+			<if test="runnerUsergroupId != null">
+				 AND runner_usergroup_id = #{runnerUsergroupId}
+			</if>
+			<if test="runnerOrgLevel != null">
+				 AND runner_org_level = #{runnerOrgLevel}
+			</if>
+			<if test="isMultiselect != null">
+				 AND is_multiselect = #{isMultiselect}
+			</if>
+			<if test="isOtherMan != null">
+				 AND is_other_man = #{isOtherMan}
+			</if>
+			<if test="isAssignMan != null">
+				 AND is_assign_man = #{isAssignMan}
+			</if>
+			<if test="isRevoke != null">
+				 AND is_revoke = #{isRevoke}
+			</if>
+			<if test="isFallback != null">
+				 AND is_fallback = #{isFallback}
+			</if>
+		 LIMIT 1 
+		</where>
+	</select>
+
+	<!-- 统计  ProcessNode -->
+	<select id="countProcessNode" parameterType="ProcessNode" resultType="java.lang.Integer">
+		SELECT COUNT(0) FROM cb_process_node 
+		<where>
+			<if test="id != null">
+				 AND id = #{id}
+			</if>
+			<if test="createTime != null">
+				 AND create_time = #{createTime}
+			</if>
+			<if test="updateTime != null">
+				 AND update_time = #{updateTime}
+			</if>
+			<if test="clientId != null">
+				 AND client_id = #{clientId}
+			</if>
+			<if test="processId != null">
+				 AND process_id = #{processId}
+			</if>
+			<if test="nodeId != null">
+				 AND node_id = #{nodeId}
+			</if>
+			<if test="name != null">
+				 AND name = #{name}
+			</if>
+			<if test="preNodeId != null">
+				 AND pre_node_id = #{preNodeId}
+			</if>
+			<if test="nextNodeId != null">
+				 AND next_node_id = #{nextNodeId}
+			</if>
+			<if test="type != null">
+				 AND type = #{type}
+			</if>
+			<if test="nodeLogic != null">
+				 AND node_logic = #{nodeLogic}
+			</if>
+			<if test="runnerFlag != null">
+				 AND runner_flag = #{runnerFlag}
+			</if>
+			<if test="nextRunnerOrg != null">
+				 AND next_runner_org = #{nextRunnerOrg}
+			</if>
+			<if test="status != null">
+				 AND status = #{status}
+			</if>
+			<if test="runnerUserId != null">
+				 AND runner_user_id = #{runnerUserId}
+			</if>
+			<if test="runnerPostId != null">
+				 AND runner_post_id = #{runnerPostId}
+			</if>
+			<if test="runnerDepartId != null">
+				 AND runner_depart_id = #{runnerDepartId}
+			</if>
+			<if test="runnerUsergroupId != null">
+				 AND runner_usergroup_id = #{runnerUsergroupId}
+			</if>
+			<if test="runnerOrgLevel != null">
+				 AND runner_org_level = #{runnerOrgLevel}
+			</if>
+			<if test="isMultiselect != null">
+				 AND is_multiselect = #{isMultiselect}
+			</if>
+			<if test="isOtherMan != null">
+				 AND is_other_man = #{isOtherMan}
+			</if>
+			<if test="isAssignMan != null">
+				 AND is_assign_man = #{isAssignMan}
+			</if>
+			<if test="isRevoke != null">
+				 AND is_revoke = #{isRevoke}
+			</if>
+			<if test="isFallback != null">
+				 AND is_fallback = #{isFallback}
+			</if>
+		</where>
+	</select>
+
+	<!-- 查询  ProcessNode -->
+	<select id="findProcessNode" parameterType="ProcessNode" resultMap="processNodeResultMap">
+		SELECT 
+			<include refid="Base_Column_List" />
+        FROM cb_process_node 
+		<if test="processNode != null">
+			<where>
+				<if test="processNode.id != null">
+					 AND id = #{processNode.id}
+				</if>
+				<if test="processNode.createTime != null">
+					 AND create_time = #{processNode.createTime}
+				</if>
+				<if test="processNode.updateTime != null">
+					 AND update_time = #{processNode.updateTime}
+				</if>
+				<if test="processNode.clientId != null">
+					 AND client_id = #{processNode.clientId}
+				</if>
+				<if test="processNode.processId != null">
+					 AND process_id = #{processNode.processId}
+				</if>
+				<if test="processNode.nodeId != null">
+					 AND node_id = #{processNode.nodeId}
+				</if>
+				<if test="processNode.name != null">
+					 AND name = #{processNode.name}
+				</if>
+				<if test="processNode.preNodeId != null">
+					 AND pre_node_id = #{processNode.preNodeId}
+				</if>
+				<if test="processNode.nextNodeId != null">
+					 AND next_node_id = #{processNode.nextNodeId}
+				</if>
+				<if test="processNode.type != null">
+					 AND type = #{processNode.type}
+				</if>
+				<if test="processNode.nodeLogic != null">
+					 AND node_logic = #{processNode.nodeLogic}
+				</if>
+				<if test="processNode.runnerFlag != null">
+					 AND runner_flag = #{processNode.runnerFlag}
+				</if>
+				<if test="processNode.nextRunnerOrg != null">
+					 AND next_runner_org = #{processNode.nextRunnerOrg}
+				</if>
+				<if test="processNode.status != null">
+					 AND status = #{processNode.status}
+				</if>
+				<if test="processNode.runnerUserId != null">
+					 AND runner_user_id = #{processNode.runnerUserId}
+				</if>
+				<if test="processNode.runnerPostId != null">
+					 AND runner_post_id = #{processNode.runnerPostId}
+				</if>
+				<if test="processNode.runnerDepartId != null">
+					 AND runner_depart_id = #{processNode.runnerDepartId}
+				</if>
+				<if test="processNode.runnerUsergroupId != null">
+					 AND runner_usergroup_id = #{processNode.runnerUsergroupId}
+				</if>
+				<if test="processNode.runnerOrgLevel != null">
+					 AND runner_org_level = #{processNode.runnerOrgLevel}
+				</if>
+				<if test="processNode.isMultiselect != null">
+					 AND is_multiselect = #{processNode.isMultiselect}
+				</if>
+				<if test="processNode.isOtherMan != null">
+					 AND is_other_man = #{processNode.isOtherMan}
+				</if>
+				<if test="processNode.isAssignMan != null">
+					 AND is_assign_man = #{processNode.isAssignMan}
+				</if>
+				<if test="processNode.isRevoke != null">
+					 AND is_revoke = #{processNode.isRevoke}
+				</if>
+				<if test="processNode.isFallback != null">
+					 AND is_fallback = #{processNode.isFallback}
+				</if>
+			</where>
+		</if>
+		<if test="order != null">
+		 ORDER BY ${order} 
+		</if>
+	</select>
+
+	<!-- 分页查询  ProcessNode -->
+	<select id="findByPage" parameterType="java.util.HashMap" resultMap="processNodeResultMap">
+		SELECT 
+			<include refid="Base_Column_List" />
+        FROM cb_process_node 
+		<if test="processNode != null">
+			<where>
+				<if test="processNode.id != null">
+					 AND id = #{processNode.id}
+				</if>
+				<if test="processNode.createTime != null">
+					 AND create_time = #{processNode.createTime}
+				</if>
+				<if test="processNode.updateTime != null">
+					 AND update_time = #{processNode.updateTime}
+				</if>
+				<if test="processNode.clientId != null">
+					 AND client_id = #{processNode.clientId}
+				</if>
+				<if test="processNode.processId != null">
+					 AND process_id = #{processNode.processId}
+				</if>
+				<if test="processNode.nodeId != null">
+					 AND node_id = #{processNode.nodeId}
+				</if>
+				<if test="processNode.name != null">
+					 AND name = #{processNode.name}
+				</if>
+				<if test="processNode.preNodeId != null">
+					 AND pre_node_id = #{processNode.preNodeId}
+				</if>
+				<if test="processNode.nextNodeId != null">
+					 AND next_node_id = #{processNode.nextNodeId}
+				</if>
+				<if test="processNode.type != null">
+					 AND type = #{processNode.type}
+				</if>
+				<if test="processNode.nodeLogic != null">
+					 AND node_logic = #{processNode.nodeLogic}
+				</if>
+				<if test="processNode.runnerFlag != null">
+					 AND runner_flag = #{processNode.runnerFlag}
+				</if>
+				<if test="processNode.nextRunnerOrg != null">
+					 AND next_runner_org = #{processNode.nextRunnerOrg}
+				</if>
+				<if test="processNode.status != null">
+					 AND status = #{processNode.status}
+				</if>
+				<if test="processNode.runnerUserId != null">
+					 AND runner_user_id = #{processNode.runnerUserId}
+				</if>
+				<if test="processNode.runnerPostId != null">
+					 AND runner_post_id = #{processNode.runnerPostId}
+				</if>
+				<if test="processNode.runnerDepartId != null">
+					 AND runner_depart_id = #{processNode.runnerDepartId}
+				</if>
+				<if test="processNode.runnerUsergroupId != null">
+					 AND runner_usergroup_id = #{processNode.runnerUsergroupId}
+				</if>
+				<if test="processNode.runnerOrgLevel != null">
+					 AND runner_org_level = #{processNode.runnerOrgLevel}
+				</if>
+				<if test="processNode.isMultiselect != null">
+					 AND is_multiselect = #{processNode.isMultiselect}
+				</if>
+				<if test="processNode.isOtherMan != null">
+					 AND is_other_man = #{processNode.isOtherMan}
+				</if>
+				<if test="processNode.isAssignMan != null">
+					 AND is_assign_man = #{processNode.isAssignMan}
+				</if>
+				<if test="processNode.isRevoke != null">
+					 AND is_revoke = #{processNode.isRevoke}
+				</if>
+				<if test="processNode.isFallback != null">
+					 AND is_fallback = #{processNode.isFallback}
+				</if>
+			</where>
+		</if>
+	</select>
+
+
+</mapper>
+

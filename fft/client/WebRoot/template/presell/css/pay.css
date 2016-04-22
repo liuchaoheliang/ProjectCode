@@ -1,0 +1,67 @@
+/*
+* Author:
+* pengling@f-road.com.cn 
+*/
+/*付款01*/
+.paytable{width:758px; border:1px solid #b7b7b7; overflow:hidden; padding:10px 0 30px 0; background:#FFF; float:left;}
+
+.paytable .table-section table{width:700px; border:1px solid #e5e5e5;text-align:center; margin:0 auto;}
+
+.paytable .table-section table th, .paytable .table-section table td{padding:12px; border-bottom:1px dotted #e5e5e5}
+
+.paytable .table-section table th{padding:6px 12px;border-bottom-style:solid;font-size:14px;font-weight:bold;text-align:center;background:#f7f7f7}
+
+.paytable .table-section table td{background:#FFF; font-size:12px; height:30px;}
+
+.paytable .table-section table td u{ text-decoration:none;}
+
+.paytable .desc{padding-left:16px;text-align:left;}
+·
+.paytable .desc a{color:#000; text-decoration:none;}
+
+.paytable .quantity a{ font-size:16px; margin:0 2px; color:#999; text-decoration:none; padding:0px 5px; font-weight:bold; font-family:Arial, Helvetica, sans-serif;}
+
+.paytable .jifen{text-align:right; margin-right:10px; font-family:arial; color:#F00;}
+
+.paytable .jifen a{ color:#F60; text-decoration:none; margin-right:10px;}
+
+.paytable .jifen a:hover{ color:#36F; text-decoration:underline;}
+
+.paytable .jifen b{ margin-left:5px}
+
+.paytable .total-fee{ text-align:right;}
+
+.paytable .total-fee strong{ font-weight:bold; color:#F00; font-family:"微软雅黑"; font-size:16px;}
+
+.paytable .confirm{width:700px; margin:0 auto; font:14px/32px "微软雅黑"; color:#777; margin-top:15px;}
+
+.paytable .confirm .leftcon{ float:left; width:470px;}
+
+.paytable .confirm .leftcon b{ color:#C00;}
+
+.paytable .confirm .leftcon p span{ margin-left:5px;}
+
+.paytable .confirm .leftcon p span a{ color:#39F; text-decoration:none;}
+
+.paytable .confirm .leftcon p span a:hover{ color:#F60; text-decoration:none;}
+
+.paytable .use{line-height:30px; float:left; font-family:Arial, Helvetica, sans-serif;}
+
+.paytable .use b{ font-size:14px;}
+
+.f-text{width:50px;height:20px;margin:0 5px;*margin:-1px 5px;padding:5px;line-height:20px;border:1px solid #fb9d65;font-size:20px;text-align:center;vertical-align:middle}
+
+.paytableright{float:left;  width:135px; height:373px; margin-left:10px; display:inline; background:url(../images/buyright.gif);}
+.useponits {background:#FFC;height:60px;line-height:60px}
+.useponits input,.usecash input{margin:0 5px 0 5px}
+
+#uboxstyle {height:180px;width:260px;border:1px solid #999; overflow:auto; scroll:auto;font-family: "微软雅黑"}
+#uboxstyle li{display:block;border-bottom:1px solid #999;padding:5px 5px 5px 10px;line-height:13px}
+#uboxstyle li a{ text-decoration:none;color:#000}
+#uboxstyle  .select{color:#fff;background:  #06C}
+#uboxstyle  .select a{color:#fff}
+#uboxstyle  li font{color: #aaa}
+.usecash{background: #d9ecf4;line-height:60px;height:60px}
+.usecash img{ vertical-align:bottom;border:1px solid #999; vertical-align:middle;margin:0 10px 0 10px}
+
+

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.mysql.mapper.RecommendActivityTagMapper">
+	
+	<resultMap type="RecommendActivityTag" id="RatResultMap">
+		<id property="id" column="id"/>
+		<result property="clientId" column="client_id" />
+		<result property="activityName" column="activity_name" />
+		<result property="activityNo" column="activity_no" />
+		<result property="operator" column="operator" />
+		<result property="activityDesc" column="activity_desc" />
+		<result property="status" column="status" />
+		<result property="activityType" column="activity_type" />
+		<result property="logoUrl" column="logo_url" />
+		<result property="createTime" column="create_time" />
+		<result property="updateTime" column="update_time" />
+	</resultMap>
+	
+	<select id="findByPage" resultMap="RatResultMap">
+		SELECT id,client_id,activity_name,activity_no,operator,activity_desc,status,activity_type,logo_url,create_time,update_time  
+		FROM cb_recommend_activity_tag 
+		<where>
+			<if test="rat.clientId != null">
+				AND client_id = #{rat.clientId} 
+			</if>
+			<if test="rat.status != null">
+				AND status IN (#{rat.status}) 
+			</if>
+			<if test="rat.activityName != null">
+				AND activity_name LIKE CONCAT('%', #{rat.activityName}, '%') 
+			</if>
+			<if test="rat.activityType != null">
+				AND activity_type = #{rat.activityType} 
+			</if>
+		</where>
+	</select>
+	
+	
+	<select id="findActivityDetail" resultMap="RatResultMap">
+		SELECT id,client_id,activity_name,activity_no,operator,activity_desc,status,activity_type,logo_url,create_time,update_time 
+		FROM cb_recommend_activity_tag 
+		<where>
+			<if test="rat.id != null">
+				AND id = #{rat.id} 
+			</if>
+			<if test="rat.clientId != null">
+				AND client_id = #{rat.clientId} 
+			</if> 
+			<if test="rat.activityNo!= null">
+				AND activity_no = #{rat.activityNo} 
+			</if>
+			<if test="rat.activityType != null">
+				AND activity_type = #{rat.activityType} 
+			</if>
+		</where>
+	</select>
+	
+	
+	<update id="updateRecommendActivityTag">
+		UPDATE cb_recommend_activity_tag 
+		<set>
+			<if test="rat.activityDesc != null">
+				activity_desc = #{rat.activityDesc}, 
+			</if>
+			<if test="rat.status != null">
+				status = #{rat.status}, 
+			</if>
+			<if test="rat.operator != null">
+				operator = #{rat.operator}, 
+			</if>
+			<if test="rat.logoUrl != null">
+				logo_url = #{rat.logoUrl}, 
+			</if>
+			<if test="rat.updateTime != null">
+				update_time = #{rat.updateTime}, 
+			</if>
+		</set>
+		<where>
+			<if test="rat.id != null">
+				AND id = #{rat.id} 
+			</if>
+			<if test="rat.clientId != null">
+				AND client_id = #{rat.clientId} 
+			</if> 
+			<if test="rat.activityNo!= null">
+				AND activity_no = #{rat.activityNo} 
+			</if>
+			<if test="rat.activityType != null">
+				AND activity_type = #{rat.activityType} 
+			</if>
+		</where>
+	</update>
+	
+	
+	<insert id="addRecommendActivityTag" parameterType="RecommendActivityTag" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO cb_recommend_activity_tag (
+			client_id,activity_name,activity_no,operator,activity_desc,status,activity_type,logo_url,create_time,update_time
+		) VALUES (
+			#{clientId},#{activityName},#{activityNo},#{operator},#{activityDesc},#{status},#{activityType},#{logoUrl},#{createTime},#{updateTime}
+		)
+	</insert>
+	
+	
+	<select id="findActivityCount" parameterType="java.lang.String" resultType="java.lang.Integer">
+		select 
+		 	count(1) 
+		from 
+			cb_recommend_activity_tag t
+		where  t.client_id = #{clientId} and t.activity_type = #{type}
+		
+	
+	</select>
+	
+</mapper>
+

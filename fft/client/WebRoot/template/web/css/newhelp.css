@@ -1,0 +1,43 @@
+/*
+* Author:
+* pengling@f-road.com.cn 
+*/
+/*帮助中心*/
+.newhelp{width:1050px; border:1px solid #b7b7b7; overflow:hidden;  background:#FFF;clear:both;}
+
+.newhelp .helptitle{height:45px; background:#f2f2f2; text-align:center; font:bold 18px/45px "微软雅黑"; color:#06F;}
+
+.newhelp .left{ float:left; width:200px;}
+
+.newhelp .left dl{ margin-top:2px; margin-left:3px; clear:both; overflow:hidden; z-index:3; width:190px; background:#f3f3f3; border:2px solid #005d94; padding-bottom:5px;; float:left; display:inline;}
+
+.newhelp .left dt{font:14px/32px "宋体"; font-weight:bold; background:#008bdd; text-align:center; clear:both; color:#FFF;}
+
+.newhelp .left dd{font:14px/25px "宋体"; text-align:center; color:#333; float:left; display:inline; padding-left:9px; white-space:nowrap; width:75px;}
+
+.newhelp .left dd.longfont{ width:110px;}
+
+.newhelp .left dd a{ color:#222; text-decoration:none;}
+
+.newhelp .left dd a:hover{ color:#36C; text-decoration:none;}
+
+.newhelp .answer{ float:left; width:849px; border-left:1px solid #ddd; display:inline;}
+
+.newhelp .answer .titleTitle{ text-align:center; color:#F60; height:35px; font:bold 16px/35px "微软雅黑";}
+
+.newhelp .answer dt{height:35px; font:bold 16px/35px "微软雅黑"; color:#06F; padding-left:30px; background:#eee;  margin-top:10px;}
+
+.newhelp table{ margin:0 auto;font-size:14px; font-family:Arial, Helvetica, sans-serif;}
+
+.newhelp table td{ height:30px; font:14px/30px Verdana, Geneva, sans-serif,"宋体"; color:#222; text-align:left;}
+
+.newhelp table td a{ color:#36F; text-decoration:underline;}
+
+.newhelp table td a:hover{ color:#C60; text-decoration:none;}
+
+
+
+
+
+
+

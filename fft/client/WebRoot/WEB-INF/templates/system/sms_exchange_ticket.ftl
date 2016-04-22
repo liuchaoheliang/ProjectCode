@@ -1,0 +1,1 @@
+尊敬的用户，您兑换的商品${goodsName}，兑换码为${code}，使用有效期至${useValidityEndTime}。商户信息及使用详情请见兑换页面。【珠海农商银行】

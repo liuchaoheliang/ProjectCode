@@ -1,0 +1,20 @@
+<requestFroadApi>
+	<setParam>
+		<payOrg>${payOrg}</payOrg>
+		<merchantID>${merchantID}</merchantID>
+		<merchantName>${merchantName}</merchantName>
+		<accountName>${accountName}</accountName>
+		<accountNo>${accountNo}</accountNo>
+		<optionType>${optionType}</optionType>
+		<requestTime>${requestTime}</requestTime>
+	</setParam>
+	<system>
+		<reqID>${reqID}</reqID>
+		<version>${versions}</version>
+		<partnerID>${partnerID}</partnerID>
+		<charset>${charset}</charset>
+		<signType>${signType}</signType>
+		<client>${client}</client>
+		<signMsg>${signMsg}</signMsg>
+	</system>
+</requestFroadApi>

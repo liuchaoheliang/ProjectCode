@@ -1,0 +1,39 @@
+/*
+* Author:
+* pengling@f-road.com.cn 
+*/
+/*注册页面*/
+.regeditBox{ width:100%;  overflow:hidden; padding-bottom:10px; background:#FFF; clear:both} 
+
+.regeditBox .topReg{ height:35px; background:#f2f4f7; width:100%; margin-bottom:25px; line-height:35px;}
+
+.regeditBox .topReg B{padding-left:170px; font-weight:normal; font-size:14px; color:#666;}
+
+.regeditBox .topReg B a{ padding-left:5px; color:#09F; text-decoration:none;}
+
+.regeditBox .topReg B a:hover{ color:#090; text-decoration:underline;}
+
+.regeditBox .regeditLeft{width:950px; margin:0 auto;  background:url(../images/regedit.png) no-repeat right; height:401px;}
+
+.regeditBox .regeditLeft dl{ clear:both;  height:45px;}
+
+.regeditBox .regeditLeft dt{ float:left; width:100px; text-align:right; font-size:14px; line-height:28px; color:#666;}
+
+.regeditBox .regeditLeft dd{ float:left; font-size:12px;}
+
+.regeditBox .regeditLeft dd a{ color:#390; text-decoration:none;}
+
+.regeditBox .regeditLeft dd a:hover{ color:#F60; text-decoration:underline;}
+
+.regeditBox .regeditLeft dd img{ vertical-align:middle;}
+
+.regeditBox .regeditLeft .regeditBtn{ background:url(../images/btnBg.png) no-repeat 0px 0px; float:left; display:block; height:45px; padding-left:20px; line-height:45px; font-family:"微软雅黑"; color:#FFF; margin-left:100px; margin-bottom:50px; cursor:pointer; display:inline; *margin-top:30px;}
+
+.regeditBox .regeditLeft .regeditBtn span{ background:url(../images/btnBg.png) no-repeat right 0px; display:block; padding-right:20px;}
+
+.regeditBox .regeditLeft .regedittiaokuan{ font-size:12px; line-height:45px; display:inline;}
+
+.regeditBox .regeditLeft .regedittiaokuan a{ color:#09F; text-decoration:none;}
+
+.regeditBox .regeditLeft .regedittiaokuan a:hover{ color:#090; text-decoration:underline;}
+

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.mysql.mapper.ClientCommonMapper">
+
+	<resultMap type="Client" id="clientCommonResultMap">
+		<id property="id" column="id" />
+		<result property="createTime" column="create_time" />
+		<result property="clientId" column="client_id" />
+		<result property="uri" column="uri" />
+		<result property="name" column="name" />
+		<result property="pointPartnerNo" column="point_partner_no" />
+		<result property="openapiPartnerNo" column="openapi_partner_no" />
+		<result property="orderDisplay" column="order_display" />
+		<result property="appkey" column="appkey" />
+		<result property="appsecret" column="appsecret" />
+		<result property="bankType" column="bank_type" />
+		<result property="bankName" column="bank_name" />
+		<result property="qrLogo" column="qr_logo" />
+		<result property="returnUrl" column="return_url" />
+		<result property="remark" column="remark" />
+		<result property="bankId" column="bank_id" />
+		<result property="settlePayOrg" column="settle_pay_org" />
+		<result property="bankOrg" column="bank_org" />
+		<result property="bankZH" column="bank_ZH" />
+	</resultMap>
+
+
+
+	<!-- 查询  Client 详情 -->
+	<select id="findClientById" parameterType="java.lang.String" resultMap="clientCommonResultMap">
+		select 
+			id,create_time,client_id,uri,name,point_partner_no,openapi_partner_no,order_display,appkey,appsecret,bank_type,
+			bank_name,qr_logo,return_url,remark,bank_id,settle_pay_org,bank_org,bank_ZH       
+		from cb_client     
+		where client_id = #{clientId}
+	</select>
+
+	<select id="findClientByName" resultMap="clientCommonResultMap">
+		SELECT 
+			id,create_time,client_id,uri,name,point_partner_no,openapi_partner_no,order_display,appkey,appsecret,bank_type,
+			bank_name,qr_logo,return_url,remark,bank_id,settle_pay_org,bank_org,bank_ZH       
+		FROM cb_client     
+		WHERE name = #{clientName} OR bank_name = #{clientName} 
+	</select>
+
+</mapper>
+

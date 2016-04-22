@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	id="WebApp_ID" version="2.5">
+	<display-name>fft-client-chongqing</display-name>
+
+	<!-- 定义Spring配置文件位置 -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>
+			classpath*:context/applicationContext.xml,
+			classpath*:context/applicationContext-expand.xml,
+			classpath*:context/applicationContext-remote.xml,
+			classpath*:context/applicationContext-shiro.xml
+		</param-value>
+	</context-param>
+	
+	<!-- 编码处理过滤器 -->
+	<filter>
+		<filter-name>encodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter
+		</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>utf-8</param-value>
+		</init-param>
+		<init-param>
+			<param-name>forceEncoding</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>encodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<!-- 参数详情捕获器 -->
+	<filter>
+		<filter-name>ParamLogFilter</filter-name>
+		<filter-class>com.froad.fft.filter.ParamLogFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>ParamLogFilter</filter-name>
+		<url-pattern>*.jhtml</url-pattern>
+	</filter-mapping>
+	
+	<!-- SSO -->
+	<listener>
+		<listener-class>com.froad.sso.client.session.SingleSignOutHttpSessionListener</listener-class>
+	</listener>
+	<filter>
+		<filter-name>SSO Single Sign Out Filter</filter-name>
+		<filter-class>com.froad.sso.client.session.SingleSignOutFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>SSO Single Sign Out Filter</filter-name>
+		<url-pattern>*.jhtml</url-pattern>
+	</filter-mapping>
+	<filter>
+		<filter-name>SSO Validation Filter</filter-name>
+		<filter-class>
+			org.jasig.cas.client.validation.Cas20ProxyReceivingTicketValidationFilter</filter-class>
+		<init-param>
+			<param-name>ssoServerUrlPrefix</param-name>
+			<param-value>http://sso.o2obill.com:8133/sso</param-value>
+		</init-param>
+		<init-param>
+			<param-name>serverName</param-name>
+			<param-value>http://cq.o2obill.com:8686</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>SSO Validation Filter</filter-name>
+		<url-pattern>*.jhtml</url-pattern>
+	</filter-mapping>
+	<filter>
+		<filter-name>SSO HttpServletRequest Wrapper Filter</filter-name>
+		<filter-class>com.froad.sso.client.util.HttpServletRequestWrapperFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>SSO HttpServletRequest Wrapper Filter</filter-name>
+		<url-pattern>*.jhtml</url-pattern>
+	</filter-mapping>
+	<filter>
+		<filter-name>SSO Assertion Thread Local Filter</filter-name>
+		<filter-class>com.froad.sso.client.util.AssertionThreadLocalFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>SSO Assertion Thread Local Filter</filter-name>
+		<url-pattern>*.jhtml</url-pattern>
+	</filter-mapping>
+	<filter>
+		<filter-name>SSOFilter</filter-name>
+		<filter-class>com.froad.sso.client.authentication.AuthenticationFilter</filter-class>
+		<init-param>
+			<param-name>ssoServerLoginUrl</param-name>
+			<param-value>http://sso.o2obill.com:8133/sso/login</param-value>
+		</init-param>
+        <init-param>
+            <param-name>ssoClientLoginUrl</param-name>
+            <param-value>http://cq.o2obill.com:8686/froad_fft_client_cq/shop/login/index.jhtml</param-value>
+        </init-param>
+		<init-param>
+			<param-name>serverName</param-name>
+			<param-value>http://cq.o2obill.com:8686</param-value>
+		</init-param>
+		<init-param>
+			<param-name>exclusions</param-name>
+			<param-value>!/member/,!/sso/</param-value>
+		</init-param>
+        <init-param>
+            <param-name>ssoWhiteUrl</param-name>
+             <param-value>http://cq.o2obill.com:8686/froad_fft_client_cq/sso/core/support.jhtml</param-value>
+        </init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>SSOFilter</filter-name>
+		<url-pattern>*.jhtml</url-pattern>
+	</filter-mapping>
+	
+	<!-- sso location filter -->
+	<filter>
+		<filter-name>SSOPowerFilter</filter-name>
+		<filter-class>com.froad.fft.filter.SSOPowerFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>SSOPowerFilter</filter-name>
+		<url-pattern>*.jhtml</url-pattern>
+	</filter-mapping>
+	
+	<!-- 压缩 -->
+	<filter>
+    	<filter-name>CompressingFilter</filter-name>
+        <filter-class>
+        	com.planetj.servlet.filter.compression.CompressingFilter
+        </filter-class>
+        <init-param>
+        	<param-name>debug</param-name>
+        	<param-value>false</param-value>
+        </init-param>
+        <init-param>
+            <param-name>statsEnabled</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>CompressingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+	
+	<!-- shiro -->
+	<filter>
+		<filter-name>shiroFilter</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy
+		</filter-class>
+		<init-param>
+			<param-name>targetFilterLifecycle</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>shiroFilter</filter-name>
+		<url-pattern>*.jhtml</url-pattern>
+	</filter-mapping>
+	
+	<!-- 用户访问资源过滤器 -->
+	<filter>
+		<filter-name>MemberPowerFilter</filter-name>
+		<filter-class>com.froad.fft.filter.MemberPowerFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>MemberPowerFilter</filter-name>
+		<url-pattern>/member/*</url-pattern>
+	</filter-mapping>
+	<!-- 用户访问资源过滤器 -->
+
+	<!-- spring mvc -->
+	<servlet>
+		<servlet-name>springmvc</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet
+		</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>classpath*:context/applicationContext-mvc.xml
+			</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>springmvc</servlet-name>
+		<url-pattern>*.jhtml</url-pattern>
+	</servlet-mapping>
+
+	<!-- 执行静态化 -->
+	<servlet>
+		<servlet-name>BuildStaticServlet</servlet-name>
+		<servlet-class>com.froad.fft.servlet.BuildStaticServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>BuildStaticServlet</servlet-name>
+		<url-pattern>/buildStatic.api</url-pattern>
+	</servlet-mapping>
+
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener
+		</listener-class>
+	</listener>
+	<listener>
+		<listener-class>org.springframework.web.util.IntrospectorCleanupListener
+		</listener-class>
+	</listener>
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+	</welcome-file-list>
+	<error-page>
+		<error-code>404</error-code>
+		<location>/common/warn_404.jhtml</location>
+	</error-page>
+	<error-page>
+		<error-code>405</error-code>
+		<location>/common/illegality.jhtml</location>
+	</error-page>
+	<error-page>
+		<error-code>500</error-code>
+		<location>/common/error_500.jhtml</location>
+	</error-page>
+</web-app>

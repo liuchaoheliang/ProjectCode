@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.mysql.mapper.AdvertisingMapper">
+
+	<resultMap type="Advertising" id="advertisingResultMap">
+		<id property="id" column="id" />
+		<result property="clientId" column="client_id" />
+		<result property="title" column="title" />
+		<result property="adLocationId" column="ad_location_id" />
+		<result property="type" column="type" />
+		<result property="orderSn" column="order_sn" />
+		<result property="beginTime" column="begin_time" />
+		<result property="endTime" column="end_time" />
+		<result property="paramOneValue" column="param_one_value" />
+		<result property="paramTwoValue" column="param_two_value" />
+		<result property="paramThreeValue" column="param_three_value" />
+		<result property="content" column="content" />
+		<result property="link" column="link" />
+		<result property="path" column="path" />
+		<result property="isBlankTarge" column="is_blank_targe" />
+		<result property="enableStatus" column="enable_status" />
+		<result property="clickCount" column="click_count" />
+		<result property="description" column="description" />
+		<result property="adLocationName" column="name" />
+		<result property="paramOneType" column="param_one_type"/>
+		<result property="paramTwoType" column="param_two_type"/>
+		<result property="paramThreeType" column="param_three_type"/>
+		<result property="terminalType" column="terminal_type" />
+		<result property="positionPage" column="position_page" />
+	</resultMap>
+
+
+	<!-- 添加  Advertising -->
+	<insert id="addAdvertising" parameterType="Advertising" useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[
+			INSERT INTO cb_advertising (
+				client_id,title,ad_location_id,type,order_sn,begin_time,end_time
+				,param_one_value,param_two_value,param_three_value,content,link
+				,path,is_blank_targe,enable_status,click_count,description
+			) VALUES (
+				#{clientId},#{title},#{adLocationId},#{type},#{orderSn},#{beginTime},#{endTime}
+				,#{paramOneValue},#{paramTwoValue},#{paramThreeValue},#{content},#{link}
+				,#{path},#{isBlankTarge},#{enableStatus},#{clickCount},#{description}
+			) 
+		]]>
+	</insert>
+
+
+	<!-- 批量添加  Advertising -->
+	<insert id="addAdvertisingByBatch" parameterType="java.util.List">
+		INSERT INTO cb_advertising (
+			client_id,title,ad_location_id,type,order_sn,begin_time,end_time
+			,param_one_value,param_two_value,param_three_value,content,link
+			,path,is_blank_targe,enable_status,click_count,description
+		) VALUES 
+		<foreach collection="adLocationList" item="item" index="index" separator=",">
+			#{clientId},#{title},#{adLocationId},#{type},#{orderSn},#{beginTime},#{endTime}
+			,#{paramOneValue},#{paramTwoValue},#{paramThreeValue},#{content},#{link}
+			,#{path},#{isBlankTarge},#{enableStatus},#{clickCount},#{description}
+		</foreach>
+	</insert>
+	
+	<!-- 编辑更新 Advertising -->
+	<update id="updateAdvertising" parameterType="Advertising">
+		UPDATE cb_advertising  
+			<set>
+				<if test="clientId != null">
+					client_id = #{clientId},
+				</if>
+				<if test="title != null">
+					title = #{title},
+				</if>
+				<if test="adLocationId != null">
+					ad_location_id = #{adLocationId},
+				</if>
+				<if test="type != null">
+					type = #{type},
+				</if>
+				<if test="orderSn != null">
+					order_sn = #{orderSn},
+				</if>
+				<if test="beginTime != null">
+					begin_time = #{beginTime},
+				</if>
+				<if test="endTime != null">
+					end_time = #{endTime},
+				</if>
+				<if test="paramOneValue != null">
+					param_one_value = #{paramOneValue},
+				</if>
+				<if test="paramOneValue == null">
+					param_one_value = null,
+				</if>
+				<if test="paramTwoValue != null">
+					param_two_value = #{paramTwoValue},
+				</if>
+				<if test="paramTwoValue == null">
+					param_two_value = null,
+				</if>
+				<if test="paramThreeValue != null">
+					param_three_value = #{paramThreeValue},
+				</if>
+				<if test="paramThreeValue == null">
+					param_three_value = null,
+				</if>
+				<if test="content != null">
+					content = #{content},
+				</if>
+				<if test="link != null">
+					link = #{link},
+				</if>
+				<if test="path != null">
+					path = #{path},
+				</if>
+				<if test="isBlankTarge != null">
+					is_blank_targe = #{isBlankTarge},
+				</if>
+				<if test="enableStatus != null">
+					enable_status = #{enableStatus},
+				</if>
+				<if test="clickCount != null">
+					click_count = #{clickCount},
+				</if>
+				<if test="description != null">
+					description = #{description},
+				</if>
+			</set>
+		where id = #{id}
+	</update>
+	
+	<!-- 查询 Advertising 列表 -->
+	<select id="findAdvertisingList" parameterType="Advertising" resultMap="advertisingResultMap">
+		SELECT
+			a.id,a.client_id,a.title,a.ad_location_id,a.type,a.order_sn,a.begin_time,a.end_time
+			,a.param_one_value,a.param_two_value,a.param_three_value,a.content,a.link
+			,a.path,a.is_blank_targe,a.enable_status,a.click_count,a.description
+			,b.`name`,b.param_one_type,b.param_two_type,b.param_three_type,b.terminal_type,b.position_page 
+		FROM cb_advertising a left join cb_ad_location b on a.ad_location_id = b.id 
+		<where>
+			<if test="adLocationId != null"><!-- 广告位 -->
+				AND a.ad_location_id = #{adLocationId}
+			</if>
+			<if test="clientId != null"><!-- 客户端 -->
+				AND a.client_id = #{clientId}
+			</if>
+			<if test="title != null"><!-- 标题 -->
+				AND a.title like CONCAT('%',#{title},'%' )
+			</if>
+		</where>
+	</select>
+	
+	<!-- 分页查询  Advertising -->
+	<select id="findByPage" parameterType="java.util.HashMap" resultMap="advertisingResultMap">
+		SELECT 
+			a.id,a.client_id,a.title,a.ad_location_id,a.type,a.order_sn,a.begin_time,a.end_time
+			,a.param_one_value,a.param_two_value,a.param_three_value,a.content,a.link
+			,a.path,a.is_blank_targe,a.enable_status,a.click_count,a.description
+			,b.`name`,b.param_one_type,b.param_two_type,b.param_three_type,b.terminal_type,b.position_page 
+		from cb_advertising a left join cb_ad_location b on a.ad_location_id = b.id 
+		<if test="advertising != null">
+			<where>
+				<if test="advertising.title != null"><!-- 标题 -->
+					 AND a.title like CONCAT('%',#{advertising.title},'%' )
+				</if>
+				<if test="advertising.adLocationId != null"><!-- 广告位 -->
+					 AND a.ad_location_id = #{advertising.adLocationId}
+				</if>
+				<if test="advertising.clientId != null"><!-- 客户端 -->
+					 AND a.client_id = #{advertising.clientId}
+				</if>
+			</where>
+		</if>
+	</select>
+	
+	<!-- 查询  Advertising 单个 -->
+	<select id="findAdvertisingById" parameterType="java.lang.Long" resultMap="advertisingResultMap">
+		SELECT 
+            a.id,a.client_id,a.title,a.ad_location_id,a.type,a.order_sn,a.begin_time,a.end_time
+			,a.param_one_value,a.param_two_value,a.param_three_value,a.content,a.link
+			,a.path,a.is_blank_targe,a.enable_status,a.click_count,a.description
+			,b.`name`,b.param_one_type,b.param_two_type,b.param_three_type,b.terminal_type,b.position_page 
+        FROM cb_advertising a left join cb_ad_location b on a.ad_location_id = b.id 
+        WHERE 
+            a.id = #{id}
+	</select>
+
+	<!-- 优化查询 Advertising 列表 使用三个参赛 -->
+	<select id="pageOptFindAdvertisingsByThreeParam" parameterType="Advertising" resultMap="advertisingResultMap">
+		SELECT
+			id,client_id,title,ad_location_id,type,order_sn,begin_time,end_time
+			,param_one_value,param_two_value,param_three_value,content,link
+			,path,is_blank_targe,enable_status,click_count,description 
+		FROM cb_advertising
+		where ad_location_id = #{adLocationId} 
+		  AND client_id = #{clientId}
+		  AND param_one_value = #{paramOneValue}
+		  AND param_two_value = #{paramTwoValue}
+		  AND param_three_value = #{paramThreeValue}
+		  AND enable_status = 0
+		ORDER BY order_sn LIMIT 5
+	</select>
+
+	<!-- 优化查询 Advertising 列表 使用两个参赛 -->
+	<select id="pageOptFindAdvertisingsByTwoParam" parameterType="Advertising" resultMap="advertisingResultMap">
+		SELECT
+			id,client_id,title,ad_location_id,type,order_sn,begin_time,end_time
+			,param_one_value,param_two_value,param_three_value,content,link
+			,path,is_blank_targe,enable_status,click_count,description 
+		FROM cb_advertising
+		where ad_location_id = #{adLocationId} 
+		  AND client_id = #{clientId}
+		  AND param_one_value = #{paramOneValue}
+		  AND param_two_value = #{paramTwoValue}
+		  AND param_three_value is null
+		  AND enable_status = 0
+		ORDER BY order_sn LIMIT 5
+	</select>
+	
+	<!-- 优化查询 Advertising 列表 使用一个参赛 -->
+	<select id="pageOptFindAdvertisingsByOneParam" parameterType="Advertising" resultMap="advertisingResultMap">
+		SELECT
+			id,client_id,title,ad_location_id,type,order_sn,begin_time,end_time
+			,param_one_value,param_two_value,param_three_value,content,link
+			,path,is_blank_targe,enable_status,click_count,description 
+		FROM cb_advertising
+		where ad_location_id = #{adLocationId} 
+		  AND client_id = #{clientId}
+		  AND param_one_value = #{paramOneValue}
+		  AND param_two_value is null
+		  AND param_three_value is null
+		  AND enable_status = 0
+		ORDER BY order_sn LIMIT 5
+	</select>
+	
+	<!-- 优化查询 Advertising 列表 不使用参赛 -->
+	<select id="pageOptFindAdvertisings" parameterType="Advertising" resultMap="advertisingResultMap">
+		SELECT
+			id,client_id,title,ad_location_id,type,order_sn,begin_time,end_time
+			,param_one_value,param_two_value,param_three_value,content,link
+			,path,is_blank_targe,enable_status,click_count,description 
+		FROM cb_advertising
+		where ad_location_id = #{adLocationId} 
+		  AND client_id = #{clientId}
+		  AND param_one_value is null
+		  AND param_two_value is null
+		  AND param_three_value is null
+		  AND enable_status = 0
+		ORDER BY order_sn LIMIT 5
+	</select>
+	
+	<!-- 优化查询 Advertising 列表 自动匹配 -->
+	<select id="pageOptFindAdvertisingsAutoMatch" parameterType="Advertising" resultMap="advertisingResultMap">
+		SELECT
+			id,client_id,title,ad_location_id,type,order_sn,begin_time,end_time
+			,param_one_value,param_two_value,param_three_value,content,link
+			,path,is_blank_targe,enable_status,click_count,description 
+		FROM cb_advertising
+		where ad_location_id = #{adLocationId} 
+		  AND client_id = #{clientId}
+		  <if test="paramOneValue != null">
+		  AND param_one_value = #{paramOneValue}
+		  </if>
+		  <if test="paramTwoValue != null">
+		  AND param_two_value = #{paramTwoValue}
+		  </if>
+		  <if test="paramThreeValue != null">
+		  AND param_three_value = #{paramThreeValue}
+		  </if>
+		  AND enable_status = 0
+		ORDER BY order_sn LIMIT 5
+	</select>
+
+	<!-- 优化查询 Advertising 列表 参赛为null -->
+	<select id="pageOptFindAdvertisingsParamNull" parameterType="Advertising" resultMap="advertisingResultMap">
+		SELECT
+			id,client_id,title,ad_location_id,type,order_sn,begin_time,end_time
+			,param_one_value,param_two_value,param_three_value,content,link
+			,path,is_blank_targe,enable_status,click_count,description 
+		FROM cb_advertising
+		where ad_location_id = #{adLocationId} 
+		  AND client_id = #{clientId}
+		  AND param_one_value is null
+		  AND param_two_value is null
+		  AND param_three_value is null
+		  AND enable_status = 0
+		ORDER BY order_sn LIMIT 5
+	</select>
+
+	<select id="findAdvertisingListByClientIdAndTitle" resultMap="advertisingResultMap">
+		SELECT 
+            id,client_id,title,ad_location_id,type,order_sn,begin_time,end_time
+			,param_one_value,param_two_value,param_three_value,content,link
+			,path,is_blank_targe,enable_status,click_count,description 
+        FROM cb_advertising 
+        WHERE 
+            client_id = #{clientId} and title = #{title}
+	</select>
+
+</mapper>
+

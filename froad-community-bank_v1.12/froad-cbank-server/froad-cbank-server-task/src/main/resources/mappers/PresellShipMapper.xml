@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.mysql.mapper.PresellShipMapper">
+ 	<resultMap type="PresellShip" id="presellShipResultMap">
+		<id property="id" column="id" />
+		<result property="clientId" column="client_id" />
+		<result property="productId" column="product_id" />
+		<result property="orderId" column="order_id" />
+		<result property="suborderId" column="sub_order_id" />
+		<result property="orderTime" column="order_time" />
+		<result property="createTime" column="create_time" />
+		<result property="receiveName" column="receive_name" />
+		<result property="phone" column="phone" />
+		<result property="receiveAddress" column="receive_address" />
+		<result property="fOrg" column="f_org" />
+		<result property="fOrgName" column="f_org_name" />
+		<result property="sOrg" column="s_org" />
+		<result property="sOrgName" column="s_org_name" />
+		<result property="productId" column="product_id" />
+		<result property="productName" column="product_name" />
+		<result property="presellStartTime" column="presell_start_time" />
+		<result property="presellEndTime" column="presell_end_time" />
+		<result property="startTime" column="start_time" />
+		<result property="endTime" column="end_time" />
+		<result property="buyNumber" column="buy_number" />
+		<result property="refundNumber" column="refund_number" />
+	</resultMap>
+	
+	
+ <insert id="addPresellShip" parameterType="PresellShip">
+ INSERT INTO cb_presell_shipping_report (
+				client_id,order_id,sub_order_id,order_time,receive_name,phone,receive_address,f_org,s_org,product_id,product_name,presell_start_time,presell_end_time,start_time,end_time,buy_number,refund_number,f_org_name,s_org_name
+				,create_time
+			) VALUES (
+				#{clientId},#{orderId},#{subOrderId},#{orderTime},#{receiveName},#{phone},#{receiveAddress},#{fOrg},#{sOrg},#{productId},#{productName},#{presellStartTime},#{presellEndTime},#{startTime},#{endTime},#{buyNumber},#{refundNumber},
+				#{fOrgName},#{sOrgName},#{createTime}
+			) 
+ </insert>
+ 
+ 
+ <!-- 查询全部预售配送商品数量 -->
+   		<select id="findPresellOfCountBySubOrderId" resultType="Integer">
+   	<![CDATA[	
+   		select 
+   		  count(*)
+   		from 
+   		  cb_presell_shipping_report
+   		where sub_order_id = #{subOrderId}
+   	]]>
+ 
+	 </select>
+ 
+ 
+ 
+ 
+ 
+ </mapper>

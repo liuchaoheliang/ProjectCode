@@ -1,0 +1,25 @@
+<requestFroadApi>
+	<transfer>
+		<transferID>${transferID}</transferID>
+		<transferType>${transferType}</transferType>
+		<transferOrg>${transferOrg}</transferOrg>
+		<transferAmount>${transferAmount}</transferAmount>
+		<payerMember>${payerMember}</payerMember>
+		<payerMemberMsg>${payerMemberMsg}</payerMemberMsg>
+		<payeeMember>${payeeMember}</payeeMember>
+		<payeeMemberMsg>${payeeMemberMsg}</payeeMemberMsg>
+		<transferCurrency>${transferCurrency}</transferCurrency>
+		<transferDisplay>${transferDisplay}</transferDisplay>
+		<transferSubmitTime>${transferSubmitTime}</transferSubmitTime>
+		<transferRemark>${transferRemark}</transferRemark>
+	</transfer>
+	<system>
+		<reqID>${reqID}</reqID>
+		<version>${versions}</version>
+		<client>${client}</client>
+		<partnerID>${partnerID}</partnerID>
+		<charset>${charset}</charset>
+		<signType>${signType}</signType>
+		<signMsg>${signMsg}</signMsg>
+	</system>
+</requestFroadApi>

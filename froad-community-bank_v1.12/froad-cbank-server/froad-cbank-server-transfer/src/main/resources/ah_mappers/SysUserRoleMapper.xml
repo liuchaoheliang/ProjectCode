@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+	<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  		 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.fft.persistent.api.SysUserRoleMapper">
+
+	<resultMap type="SysUserRole" id="sysUserRoleResultMap">
+		
+		<result property="userId" column="user_id" />
+		<result property="roleId" column="role_id" />
+	</resultMap>
+	
+	<!-- 插入 -->
+	<insert id="saveSysUserRole" parameterType="SysUserRole" >
+		insert into fft_sys_user_role values
+		(
+			#{userId},#{roleId}
+		)
+	</insert>
+	
+	<!-- 根据用户ID查询 -->
+	<select id="selectSysUserRoleByUserId" parameterType="java.lang.Long" resultMap="sysUserRoleResultMap">
+		select * from fft_sys_user_role where user_id = #{userId}
+	</select>
+	
+	<select id="selectSysUserRoleByRoleId" parameterType="java.lang.Long" resultMap="sysUserRoleResultMap">
+		select * from fft_sys_user_role where role_id = #{roleId}
+	</select>
+	
+	<delete id="deleteUserRole" parameterType="SysUserRole">
+		delete from fft_sys_user_role where user_id=#{userId} and role_id=#{roleId}
+	</delete>
+	
+	<!-- 更新 -->
+	<update id="updateUserRoleByUserId" parameterType="SysUserRole">
+		update fft_sys_user_role set role_id = #{roleId}
+		where user_id = #{userId}
+	</update>
+</mapper>

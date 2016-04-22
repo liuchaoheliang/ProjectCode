@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.mysql.mapper.BossSenseWordsMapper">
+
+	<resultMap type="BossSenseWords" id="bossSenseWordsResultMap">
+		<id property="id" column="id" />
+		<result property="word" column="word" />
+		<result property="isEnable" column="is_enable" />
+	</resultMap>
+
+
+	<!-- 添加  BossSenseWords -->
+	<insert id="addBossSenseWords" parameterType="BossSenseWords" useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[
+			INSERT INTO cb_boss_sense_words (
+				word,is_enable
+			) VALUES (
+				#{word},#{isEnable}
+			) 
+		]]>
+	</insert>
+
+
+	<!-- 批量添加  BossSenseWords -->
+	<insert id="addBossSenseWordsByBatch" parameterType="java.util.List">
+		INSERT INTO cb_boss_sense_words (
+			word,is_enable
+		) VALUES 
+		<foreach collection="bossSenseWordsList" item="item" index="index" separator=",">
+			(#{word},#{isEnable})
+		</foreach>
+	</insert>
+
+
+	<!-- 删除  BossSenseWords -->
+	<update id="deleteBossSenseWords" parameterType="BossSenseWords">
+		UPDATE cb_boss_sense_words SET is_enable = false 
+			where id = #{id}
+	</update>
+
+
+	<!-- 修改  BossSenseWords -->
+	<update id="updateBossSenseWords" parameterType="BossSenseWords">
+		UPDATE cb_boss_sense_words 
+		<set>
+				<if test="id != null">
+					  id = #{id}, 
+				</if>
+				<if test="word != null">
+					  word = #{word}, 
+				</if>
+		</set>
+		where id = #{id}
+			
+	</update>
+
+
+	<!-- 查询  BossSenseWords -->
+	<select id="findBossSenseWordsById" parameterType="java.lang.Long" resultMap="bossSenseWordsResultMap">
+		SELECT 
+            id,word,is_enable 
+        from cb_boss_sense_words 
+        WHERE 
+            id = #{id}
+
+	</select>
+
+	<!-- 查询  BossSenseWords -->
+	<select id="findBossSenseWords" parameterType="BossSenseWords" resultMap="bossSenseWordsResultMap">
+		SELECT 
+            id,word,is_enable 
+        from cb_boss_sense_words 
+		<where>
+			<if test="id != null">
+				 AND id = #{id}
+			</if>
+			<if test="word != null">
+				 AND word = #{word}
+			</if>
+			<if test="isEnable != null">
+				 AND is_enable = #{isEnable}
+			</if>
+		</where>
+	</select>
+
+	<!-- 分页查询  BossSenseWords -->
+	<select id="findByPage" parameterType="java.util.HashMap" resultMap="bossSenseWordsResultMap">
+		SELECT 
+            id,word,is_enable 
+        from cb_boss_sense_words 
+		<if test="bossSenseWords != null">
+			<where>
+				<if test="bossSenseWords.id != null">
+					 AND id = #{bossSenseWords.id}
+				</if>
+				<if test="bossSenseWords.word != null">
+					 AND word = #{bossSenseWords.word}
+				</if>
+				<if test="bossSenseWords.isEnable != null">
+					 AND is_enable = #{bossSenseWords.isEnable}
+				</if>
+			</where>
+		</if>
+	</select>
+
+
+</mapper>
+

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema 
+	xmlns="http://www.w3.org/2001/XMLSchema" 
+	targetNamespace="http://www.example.org/task-config" 
+	xmlns:tns="http://www.example.org/task-config" 
+	elementFormDefault="qualified">
+	<element name="tasks">
+		<complexType>
+			<sequence>
+				<element name="task" minOccurs="1" maxOccurs="unbounded">
+					<complexType>
+						<sequence>
+							<element name="taskName" type="string"></element>
+							<element name="taskClass" type="string">
+							</element>
+							<element name="time" type="integer"></element>
+							<element name="period" type="integer"></element>
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+</schema>

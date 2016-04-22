@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.mysql.rp_mappers.ReportUserMapper">
+
+	<resultMap type="ReportUser" id="reportUserResultMap">
+		<id property="id" column="id" />
+		<result property="createTime" column="create_time" />
+		<result property="clientId" column="client_id" />
+		<result property="bankCardId" column="bank_card_id" />
+		<result property="forgCode" column="forg_code" />
+		<result property="forgName" column="forg_name" />
+		<result property="sorgCode" column="sorg_code" />
+		<result property="sorgName" column="sorg_name" />
+		<result property="torgCode" column="torg_code" />
+		<result property="torgName" column="torg_name" />
+		<result property="lorgCode" column="lorg_code" />
+		<result property="lorgName" column="lorg_name" />
+		<result property="userId" column="user_id" />
+		<result property="loginId" column="login_id" />
+		<result property="userName" column="user_name" />
+		<result property="mobile" column="mobile" />
+		<result property="regTime" column="reg_time" />
+		<result property="regType" column="reg_type" />
+		<result property="isVip" column="is_vip" />
+		<result property="signTime" column="sign_time" />
+		<result property="validStatus" column="valid_status" />
+		<result property="totalUsers" column="total_users" />
+	</resultMap>
+	
+	<sql id="selectColumn">
+		id,create_time,client_id,bank_card_id,forg_code,forg_name,sorg_code,sorg_name,
+		torg_code,torg_name,lorg_code,lorg_name,user_id,login_id,user_name,
+		mobile,reg_time,reg_type,is_vip,sign_time,valid_status 
+	</sql>
+	
+	<select id="findAllCount" resultType="java.lang.Integer">
+		SELECT 
+			COUNT(DISTINCT user_id) 
+		FROM cb_report_user
+		<where>
+			<if test="endDate != null">
+			<![CDATA[
+				AND create_time <= #{endDate} 
+			]]> 
+			</if>
+		</where> 
+	</select>
+	
+	<select id="findAllCountByUserId" resultType="java.lang.Integer">
+		SELECT 
+			COUNT(DISTINCT user_id) 
+		FROM cb_report_user
+		<where>
+			<if test="endDate != null">
+			<![CDATA[
+				AND create_time <= #{endDate} 
+			]]> 
+			</if>
+		</where> 
+	</select>
+	
+	<select id="findOneUser" parameterType="ReportUser" resultMap="reportUserResultMap">
+		SELECT <include refid="selectColumn" /> FROM cb_report_user
+		<where>
+			<if test="clientId != null">
+				AND client_id = #{clientId} 
+			</if>
+			<if test="userId != null">
+				AND user_id = #{userId} 
+			</if>
+			<if test="forgCode != null">
+				AND forg_code = #{forgCode} 
+			</if>
+			<if test="sorgCode != null">
+				AND sorg_code = #{sorgCode} 
+			</if>
+			<if test="torgCode != null">
+				AND torg_code = #{torgCode} 
+			</if>
+			<if test="lorgCode != null">
+				AND lorg_code = #{lorgCode} 
+			</if>
+			<if test="bankCardId != null">
+				AND bank_card_id = #{bankCardId} 
+			</if>
+		</where>
+	</select>
+	
+	<update id="updateUser" parameterType="ReportUser">
+		UPDATE cb_report_user 
+		<set>
+			<if test="signTime != null">
+				sign_time = #{signTime},
+			</if>
+			<if test="userName != null">
+				user_name = #{userName},
+			</if>
+			<if test="isVip != null">
+				is_vip = #{isVip},
+			</if>
+			<if test="validStatus != null">
+				valid_status = #{validStatus},
+			</if>
+		</set>
+		<where>
+			<if test="clientId != null">
+				AND client_id = #{clientId} 
+			</if>
+			<if test="userId != null">
+				AND user_id = #{userId} 
+			</if>
+			<if test="forgCode != null">
+				AND forg_code = #{forgCode} 
+			</if>
+			<if test="sorgCode != null">
+				AND sorg_code = #{sorgCode} 
+			</if>
+			<if test="torgCode != null">
+				AND torg_code = #{torgCode} 
+			</if>
+			<if test="lorgCode != null">
+				AND lorg_code = #{lorgCode} 
+			</if>
+			<if test="bankCardId != null">
+				AND bank_card_id = #{bankCardId} 
+			</if>
+		</where>
+	</update>
+	
+	
+	<insert id="addUser" parameterType="ReportUser">
+		INSERT INTO cb_report_user(
+			create_time,client_id,bank_card_id,forg_code,forg_name,sorg_code,sorg_name,
+			torg_code,torg_name,lorg_code,lorg_name,user_id,login_id,user_name,
+			mobile,reg_time,reg_type,is_vip,sign_time,valid_status 
+		) VALUES (
+			#{createTime},#{clientId},#{bankCardId},#{forgCode},#{forgName},#{sorgCode},#{sorgName},
+			#{torgCode},#{torgName},#{lorgCode},#{lorgName},#{userId},#{loginId},#{userName},
+			#{mobile},#{regTime},#{regType},#{isVip},#{signTime},#{validStatus}
+		)
+	</insert>
+	
+	
+	<insert id="addUserByBatch">
+		INSERT INTO cb_report_user(
+			create_time,client_id,bank_card_id,forg_code,forg_name,sorg_code,sorg_name,
+			torg_code,torg_name,lorg_code,lorg_name,user_id,login_id,user_name,
+			mobile,reg_time,reg_type,is_vip,sign_time,valid_status 
+		) VALUES 
+		<foreach collection="users" item="user" index="index" separator=",">
+			(#{user.createTime},#{user.clientId},#{user.bankCardId},#{user.forgCode},#{user.forgName},#{user.sorgCode},#{user.sorgName},
+			#{user.torgCode},#{user.torgName},#{user.lorgCode},#{user.lorgName},#{user.userId},#{user.loginId},#{user.userName},
+			#{user.mobile},#{user.regTime},#{user.regType},#{user.isVip},#{user.signTime},#{user.validStatus})
+		</foreach>
+	</insert>
+	
+	<delete id="truncateUniqueTable">
+		TRUNCATE TABLE cb_report_user_unique
+	</delete>
+	
+	<insert id="insertUniqueUsers">
+		INSERT INTO cb_report_user_unique (<include refid="selectColumn" />) 
+		(
+			SELECT <include refid="selectColumn" /> FROM 
+				(SELECT <include refid="selectColumn" /> FROM cb_report_user ORDER BY sign_time DESC) as temp 
+			GROUP BY client_id,user_id 
+			ORDER BY create_time
+		)
+	</insert>
+	
+	<select id="findInfoByPage" resultMap="reportUserResultMap">
+		SELECT <include refid="selectColumn" /> 
+		FROM cb_report_user_unique 
+		<where>
+			<if test="endDate != null">
+			<![CDATA[
+				AND create_time <= #{endDate} 
+			]]> 
+			</if>
+		</where>
+	</select>
+	
+	<select id="findUserCountByCardBin" resultMap="reportUserResultMap">
+		SELECT bank_card_id,COUNT(user_id) total_users 
+		FROM cb_report_user 
+		<where>
+			valid_status=1 
+			<if test="endDate != null">
+			<![CDATA[
+				AND create_time <= #{endDate} 
+			]]>
+			</if>
+		</where> 
+		GROUP BY bank_card_id
+	</select>
+	
+</mapper>

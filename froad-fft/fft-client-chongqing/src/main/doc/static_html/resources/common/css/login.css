@@ -1,0 +1,332 @@
+/*
+* Author:
+* pengling@f-road.com.cn 
+*/
+/*登录页面*/
+.loginbg {
+	margin:-20px 0 0px 0;
+	float:left;
+	background:  url(../../common/images/loginbanner.jpg);
+	width:950px;
+	height:70px;
+	padding:30px 0 0 50px;
+	color:#fff;
+	font:28px/24px "微软雅黑" bold;font-size:28px
+}
+*+html .loginbg {
+	margin:-2px 0
+}
+
+.loginBox {
+	width:1000px;
+	overflow:hidden;
+	padding-bottom:10px;
+	background:#FFF;
+	clear:both;
+	margin:auto
+}
+.loginBox .wrong {
+	font:16px/24px "微软雅黑";
+	color:#F00;
+	width:900px;
+	margin:30px auto;
+	font-weight:bold;
+}
+.loginBox .all {
+	width:1000px;
+	margin:0 auto;
+	background:url(../images/loginbg.png) center center no-repeat;
+	min-height:390px;
+}
+.loginBox .regist {
+	height:800px;
+	margin-top:20px
+}
+.loginBox .loginLeft {
+	float:left;
+	margin-left:50px;
+	width:450px;
+	margin-top:50px;
+	display:inline;
+}
+.loginBox .loginLeft .loginBord {
+	width:500px;
+	clear:both;
+	padding-bottom:20px;
+	overflow:hidden;
+	margin-left:200px
+}
+.loginBox .loginLeft ol {
+	font:16px/40px "微软雅黑";
+	border-bottom: 1px solid #F90;
+}
+.loginBox .loginLeft ol li {
+	float:left;
+	text-decoration:none;
+	text-align:center;
+	width:224px;
+	color:#333;
+	cursor:pointer;
+	border-bottom:1px solid #F90;
+}
+.loginBox .loginLeft ol li.playRcut {
+	font-weight:bold;
+	color:#fb3406;
+	border-top:1px solid #F90;
+	border-left:1px solid #F90;
+	border-right:1px solid #F90;
+	border-bottom:none;
+}
+.loginBox .loginLeft ul {
+	clear:both;
+	padding-top:0px;
+}
+.loginBox .loginLeft dl {
+	padding-top:20px;
+	height:50px;
+*height:auto;
+	float:Left
+}
+.loginBox .loginLeft dt {
+	float:left;
+	width:130px;
+	text-align:right;
+	font-size:14px;
+	line-height:30px;
+	color:#000;
+	font-family:"微软雅黑"
+}
+
+.loginBox .loginLeft dd {
+	float:left;
+	font-size:12px;
+}
+.loginBox .loginLeft dd a {
+	color:#069;
+	text-decoration:none;
+}
+.loginBox .loginLeft dd a:hover {
+	color:#F60;
+	text-decoration:underline;
+}
+.loginBox .loginLeft dd img {
+	vertical-align:middle;
+}
+.loginBox .loginLeft .login {
+	font:14px/34px "宋体";
+	text-align:center;
+}
+
+.loginBox .loginLeft input[type='text'], .loginBox .loginLeft input[type='password']{
+	color:#333;
+	font-size:16px;
+	font-family:"微软雅黑";		
+	}
+	
+.loginBox .loginLeft  .subBtn {
+	width:120px;
+	
+}
+.loginBox .login b {
+	text-decoration:none
+}
+.loginBox .loginText {
+}
+.loginBox .loginLeft  .uline {
+	margin-left:10px;
+	color:#fd8907;
+	text-decoration:underline;
+	font-size:12px; float:left
+}
+.loginBox .loginRight {
+	float:left;
+	margin-left:30px;
+	display:inline;
+	margin-top:10px;
+}
+.loginBox .login {
+	clear:both;
+	margin-left:130px
+}
+.loginBox .loginmessage {
+	font:12px/20px "宋体";
+	color:#F00;
+	margin-left:190px;
+	width:520px
+}
+.loginBox .forgot {
+	float:left;
+	width:500px;
+	margin-left:130px;
+	line-height:20px;
+	font-size:12px;
+	margin-bottom:20px;
+}
+.loginBox .forgot input {
+	margin-right:2px
+}
+.help {
+	width:960px;
+	background:#fff;
+	font-size:12px;
+	float:left;
+	padding:20px;
+	text-align:left;
+	line-height:30px;
+	font-family:"微软雅黑"
+}
+.help h5 {
+	font-size:14px;
+	font-weight:bold;
+	width:100%;
+	margin-top:15px;
+	display:block;
+}
+.help dd {
+	display:block;
+
+}
+
+
+
+
+.help table{border:1px solid #c7cfef; border-width:1px 0 0 1px; margin:2px 0 2px 0; text-align:center; border-collapse:collapse; margin:0 auto; height:500px;}
+
+.help table th, .help table td{padding:3px; font-size:12px; border:1px solid #ccd0cf; border-width:0 1px 1px 0; margin:2px 0 2px 0; text-align:center; height:35px; font-family:Arial, Helvetica, sans-serif;}
+
+.help table td{ color:#333; line-height:22px; padding:5px;}
+
+.help table td *{ vertical-align:middle;}
+
+.help table th{height:30px; background:#FAFAFA; font-weight:bold;}
+
+/*注册页面*/
+.regeditBox {
+	width:100%;
+	overflow:hidden;
+	padding-bottom:10px;
+	background:#FFF;
+	clear:both
+}
+.regeditBox .topReg {
+	height:35px;
+	background:#f2f4f7;
+	width:100%;
+	margin-bottom:25px;
+	line-height:35px;
+}
+.regeditBox .topReg B {
+	padding-left:170px;
+	font-weight:normal;
+	font-size:14px;
+	color:#666;
+}
+.regeditBox .topReg B a {
+	padding-left:5px;
+	color:#09F;
+	text-decoration:none;
+}
+.regeditBox .topReg B a:hover {
+	color:#090;
+	text-decoration:underline;
+}
+.regeditBox .regeditLeft {
+	width:950px;
+	margin:0 auto;
+	background:url(../images/registbg.png) top center no-repeat;
+	height:600px;
+	padding-top:10px
+}
+
+.regeditBox#find .regeditLeft{
+	background:url(../images/loginbg.png) top center no-repeat;
+}
+
+.regeditBox .regeditLeft dl {
+	clear:both;
+	
+	padding:20px 0 5px 200px
+}
+*+html .regeditBox .regeditLeft dl{padding:10px 0 5px 200px}
+.regeditBox .regeditLeft .fl {
+	margin-left:300px
+}
+.regeditBox .regeditLeft .text a {
+	font-size:12px;
+	color:#6c6a6a;
+	line-height:25px;
+	text-decoration:none
+}
+.regeditBox .regeditLeft .text {
+	margin:5px 0 0 10px;
+	float:left;
+}
+.regeditBox .regeditLeft dt {
+	float:left;
+	width:120px;
+	text-align:right;
+	font-size:14px;
+	line-height:35px;
+	color:#666;display:inline-block
+}
+
+.regeditBox .regeditLeft dd {
+	float:left;
+	font-size:12px;
+}
+.regeditBox .regeditLeft dd a {
+	color:#390;
+	text-decoration:none;
+}
+.regeditBox .regeditLeft dd a:hover {
+	color:#F60;
+	text-decoration:underline;
+}
+.regeditBox .regeditLeft dd img {
+	vertical-align:top;margin:5px 0 0 5px
+}
+.regeditBox .regeditLeft .regedittiaokuan {
+	font-size:12px;
+	line-height:45px;
+	display:inline;
+}
+.regeditBox .regeditLeft .regedittiaokuan a {
+	color:#09F;
+	text-decoration:none;
+}
+.regeditBox .regeditLeft .regedittiaokuan a:hover {
+	color:#090;
+	text-decoration:underline;
+}
+.regeditBox .loginmessage {
+	clear:both;
+	font:12px/24px "宋体";
+	color:#F00;
+}
+.regeditLeft input[type=button]{ cursor:pointer;border:1px #a4a4a4 solid;background:#ede5e6;line-height:24px;padding-right:5px; color:#900;width:140px}
+
+.loginbg_merchant{background:url(../../merchant/images/loginbanner.jpg);color:#000;}
+.regeditLeft h5{font-weight:bold;text-align:center;width:60%;margin:10px 0 20px 0}
+.pw-strength {
+	OVERFLOW: hidden; HEIGHT: 14px; POSITION: relative; MARGIN-TOP: 3px; WIDTH: 240px; BACKGROUND-COLOR: #ffd099
+}
+.pw-letter {
+	POSITION: absolute; LEFT: 0px; TOP: 0px
+}
+.pw-strength SPAN {
+	FONT-SIZE: 12px; HEIGHT: 14px; BORDER-RIGHT: #fff 1px solid; FLOAT: left; COLOR: #fff; TEXT-ALIGN: center; DISPLAY: inline; LINE-HEIGHT: 14px; WIDTH: 79px; margin-left:0;
+}
+.pw-letter {
+	POSITION: absolute; LEFT: 0px; TOP: 0px
+}
+.tsl {
+	OVERFLOW: hidden; HEIGHT: 14px;  BACKGROUND-COLOR: #ff0207; 
+}
+
+.pw-medium .pw-bar {
+	WIDTH: 160px
+}
+.pw-strong .pw-bar {
+	WIDTH: 240px
+}
+.loginBox .nobg{background:url(../images/loginbg.png) top center no-repeat;height:350px}

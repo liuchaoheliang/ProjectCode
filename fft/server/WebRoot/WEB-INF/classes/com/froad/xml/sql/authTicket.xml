@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="authTicket">
+	<typeAlias alias="authTicket" type="com.froad.CB.po.AuthTicket"/>
+	
+	<resultMap id="AuthTicketResult" class="authTicket">
+		<result column="id" property="id" jdbcType="INTEGER" />
+		<result column="user_id" property="userId" jdbcType="VARCHAR" />
+		<result column="merchant_id" property="merchantId" jdbcType="VARCHAR" />
+		<result column="trans_id" property="transId" jdbcType="VARCHAR" />
+		<result column="type" property="type" jdbcType="VARCHAR" />
+		<result column="securities_no" property="securitiesNo" jdbcType="VARCHAR" />
+		<result column="is_consume" property="isConsume" jdbcType="VARCHAR" />
+		<result column="consume_time" property="consumeTime" jdbcType="VARCHAR" />
+		<result column="expire_time" property="expireTime" jdbcType="VARCHAR" />
+		<result column="sms_number" property="smsNumber" jdbcType="INTEGER" />
+		<result column="sms_time" property="smsTime" jdbcType="VARCHAR" />
+		<result column="state" property="state" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="VARCHAR" />
+		<result column="update_time" property="updateTime" jdbcType="VARCHAR" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+		<result column="belong_user_becode" property="belongUserBecode" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<select id="selectByPrimaryKey" resultMap="AuthTicketResult" parameterClass="java.lang.Integer">
+		select * from auth_ticket where id = #value#
+	</select>
+	
+	<delete id="deleteByPrimaryKey" parameterClass="java.lang.Integer">
+		delete from auth_ticket where id = #id:INTEGER#
+	</delete>
+	
+	<insert id="insert" parameterClass="authTicket">
+		insert into auth_ticket (id, user_id, merchant_id, trans_id,
+		type, securities_no, is_consume, consume_time, expire_time,
+		sms_number, sms_time, state, create_time, update_time, remark)
+		values (#id:INTEGER#, #userId:VARCHAR#, #merchantId:VARCHAR#,
+		#transId:VARCHAR#, #type:VARCHAR#, #securitiesNo:VARCHAR#,
+		#isConsume:VARCHAR#, #consumeTime:VARCHAR#,
+		#expireTime:VARCHAR#, #smsNumber:INTEGER#, #smsTime:VARCHAR#,
+		#state:VARCHAR#, DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"), DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),
+		#remark:VARCHAR#)
+		<selectKey keyProperty="id" resultClass="int">
+			select last_insert_id() as id
+		</selectKey>
+	</insert>
+	
+	<update id="updateStateById" parameterClass="java.util.HashMap">
+		update auth_ticket set update_time =DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),
+		state = #state:VARCHAR# where id=#id#
+	</update>
+	
+	<update id="updateById" parameterClass="authTicket">
+		update auth_ticket set update_time = DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s")
+		<dynamic prepend="">
+			<isNotEmpty prepend="," property="userId">
+				user_id = #userId:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="merchantId">
+				merchant_id = #merchantId:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="transId">
+				trans_id = #transId:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="type">
+				type = #type:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="isConsume">
+				is_consume = #isConsume:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="consumeTime">
+				consume_time = DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s")
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="expireTime">
+				expire_time = #expireTime:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="smsNumber">
+				sms_number = #smsNumber:INTEGER#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="smsTime">
+				sms_time = #smsTime:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="state">
+				state = #state:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="remark">
+				remark = #remark:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="belongUserBecode">
+				belong_user_becode = #belongUserBecode:VARCHAR#
+			</isNotEmpty>
+		</dynamic>
+		where id = #id:INTEGER#
+	</update>
+	
+	<select id="getConsumedTicketByTransId" parameterClass="string" resultMap="AuthTicketResult">
+		select * from auth_ticket where is_consume="1" and trans_id=#value#
+	</select>
+	
+	<select id="getIdBySecureNo" parameterClass="string" resultClass="java.lang.Integer">
+		select id from auth_ticket where securities_no=#value#
+	</select>
+	
+	<select id="getAuthTickBySelective" resultMap="AuthTicketResult" parameterClass="authTicket">
+		select * from auth_ticket
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="id">
+				id = #id:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="userId">
+				user_id = #userId:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="merchantId">
+				merchant_id = #merchantId:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="transId">
+				trans_id = #transId:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="type">
+				type = #type:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="securitiesNo">
+				securities_no = #securitiesNo:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="isConsume">
+				is_consume = #isConsume:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="consumeTime">
+				consume_time = #consumeTime:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="expireTime">
+				expire_time = #expireTime:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="smsNumber">
+				sms_number = #smsNumber:INTEGER#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="smsTime">
+				sms_time = #smsTime:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="state">
+				state = #state:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="updateTime">
+				update_time = #updateTime:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="remark">
+				remark = #remark:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty property="beginTime">
+    			<isNotEmpty property="endTime" prepend="and">
+    				create_time between #beginTime# and #endTime#
+    			</isNotEmpty>
+    		</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<!-- 将验证券的短信发送次数+1  -->
+	<update id="updateAuthTickeMsgCount" parameterClass="authTicket">
+		update auth_ticket set update_time = DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s") , sms_number = sms_number + 1 where id = #id:INTEGER#
+	</update>
+	
+	<!-- 通过交易Id查询该交易下面的所有认证券 -->
+	<select id="getAuthTickByTransId" resultMap="AuthTicketResult" parameterClass="java.lang.Integer" >
+		select * from auth_ticket where trans_id = #transId:INTEGER#
+	</select>
+
+</sqlMap>

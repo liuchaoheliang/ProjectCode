@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="sellerRule" >
+  <typeAlias alias="sellerRule" type="com.froad.CB.po.SellerRule"/>
+  
+  <resultMap id="SellerRuleResult" class="sellerRule" >
+    <result column="id" property="id" jdbcType="INTEGER" />
+    <result column="rule_type" property="ruleType" jdbcType="VARCHAR" />
+    <result column="fft_points_rule" property="fftPointsRule" jdbcType="VARCHAR" />
+    <result column="cash_rule" property="cashRule" jdbcType="VARCHAR" />
+    <result column="fft_fee_rule" property="fftFeeRule" jdbcType="VARCHAR" />
+    <result column="bank_fee_rule" property="bankFeeRule" jdbcType="VARCHAR" />
+    <result column="state" property="state" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <select id="selectByPrimaryKey" resultMap="SellerRuleResult" parameterClass="java.lang.Integer">
+    select * from seller_rule where id = #id#
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterClass="java.lang.Integer">
+    delete from seller_rule where id = #id#
+  </delete>
+  
+  <insert id="insert" parameterClass="sellerRule" >
+    insert into seller_rule (id, rule_type, fft_points_rule, cash_rule, fft_fee_rule, bank_fee_rule,
+      state, create_time, update_time, remark)
+    values (#id:INTEGER#, #ruleType:VARCHAR#, #fftPointsRule:VARCHAR#, #cashRule:VARCHAR#,
+      #fftFeeRule:VARCHAR#, #bankFeeRule:VARCHAR#, #state:VARCHAR#, DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),
+      DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"), #remark:VARCHAR#)
+      <selectKey keyProperty="id" resultClass="int">
+		select last_insert_id() as id
+	  </selectKey>
+  </insert>
+  
+  <update id="updateById" parameterClass="sellerRule">
+    update seller_rule set update_time =DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s")
+    <dynamic prepend="" >
+      <isNotEmpty prepend="," property="ruleType" >
+        rule_type = #ruleType:VARCHAR#
+      </isNotEmpty>
+      <isNotEmpty prepend="," property="fftPointsRule" >
+        fft_points_rule = #fftPointsRule:VARCHAR#
+      </isNotEmpty>
+      <isNotEmpty prepend="," property="cashRule" >
+        cash_rule = #cashRule:VARCHAR#
+      </isNotEmpty>
+      <isNotEmpty prepend="," property="fftFeeRule" >
+        fft_fee_rule = #fftFeeRule:VARCHAR#
+      </isNotEmpty>
+      <isNotEmpty prepend="," property="bankFeeRule" >
+        bank_fee_rule = #bankFeeRule:VARCHAR#
+      </isNotEmpty>
+      <isNotEmpty prepend="," property="state" >
+        state = #state:VARCHAR#
+      </isNotEmpty>
+      <isNotEmpty prepend="," property="remark" >
+        remark = #remark:VARCHAR#
+      </isNotEmpty>
+    </dynamic>
+    where id = #id:INTEGER#
+  </update>
+  
+  <select id="selectBySelective" parameterClass="sellerRule" resultMap="SellerRuleResult">
+  	select * from seller_rule
+  	<dynamic prepend="where">
+  	  <isNotEmpty prepend="and" property="id" >
+        id = #id#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="ruleType" >
+        rule_type = #ruleType:VARCHAR#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="fftPointsRule" >
+        fft_points_rule = #fftPointsRule:VARCHAR#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="cashRule" >
+        cash_rule = #cashRule:VARCHAR#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="fftFeeRule" >
+        fft_fee_rule = #fftFeeRule:VARCHAR#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="bankFeeRule" >
+        bank_fee_rule = #bankFeeRule:VARCHAR#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="state" >
+        state = #state:VARCHAR#
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="createTime" >
+        <![CDATA[create_time>=#createTime:VARCHAR#]]>
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="updateTime" >
+        <![CDATA[update_time>=#updateTime:VARCHAR#]]>
+      </isNotEmpty>
+      <isNotEmpty prepend="and" property="remark" >
+        remark = #remark:VARCHAR#
+      </isNotEmpty>
+    </dynamic>
+  </select>
+</sqlMap>

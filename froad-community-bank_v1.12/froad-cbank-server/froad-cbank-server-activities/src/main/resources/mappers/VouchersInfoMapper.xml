@@ -1,0 +1,652 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.mysql.mapper.VouchersInfoMapper">
+
+	<resultMap type="VouchersInfo" id="vouchersInfoResultMap">
+		<id property="id" column="id" />
+		<result property="clientId" column="client_id" />
+		<result property="createTime" column="create_time" />
+		<result property="updateTime" column="update_time" />
+		<result property="activeId" column="active_id" />
+		<result property="vouchersId" column="vouchers_id" />
+		<result property="vouchersMoney" column="vouchers_money" />
+		<result property="vouchersUseMoney" column="vouchers_use_money" />
+		<result property="vouchersResMoney" column="vouchers_res_money" />
+		<result property="memberCode" column="member_code" />
+		<result property="sendActiveId" column="send_active_id" />
+		<result property="sendTime" column="send_time" />
+		<result property="status" column="status" />
+		<result property="useOrderId" column="use_order_id" />
+		<result property="useTime" column="use_time" />
+		<result property="userMemberCode" column="user_member_code" />
+		<result property="activeName" column="active_name" />
+		<result property="description" column="description" />
+		<result property="expireEndTime" column="expire_end_time" />
+		<result property="expireStartTime" column="expire_start_time" />
+		<result property="type" column="type" />
+	</resultMap>
+	
+	<!-- 红包券码使用明细 -->
+	<resultMap type="VouchersUseDetails" id="vouchersUseDetailsResultMap">
+		<result property="vouchersId" column="vouchers_id" />
+		<result property="vouchersMoney" column="vouchers_money" />
+		<result property="vouchersUseMoney" column="vouchers_use_money" />
+		<result property="orderId" column="order_id" />
+		<result property="orderMoney" column="order_money" />
+		<result property="payTime" column="pay_time"/>
+		<result property="memberCode" column="member_code" />
+		<result property="phone" column="phone" />
+		<result property="clientId" column="name" />
+		<result property="productId" column="product_id" />
+		<result property="normalPriceMarket" column="normal_price_market" />
+		<result property="vipPriceMarket" column="vip_price_market" />
+		<result property="payBillNO" column="pay_bill_no" />
+		<result property="returnBillNO" column="return_bill_no" />
+		<result property="returnMoney" column="return_money" />
+	</resultMap>
+
+
+	<!-- 所有字段list -->
+	<sql id="Base_Column_List">
+		id,client_id,create_time,update_time,active_id,vouchers_id,vouchers_money,vouchers_use_money,vouchers_res_money,member_code,send_active_id,send_time,status,use_time,user_member_code
+	</sql>
+
+
+	<!-- 不包含ID字段list -->
+	<sql id="Not_ID_Column_List">
+		client_id,create_time,update_time,active_id,vouchers_id,vouchers_money,vouchers_use_money,vouchers_res_money,member_code,send_active_id,send_time,status,use_time,user_member_code
+	</sql>
+	
+	<!-- 别名a.所有字段list -->
+	<sql id="a_Base_Column_List">
+		v.id,v.client_id,v.create_time,v.update_time,v.active_id,
+		v.vouchers_id,v.vouchers_money,v.vouchers_use_money,v.vouchers_res_money,v.member_code,
+		v.send_active_id,v.send_time,v.status,v.use_order_id,v.use_time,v.user_member_code
+	</sql>
+
+	<!-- 添加  VouchersInfo -->
+	<insert id="addVouchersInfo" parameterType="VouchersInfo" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO cb_vouchers_info (
+			<include refid="Not_ID_Column_List" />
+		) VALUES (
+			#{clientId},#{createTime},#{updateTime},#{activeId},#{vouchersId},#{vouchersMoney},#{vouchersUseMoney},#{vouchersResMoney},#{memberCode},#{sendActiveId},#{sendTime},#{status},#{useTime},#{userMemberCode}
+		) 
+	</insert>
+
+
+	<!-- 批量添加  VouchersInfo -->
+	<insert id="addVouchersInfoByBatch" parameterType="java.util.List">
+		INSERT INTO cb_vouchers_info (
+			<include refid="Not_ID_Column_List" />
+		) VALUES 
+		<foreach collection="vouchersInfoList" item="item" index="index" separator=",">
+			(#{item.clientId},#{item.createTime},#{item.updateTime},#{item.activeId},#{item.vouchersId},#{item.vouchersMoney},#{item.vouchersUseMoney},#{item.vouchersResMoney},#{item.memberCode},#{item.sendActiveId},#{item.sendTime},#{item.status},#{item.useTime},#{item.userMemberCode})
+		</foreach>
+	</insert>
+
+
+	<!-- 删除  VouchersInfo -->
+	<delete id="deleteVouchersInfo" parameterType="VouchersInfo">
+		DELETE FROM cb_vouchers_info 
+		<where>
+			<if test="id != null">
+				AND id = #{id}
+			</if>
+			<if test="clientId != null">
+				AND client_id = #{clientId}
+			</if>
+			<if test="createTime != null">
+				AND create_time = #{createTime}
+			</if>
+			<if test="updateTime != null">
+				AND update_time = #{updateTime}
+			</if>
+			<if test="activeId != null">
+				AND active_id = #{activeId}
+			</if>
+			<if test="vouchersId != null">
+				AND vouchers_id = #{vouchersId}
+			</if>
+			<if test="vouchersMoney != null">
+				AND vouchers_money = #{vouchersMoney}
+			</if>
+			<if test="vouchersUseMoney != null">
+				AND vouchers_use_money = #{vouchersUseMoney}
+			</if>
+			<if test="vouchersResMoney != null">
+				AND vouchers_res_money = #{vouchersResMoney}
+			</if>
+			<if test="memberCode != null">
+				AND member_code = #{memberCode}
+			</if>
+			<if test="sendActiveId != null">
+				AND send_active_id = #{sendActiveId}
+			</if>
+			<if test="sendTime != null">
+				AND send_time = #{sendTime}
+			</if>
+			<if test="status != null">
+				AND status = #{status}
+			</if>
+			<if test="useTime != null">
+				AND use_time = #{useTime}
+			</if>
+			<if test="userMemberCode != null">
+				AND user_member_code = #{userMemberCode}
+			</if>
+		</where>
+	</delete>
+
+
+	<!-- 根据id删除  VouchersInfo -->
+	<delete id="deleteVouchersInfoById" parameterType="java.lang.Long">
+		DELETE FROM cb_vouchers_info 
+		 WHERE 
+			 id = #{id} 
+	</delete>
+	
+		<!-- 根据Activeid删除  VouchersInfo -->
+	<delete id="deleteVouchersInfoByActiveId" parameterType="java.lang.String">
+		DELETE FROM cb_vouchers_info 
+		 WHERE 
+			 active_id = #{activeId} 
+	</delete>
+
+	<!-- 修改  VouchersInfo 支付中 -->
+	<update id="updateVouchersInfoPayIng" parameterType="VouchersInfo">
+		UPDATE cb_vouchers_info 
+		set update_time = #{updateTime},
+		    status = #{status},
+		    user_member_code = #{userMemberCode},
+		    use_time = #{useTime}
+		where vouchers_id = #{vouchersId}
+	</update>
+	
+	<!-- 修改  VouchersInfo 支付成功 -->
+	<update id="updateVouchersInfoPaySuccess" parameterType="java.util.HashMap">
+		UPDATE cb_vouchers_info 
+		set update_time = now(),
+		    status = '2',
+		    user_member_code = #{memberCode},
+		    use_order_id = #{orderId},
+		    use_time = now()
+		where vouchers_id = #{vouchersId}
+	</update>
+	
+	<!-- 修改  VouchersInfo 初始化 -->
+	<update id="updateVouchersInfoInit" parameterType="java.lang.String">
+		UPDATE cb_vouchers_info 
+		set update_time = now(),
+		    status = '0',
+		    user_member_code = null,
+		    use_time = null
+		where vouchers_id = #{vouchersId}
+	</update>
+
+	<!-- 修改  VouchersInfo -->
+	<update id="updateVouchersInfo" parameterType="VouchersInfo">
+		UPDATE cb_vouchers_info 
+		<set>
+			<if test="updateTime != null">
+				update_time = SYSDATE(), 
+			</if>
+			<if test="vouchersMoney != null">
+				vouchers_money = #{vouchersMoney}, 
+			</if>
+			<if test="vouchersUseMoney != null">
+				vouchers_use_money = #{vouchersUseMoney}, 
+			</if>
+			<if test="vouchersResMoney != null">
+				vouchers_res_money = #{vouchersResMoney}, 
+			</if>
+			<if test="memberCode != null">
+				member_code = #{memberCode}, 
+			</if>
+			<if test="sendActiveId != null">
+				send_active_id = #{sendActiveId}, 
+			</if>
+			<if test="sendTime != null">
+				send_time = #{sendTime}, 
+			</if>
+			<if test="status != null">
+				status = #{status}, 
+			</if>
+			<if test="useTime != null">
+				use_time = #{useTime}, 
+			</if>
+		</set>
+
+		<where>
+			<if test="clientId != null">
+				AND client_id = #{clientId}
+			</if>
+			<if test="activeId != null">
+				AND active_id = #{activeId}
+			</if>
+			<if test="id != null">
+				AND id = #{id}
+			</if>
+		</where>
+	</update>
+
+
+	<!-- 根据id修改  VouchersInfo -->
+	<update id="updateVouchersInfoById" parameterType="VouchersInfo">
+		UPDATE cb_vouchers_info 
+		<set>
+			<if test="clientId != null">
+				client_id = #{clientId}, 
+			</if>
+			<if test="updateTime != null">
+				update_time = SYSDATE(), 
+			</if>
+			<if test="activeId != null">
+				active_id = #{activeId}, 
+			</if>
+			<if test="vouchersId != null">
+				vouchers_id = #{vouchersId}, 
+			</if>
+			<if test="vouchersMoney != null">
+				vouchers_money = #{vouchersMoney}, 
+			</if>
+			<if test="vouchersUseMoney != null">
+				vouchers_use_money = #{vouchersUseMoney}, 
+			</if>
+			<if test="vouchersResMoney != null">
+				vouchers_res_money = #{vouchersResMoney}, 
+			</if>
+			<if test="memberCode != null">
+				member_code = #{memberCode}, 
+			</if>
+			<if test="sendActiveId != null">
+				send_active_id = #{sendActiveId}, 
+			</if>
+			<if test="sendTime != null">
+				send_time = #{sendTime}, 
+			</if>
+			<if test="status != null">
+				status = #{status}, 
+			</if>
+			<if test="useTime != null">
+				use_time = #{useTime}, 
+			</if>
+			<if test="userMemberCode != null">
+				user_member_code = #{userMemberCode}, 
+			</if>
+		</set>
+
+		 WHERE 
+            id = #{id} 
+	</update>
+
+
+	<!-- 根据id查询  VouchersInfo -->
+	<select id="findVouchersInfoById" parameterType="java.lang.Long" resultMap="vouchersInfoResultMap">
+		SELECT 
+			<include refid="Base_Column_List" />
+        FROM cb_vouchers_info 
+        WHERE 
+            id = #{id}
+
+	</select>
+	
+	<!-- 根据活动id查询单个可用 VouchersInfo -->
+	<select id="findAvailableVouchersInfoByActiveId" parameterType="java.lang.String" resultMap="vouchersInfoResultMap">
+		SELECT 
+			<include refid="Base_Column_List" />
+        FROM cb_vouchers_info 
+        where status = '0'
+          and member_code = 0 and send_active_id is null and send_time is null
+          and active_id = #{activeId}
+        limit 1
+	</select>
+	
+	<!-- 根据活动id查询全部可用 VouchersInfo -->
+	<select id="findAvailableVouchersListByActiveId" parameterType="java.lang.String" resultMap="vouchersInfoResultMap">
+		SELECT 
+			<include refid="Base_Column_List" />
+        FROM cb_vouchers_info 
+        where status = '0'
+          and member_code = 0 and send_active_id is null and send_time is null
+          and active_id = #{activeId}
+	</select>
+
+	<!-- 查询一个  VouchersInfo -->
+	<select id="findOneVouchersInfo" parameterType="VouchersInfo" resultMap="vouchersInfoResultMap">
+		SELECT 
+			<include refid="a_Base_Column_List" /> , a.active_name, a.description, a.expire_end_time, a.expire_start_time, a.type
+        FROM cb_vouchers_info v left join cb_active_base_rule a on v.active_id = a.active_id
+		<where>
+			<if test="id != null">
+				 AND v.id = #{id}
+			</if>
+			<if test="clientId != null">
+				 AND v.client_id = #{clientId}
+			</if>
+			<if test="createTime != null">
+				 AND v.create_time = #{createTime}
+			</if>
+			<if test="updateTime != null">
+				 AND v.update_time = #{updateTime}
+			</if>
+			<if test="activeId != null">
+				 AND v.active_id = #{activeId}
+			</if>
+			<if test="vouchersId != null">
+				 AND v.vouchers_id = #{vouchersId}
+			</if>
+			<if test="vouchersMoney != null">
+				 AND v.vouchers_money = #{vouchersMoney}
+			</if>
+			<if test="vouchersUseMoney != null">
+				 AND v.vouchers_use_money = #{vouchersUseMoney}
+			</if>
+			<if test="vouchersResMoney != null">
+				 AND v.vouchers_res_money = #{vouchersResMoney}
+			</if>
+			<if test="memberCode != null">
+				 AND v.member_code = #{memberCode}
+			</if>
+			<if test="sendActiveId != null">
+				 AND v.send_active_id = #{sendActiveId}
+			</if>
+			<if test="sendTime != null">
+				 AND v.send_time = #{sendTime}
+			</if>
+			<if test="status != null">
+				 AND v.status = #{status}
+			</if>
+			<if test="useTime != null">
+				 AND v.use_time = #{useTime}
+			</if>
+			<if test="userMemberCode != null">
+				 AND v.user_member_code = #{userMemberCode}
+			</if>
+		 LIMIT 1 
+		</where>
+	</select>
+
+	<!-- 统计  VouchersInfo -->
+	<select id="countVouchersInfo" parameterType="VouchersInfo" resultType="java.lang.Integer">
+		SELECT COUNT(0) FROM cb_vouchers_info 
+		<where>
+			<if test="id != null">
+				 AND id = #{id}
+			</if>
+			<if test="clientId != null">
+				 AND client_id = #{clientId}
+			</if>
+			<if test="createTime != null">
+				 AND create_time = #{createTime}
+			</if>
+			<if test="updateTime != null">
+				 AND update_time = #{updateTime}
+			</if>
+			<if test="activeId != null">
+				 AND active_id = #{activeId}
+			</if>
+			<if test="vouchersId != null">
+				 AND vouchers_id = #{vouchersId}
+			</if>
+			<if test="vouchersMoney != null">
+				 AND vouchers_money = #{vouchersMoney}
+			</if>
+			<if test="vouchersUseMoney != null">
+				 AND vouchers_use_money = #{vouchersUseMoney}
+			</if>
+			<if test="vouchersResMoney != null">
+				 AND vouchers_res_money = #{vouchersResMoney}
+			</if>
+			<if test="memberCode != null">
+				 AND member_code = #{memberCode}
+			</if>
+			<if test="sendActiveId != null">
+				 AND send_active_id = #{sendActiveId}
+			</if>
+			<if test="sendTime != null">
+				 AND send_time = #{sendTime}
+			</if>
+			<if test="status != null">
+				 AND status = #{status}
+			</if>
+			<if test="useTime != null">
+				 AND use_time = #{useTime}
+			</if>
+			<if test="userMemberCode != null">
+				 AND user_member_code = #{userMemberCode}
+			</if>
+		</where>
+	</select>
+
+	<!-- 查询  VouchersInfo -->
+	<select id="findVouchersInfo" parameterType="VouchersInfo" resultMap="vouchersInfoResultMap">
+		SELECT 
+			<include refid="Base_Column_List" />
+        FROM cb_vouchers_info 
+		<if test="vouchersInfo != null">
+			<where>
+				<if test="vouchersInfo.id != null">
+					 AND id = #{vouchersInfo.id}
+				</if>
+				<if test="vouchersInfo.clientId != null">
+					 AND client_id = #{vouchersInfo.clientId}
+				</if>
+				<if test="vouchersInfo.createTime != null">
+					 AND create_time = #{vouchersInfo.createTime}
+				</if>
+				<if test="vouchersInfo.updateTime != null">
+					 AND update_time = #{vouchersInfo.updateTime}
+				</if>
+				<if test="vouchersInfo.activeId != null">
+					 AND active_id = #{vouchersInfo.activeId}
+				</if>
+				<if test="vouchersInfo.vouchersId != null">
+					 AND vouchers_id = #{vouchersInfo.vouchersId}
+				</if>
+				<if test="vouchersInfo.vouchersMoney != null">
+					 AND vouchers_money = #{vouchersInfo.vouchersMoney}
+				</if>
+				<if test="vouchersInfo.vouchersUseMoney != null">
+					 AND vouchers_use_money = #{vouchersInfo.vouchersUseMoney}
+				</if>
+				<if test="vouchersInfo.vouchersResMoney != null">
+					 AND vouchers_res_money = #{vouchersInfo.vouchersResMoney}
+				</if>
+				<if test="vouchersInfo.memberCode != null">
+					 AND member_code = #{vouchersInfo.memberCode}
+				</if>
+				<if test="vouchersInfo.sendActiveId != null">
+					 AND send_active_id = #{vouchersInfo.sendActiveId}
+				</if>
+				<if test="vouchersInfo.sendTime != null">
+					 AND send_time = #{vouchersInfo.sendTime}
+				</if>
+				<if test="vouchersInfo.status != null">
+					 AND status = #{vouchersInfo.status}
+				</if>
+				<if test="vouchersInfo.useTime != null">
+					 AND use_time = #{vouchersInfo.useTime}
+				</if>
+				<if test="vouchersInfo.userMemberCode != null">
+					 AND user_member_code = #{vouchersInfo.userMemberCode}
+				</if>
+			</where>
+		</if>
+		<if test="order != null">
+		 ORDER BY ${order} 
+		</if>
+	</select>
+
+	<!-- 分页查询  VouchersInfo -->
+	<select id="findByPage" parameterType="VouchersInfo" resultMap="vouchersInfoResultMap">
+		<![CDATA[
+			SELECT * FROM ( 
+			SELECT * FROM cb_vouchers_info v  
+			UNION 
+			SELECT * FROM cb_vouchers_expired_info e  
+			UNION  
+			SELECT * FROM cb_vouchers_use_info u) 
+			as voucher where 1=1 
+		]]>
+		<if test="vouchersInfo.clientId != null">
+			 AND voucher.client_id = #{vouchersInfo.clientId}
+		</if>
+		<!--  <if test="vouchersInfo.createTime != null">
+			 AND voucher.create_time = #{vouchersInfo.createTime}
+		</if>
+		<if test="vouchersInfo.updateTime != null">
+			 AND voucher.update_time = #{vouchersInfo.updateTime}
+		</if>-->
+		<if test="vouchersInfo.activeId != null">
+			 AND voucher.active_id = #{vouchersInfo.activeId}
+		</if>
+		<!-- <if test="vouchersInfo.vouchersId != null">
+			 AND voucher.vouchers_id = #{vouchersInfo.vouchersId}
+		</if>
+		<if test="vouchersInfo.vouchersMoney != null">
+			 AND voucher.vouchers_money = #{vouchersInfo.vouchersMoney}
+		</if>
+		<if test="vouchersInfo.vouchersUseMoney != null">
+			 AND voucher.vouchers_use_money = #{vouchersInfo.vouchersUseMoney}
+		</if>
+		<if test="vouchersInfo.vouchersResMoney != null">
+			 AND voucher.vouchers_res_money = #{vouchersInfo.vouchersResMoney}
+		</if>
+		<if test="vouchersInfo.memberCode != null">
+			 AND voucher.member_code = #{vouchersInfo.memberCode}
+		</if>
+		<if test="vouchersInfo.sendActiveId != null">
+			 AND voucher.send_active_id = #{vouchersInfo.sendActiveId}
+		</if>
+		<if test="vouchersInfo.sendTime != null">
+			 AND voucher.send_time = #{vouchersInfo.sendTime}
+		</if>
+		<if test="vouchersInfo.status != null">
+			 AND voucher.status = #{vouchersInfo.status}
+		</if>
+		<if test="vouchersInfo.useTime != null">
+			 AND voucher.use_time = #{vouchersInfo.useTime}
+		</if>
+		<if test="vouchersInfo.userMemberCode != null">
+			 AND voucher.user_member_code = #{vouchersInfo.userMemberCode}
+		</if>-->
+	</select>
+	
+	<!-- 分页查询  VouchersInfo -->
+	<select id="findTemporaryByPage"  resultMap="vouchersInfoResultMap">
+		<![CDATA[
+			SELECT * FROM cb_vouchers_temporary_info where 1=1
+		]]>
+		<if test="vouchersInfo.activeId != null">
+			 AND active_id = #{vouchersInfo.activeId}
+		</if>
+	</select>
+	
+	<!-- 分页查询  VouchersInfo 未过期 -->
+	<select id="findUnExpiredByPage" parameterType="java.util.HashMap" resultMap="vouchersInfoResultMap">
+		SELECT 
+			<include refid="a_Base_Column_List" /> , a.active_name, a.description, a.expire_end_time, a.expire_start_time
+        from cb_vouchers_info v left join cb_active_base_rule a on v.active_id = a.active_id
+        <![CDATA[
+        where v.member_code = #{memberCode} and v.status = 0 and a.expire_end_time > now()
+        ]]>
+	</select>
+	
+	<!-- 分页查询  VouchersInfo 已过期 -->
+	<select id="findExpiredByPage" parameterType="java.util.HashMap" resultMap="vouchersInfoResultMap">
+		SELECT 
+			<include refid="a_Base_Column_List" /> , a.active_name, a.description, a.expire_end_time, a.expire_start_time
+        from cb_vouchers_info v left join cb_active_base_rule a on v.active_id = a.active_id
+        <![CDATA[
+        where v.member_code = #{memberCode} and v.status = 0 and a.expire_end_time <= now()
+        ]]>
+	</select>
+	
+	<!-- 分页查询  VouchersInfo 已使用 -->
+	<select id="findUseByPage" parameterType="java.util.HashMap" resultMap="vouchersInfoResultMap">
+		SELECT 
+			<include refid="a_Base_Column_List" /> , a.active_name, a.description, a.expire_end_time, a.expire_start_time
+        from cb_vouchers_info v left join cb_active_base_rule a on v.active_id = a.active_id
+         <![CDATA[
+        where v.member_code = #{memberCode} and (v.status = 1 or v.status = 2)
+		]]>
+	</select>
+		
+	<select id="findRepeatVoucherList" parameterType="java.util.List" resultMap="vouchersInfoResultMap">
+		<![CDATA[
+			SELECT * FROM cb_vouchers_info v WHERE  v.vouchers_id IN
+		]]>   	       
+		<foreach item="vouchersIdList" index="index" collection="vouchersIdList" open="(" separator="," close=")">
+             #{vouchersIdList}
+        </foreach>
+	</select>
+	
+	<select id="findVouchersUseDetailsByPage" parameterType="VouchersInfo" resultMap="vouchersUseDetailsResultMap">
+		select voucher.vouchers_Id,voucher.vouchers_money,voucher.vouchers_use_money,
+		o.order_id,o.member_code,o.phone,o.detail,c.`name`,o.order_money,o.pay_time,
+		o.pay_bill_no,o.return_bill_no,o.return_money from ( 
+		select * from cb_vouchers_info v where  
+		v.active_id = #{vouchersInfo.activeId} and v.client_id = #{vouchersInfo.clientId} 
+		UNION 
+		select * from cb_vouchers_expired_info e where e.active_id = #{vouchersInfo.activeId} 
+		and e.client_id = #{vouchersInfo.clientId} 
+		UNION 
+		select * from cb_vouchers_use_info u where u.active_id = #{vouchersInfo.activeId} 
+		and u.client_id = #{vouchersInfo.clientId} 
+		) as voucher,cb_active_order_detail d,cb_active_order o,cb_client c 
+		where voucher.vouchers_id = d.ticket_id 
+		and o.client_id = c.client_id 
+		AND d.order_id = o.order_id 
+	</select>
+	
+	<select id="findVouchersUseDetails" parameterType="VouchersInfo" resultMap="vouchersUseDetailsResultMap">
+		select voucher.vouchers_Id,voucher.vouchers_money,voucher.vouchers_use_money,
+		o.order_id,o.member_code,o.phone,o.detail,c.`name`,o.order_money,o.pay_time,d.product_id,
+		d.normal_price_market,d.vip_price_market,o.pay_bill_no,o.return_bill_no,o.return_money from ( 
+		select * from cb_vouchers_info v where  
+		v.active_id = #{vouchersInfo.activeId} and v.client_id = #{vouchersInfo.clientId} 
+		UNION 
+		select * from cb_vouchers_expired_info e where e.active_id = #{vouchersInfo.activeId} 
+		and e.client_id = #{vouchersInfo.clientId} 
+		UNION 
+		select * from cb_vouchers_use_info u where u.active_id = #{vouchersInfo.activeId} 
+		and u.client_id = #{vouchersInfo.clientId} 
+		) as voucher,cb_active_order_detail d,cb_active_order o,cb_client c 
+		where voucher.vouchers_id = d.ticket_id 
+		and o.client_id = c.client_id 
+		AND d.order_id = o.order_id  
+		AND o.`status` = '1' AND o.pay_time > 0
+		GROUP BY o.order_id;
+	</select>
+	
+	<!-- 根据activeId删除  临时劵码 -->
+	<delete id="deleteTemporaryVouchersInfoByActiveId" parameterType="java.lang.String">
+		DELETE FROM cb_vouchers_temporary_info 
+		 WHERE 
+			 active_id = #{activeId} 
+	</delete>
+	
+		<!-- 查询  VouchersInfo -->
+	<select id="findTemporaryVouchers"  resultMap="vouchersInfoResultMap">
+		<![CDATA[
+			SELECT * FROM cb_vouchers_temporary_info where 1=1
+		]]>
+		<if test="vouchersInfo.vouchersId!= null">
+			 AND vouchers_id = #{vouchersInfo.vouchersId} 
+		</if>
+		limit 1
+	</select>
+	
+	<update id="updateVouchersInfoByVouchersId" parameterType="VouchersInfo">
+		UPDATE cb_vouchers_info 
+			set
+				member_code = #{memberCode}, 
+				send_time = SYSDATE(),
+				update_time = SYSDATE()
+		 WHERE 
+            vouchers_id = #{vouchersId}
+	</update>
+	
+</mapper>
+

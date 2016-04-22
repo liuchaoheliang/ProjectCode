@@ -1,0 +1,8 @@
+------------------------v1.6--------------------------------------
+alter table cb_merchant_temp add merchant_name varchar(80)  COMMENT '商户名称' after merchant_id ;
+alter table cb_merchant_temp add phone varchar(20)  COMMENT '联系人电话，' after contact_name ;
+alter table cb_merchant_temp add contact_phone varchar(20)  COMMENT '联系人手机' after phone ;
+alter table cb_merchant_temp add license varchar(64)  COMMENT '营业执照号' after contact_phone ;
+alter table cb_merchant_temp add contract_staff varchar(32)  COMMENT '签约人' after license ;
+
+

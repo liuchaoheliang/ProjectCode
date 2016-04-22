@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="complaintReply">
+	<typeAlias alias="complaintReply" type="com.froad.CB.po.ComplaintReply" />
+	
+	<resultMap id="ComplaintReplyResult" class="complaintReply">
+		<result column="id" property="id" jdbcType="INTEGER" />
+		<result column="complaint_id" property="complaintId" jdbcType="VARCHAR" />
+		<result column="content" property="content" jdbcType="VARCHAR" />
+		<result column="answerer_user_id" property="answererUserId" jdbcType="VARCHAR" />
+		<result column="state" property="state" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="VARCHAR" />
+		<result column="update_time" property="updateTime" jdbcType="VARCHAR" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<select id="selectByPrimaryKey" resultMap="ComplaintReplyResult"
+		parameterClass="java.lang.Integer">
+		select * from complaint_reply where id =#id#
+	</select>
+	
+	<!-- 按投诉编号查询回复 -->
+	<select id="selectByComplaintId" resultMap="ComplaintReplyResult"
+		parameterClass="string">
+		select * from complaint_reply where complaint_id=#value#
+	</select>
+	
+	<delete id="deleteByPrimaryKey" parameterClass="java.lang.Integer">
+		delete from complaint_reply where id = #id:INTEGER#
+	</delete>
+	
+	<insert id="insert" parameterClass="complaintReply">
+		insert into complaint_reply (id, complaint_id, content,
+		answerer_user_id, state, create_time, update_time, remark)
+		values (#id:INTEGER#, #complaintId:VARCHAR#, #content:VARCHAR#,
+		#answererUserId:VARCHAR#, #state:VARCHAR#, DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),
+		DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"), #remark:VARCHAR#)
+		<selectKey keyProperty="id" resultClass="int">
+			select last_insert_id() as id
+		</selectKey>
+	</insert>
+	
+	<update id="updateStateById" parameterClass="java.util.HashMap">
+		update complaint_reply set update_time =DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),
+		state = #state:VARCHAR# where id=#id#
+	</update>
+	
+	<update id="updateById" parameterClass="complaintReply">
+		update complaint_reply set update_time=DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s")
+		<dynamic prepend="">
+			<isNotEmpty prepend="," property="complaintId">
+				complaint_id = #complaintId:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="content">
+				content = #content:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="answererUserId">
+				answerer_user_id = #answererUserId:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="state">
+				state = #state:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="remark">
+				remark = #remark:VARCHAR#
+			</isNotEmpty>
+		</dynamic>
+		where id = #id:INTEGER#
+	</update>
+</sqlMap>

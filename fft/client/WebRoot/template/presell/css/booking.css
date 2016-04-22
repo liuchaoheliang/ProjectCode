@@ -1,0 +1,234 @@
+/*
+* Author:
+* pengling@f-road.com.cn 
+*/
+/*团购*/
+.group{width:758px; border:1px solid #b7b7b7; overflow:hidden; padding:10px 0; background:#f2f6f9;}
+
+.group .list{width:750px; margin:0 auto; overflow:hidden; }
+
+.group .list li{width:733px; height:263px; border:1px solid #CCC; background:#FFF; float:left; margin:10px 7px 5px 7px; position:relative;}
+
+.group .list li .icon{ position:absolute; z-index:22; left:-4px; top:-3px} 
+
+.group .list li .imgShow{width:750px; height:189px; margin:0px auto;}
+.group .bookingtext{float:right;width:326px;margin:-180px 0 0 0}
+.group .list li .imgShow img{width:416px; height:263px;}
+
+.group .list li dl{width:291px; margin:0 auto;}
+ 
+.group .list li dl dt{ font-weight:bold; font-size:18px; margin-bottom:5px; overflow:hidden; font-family:"微软雅黑"; height:27px; overflow:hidden;}
+
+.group .list li dl dt a{ color:#000; text-decoration:none;}
+
+.group .list li dl dt a:hover{ color:#03F; text-decoration:none;}
+.group .list li div{line-height:24px}
+.group .list li dl dd{ color:#666; font-size:13px; line-height:20px; height:40px; overflow:hidden;}
+
+.group .list li .groupPrice{width:298px; height:45px; margin:4px auto; font-family:"微软雅黑";}
+.group .list li .bookingnum{font-size:13px;margin:0 0 0 15px;font-family: "微软雅黑";}
+ .countdown {float:left;margin:-5px 0;font-family: "微软雅黑";font-size:13px;width:310px;display:block}
+ .countdown font{float:left ;line-height:40px;font-size:13px}
+ .countdown span{margin:10px 3px 0 3px ;display:block;background:#000;width:13px;color:#fff; text-align:center;float:left;height:22px;line-height:22px;padding:0 4px 0 2px;}
+ .countdown em{float:left;line-height:40px}
+*+html .countdown span{margin:8px 3px 0 3px;display:block;background:#000;width:13px;color:#fff; text-align:center;line-height:22px;font-size:13px;}
+.group .list li .groupPrice .firstPrice{ color:#ee5337; font-size:24px; float:left; line-height:40px;}
+
+.group .list li .groupPrice .secondPrice{ color:#666; font-size:12px; float:left; margin-left:10px; display:inline; line-height:40px;}
+
+.group .list li .groupPrice img{ float:right; margin-right:20px; display:inline;}
+
+.group .list li .discount{width:292px; margin:0 auto; font-family:"微软雅黑";}
+
+.group .list li .discount .leftDiscount{ }
+
+.group .list li .discount .leftDiscount P{ font-size:12px; color:#666;}
+
+.group .list li .discount .rightDiscount{ float:right; margin-right:10px; display:inline; font-size:14px; line-height:40px; color:#666; }
+
+.group .list li .discount .rightDiscount B{ color:#F00;}
+
+
+/*
+* Author:
+* pengling@f-road.com.cn 
+*/
+/*团购信息*/
+
+
+.show{width:758px; border:1px solid #b7b7b7; overflow:hidden; padding:10px 0; background:#FFF;}
+
+.show dl{padding-left:10px;}
+
+.show dl dt{font:bold 28px/40px 'Microsoft Yahei','黑体',Tahoma,Helvetica,arial,sans-serif; width:720px;}
+
+.show dl dd{font:bold 20px/30px 'Microsoft Yahei','黑体',Tahoma,Helvetica,arial,sans-serif; color:#777; padding:0 20px 20px 15px; width:720px; height:45px; overflow:hidden;}
+
+.show .inforMiddle{width:730px; margin:10px auto 0;}
+
+.show .inforMiddle img{ float:left; width:494px; height:310px; margin-left:15px; display:inline;}
+.show .pic img{margin:0px 0px 0 20px}
+.show .inforMiddle .leftInfor{ float:left; width:215px; height:280px; background:#f4f4f4; font:14px/34px 'Microsoft Yahei','黑体',Tahoma,Helvetica,arial,sans-serif;}
+
+.show .inforMiddle .leftInfor .leftFirst{ font:bold 28px/48px 'Microsoft Yahei','黑体',Tahoma,Helvetica,arial,sans-serif; color:#f26803; text-align:center;}
+
+.show .inforMiddle .leftInfor .imgShow{ height:50px;}
+
+.show .inforMiddle .leftInfor .imgShow img{width:172px; height:41px; padding-left:12px;}
+
+.show .inforMiddle .leftInfor .priceInror{width:215px; height:30px; text-align:center; font:14px/20px 'Microsoft Yahei','黑体',Tahoma,Helvetica,arial,sans-serif; color:#777; border-bottom:1px solid #e5e5e5;}
+
+.show .inforMiddle .leftInfor .priceInror span{ margin:0 5px;}
+
+.show .inforMiddle .leftInfor .buyed{ text-align:center; height:25px; font:16px/35px 'Microsoft Yahei','黑体',Tahoma,Helvetica,arial,sans-serif;}
+
+.show .inforMiddle .leftInfor .buyed B{ color:#F00;}
+
+.show .inforMiddle .leftInfor .over{ text-align:center; color:#777; height:35px; border-bottom:1px solid #e5e5e5;}
+.over b{color:red}
+.show .inforMiddle .leftInfor .mobile{margin-top:5px;}
+
+.show .inforMiddle .leftInfor .mobile img{width:200px; height:75px; }
+
+.show .inforMiddle .leftInfor .date{ font:12px/20px 'Microsoft Yahei','宋体',Tahoma,Helvetica,arial,sans-serif; color:#777; margin-left:7px;}
+
+/*团购详情*/
+.details{width:758px; border:1px solid #b7b7b7; overflow:hidden; padding:10px 0; background:#FFF;}
+
+.details .main{width:495px; margin-left:15px; float:left; display:inline; font-family:Helvetica,arial,sans-serif;  padding-right:10px;}
+
+.details .main .blk{margin:7px 0 30px}
+
+.details .main .blk p{margin:10px 0 15px}
+
+.details .main h2{ font-weight:bold; line-height:30px;}
+
+.details .main .tips{ font:14px/24px "宋体";}
+
+.details .main .tips P{ color:#F00; margin-bottom:10px;}
+
+.details .main ul.list{margin:10px 0 15px;padding-left:15px}
+
+.details .main ul.list li{list-style-position:outside;list-style-type:disc;margin-bottom:5px}
+
+.details .main .blk img{max-width:470px;}
+
+.details .main .term{margin:10px 0;padding:5px 10px 10px;border:1px solid #d0e3ee; background:#e8f0f5}
+
+.details .main .term h5{margin-bottom:5px;font-size:16px; font-weight:bold;}
+
+.details .main .term ul{color:#666;margin-left:16px}
+
+.details .main .term ul li{list-style:outside square; line-height:24px;}
+
+.details .side{float:right; margin-right:15px; display:inline; width:205px;  text-align:center;}
+
+.details .side img{width:39px; height:25px;}
+
+.details .side p{font:14px/36px "宋体";}
+
+.details .side a img{ width:206px; height:31px;}
+
+.details .side span{ float:left; font:12px/24px "宋体"; margin-top:5px;}
+
+.details .side span a{ color:#06F; text-decoration:underline;}
+
+.details .side span a:hover{ color:#F60; text-decoration:none;}
+
+.details .side span b{ font:12px/24px Verdana, Geneva, sans-serif; color:#F00;}
+
+.details .side p a{ color:#666; text-decoration:none;}
+
+.details .side p a:hover{ color:#06F; text-decoration:none;}
+
+.details .side dl{ text-align:left; margin-top:5px; border-bottom:1px dashed #CCCCCC;}
+
+.details .side dl dt{ color:#222; font: bold 14px/24px "宋体";}
+
+.details .side dl dt a{ color:#222; text-decoration:none;}
+
+.details .side dl dt a:hover{ color:#F60; text-decoration:none;}
+
+.details .side dl dd{ color:#666; font:12px/20px "宋体"}
+
+.details .side #storeListDiv img{width:66px ; height:66px; margin-top:10px; }
+
+.details .deal-buy-bottom{clear:both;padding:30px 55px;*zoom:1;background-color:#f5f4f4;border:1px solid #eeecec}
+
+.details .deal-buy-bottom .num{font-family:arial,Tahoma,sans-serif}
+
+.details .deal-buy-bottom .price{float:left;font-size:36px;line-height:40px;color:#ee5238}
+
+/*.details .deal-buy-bottom a{float:right;width:105px;height:39px;text-indent:-9999px;outline:0;background:url(../images/sp-detail.gif) no-repeat 0 0; _background:url(../images/sp-detail.gif);}
+
+.details .deal-buy-bottom a:hover{background-position:0 -40px}*/
+
+.details .deal-buy-bottom img{ float:right;}
+
+.details .deal-buy-bottom ul{margin:0 70px;text-align:center;color:#999}
+
+.details .deal-buy-bottom ul .num{color:#333}
+
+.details .deal-buy-bottom li{float:left;width:100px}
+
+
+/*团购表格*/
+.standard-table { background-color:#c0dcf3; width:100%; border:0; border-collapse:separate; border-spacing:1px; table-layout:fixed; margin-top:5px; }
+
+.standard-table .center { text-align:center; }
+
+.standard-table .right { text-align:right; }
+
+.standard-table th { padding:3px 5px; background-color:#d2e8f9; color:#333; }
+
+.standard-table td { padding:3px 5px; word-break:break-all; word-wrap:break-word; }
+
+.standard-table tr.comment { background-color:#edf6fd; color:#666; font-weight:bold; }
+
+.standard-table tr.normal { background-color:#fff; color:#666; }
+
+.standard-center { text-align:center; }
+
+.standard-bar { padding:5px 10px; color:#fff; border-radius:3px; font-weight:bold; background:#0080cb; font-size:14px;}
+
+.standard-list-title { margin:5px 0; }
+
+.standard-image { display:block; margin:10px auto; }
+
+.standard-image-wrap { display:block; width:100%; }
+
+.deal-menu { width:100%; margin-top:5px; border:1px solid #E8E8E8; font-size:14px; color:#222; }
+
+.deal-menu .name { width:auto; text-align:left; }
+
+.deal-menu .price { width:18%; text-align:center; }
+
+.deal-menu .amount { width:23%; text-align:center; }
+
+.deal-menu .subtotal { width:18%; text-align:right; }
+
+.deal-menu caption, .deal-menu th, .deal-menu td { padding:8px 10px; background:#FFF; border:1px solid #E8E8E8; border-top:none; word-break:break-all; word-wrap:break-word; }
+
+.deal-menu caption { background:#F0F0F0; }
+
+.deal-menu caption .title, .deal-menu .subline .title { font-weight:bold; }
+
+.deal-menu th { background:#F0F0F0; font-weight:bold; }
+
+.deal-menu td { border-left-style:dotted; border-right-style:dotted; border-bottom-style:dotted; }
+
+.deal-menu .subline { background:#FBFBFB; text-align:center; }
+countdown4px;}
+
+.deal-menu-summary .worth { display:inline-block; min-width:50px; _width:50px; word-break:normal; word-wrap:normal; font-weight:bold; }
+
+.deal-menu-summary .price { color:#ea4f01; }
+
+.tangram-suggestion{z-index:999999999999999999999;}
+
+.show .mebuy{ height:40px;text-align:center}
+
+.show .mebuy a{ font-size:16px; margin:0 2px; color:#999; text-decoration:none; padding:0px 5px; font-weight:bold; font-family:Arial, Helvetica, sans-serif;}
+.show .pic .countdown{width:390px;float:right;}
+.show .pic .f20{float:right; font-family:"微软雅黑";margin-right:150px}
+

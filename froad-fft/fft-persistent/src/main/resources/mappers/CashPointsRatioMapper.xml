@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+	<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  		 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.fft.persistent.api.CashPointsRatioMapper">
+
+	<resultMap type="CashPointsRatio" id="cashPointsRatioResultMap">
+		<id property="id" column="id" />
+		<result property="createTime" column="create_time" />
+		<result property="updateTime" column="update_time" />
+		
+		<result property="fftPoints" column="fft_points" />
+		<result property="bankPoints" column="bank_points" />
+		<result property="sysClientId" column="sys_client_id" />
+		
+	</resultMap>
+	
+	<!-- 插入 -->
+	<insert id="saveCashPointsRatio" parameterType="CashPointsRatio" useGeneratedKeys="true" keyProperty="id" >
+		insert into fft_cash_points_ratio values
+		(
+			#{id},#{createTime},#{updateTime},
+			#{fftPoints},#{bankPoints},#{sysClientId}			
+		)
+	</insert>
+
+	<!-- 更新 -->
+	<update id="updateCashPointsRatioById" parameterType="CashPointsRatio">
+		update fft_cash_points_ratio set update_time = #{updateTime}
+		<if test="fftPoints != null">
+			,fft_points = #{fftPoints}
+		</if>
+		<if test="bankPoints != null">
+			,bank_points = #{bankPoints}
+		</if>
+		<if test="sysClientId != null">
+			,sys_client_id = #{sysClientId}
+		</if>
+		where id = #{id}
+	</update>
+	
+	<!-- 查询 -->
+	<select id="selectBySysClientId" parameterType="java.lang.Long" resultMap="cashPointsRatioResultMap">
+		select * from fft_cash_points_ratio where sys_client_id = #{sysClientId}
+	</select>
+</mapper>

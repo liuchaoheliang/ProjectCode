@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+       http://www.springframework.org/schema/context 
+       http://www.springframework.org/schema/context/spring-context-3.2.xsd"
+       
+	default-lazy-init="true">
+
+	<!-- shiro filter -->
+	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<!-- shiro的核心安全接口 -->
+		<property name="securityManager" ref="securityManager" />
+		<!-- 登录时的链接 -->
+		<property name="loginUrl" value="/merchant/login/index.jhtml" />
+		<!-- 成功后要跳转的连接 -->
+		<property name="successUrl" value="/merchant/index.jhtml" />
+		<!-- 未授权时要跳转的连接 -->
+		<property name="unauthorizedUrl" value="/common/unauthorized.jhtml" />
+		<!--  shiro连接约束配置 -->
+		<property name="filterChainDefinitions">
+			<value>
+				/resources/** = anon
+				/merchant/login/login.jhtml = anon
+				<!-- 
+				/merchant/login/logout.jhtml = logout
+				 -->
+				
+				/merchant/** = authc
+			</value>
+		</property>
+		
+		<property name="filters">
+			<map>
+				<entry key="authc" value-ref="authenticationFilter" />
+			</map>
+		</property>
+		
+	</bean>
+	
+	<!-- 自定义的authc过滤器 -->
+	<bean id="authenticationFilter" class="com.froad.fft.filter.AuthenticationFilter" />
+
+	<!-- 建立securityManager实例  -->
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<property name="realm" ref="authenticationRealm" />
+		<property name="cacheManager" ref="shiroCacheManager" />
+	</bean>
+
+	<!-- AuthenticationRealm 用来判断subject是否可以登录及权限-->
+	<bean id="authenticationRealm" class="com.froad.fft.shiro.AuthenticationRealm">
+		<property name="authorizationCacheName" value="shiroAuthorizationCache" />
+	</bean>
+	
+	<!-- shiro cache -->
+	<bean id="shiroCacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+		<property name="cacheManager" ref="ehCacheManager" />
+	</bean>
+
+</beans>

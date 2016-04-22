@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.fft.persistent.api.AdPositionMapper">
+
+    <resultMap type="AdPosition" id="adPositionResultMap">
+        <id property="id" column="id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+
+        <result property="name" column="name"/>
+        <result property="width" column="width"/>
+        <result property="height" column="height"/>
+        <result property="description" column="description"/>
+        <result property="positionStyle" column="position_style"/>
+        <result property="dataState" column="data_state" typeHandler="com.froad.fft.persistent.extend.EnumTypeHandler"/>
+    	<result property="clientId" column="client_id"/>
+    </resultMap>
+
+    <!-- 插入 -->
+    <insert id="saveAdPosition" parameterType="AdPosition" useGeneratedKeys="true" keyProperty="id">
+		insert into fft_ad_position values
+		(
+			#{id},#{createTime},#{updateTime},#{name},#{width},#{height},#{description},#{positionStyle},30,#{clientId}
+		)
+	</insert>
+
+    <!-- 更新 -->
+    <update id="updateAdPositionById" parameterType="AdPosition">
+        update fft_ad_position set update_time = #{updateTime}
+        <if test="name != null">
+            ,name = #{name}
+        </if>
+        <if test="width != null">
+            ,width = #{width}
+        </if>
+        <if test="height != null">
+            ,height = #{height}
+        </if>
+        <if test="description != null">
+            ,description = #{description}
+        </if>
+        <if test="positionStyle != null">
+            ,position_style = #{positionStyle}
+        </if>
+        <if test="dataState != null">
+            ,data_state = #{dataState,typeHandler=com.froad.fft.persistent.extend.EnumTypeHandler}
+        </if>
+        <if test="clientId != null">
+            ,client_id = #{clientId}
+        </if>
+        where id = #{id}
+    </update>
+
+    <!-- 查询 -->
+    <select id="selectAdPositionById" parameterType="java.lang.Long" resultMap="adPositionResultMap">
+		select * from fft_ad_position where id = #{id} 
+	</select>
+
+    <!--分页数据-->
+    <select id="selectAdPositionByPage" parameterType="com.froad.fft.persistent.bean.page.Page" resultMap="adPositionResultMap">
+        select * from fft_ad_position
+        <if test="pageFilter != null">
+            <where>
+                <if test="pageFilter.filterEntity != null">
+                    <if test="pageFilter.filterEntity.id!= null">
+                        and id = #{pageFilter.filterEntity.id}
+                    </if>
+                    <if test="pageFilter.filterEntity.name!= null">
+                        and name like '%${pageFilter.filterEntity.name}%'
+                    </if>
+                    <if test="pageFilter.filterEntity.clientId!= null">
+                        and client_id = #{pageFilter.filterEntity.clientId}
+                    </if>
+                </if>
+
+                <!-- 时间段条件 -->
+                <if test="pageFilter.property != null and pageFilter.startTime != null">
+                    <![CDATA[
+        					 and ${pageFilter.property} >= #{pageFilter.startTime}
+        					]]>
+                </if>
+                <if test="pageFilter.property != null and pageFilter.endTime != null">
+                    <![CDATA[
+        					 and ${pageFilter.property} <= #{pageFilter.endTime}
+        					]]>
+                </if>
+            </where>
+        </if>
+        <!-- 排序 -->
+        <if test="order != null">
+            <if test="order.property != null and order.direction != null">
+                order by ${order.property} ${order.direction}
+            </if>
+        </if>
+    </select>
+
+    <select id="selectAdPositionByPageCount" parameterType="com.froad.fft.persistent.bean.page.Page" resultType="java.lang.Integer">
+        select count(*) from fft_ad_position
+        <if test="pageFilter != null">
+            <where>
+                <if test="pageFilter.filterEntity != null">
+                    <if test="pageFilter.filterEntity.id!= null">
+                        and id = #{pageFilter.filterEntity.id}
+                    </if>
+                    <if test="pageFilter.filterEntity.name!= null">
+                        and name like '%${pageFilter.filterEntity.name}%'
+                    </if>
+                    <if test="pageFilter.filterEntity.clientId!= null">
+                        and client_id = #{pageFilter.filterEntity.clientId}
+                    </if>
+                </if>
+
+                <!-- 时间段条件 -->
+                <if test="pageFilter.property != null and pageFilter.startTime != null">
+                    <![CDATA[
+        					 and ${pageFilter.property} >= #{pageFilter.startTime}
+        					]]>
+                </if>
+                <if test="pageFilter.property != null and pageFilter.endTime != null">
+                    <![CDATA[
+        					 and ${pageFilter.property} <= #{pageFilter.endTime}
+        					]]>
+                </if>
+            </where>
+        </if>
+    </select>
+</mapper>

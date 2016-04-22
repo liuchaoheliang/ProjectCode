@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="userCertification">
+	<typeAlias alias="userCert" type="com.froad.CB.po.UserCertification"/>
+
+	<resultMap id="UserCertificationResult" class="userCert">
+		<result column="id" property="id" jdbcType="INTEGER" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+		<result column="state" property="state" jdbcType="VARCHAR" />
+		<result column="update_time" property="updateTime" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="VARCHAR" />
+		<result column="phone" property="phone" jdbcType="VARCHAR" />
+		<result column="certification_result" property="certificationResult" jdbcType="VARCHAR" />
+		<result column="certification_type" property="certificationType" jdbcType="VARCHAR" />
+		<result column="account_no" property="accountNo" jdbcType="VARCHAR" />
+		<result column="account_name" property="accountName" jdbcType="VARCHAR" />
+		<result column="user_id" property="userId" jdbcType="VARCHAR" />
+		<result column="channel_id" property="channelId" jdbcType="VARCHAR"/>
+		<result column="channel_id" property="fundsChannel" select="fundsChannel.selectByPrimaryKey"/>
+		<result column="user_idcard" property="userIdCard" />
+	</resultMap>
+	
+	<select id="selectByPrimaryKey" resultMap="UserCertificationResult"
+		parameterClass="java.lang.Integer">
+		select * from user_certification where id=#id:INTEGER#
+	</select>
+	
+	<select id="getUserCertByUserId" resultMap="UserCertificationResult" parameterClass="java.lang.String">
+		select * from user_certification where certification_result="1" and state="30" and user_id=#value#
+	</select>
+	
+	<delete id="deleteByPrimaryKey" parameterClass="java.lang.Integer">
+		delete from user_certification where id = #id:INTEGER#
+	</delete>
+	
+	<insert id="insert" parameterClass="userCert">
+		insert into user_certification (id,channel_id, remark, state, update_time,
+		create_time, phone, certification_result, certification_type,
+		account_no, account_name, user_id,user_idcard) values (#id:INTEGER#,#channelId#,
+		#remark:VARCHAR#, #state:VARCHAR#, DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),
+		DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"), #phone:VARCHAR#,
+		#certificationResult:VARCHAR#, #certificationType:VARCHAR#,
+		#accountNo:VARCHAR#, #accountName:VARCHAR#, #userId:VARCHAR#,#userIdCard#)
+		<selectKey keyProperty="id" resultClass="int">
+			select last_insert_id() as id
+		</selectKey>
+	</insert>
+	
+	<update id="updateById" parameterClass="userCert">
+		update user_certification set update_time = DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s")
+		<dynamic prepend="">
+			<isNotEmpty prepend="," property="channelId">
+				channel_id = #channelId:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="remark">
+				remark = #remark:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="state">
+				state = #state:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="phone">
+				phone = #phone:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="certificationResult">
+				certification_result = #certificationResult:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="certificationType">
+				certification_type = #certificationType:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="accountNo">
+				account_no = #accountNo:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="accountName">
+				account_name = #accountName:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="userId">
+				user_id = #userId:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="userIdCard">
+				user_idcard = #userIdCard:VARCHAR#
+			</isNotEmpty>
+		</dynamic>
+		where id = #id:INTEGER#
+	</update>
+	
+	
+	<update id="updateUserCertByUserId" parameterClass="userCert">
+		update user_certification set update_time = DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s")
+		<dynamic prepend="">
+			<isNotEmpty prepend="," property="channelId">
+				channel_id = #channelId:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="state">
+				state = #state:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="phone">
+				phone = #phone:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="certificationResult">
+				certification_result = #certificationResult:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="certificationType">
+				certification_type = #certificationType:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="accountNo">
+				account_no = #accountNo:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="accountName">
+				account_name = #accountName:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="userIdCard">
+				user_idcard = #userIdCard:VARCHAR#
+			</isNotEmpty>
+		</dynamic>
+		where user_id = #userId:VARCHAR#
+	</update>
+	
+	<select id="getUserCertBySelective" parameterClass="userCert" resultMap="UserCertificationResult">
+		select * from user_certification
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="id">
+				id = #id:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="channelId">
+				channel_id = #channelId:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="remark">
+				remark = #remark:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="state">
+				state = #state:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="updateTime">
+				update_time = #updateTime:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="createTime">
+				create_time = #createTime:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="phone">
+				phone = #phone:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="certificationResult">
+				certification_result = #certificationResult:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="certificationType">
+				certification_type = #certificationType:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="accountNo">
+				account_no = #accountNo:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="accountName">
+				account_name = #accountName:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="userId">
+				user_id = #userId:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="userIdCard">
+				user_idcard = #userIdCard:VARCHAR#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+</sqlMap>

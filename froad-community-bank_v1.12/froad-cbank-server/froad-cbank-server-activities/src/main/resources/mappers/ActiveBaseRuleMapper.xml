@@ -1,0 +1,437 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.mysql.mapper.ActiveBaseRuleMapper">
+
+	<!-- 添加  ActiveBaseRule -->
+	<resultMap type="ActiveBaseRule" id="activeBaseRuleResultMap">
+		<id property="id" column="id" />
+		<result property="clientId" column="client_id" />
+		<result property="activeId" column="active_id" />
+		<result property="type" column="type" />
+		<result property="status" column="status" />
+		<result property="createTime" column="create_time" />
+		<result property="updateTime" column="update_time" />
+		<result property="activeName" column="active_name" />
+		<result property="activeLogo" column="active_logo" />
+		<result property="expireStartTime" column="expire_start_time" />
+		<result property="expireEndTime" column="expire_end_time" />
+		<result property="limitType" column="limit_type" />
+		<result property="merchantRate" column="merchant_rate" />
+		<result property="bankRate" column="bank_rate" />
+		<result property="fftRate" column="fft_rate" />
+		<result property="settleType" column="settle_type" />
+		<result property="description" column="description" />
+		<result property="operator" column="operator" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		id,client_id,active_id,type,status,create_time,update_time,active_name,active_logo,expire_start_time,expire_end_time,limit_type,merchant_rate,bank_rate,fft_rate,settle_type,description,operator
+	</sql>
+	
+
+	<!-- 添加  ActiveBaseRule -->
+	<insert id="addActiveBaseRule" parameterType="ActiveBaseRule" useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[
+			INSERT INTO cb_active_base_rule (
+				client_id
+				,active_id
+				,type
+				,status
+				,create_time
+				,update_time
+				,active_name
+				,active_logo
+				,expire_start_time
+				,expire_end_time
+				,limit_type
+				,merchant_rate
+				,bank_rate
+				,fft_rate
+				,settle_type
+				,description
+				,operator
+			) VALUES 
+			(
+				#{clientId}
+				,#{activeId}
+				,#{type}
+				,#{status}
+				,#{createTime}
+				,#{updateTime}
+				,#{activeName}
+				,#{activeLogo}
+				,#{expireStartTime}
+				,#{expireEndTime}
+				,#{limitType}
+				,#{merchantRate}
+				,#{bankRate}
+				,#{fftRate}
+				,#{settleType}
+				,#{description}
+				,#{operator}
+			) 
+		]]>
+	</insert>
+
+
+	<!-- 批量添加  Activities -->
+<!-- 	<insert id="addActivitiesByBatch" parameterType="java.util.List">
+		INSERT INTO cb_activities (
+			client_id,create_time,activities_name,points,
+			begin_time,end_time,status,count  
+		) VALUES 
+		<foreach collection="activitiesList" item="item" index="index" separator=",">
+			(#{clientId},#{createTime},#{activitiesName},#{points},
+			#{beginTime},#{endTime},#{status},#{count})
+		</foreach>
+	</insert> -->
+
+	
+	<!-- 禁止  ActiveBaseRuleInfo by id clientid -->
+	<update id="disableActiveBaseRuleByActiveId" >
+		UPDATE cb_active_base_rule SET status = '4' , update_time =#{updateTime}, operator = #{operator} where active_id = #{activeId} and client_id = #{clientId}
+	</update>
+
+	<!-- 删除  ActiveBaseRuleInfo by active_id -->
+	<update id="deleteActiveBaseRuleByActiveId" >
+		DELETE from  cb_active_base_rule where active_id = #{activeId}
+	</update>	
+	
+
+	
+	<!-- 查询一个  ActiveBaseRule -->
+	<select id="findActiveBaseRuleByActiveId" resultMap="activeBaseRuleResultMap">
+		SELECT 
+			*
+        FROM cb_active_base_rule 
+		where active_id = #{activeId}
+	</select>
+	
+
+	<update id="updateActiveBaseRulebyActiveId" parameterType="ActiveBaseRule">
+		<![CDATA[
+		update cb_active_base_rule 
+			set 
+				client_id = #{clientId}
+				,type = #{type}
+				,status = #{status}
+				,update_time = #{updateTime}
+				,active_name = #{activeName}
+				,active_logo = #{activeLogo}
+				,expire_start_time = #{expireStartTime}
+				,expire_end_time = #{expireEndTime}
+				,limit_type = #{limitType}
+				,merchant_rate = #{merchantRate}
+				,bank_rate = #{bankRate}
+				,fft_rate = #{fftRate}
+				,settle_type = #{settleType}
+				,description = #{description}
+				,operator = #{operator}
+			where active_id = #{activeId}
+		]]>	
+	</update>
+	
+	
+		<!-- 查询一个  ActiveBaseRule -->
+	<select id="findOneActiveBaseRule" parameterType="ActiveBaseRule" resultMap="activeBaseRuleResultMap">
+		SELECT 
+			<include refid="Base_Column_List" />
+        FROM cb_active_base_rule 
+		<where>
+			<if test="id != null">
+				 AND id = #{id}
+			</if>
+			<if test="clientId != null">
+				 AND client_id = #{clientId}
+			</if>
+			<if test="activeId != null">
+				 AND active_id = #{activeId}
+			</if>
+			<if test="type != null">
+				 AND type = #{type}
+			</if>
+			<if test="status != null">
+				 AND status = #{status}
+			</if>
+			<if test="createTime != null">
+				 AND create_time = #{createTime}
+			</if>
+			<if test="updateTime != null">
+				 AND update_time = #{updateTime}
+			</if>
+			<if test="activeName != null">
+				 AND active_name = #{activeName}
+			</if>
+			<if test="activeLogo != null">
+				 AND active_logo = #{activeLogo}
+			</if>
+			<if test="expireStartTime != null">
+				 AND expire_start_time = #{expireStartTime}
+			</if>
+			<if test="expireEndTime != null">
+				 AND expire_end_time = #{expireEndTime}
+			</if>
+			<if test="limitType != null">
+				 AND limit_type = #{limitType}
+			</if>
+			<if test="merchantRate != null">
+				 AND merchant_rate = #{merchantRate}
+			</if>
+			<if test="bankRate != null">
+				 AND bank_rate = #{bankRate}
+			</if>
+			<if test="fftRate != null">
+				 AND fft_rate = #{fftRate}
+			</if>
+			<if test="settleType != null">
+				 AND settle_type = #{settleType}
+			</if>
+			<if test="description != null">
+				 AND description = #{description}
+			</if>
+		 LIMIT 1 
+		</where>
+	</select>
+
+	<select id="getMaxActiveByClientId" resultType="java.lang.String">
+		SELECT active_id FROM cb_active_base_rule where  client_id = #{clientId} 
+	   	and active_id like CONCAT(CONCAT('%', #{type}), '%') 
+	   	AND YEAR(SYSDATE()) = YEAR(create_time)
+	    ORDER BY ACTIVE_ID DESC LIMIT 1
+	</select>
+	
+	<select id="findActiveBaseRuleByActiveNameAndClientId" parameterType="ActiveBaseRule" resultMap="activeBaseRuleResultMap">
+		SELECT 
+		<include refid="Base_Column_List" />
+			FROM cb_active_base_rule   
+		<where>
+		 	active_name = #{activeName} and client_id = #{clientId} and type= #{type}
+			<if test="activeId != null">
+				and active_id <![CDATA[ <> ]]> #{activeId}	
+			</if>
+			LIMIT 1 
+		 </where>
+	</select>
+	
+	<select id="findActiveBaseRule" parameterType="ActiveBaseRule" resultMap="activeBaseRuleResultMap">
+		SELECT 
+			<include refid="Base_Column_List" />
+        FROM cb_active_base_rule 
+		<if test="activeBaseRule != null">
+			<where>
+				<if test="activeBaseRule.id != null">
+					 AND id = #{activeBaseRule.id}
+				</if>
+				<if test="activeBaseRule.clientId != null">
+					 AND client_id = #{activeBaseRule.clientId}
+				</if>
+				<if test="activeBaseRule.activeId != null">
+					 AND active_id = #{activeBaseRule.activeId}
+				</if>
+				<if test="activeBaseRule.type != null">
+					 AND type = #{activeBaseRule.type}
+				</if>
+				<if test="activeBaseRule.status != null">
+					 AND status = #{activeBaseRule.status}
+				</if>
+				<if test="activeBaseRule.createTime != null">
+					 AND create_time = #{activeBaseRule.createTime}
+				</if>
+				<if test="activeBaseRule.updateTime != null">
+					 AND update_time = #{activeBaseRule.updateTime}
+				</if>
+				<if test="activeBaseRule.activeName != null">
+					 AND active_name = #{activeBaseRule.activeName}
+				</if>
+				<if test="activeBaseRule.activeLogo != null">
+					 AND active_logo = #{activeBaseRule.activeLogo}
+				</if>
+				<if test="activeBaseRule.expireStartTime != null">
+					 AND expire_start_time = #{activeBaseRule.expireStartTime}
+				</if>
+				<if test="activeBaseRule.expireEndTime != null">
+					 AND expire_end_time = #{activeBaseRule.expireEndTime}
+				</if>
+				<if test="activeBaseRule.limitType != null">
+					 AND limit_type = #{activeBaseRule.limitType}
+				</if>
+				<if test="activeBaseRule.merchantRate != null">
+					 AND merchant_rate = #{activeBaseRule.merchantRate}
+				</if>
+				<if test="activeBaseRule.bankRate != null">
+					 AND bank_rate = #{activeBaseRule.bankRate}
+				</if>
+				<if test="activeBaseRule.fftRate != null">
+					 AND fft_rate = #{activeBaseRule.fftRate}
+				</if>
+				<if test="activeBaseRule.settleType != null">
+					 AND settle_type = #{activeBaseRule.settleType}
+				</if>
+				<if test="activeBaseRule.description != null">
+					 AND description = #{activeBaseRule.description}
+				</if>
+				<if test="activeBaseRule.operator != null">
+					 AND operator = #{activeBaseRule.operator}
+				</if>
+			</where>
+		</if>
+		<if test="order != null">
+		 ORDER BY ${order} 
+		</if>
+	</select>
+	
+	<!-- 分页查询  ActiveBaseRule -->
+	<select id="findByPage"  resultMap="activeBaseRuleResultMap">
+		SELECT 
+			<include refid="Base_Column_List" />
+        FROM cb_active_base_rule  
+		<if test="activeBaseRule != null">
+			<where>
+				<if test="activeBaseRule.clientId != null">
+					 AND client_id = #{activeBaseRule.clientId}
+				</if>
+				<if test="activeBaseRule.activeId != null">
+					 AND active_id = #{activeBaseRule.activeId}
+				</if>
+				<if test="activeBaseRule.type != null">
+					 AND type = #{activeBaseRule.type}
+				</if>
+				<if test="activeBaseRule.status != null">
+					 AND status = #{activeBaseRule.status}
+				</if>
+				<if test="activeBaseRule.activeName != null">
+					 AND active_name = #{activeBaseRule.activeName}
+				</if>
+				<if test="activeBaseRule.activeLogo != null">
+					 AND active_logo = #{activeBaseRule.activeLogo}
+				</if>
+				<if test="activeBaseRule.limitType != null">
+					 AND limit_type = #{activeBaseRule.limitType}
+				</if>
+				<if test="activeBaseRule.merchantRate != null">
+					 AND merchant_rate = #{activeBaseRule.merchantRate}
+				</if>
+				<if test="activeBaseRule.bankRate != null">
+					 AND bank_rate = #{activeBaseRule.bankRate}
+				</if>
+				<if test="activeBaseRule.fftRate != null">
+					 AND fft_rate = #{activeBaseRule.fftRate}
+				</if>
+				<if test="activeBaseRule.settleType != null">
+					 AND settle_type = #{activeBaseRule.settleType}
+				</if>
+				<if test="activeBaseRule.description != null">
+					 AND description = #{activeBaseRule.description}
+				</if>
+				<if test="activeBaseRule.operator != null">
+					 AND operator = #{activeBaseRule.operator}
+				</if>
+			</where>
+		</if>
+	</select>
+
+	<select id="findSuntainActiveBaseRuleList" parameterType="ActiveBaseRule" resultMap="activeBaseRuleResultMap">
+		SELECT 
+			<include refid="Base_Column_List" />
+        FROM cb_active_base_rule 
+			<where>
+				<if test="id != null">
+					 AND id = #{id}
+				</if>
+				<if test="clientId != null">
+					 AND client_id = #{clientId}
+				</if>
+				<if test="activeId != null">
+					 AND active_id = #{activeId}
+				</if>
+				<if test="type != null">
+					 AND type = #{type}
+				</if>
+				<if test="type == null">
+				 	AND (type = 1 or type = 4)
+				</if>
+				<if test="status != null">
+					 AND status = #{status}
+				</if>
+				<if test="createTime != null">
+					 AND create_time = #{createTime}
+				</if>
+				<if test="updateTime != null">
+					 AND update_time = #{updateTime}
+				</if>
+				<if test="activeName != null">
+					 AND active_name = #{activeName}
+				</if>
+				<if test="activeLogo != null">
+					 AND active_logo = #{activeLogo}
+				</if>
+				<if test="expireStartTime != null">
+					 AND expire_start_time = #{expireStartTime}
+				</if>
+				<if test="expireEndTime != null">
+					 AND expire_end_time = #{expireEndTime}
+				</if>
+				<if test="limitType != null">
+					 AND limit_type = #{limitType}
+				</if>
+				<if test="merchantRate != null">
+					 AND merchant_rate = #{merchantRate}
+				</if>
+				<if test="bankRate != null">
+					 AND bank_rate = #{bankRate}
+				</if>
+				<if test="fftRate != null">
+					 AND fft_rate = #{fftRate}
+				</if>
+				<if test="settleType != null">
+					 AND settle_type = #{settleType}
+				</if>
+				<if test="description != null">
+					 AND description = #{description}
+				</if>
+				<if test="operator != null">
+					 AND operator = #{operator}
+				</if>
+			</where>
+	</select >
+	
+	<!-- 分页查询支持活动 -->
+	<select id="findSustainRuleInfoByPage"  resultMap="activeBaseRuleResultMap">
+		select a.* from cb_active_base_rule a 
+		,cb_active_sustain_relation s 
+		where a.active_id = s.sustain_active_id and a.client_id = s.client_id 
+		AND a.expire_end_time > SYSDATE() 
+		<if test="activeBaseRule.clientId != null">
+			 AND a.client_id = #{activeBaseRule.clientId}
+		</if>
+		<if test="activeBaseRule.activeId != null">
+			 AND s.active_id = #{activeBaseRule.activeId} 
+		</if>
+		<if test="activeBaseRule.activeName != null">
+			AND a.active_name  like CONCAT('%',#{activeBaseRule.activeName},'%' )
+		</if>			
+	</select>
+
+	<select id="findSuntainActiveBaseRuleListByPage"  resultMap="activeBaseRuleResultMap">
+		SELECT 
+			<include refid="Base_Column_List" />
+        FROM cb_active_base_rule where expire_end_time > SYSDATE() 
+		<if test="activeBaseRule.clientId != null">
+			 AND client_id = #{activeBaseRule.clientId}
+		</if>
+		<if test="activeBaseRule.type != null">
+			 AND type = #{activeBaseRule.type}
+		</if>
+		<if test="activeBaseRule.type == null">
+		 	AND (type = 1 or type = 4)
+		</if>
+		<if test="activeBaseRule.status != null">
+			 AND status = #{activeBaseRule.status}
+		</if>
+		<if test="activeBaseRule.activeName != null">
+			AND active_name  like CONCAT('%',#{activeBaseRule.activeName},'%' )
+		</if>
+	</select >
+</mapper>
+

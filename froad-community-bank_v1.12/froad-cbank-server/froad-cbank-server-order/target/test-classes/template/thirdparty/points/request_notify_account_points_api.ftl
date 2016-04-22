@@ -1,0 +1,23 @@
+<requestNotifyAccountApi>
+	<partnerAccount>
+		<accountMarked>${accountMarked!''}</accountMarked>
+		<accountMarkedType>${accountMarkedType}</accountMarkedType>
+	</partnerAccount>
+	<contractRelationship>
+		<identityNo>${identityNo}</identityNo>
+		<mobileNum>${mobileNum}</mobileNum>
+		<realName>${realName}</realName>
+		<bankId>${bankId}</bankId>
+		<bankName><![CDATA[${bankName}]]></bankName>
+		<bankCard>${bankCard}</bankCard>
+		<cardType>${cardType!''}</cardType>
+		<protocolNo>${protocolNo}</protocolNo>
+	</contractRelationship>
+	<system>
+		<partnerNo>${partnerNo}</partnerNo>
+		<charset>${charset}</charset>
+		<signType>${signType}</signType>
+		<signMsg>${signMsg}</signMsg>
+		<requestTime>${requestTime}</requestTime>
+	</system>
+</requestNotifyAccountApi>

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.mysql.mapper.BossRoleMapper">
+
+	<resultMap type="BossRole" id="bossRoleResultMap">
+		<id property="id" column="id" />
+		<result property="roleName" column="role_name" />
+		<result property="isEnable" column="is_enable" />
+		<result property="remark" column="remark" />
+	</resultMap>
+
+
+	<!-- 添加  BossRole -->
+	<insert id="addBossRole" parameterType="BossRole" useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[
+			INSERT INTO cb_boss_role (
+				role_name,is_enable,remark
+			) VALUES (
+				#{roleName},#{isEnable},#{remark}
+			) 
+		]]>
+	</insert>
+
+
+	<!-- 批量添加  BossRole -->
+	<insert id="addBossRoleByBatch" parameterType="java.util.List">
+		INSERT INTO cb_boss_role (
+			role_name,is_enable,remark
+		) VALUES 
+		<foreach collection="bossRoleList" item="item" index="index" separator=",">
+			(#{roleName},#{isEnable},#{remark})
+		</foreach>
+	</insert>
+
+
+	<!-- 删除  BossRole -->
+	<update id="deleteBossRole" parameterType="BossRole">
+		UPDATE cb_boss_role SET is_enable = false  where  id = #{id}
+	</update>
+
+
+	<!-- 修改  BossRole -->
+	<update id="updateBossRole" parameterType="BossRole">
+		UPDATE cb_boss_role 
+		<set>
+				<if test="id != null">
+					  id = #{id}, 
+				</if>
+				<if test="roleName != null">
+					  role_name = #{roleName}, 
+				</if>
+				<if test="isEnable != null">
+					  is_enable = #{isEnable}, 
+				</if>
+		</set>
+		 where  id = #{id}
+	</update>
+
+
+	<!-- 查询  BossRole -->
+	<select id="findBossRoleById" parameterType="java.lang.Long" resultMap="bossRoleResultMap">
+		SELECT 
+            id,role_name,is_enable,remark 
+        FROM cb_boss_role 
+        WHERE 
+            id = #{id}
+
+	</select>
+
+	<!-- 查询  BossRole -->
+	<select id="findBossRole" parameterType="BossRole" resultMap="bossRoleResultMap">
+		SELECT 
+            id,role_name,is_enable,remark 
+        FROM cb_boss_role 
+		<where>
+			<if test="id != null">
+				 AND id = #{id}
+			</if>
+			<if test="roleName != null">
+				 AND role_name = #{roleName}
+			</if>
+			<if test="isEnable != null">
+				 AND is_enable = #{isEnable}
+			</if>
+			<if test="remark != null">
+				 AND remark = #{remark}
+			</if>
+		</where>
+	</select>
+
+	<!-- 分页查询  BossRole -->
+	<select id="findByPage" parameterType="java.util.HashMap" resultMap="bossRoleResultMap">
+		SELECT 
+            id,role_name,is_enable,remark 
+        FROM cb_boss_role 
+		<if test="bossRole != null">
+			<where>
+				<if test="bossRole.id != null">
+					 AND id = #{bossRole.id}
+				</if>
+				<if test="bossRole.roleName != null">
+					 AND role_name = #{bossRole.roleName}
+				</if>
+				<if test="bossRole.isEnable != null">
+					 AND is_enable = #{bossRole.isEnable}
+				</if>
+				<if test="bossRole.remark != null">
+					 AND remark = #{bossRole.remark}
+				</if>
+			</where>
+		</if>
+	</select>
+
+
+</mapper>
+

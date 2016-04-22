@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.mysql.mapper.OrgMapper">
+
+	<resultMap type="Org" id="orgResultMap">
+		<id property="id" column="id" />
+		<result property="clientId" column="client_id" />
+		<result property="bankType" column="bank_type" />
+		<result property="orgCode" column="org_code" />
+		<result property="orgName" column="org_name" />
+		<result property="provinceAgency" column="province_agency" />
+		<result property="cityAgency" column="city_agency" />
+		<result property="countyAgency" column="county_agency" />
+		<result property="phone" column="phone" />
+		<result property="merchantId" column="merchant_id" />
+		<result property="outletId" column="outlet_id" />
+		<result property="areaId" column="area_id" />
+		<result property="orgLevel" column="org_level" />
+		<result property="needReview" column="need_review" />
+		<result property="orgType" column="org_type" />
+		<result property="isEnable" column="is_enable" />
+	</resultMap>
+
+
+	<!-- 添加  Org -->
+	<insert id="addOrg" parameterType="Org" useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[
+			insert into cb_org (
+				client_id,bank_type,org_code,org_name,province_agency,city_agency,county_agency,phone,merchant_id,outlet_id,area_id,org_level,need_review,org_type,is_enable
+			) values (
+				#{clientId},#{bankType},#{orgCode},#{orgName},#{provinceAgency},#{cityAgency},#{countyAgency},#{phone},#{merchantId},#{outletId},#{areaId},#{orgLevel},#{needReview},#{orgType},#{isEnable}
+			) 
+		]]>
+	</insert>
+
+
+	<!-- 批量添加  Org -->
+	<insert id="addOrgByBatch" parameterType="java.util.List">
+		insert into cb_org (
+			client_id,bank_type,org_code,org_name,province_agency,city_agency,county_agency,phone,merchant_id,outlet_id,area_id,org_level,need_review,org_type,is_enable
+		) values 
+		<foreach collection="orgList" item="item" index="index" separator=",">
+			(#{clientId},#{bankType},#{orgCode},#{orgName},#{provinceAgency},#{cityAgency},#{countyAgency},#{phone},#{merchantId},#{outletId},#{areaId},#{orgLevel},#{needReview},#{orgType},#{isEnable})
+		</foreach>
+	</insert>
+
+
+	<!-- 逻辑删除  Org，禁用/启用功能 -->
+	<update id="deleteOrg" parameterType="Org">
+		update cb_org set  is_enable = #{isEnable}  
+			<where>
+				<if test="id != null">
+					and id = #{id}
+				</if>
+				<if test="clientId != null">
+					and client_id = #{clientId}
+				</if>
+				<if test="orgCode != null">
+					and org_code = #{orgCode} 
+				</if>
+			</where>
+	</update>
+
+
+	<!-- 修改  Org -->
+	<update id="updateOrg" parameterType="Org">
+		update cb_org 
+		<set>
+			<if test="bankType != null">
+				bank_type=#{bankType},
+			</if>
+			<if test="orgName != null">
+				org_name = #{orgName},
+			</if>
+			<if test="provinceAgency != null">
+				province_agency = #{provinceAgency},
+			</if>
+			<if test="cityAgency != null">
+				city_agency = #{cityAgency},
+			</if>
+			<if test="countyAgency != null">
+				county_agency = #{countyAgency},
+			</if>
+			<if test="orgLevel != null">
+				org_level = #{orgLevel},
+			</if>
+			<if test="phone != null">
+				phone=#{phone},
+			</if>
+			<if test="merchantId != null">
+				merchant_id=#{merchantId},
+			</if>
+			<if test="outletId != null">
+				outlet_id=#{outletId},
+			</if>
+			<if test="areaId != null">
+				area_id=#{areaId},
+			</if>
+			<if test="orgLevel != null">
+				org_level=#{orgLevel},
+			</if>
+			<if test="orgType != null">
+				org_type=#{orgType},
+			</if>
+			<if test="needReview != null">
+				need_review=#{needReview}, 
+			</if>
+		</set>
+		<where>
+			<if test="id != null">
+				and id = #{id}
+			</if>
+			<if test="clientId != null">
+				and client_id = #{clientId}
+			</if>
+			<if test="orgCode != null">
+				and org_code = #{orgCode} 
+			</if>
+		</where>
+	</update>
+
+	<!-- 根据orgCode获取下级叶子机构  -->
+	<select id="findSubOrgs" parameterType="Org" resultMap="orgResultMap">
+		select 
+			id,client_id,bank_type,org_code,org_name,province_agency,city_agency,county_agency,phone,
+			merchant_id,outlet_id,area_id,org_level,need_review,org_type,is_enable 
+		from cb_org 
+		
+		where is_enable=1  
+			<if test="clientId != null">
+				and client_id = #{clientId}
+			</if>
+			<if test="provinceAgency != null">
+				and province_agency = #{provinceAgency}
+			</if>
+			<if test="cityAgency != null">
+				and city_agency = #{cityAgency}
+			</if>
+			<if test="countyAgency != null">
+				and county_agency = #{countyAgency}
+			</if>
+			<if test="orgLevel != null">
+				and org_level = #{orgLevel} 
+			</if>
+			order by org_level asc 
+	</select>
+
+	<!-- 根据orgCode获取下级所有机构 -->
+	<select id="findAllSubOrgCodes" parameterType="Org" resultMap="orgResultMap">
+		select 
+			id,client_id,bank_type,org_code,org_name,province_agency,city_agency,county_agency,phone,
+			merchant_id,outlet_id,area_id,org_level,need_review,org_type,is_enable 
+		from cb_org 
+		
+		where is_enable=1  
+			<if test="clientId != null">
+				and client_id = #{clientId}
+			</if>
+			<if test="orgCode != null">
+				and (province_agency=#{orgCode} or city_agency=#{orgCode} or county_agency=#{orgCode} or org_code=#{orgCode})    
+			</if>
+			order by org_level asc  
+	</select>
+	
+	<!-- 获取网点交集集合 -->
+	<select id="findIntersectionOrgCodeList" parameterType="Org" resultMap="orgResultMap">
+		select loginOrg.org_code from 
+		(
+			select org_code from cb_org where  (province_agency=#{loginOrgCode} or city_agency=#{loginOrgCode} or county_agency=#{loginOrgCode} or org_code=#{loginOrgCode}) and client_id=#{org.clientId}  
+			and is_enable=#{org.isEnable} and org_level=#{org.orgLevel} 
+		) loginOrg  
+		inner join 
+		(
+			select org_code from cb_org where  (province_agency=#{org.orgCode} or city_agency=#{org.orgCode} or county_agency=#{org.orgCode} or org_code=#{org.orgCode}) and client_id=#{org.clientId} 
+			and is_enable=#{org.isEnable} and org_level=#{org.orgLevel}  
+		) filterOrg 
+		on loginOrg.org_code=filterOrg.org_code   
+	</select>
+
+
+	<!-- 根据id查询  Org -->
+	<select id="findOrgById" parameterType="Org" resultMap="orgResultMap">
+		select 
+			id,client_id,bank_type,org_code,org_name,province_agency,city_agency,county_agency,phone,
+			merchant_id,outlet_id,area_id,org_level,need_review,org_type,is_enable 
+		from cb_org  
+		<where>
+				<if test="id != null">
+					and id = #{id}
+				</if>
+				<if test="orgCode != null">
+					and org_code = #{orgCode}
+				</if>
+				<if test="clientId != null">
+					and client_id = #{clientId}
+				</if>
+				<if test="isEnable != null">
+					and is_enable = #{isEnable}
+				</if>
+		</where> 	
+	</select>
+		
+	<!-- 查询areaId集合下的有效机构 -->
+	<select id="findOrgByAreaIds" parameterType="Org" resultMap="orgResultMap">
+		select 
+			id,client_id,bank_type,org_code,org_name,province_agency,city_agency,county_agency,phone,
+			merchant_id,outlet_id,area_id,org_level,need_review,org_type,is_enable 
+		from cb_org  
+		<where>
+				<if test="areaIdList != null">
+				 	 AND area_id IN 
+					<foreach collection="areaIdList" item="areaId" open="(" close=")" separator=",">
+						#{areaId}
+				 	</foreach>
+				</if>
+				<if test="org != null">
+					<if test="org.clientId != null">
+						AND client_id = #{org.clientId} 
+					</if>
+					<if test="org.isEnable != null">
+						AND is_enable = #{org.isEnable} 
+					</if>
+				</if>
+		</where> 	
+	</select>
+	
+	
+	<!-- 查询  Org -->
+	<select id="findOrg" parameterType="Org" resultMap="orgResultMap">
+		select 
+			id,client_id,bank_type,org_code,org_name,province_agency,city_agency,county_agency,phone,
+			merchant_id,outlet_id,area_id,org_level,need_review,org_type,is_enable 
+		from cb_org 
+		<where>
+				<if test="id != null">
+					and id = #{id}
+				</if>
+				<if test="clientId != null">
+					and client_id = #{clientId}
+				</if>
+				<if test="bankType != null">
+					and bank_type = #{bankType}
+				</if>
+				<if test="orgCode != null">
+					and org_code = #{orgCode}
+				</if>
+				<if test="orgName != null">
+					and org_name = #{orgName}
+				</if>
+				<if test="provinceAgency != null">
+					and province_agency = #{provinceAgency}
+				</if>
+				<if test="cityAgency != null">
+					and city_agency = #{cityAgency}
+				</if>
+				<if test="countyAgency != null">
+					and county_agency = #{countyAgency}
+				</if>
+				<if test="phone != null">
+					and phone = #{phone}
+				</if>
+				<if test="merchantId != null">
+					and merchant_id = #{merchantId}
+				</if>
+				<if test="outletId != null">
+					and outlet_id = #{outletId}
+				</if>
+				<if test="areaId != null">
+					and area_id = #{areaId}
+				</if>
+				<if test="orgLevel != null">
+					and org_level = #{orgLevel}
+				</if>
+				<if test="orgType != null">
+					and org_type = #{orgType}
+				</if>
+				<if test="isEnable != null">
+					and is_enable = #{isEnable}
+				</if>
+			</where>
+	</select>
+
+	<!-- 分页查询  Org -->
+	<select id="findByPage" parameterType="java.util.HashMap" resultMap="orgResultMap">
+		select 
+			id,client_id,bank_type,org_code,org_name,province_agency,city_agency,county_agency,phone,merchant_id,outlet_id,area_id,org_level,need_review,org_type,is_enable 
+		from cb_org  
+		<if test="org != null">
+			<where>
+				<if test="org.id != null">
+					 and id = #{org.id}
+				</if>
+				<if test="org.clientId != null">
+					 and client_id = #{org.clientId}
+				</if>
+				<if test="org.bankType != null">
+					 and bank_type = #{org.bankType}
+				</if>
+				<if test="org.orgCode != null"><!-- 过滤条件orgcode -->
+				 	 and org_code = #{org.orgCode}  
+				</if>
+				<if test="loginOrgCode != null"><!-- 当前登录orgcode -->
+					 and (province_agency=#{loginOrgCode} or city_agency=#{loginOrgCode}  or county_agency=#{loginOrgCode}  or org_code=#{loginOrgCode}) and client_id = #{org.clientId} and is_enable=true      
+				</if>
+				<if test="org.orgName != null">
+					 and org_name like CONCAT('%',#{org.orgName},'%' )  
+				</if>
+				<if test="org.provinceAgency != null">
+					 and province_agency = #{org.provinceAgency}
+				</if>
+				<if test="org.cityAgency != null">
+					 and city_agency = #{org.cityAgency}
+				</if>
+				<if test="org.countyAgency != null">
+					 and county_agency = #{org.countyAgency}
+				</if>
+				<if test="org.phone != null">
+					 and phone = #{org.phone}
+				</if>
+				<if test="org.merchantId != null">
+					 and merchant_id = #{org.merchantId}
+				</if>
+				<if test="org.outletId != null">
+					 and outlet_id = #{org.outletId}
+				</if>
+				<if test="org.areaId != null">
+					 and area_id = #{org.areaId}
+				</if>
+				<if test="org.orgLevel != null">
+					 and org_level = #{org.orgLevel}
+				</if>
+				<if test="org.orgType != null">
+					 and org_type = #{org.orgType}
+				</if>
+				<if test="org.isEnable != null">
+					and is_enable = #{org.isEnable}
+				</if>
+			</where> 	
+		</if>
+		order by org_level,org_code    
+	</select>
+	
+	<!-- 通过机构名称模糊查询机构码列表. -->
+	<select id="findOrgByOrgNameOrClientId"  parameterType="java.util.HashMap"  resultMap="orgResultMap">
+	SELECT 
+		id,client_id,bank_type,org_code,org_name,province_agency,city_agency,county_agency,phone,
+		merchant_id,outlet_id,area_id,org_level,need_review,org_type,is_enable   
+	FROM cb_org o WHERE o.client_id=#{clientId}  AND o.is_enable =TRUE 
+	AND o.org_name LIKE CONCAT('%',#{orgName},'%' )  
+	AND (o.province_agency=#{loginOrgCode} OR o.city_agency=#{loginOrgCode} OR o.county_agency=#{loginOrgCode} OR o.org_code=#{loginOrgCode})
+	LIMIT #{limit}         
+	</select>
+</mapper>

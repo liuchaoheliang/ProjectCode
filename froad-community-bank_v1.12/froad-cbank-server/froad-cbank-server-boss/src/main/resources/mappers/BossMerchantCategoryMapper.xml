@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.mysql.mapper.BossMerchantCategoryMapper">
+	
+	<resultMap type="BossMerchantCategory" id="BossMerchantCategoryMap">
+		<id property="id" column="id" />
+		<result property="clientId" column="client_id" />
+		<result property="name" column="name" />
+		<result property="treePath" column="tree_path" />
+		<result property="parentId" column="parent_id" />
+		<result property="isDelete" column="is_delete" />
+		<result property="icoUrl" column="ico_url" />
+		<result property="orderValue" column="order_value" />
+	</resultMap>
+	
+	<!-- 查询 商户分类列表 -->
+	<select id="findCategorys" resultMap="BossMerchantCategoryMap">
+		SELECT id, client_id, name, tree_path, parent_id, is_delete, ico_url, order_value FROM cb_merchant_category
+		<where>
+			<if test="clientId != null and clientId != ''">
+				AND client_id = #{clientId}
+			</if>
+			<if test="!iscludeDisable">
+				AND is_delete = "0"
+			</if>
+		</where>
+		order by order_value desc
+	</select>
+	
+	
+	<select id="findByCategoryId"  resultMap="BossMerchantCategoryMap">
+		SELECT id, client_id, name, tree_path, parent_id, is_delete, ico_url, order_value 
+		FROM cb_merchant_category where id = #{categoryId} and client_id = #{clientId}
+	</select>
+	
+	
+	<select id="findChildList"  resultMap="BossMerchantCategoryMap">
+		SELECT id, client_id, name, tree_path, parent_id, is_delete, ico_url, order_value 
+		 FROM cb_merchant_category where client_id = #{clientId} and tree_path like CONCAT('%',#{categoryId},'%')
+	</select>
+	
+	
+	<!-- 查询商户分类信息 -->
+	<select id="getBossMerchantCategoryById" resultMap="BossMerchantCategoryMap">
+		SELECT id, client_id, name, tree_path, parent_id, is_delete, ico_url, order_value FROM cb_merchant_category
+		<where>
+			<if test="id != 0">
+				AND id = #{id}
+			</if>
+			<if test="clientId != null and clientId != ''">
+				AND client_id = #{clientId}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 新增商户分类 -->
+	<insert id="addBossMerchantCategoryVo" parameterType="BossMerchantCategory" useGeneratedKeys="true" keyProperty="mo.id">
+		INSERT INTO cb_merchant_category (client_id, name, tree_path, parent_id, is_delete, ico_url, order_value) VALUES
+	 (#{mo.clientId}, #{mo.name}, #{mo.treePath}, #{mo.parentId}, #{mo.isDelete}, #{mo.icoUrl}, #{mo.orderValue}) 
+	</insert>
+	
+	<!-- 修改商户分类 treePath-->
+	<update id="updateBossMerchantCategoryVoTreePath">
+		UPDATE cb_merchant_category SET tree_path = #{mo.treePath} WHERE id = #{mo.id}
+	</update>
+	
+	<!-- 根据分类名称查询是否存在该分类信息 -->
+	<select id="findByName" resultType="java.lang.Integer">
+		SELECT count(*) FROM cb_merchant_category WHERE client_id = #{clientId} AND name = #{name}
+	</select>
+	
+	<!-- 修改商户分类 -->
+	<update id="updateBossMerchantCategoryVo">
+		UPDATE cb_merchant_category SET name = trim(#{mo.name}), ico_url = #{mo.icoUrl}, order_value= #{mo.orderValue}, is_delete = #{mo.isDelete} 
+		WHERE id = #{mo.id}
+	</update>
+	
+	<!-- 根据分类名称查询分类详情 -->
+	<select id="getBossMerchantCategoryByName" resultMap="BossMerchantCategoryMap">
+		SELECT id, client_id, name, tree_path, parent_id, is_delete, ico_url, order_value FROM cb_merchant_category
+			<where>
+				<if test="clientId != null and clientId != ''">
+					AND client_id = #{clientId}
+				</if>
+				<if test="name != null and name != ''">
+					AND name = #{name}
+				</if>
+		</where>
+	</select>
+	
+	<select id="findNoDeleteParentList" resultMap="BossMerchantCategoryMap">
+		SELECT id, client_id, name, tree_path, parent_id, is_delete, ico_url, order_value FROM cb_merchant_category t
+		where t.client_id = #{clientId} and t.is_delete = 0  and t.parent_id = 0
+	</select>
+</mapper>

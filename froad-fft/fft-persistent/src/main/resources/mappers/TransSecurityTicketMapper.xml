@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+	<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  		 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.fft.persistent.api.TransSecurityTicketMapper">
+
+	<resultMap type="TransSecurityTicket" id="transSecurityTicketResultMap">
+		<id property="id" column="id" />
+		<result property="createTime" column="create_time" />
+		<result property="updateTime" column="update_time" />
+
+		<result property="transId" column="trans_id" />
+		<result property="memberCode" column="member_code" />
+		<result property="transType" column="trans_type" typeHandler="com.froad.fft.persistent.extend.EnumTypeHandler" />
+		<result property="securitiesNo" column="securities_no"/>
+		<result property="isConsume" column="is_consume"/>
+		<result property="consumeTime" column="consume_time"/>
+		<result property="expireTime" column="expire_time"/>
+		<result property="smsNumber" column="sms_number"/>
+		<result property="smsTime" column="sms_time"/>
+		<result property="sysUserId" column="sys_user_id"/>
+		<result property="merchantId" column="merchant_id"/>
+	</resultMap>
+	
+	<!-- 插入 -->
+	<insert id="saveTransSecurityTicket" parameterType="TransSecurityTicket" useGeneratedKeys="true" keyProperty="id" >
+		insert into fft_trans_security_ticket values
+		(
+			#{id},#{createTime},#{updateTime},#{transId},#{memberCode},#{transType,typeHandler=com.froad.fft.persistent.extend.EnumTypeHandler},
+			#{securitiesNo},#{isConsume},#{consumeTime},#{expireTime},#{smsNumber},#{smsTime},#{sysUserId},#{merchantId}
+		)
+	</insert>
+	
+	<!-- 更新 -->
+	<update id="updateTransSecurityTicketById" parameterType="TransSecurityTicket" >
+		update fft_trans_security_ticket set update_time = #{updateTime}
+		<if test="isConsume != null">
+			,is_consume = #{isConsume}
+		</if>
+		<if test="consumeTime != null">
+			,consume_time = #{consumeTime}
+		</if>
+		<if test="smsNumber != null">
+			,sms_number = #{smsNumber}
+		</if>	
+		<if test="smsTime != null">
+			,sms_time = #{smsTime}
+		</if>	
+		<if test="sysUserId != null">
+			,sys_user_id = #{sysUserId}
+		</if>	
+		<if test="merchantId != null">
+			,merchant_id = #{merchantId}
+		</if>	
+		where id = #{id}
+	</update>
+	
+	<!-- 查询 -->
+	<select id="selectTransSecurityTicketById" parameterType="java.lang.Long" resultMap="transSecurityTicketResultMap">
+		select * from fft_trans_security_ticket where id = #{id}
+	</select>
+	
+	<!-- 查询 -->
+	<select id="selectByTransId" parameterType="java.lang.Long" resultMap="transSecurityTicketResultMap">
+		select * from fft_trans_security_ticket where trans_id = #{transId}
+	</select>
+	
+	<!-- 根据券号查询 -->
+	<select id="selectBySecurityNo" parameterType="java.lang.String" resultMap="transSecurityTicketResultMap">
+		select * from fft_trans_security_ticket where securities_no = #{SecurityNo}
+	</select>
+
+<!-- 分页查询 -->
+	<select id="selectByPage" parameterType="com.froad.fft.persistent.bean.page.Page"  resultMap="transSecurityTicketResultMap">
+		select * from fft_trans_security_ticket 
+		<if test="pageFilter != null">
+            <where>
+                <if test="pageFilter.filterEntity != null">
+                    <if test="pageFilter.filterEntity.id!= null  and pageFilter.filterEntity.id!=''">
+                        and id = #{pageFilter.filterEntity.id}
+                    </if>
+                    <if test="pageFilter.filterEntity.transId!= null  and pageFilter.filterEntity.transId!=''">
+                        and trans_id = #{pageFilter.filterEntity.transId}
+                    </if>
+                    <if test="pageFilter.filterEntity.memberCode!=null and pageFilter.filterEntity.memberCode!=''">
+                        and member_code = #{pageFilter.filterEntity.memberCode}
+                    </if>
+                    <if test="pageFilter.filterEntity.transType!= null">
+                        and trans_type = #{pageFilter.filterEntity.transType,typeHandler=com.froad.fft.persistent.extend.EnumTypeHandler}
+                    </if>
+                    <if test="pageFilter.filterEntity.securitiesNo!= null">
+                        and securities_no = #{pageFilter.filterEntity.securitiesNo}
+                    </if>
+                    <if test="pageFilter.filterEntity.isConsume!= null">
+                        and is_consume = #{pageFilter.filterEntity.isConsume}
+                    </if>
+                    <if test="pageFilter.filterEntity.merchantId!= null">
+                        and merchantId = #{pageFilter.filterEntity.merchantId}
+                    </if>
+                </if>
+
+                <!-- 时间段条件 -->
+                <if test="pageFilter.property != null and pageFilter.startTime != null">
+                    <![CDATA[
+   					 and ${pageFilter.property} >= #{pageFilter.startTime}
+   					]]>
+                </if>
+                <if test="pageFilter.property != null and pageFilter.endTime != null">
+                    <![CDATA[
+   					 and ${pageFilter.property} <= #{pageFilter.endTime}
+   					]]>
+                </if>
+            </where>
+        </if>
+        <!-- 排序 -->
+        <if test="order != null">
+            <if test="order.property != null and order.direction != null">
+                order by ${order.property} ${order.direction}
+            </if>
+        </if>
+	</select>
+	
+	
+			<!-- 分页查询 -->
+	<select id="selectByPageCount" parameterType="com.froad.fft.persistent.bean.page.Page"  resultType="java.lang.Integer">
+		select count(*) from fft_trans_security_ticket 
+		<if test="pageFilter != null">
+            <where>
+                <if test="pageFilter.filterEntity != null">
+                    <if test="pageFilter.filterEntity.id!= null  and pageFilter.filterEntity.id!=''">
+                        and id = #{pageFilter.filterEntity.id}
+                    </if>
+                    <if test="pageFilter.filterEntity.transId!= null  and pageFilter.filterEntity.transId!=''">
+                        and trans_id = #{pageFilter.filterEntity.transId}
+                    </if>
+                    <if test="pageFilter.filterEntity.memberCode!=null and pageFilter.filterEntity.memberCode!=''">
+                        and member_code = #{pageFilter.filterEntity.memberCode}
+                    </if>
+                    <if test="pageFilter.filterEntity.transType!= null">
+                        and trans_type = #{pageFilter.filterEntity.transType,typeHandler=com.froad.fft.persistent.extend.EnumTypeHandler}
+                    </if>
+                    <if test="pageFilter.filterEntity.securitiesNo!= null">
+                        and securities_no = #{pageFilter.filterEntity.securitiesNo}
+                    </if>
+                    <if test="pageFilter.filterEntity.isConsume!= null">
+                        and is_consume = #{pageFilter.filterEntity.isConsume}
+                    </if>
+                    <if test="pageFilter.filterEntity.merchantId!= null">
+                        and merchantId = #{pageFilter.filterEntity.merchantId}
+                    </if>
+                </if>
+
+                <!-- 时间段条件 -->
+                <if test="pageFilter.property != null and pageFilter.startTime != null">
+                    <![CDATA[
+   					 and ${pageFilter.property} >= #{pageFilter.startTime}
+   					]]>
+                </if>
+                <if test="pageFilter.property != null and pageFilter.endTime != null">
+                    <![CDATA[
+   					 and ${pageFilter.property} <= #{pageFilter.endTime}
+   					]]>
+                </if>
+            </where>
+        </if>
+        <!-- 排序 -->
+        <if test="order != null">
+            <if test="order.property != null and order.direction != null">
+                order by ${order.property} ${order.direction}
+            </if>
+        </if>
+	</select>
+	
+	<select id="selectByCondition" parameterType="TransSecurityTicket" resultMap="transSecurityTicketResultMap">
+		select * from fft_trans_security_ticket where 1 = 1
+		<if test="transId != null">
+			and trans_id = #{transId}
+		</if>
+		<if test="isConsume != null">
+			and is_consume = #{isConsume}
+		</if>
+		<if test="consumeTime != null">
+			and consume_time = #{consumeTime}
+		</if>
+		<if test="smsNumber != null">
+			and sms_number = #{smsNumber}
+		</if>	
+		<if test="smsTime != null">
+			and sms_time = #{smsTime}
+		</if>	
+		<if test="sysUserId != null">
+			and sys_user_id = #{sysUserId}
+		</if>
+		<if test="merchantId != null">
+			and merchant_id = #{merchantId}
+		</if>	
+		<if test="securitiesNo != null">
+			and securities_no = #{securitiesNo}
+		</if>
+	</select>
+	
+</mapper>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.chongqing.mappers.MerchantProductCommentMapper">
+
+    <resultMap type="MerchantProductComment" id="merchantProductCommentResultMap">
+    	<!-- baseEntity prop -->
+        <id property="id" column="id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+		<result property="clientId" column="client_id"/>
+		<!-- baseEntity prop -->
+		
+        <result property="productCommentId" column="product_comment_id"/>
+        <result property="merchantId" column="merchant_id"/>
+        <result property="memberCode" column="member_code"/>
+        <result property="memberName" column="member_name"/>
+        <result property="memberMobile" column="member_mobile"/>
+        <result property="description" column="description"/>
+        <result property="merchantUserId" column="merchant_user_id"/>
+        <result property="merchantUserName" column="merchant_user_name"/>
+    </resultMap>
+
+   <!-- 通过product作为条件查询product -->
+	<select id="selectMerchantCommentAll" parameterType="MerchantProductComment" resultMap="merchantProductCommentResultMap">
+		select * from cb_merchant_product_comment  where merchant_id=#{merchantId}
+		 and product_comment_id=#{productCommentId} ORDER BY create_time desc 
+	</select>
+</mapper>

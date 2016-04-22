@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+	<properties url="file:./config/jdbc.properties"/>
+	
+	<typeAliases>
+		<typeAlias alias="AreaCG" type="com.froad.db.chonggou.entity.AreaCG"/>
+		<typeAlias alias="AdCG" type="com.froad.db.chonggou.entity.AdCG"/>
+		<typeAlias alias="AdPositionCG" type="com.froad.db.chonggou.entity.AdPositionCG"/>
+		<typeAlias alias="DeliveryCorpCG" type="com.froad.db.chonggou.entity.DeliveryCorpCG"/>
+		<typeAlias alias="SmsLogCG" type="com.froad.db.chonggou.entity.SmsLogCG"/>
+		<typeAlias alias="Org" type="com.froad.po.Org" />
+		<typeAlias alias="Transfer" type="com.froad.db.chonggou.entity.Transfer" />
+		<typeAlias alias="ClientMerchantAudit" type="com.froad.db.chonggou.entity.ClientMerchantAudit" />
+		<typeAlias alias="Client" type="com.froad.db.chonggou.entity.Client"/>
+		<typeAlias alias="ClientPaymentChannel" type="com.froad.db.chonggou.entity.ClientPaymentChannel"/>
+		<typeAlias alias="BankResource" type="com.froad.db.chonggou.entity.BankResource"/>
+		<typeAlias alias="BankRole" type="com.froad.db.chonggou.entity.BankRole"/>
+		<typeAlias alias="BankOperator" type="com.froad.db.chonggou.entity.BankOperatorCG"/>
+		<typeAlias alias="ProductCG" type="com.froad.db.chonggou.entity.ProductCG"/>
+		<typeAlias alias="ProductCategoryCG" type="com.froad.db.chonggou.entity.ProductCategoryCG"/>
+		<typeAlias alias="ProductGroupCG" type="com.froad.db.chonggou.entity.ProductGroupCG"/>
+		<typeAlias alias="ProductPresellCG" type="com.froad.db.chonggou.entity.ProductPresellCG"/>
+		<typeAlias alias="BankOrgCode" type="com.froad.db.chonggou.entity.BankOrgCode"/>
+		<typeAlias alias="ClientProductAudit" type="com.froad.db.chonggou.entity.ClientProductAudit"/>
+		<typeAlias alias="ProductOutletInfo" type="com.froad.db.chonggou.entity.ProductOutletInfo" />
+		<typeAlias alias="BankOperateLog" type="com.froad.po.BankOperateLog"/>
+		<typeAlias alias="OrgUserRole" type="com.froad.db.chonggou.entity.OrgUserRole"/>
+		<typeAlias alias="OrgLevel" type="com.froad.db.chonggou.entity.OrgLevel" />
+		<!-- merchant -->
+		<typeAlias alias="MerchantCG" type="com.froad.db.chonggou.entity.MerchantCG" />
+		<typeAlias alias="OutletCG" type="com.froad.db.chonggou.entity.OutletCG" />
+		<typeAlias alias="MerchantCategoryCG" type="com.froad.db.chonggou.entity.MerchantCategoryCG"/>
+		<typeAlias alias="MerchantAccountCG" type="com.froad.db.chonggou.entity.MerchantAccountCG"/>
+		<typeAlias alias="MerchantOutletPhotoCG" type="com.froad.db.chonggou.entity.MerchantOutletPhotoCG"/>
+		<typeAlias alias="MerchantUserCG" type="com.froad.db.chonggou.entity.MerchantUserCG"/>
+	</typeAliases>
+
+	<plugins>
+		<plugin interceptor="com.froad.db.mysql.interceptor.PageInterceptor">
+			<property name="databaseDialect" value="com.froad.db.mysql.dialet.MySQLDialect" />
+			<property name="pageSqlIdRegEx" value=".*ByPage" />
+		</plugin>
+	</plugins>
+	
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC" />
+			<dataSource type="com.froad.db.mysql.datasource.DruidDataSourceFactory">
+				<property name="driverClassName" value="${jdbc.driverClassName}" />
+				<property name="url" value="${jdbc.url}" />
+				<property name="username" value="${jdbc.username}"  />
+				<property name="password" value="${jdbc.password}" />
+
+				<property name="initialSize" value="${pool.initialSize}" />
+				<property name="minIdle" value="${pool.minIdle}" />
+				<property name="maxActive" value="${pool.maxActive}" />
+
+				<property name="maxWait" value="${pool.maxWait}" />
+
+				<property name="validationQuery" value="select now()" />
+				<property name="testWhileIdle" value="true" />
+				<property name="testOnBorrow" value="false" />
+				<property name="testOnReturn" value="false" />
+				<property name="poolPreparedStatements" value="false" />
+				<property name="maxOpenPreparedStatements" value="-1" />
+
+				<property name="removeAbandoned" value="false" />
+
+				<property name="removeAbandonedTimeout" value="12000" />
+
+				<property name="logAbandoned" value="true" />
+			</dataSource>
+		</environment>
+	</environments>
+
+	<mappers>
+		<mapper resource="mappers/AreaMapperCG.xml" />
+		<mapper resource="mappers/AdMapperCG.xml" />
+		<mapper resource="mappers/AdPositionMapperCG.xml" />
+		<mapper resource="mappers/DeliveryCorpMapperCG.xml" />
+		<mapper resource="mappers/SmsLogMapperCG.xml" />
+		<mapper resource="mappers/OrgMapper.xml" />
+		<mapper resource="mappers/ClientMerchantAuditMapper.xml" />
+		<mapper resource="mappers/ClientMapper.xml" />
+		<mapper resource="mappers/ClientPaymentChannelMapper.xml" />
+		<mapper resource="mappers/BankOperatorMapperCG.xml" />
+		<mapper resource="mappers/BankResourceMapper.xml" />
+		<mapper resource="mappers/BankRoleMapper.xml" />
+		<mapper resource="mappers/ProductMapper.xml" />
+		<mapper resource="mappers/ProductCategoryMapper.xml" />
+		<mapper resource="mappers/TransferMapper.xml" />
+		<mapper resource="mappers/ClientProductAuditMapper.xml" />
+		<mapper resource="mappers/BankOperateLogMapper.xml" />
+		<mapper resource="mappers/NewBankOperatorMapper.xml" />
+		<mapper resource="mappers/OrgLevelMapper.xml" />
+		<!-- merchant -->
+		<mapper resource="mappers/MerchantMapperCG.xml" />
+		<mapper resource="mappers/OutletMapperCG.xml" />
+		<mapper resource="mappers/MerchantCategoryMapperCG.xml" />
+		<mapper resource="mappers/MerchantAccountMapperCG.xml" />
+		<mapper resource="mappers/MerchantOutletPhotoMapperCG.xml" />
+		<mapper resource="mappers/MerchantUserMapperCG.xml" />
+	</mappers>
+
+</configuration>

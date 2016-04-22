@@ -1,0 +1,1 @@
+尊敬的用户${username}，您的分分通登录密码已重置为${password}，请尽快登录www.fenfentong.com.cn修改密码以确保安全 。【珠海农商银行】

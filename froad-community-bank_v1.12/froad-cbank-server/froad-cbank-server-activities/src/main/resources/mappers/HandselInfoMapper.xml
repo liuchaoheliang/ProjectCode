@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.mysql.mapper.HandselInfoMapper">
+
+	<resultMap type="HandselInfo" id="handselInfoResultMap">
+		<id property="id" column="id" />
+		<result property="clientId" column="client_id" />
+		<result property="handselMemberCode" column="handsel_member_code" />
+		<result property="handselType" column="handsel_type" />
+		<result property="handselValue" column="handsel_value" />
+		<result property="handselActiveId" column="handsel_active_id" />
+		<result property="cutMoney" column="cut_money" />
+		<result property="handselVouchersActiveId" column="handsel_vouchers_active_id" />
+		<result property="vouchersId" column="vouchers_id" />
+		<result property="vouchersMoney" column="vouchers_money" />
+		<result property="productId" column="product_id" />
+		<result property="bankIntegral" column="bank_integral" />
+		<result property="unionIntegral" column="union_integral" />
+		<result property="creAwardType" column="cre_award_type" />
+		<result property="creMemberCode" column="cre_member_code" />
+		<result property="creVouchersActiveId" column="cre_vouchers_active_id" />
+		<result property="creVouchersId" column="cre_vouchers_id" />
+		<result property="creVouchersMoney" column="cre_vouchers_money" />
+		<result property="creProductId" column="cre_product_id" />
+		<result property="fullGiveOrderId" column="full_give_order_id" />
+		<result property="giveTime" column="give_time" />
+	</resultMap>
+	<sql id="none_id_columns">
+		client_id
+		,handsel_member_code
+		,handsel_type
+		,handsel_value
+		,handsel_active_id
+		,cut_money
+		,handsel_vouchers_active_id
+		,vouchers_id
+		,vouchers_money
+		,product_id
+		,bank_integral
+		,union_integral
+		,cre_award_type
+		,cre_member_code
+		,cre_vouchers_active_id
+		,cre_vouchers_id
+		,cre_vouchers_money
+		,cre_product_id
+		,full_give_order_id
+		,give_time
+	</sql>
+	
+    <!-- 添加  "HandselInfo" -->
+    <insert id="addHandselInfo" parameterType="HandselInfo" useGeneratedKeys="true" keyProperty="id">
+    	INSERT INTO cb_handsel_info (
+     		<include refid="none_id_columns" />
+    	) VALUES 
+    	(
+        	#{clientId}
+			,#{handselMemberCode}
+			,#{handselType}
+			,#{handselValue}
+			,#{handselActiveId}
+			,#{cutMoney}
+			,#{handselVouchersActiveId}
+			,#{vouchersId}
+			,#{vouchersMoney}
+			,#{productId}
+			,#{bankIntegral}
+			,#{unionIntegral}
+			,#{creAwardType}
+			,#{creMemberCode}
+			,#{creVouchersActiveId}
+			,#{creVouchersId}
+			,#{creVouchersMoney}
+			,#{creProductId}
+			,#{fullGiveOrderId}
+			,#{giveTime}
+    	) 
+    </insert>
+	
+	<!-- 批量添加  HandselInfo -->
+	<insert id="addHandselInfoByBatch" parameterType="java.util.List">
+		INSERT INTO cb_vouchers_info (
+			<include refid="none_id_columns" />
+		) VALUES 
+		<foreach collection="handselInfoList" item="item" index="index" separator=",">
+		(
+			#{item.clientId}
+			,#{item.handselMemberCode}
+			,#{item.handselType}
+			,#{item.handselValue}
+			,#{item.handselActiveId}
+			,#{item.cutMoney}
+			,#{item.handselVouchersActiveId}
+			,#{item.vouchersId}
+			,#{item.vouchersMoney}
+			,#{item.productId}
+			,#{item.bankIntegral}
+			,#{item.unionIntegral}
+			,#{item.creAwardType}
+			,#{item.creMemberCode}
+			,#{item.creVouchersActiveId}
+			,#{item.creVouchersId}
+			,#{item.creVouchersMoney}
+			,#{item.creProductId}
+			,#{item.fullGiveOrderId}
+			,#{item.giveTime}
+		)
+		</foreach>
+	</insert>
+</mapper>
+

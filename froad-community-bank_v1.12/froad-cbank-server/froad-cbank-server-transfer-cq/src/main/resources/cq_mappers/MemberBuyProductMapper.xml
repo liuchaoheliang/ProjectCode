@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.chongqing.mappers.MemberBuyProductMapper">
+
+    <resultMap type="MemberBuyProduct" id="memberBuyProductResultMap">
+    	<!-- baseEntity prop -->
+        <id property="id" column="id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+		<result property="clientId" column="client_id"/>
+		<!-- baseEntity prop -->
+		
+        <result property="memberCode" column="member_code"/>
+        <result property="productId" column="product_id" />
+        <result property="buyCount" column="buy_count"/>
+        <result property="vipBuyCount" column="vip_buy_count"/>
+        <result property="remark" column="remark"/>
+    </resultMap>
+
+    <!-- 基础sql 数据新增 必须指明数据列  -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		insert into cb_member_buy_product
+		(
+			create_time,update_time,client_id,
+			member_code,product_id,buy_count,vip_buy_count,remark
+		)
+		values
+		(
+			#{createTime},#{updateTime},#{clientId},#{memberCode},#{productId},#{buyCount},#{vipBuyCount},#{remark}
+		)
+	</insert>
+	
+	<!-- 基础sql 通过分页查询 -->
+	<select id="selectOfPage" parameterType="com.froad.cbank.persistent.entity.base.PageEntity" resultMap="memberBuyProductResultMap">
+		select * from cb_member_buy_product
+		<where>
+			<if test="condition != null">
+				<if test="condition.clientId != null">
+					and client_id = #{condition.clientId}
+				</if>
+				<if test="condition.memberCode != null">
+					and member_code = #{condition.memberCode}
+				</if>
+				<if test="condition.productId != null">
+					and product_id = #{condition.productId}
+				</if>
+			</if>
+		</where>
+	</select>
+	
+	<!-- 基础sql 通过主键查询 -->
+	<select id="selectById" parameterType="java.lang.Long" resultMap="memberBuyProductResultMap">
+		select * from cb_member_buy_product where id = #{id}
+	</select>
+	
+	<!-- 通过主键更新数据 -->
+	<update id="updateById" parameterType="java.lang.Boolean" >
+		update cb_member_buy_product set update_time = #{updateTime}
+		<if test="buyCount != null">
+			,buy_count = #{buyCount}
+		</if>
+		<if test="vipBuyCount != null">
+			,vip_buy_count = #{vipBuyCount}
+		</if>
+		where id = #{id}
+	</update>
+	
+	<!-- 条件组合查询 -->
+	<select id="selectByCondition" resultMap="memberBuyProductResultMap">
+		select * from cb_member_buy_product
+		<where>
+			<if test="clientId != null">
+				and client_id = #{clientId}
+			</if>
+			<if test="memberCode != null">
+				and member_code = #{memberCode}
+			</if>
+			<if test="productId != null">
+				and product_id = #{productId}
+			</if>
+		</where>
+	</select>
+	
+	<update id="modifyBuyerCountByMemberCodeAndProductId" parameterType="java.util.Map">
+		update cb_member_buy_product set update_time=now(),buy_count=buy_count+#{buyCount} where 
+		member_code = #{memberCode} and product_id = #{productId}
+	</update>
+
+</mapper>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+	<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  		 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.fft.persistent.api.ReturnSaleDetailMapper">
+
+	<resultMap type="ReturnSaleDetail" id="ReturnSaleDetailResultMap">
+		<id property="id" column="id" />		
+		<result property="createTime" column="create_time" />
+		<result property="updateTime" column="update_time" />		
+		<result property="returnSaleId" column="return_sale_id" />
+		<result property="productId" column="product_id" />
+		<result property="quantity" column="quantity"/>
+		<result property="securitiesNo" column="securities_no" />
+	</resultMap>
+	<!-- 插入 -->
+	<insert id="saveReturnSaleDetail" parameterType="ReturnSaleDetail" useGeneratedKeys="true" keyProperty="id" >
+		insert into fft_return_sale_detail values(
+			#{id},#{createTime},#{updateTime},#{returnSaleId},#{productId},#{quantity},#{securitiesNo}
+		)
+	</insert>
+	<select id="getReturnSaleDetailById" parameterType="java.lang.Long" resultMap="ReturnSaleDetailResultMap">
+		select * from fft_return_sale_detail where id = #{id}
+	</select>
+	<!-- 根据退换货ID查询退换货详情 -->
+	<select id="getReturnSaleDetailByRsId" parameterType="java.lang.Long" resultMap="ReturnSaleDetailResultMap">
+		select * from fft_return_sale_detail where return_sale_id = #{rsid}
+	</select>
+	
+	<select id="selectByConditions" parameterType="ReturnSaleDetail" resultMap="ReturnSaleDetailResultMap">
+		select * from 	fft_return_sale_detail where 1=1
+			<if test="id != null">
+				and id=#{id}
+			</if>
+			<if test="returnSaleId != null">
+				and return_sale_id=#{returnSaleId} 
+			</if>
+			<if test="productId != null">
+				and product_id=#{productId} 
+			</if>
+			<if test="quantity != null">
+				and quantity=#{quantity} 
+			</if>
+			<if test="securitiesNo != null">
+				and securities_no=#{securitiesNo} 
+			</if>
+	</select>
+	
+</mapper>

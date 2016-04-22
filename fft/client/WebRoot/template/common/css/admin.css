@@ -1,0 +1,148 @@
+/*
+* Author:
+* pengling@f-road.com.cn 
+*/
+/*后台主体框架*/
+.middleBox{width:1010px; margin:8px auto 0; border:1px solid #ccc; overflow:hidden; background:#F9F9F9;}
+
+.rightBox{width:860px; float:left; display:inline;background:#FFF;  border-left:1px solid #E1E1E1; padding-bottom:15px;}
+
+/*广告*/
+.ad{ width:1010px; height:73px; margin:1px auto;}
+
+/*后台成功失败*/
+
+.inforrightBox .successBoxA{width:83%; margin:40px auto 40px; border:1px solid #090; clear:both; padding:40px 0px;}
+
+.inforrightBox .failBoxA{width:83%; margin:40px auto 40px; border:1px solid #F00; clear:both; padding:40px 0px;}
+
+.inforrightBox B{line-height:30px;}
+
+.inforrightBox td{font-size:14px; color:#555;  line-height:40px; text-align:center;}
+
+.inforrightBox td.jumpSuccess{color:#1cb304; font-size:18px;  font-family:"微软雅黑"; font-weight:bold; background:url(../images/resultright.png) no-repeat 200px 9px; padding-left:40px;}
+
+.inforrightBox td.jumpFail{color:#F00; font-size:18px;  font-family:"微软雅黑"; font-weight:bold; background:url(../images/resultwrong.png) no-repeat 200px 9px; padding-left:40px;}
+
+.inforrightBox td img{float:right;}
+
+.inforrightBox table{margin:0 auto; width:80%;}
+
+.inforrightBox td a{color:#777; text-decoration:underline; margin-left:10px; font-size:12px;}
+
+.inforrightBox td a:hover{color:#999; text-decoration:none;}
+
+
+/*后台成功失败*/
+.redmessage{width:99%; border:1px solid #feda8f; background:#fff9f0; height:40px; margin:0 auto; margin-bottom:10px;}
+
+.redmessage p{ color:#ff0000; font:12px/40px "宋体"; font-weight:bold; padding-left:20px;}
+
+.redmessage p a{ color:#09F; text-decoration:underline; margin-left:10px;}
+
+.redmessage p a:hover{ color:#F60; text-decoration:none;}
+
+.rightBox .successBox{width:70%; margin:40px auto 40px; border:1px solid #faa91e; clear:both; padding:40px 0px; background:#fdf8db;}
+
+.rightBox dt.jumpSuccess{color:#1cb304; font-size:16px; text-align:center; font-family:"微软雅黑";}
+
+.rightBox dt.jumpFail{color:#f80f51; font-size:16px; text-align:center;  font-family:"微软雅黑";}
+
+.rightBox dt B{line-height:30px;}
+
+.rightBox dl td{font-size:12px; color:#777; text-align:left; font-family:Arial, Helvetica, sans-serif;}
+
+.rightBox dl td img{float:right;}
+
+.rightBox dl table{margin:0 auto; width:70%;}
+
+.rightBox dl td b{ color:#F00; margin-right:7px;}
+
+.rightBox dl td a{color:#777; text-decoration:underline;}
+
+.rightBox dl td a:hover{color:#03F; text-decoration:none;}
+
+/*left*/
+.left{width:149px;  float:left; margin-bottom:2px; position:relative;}
+
+.left .dt01, .left .dt02, .left .dt03, .left .dt04, .left .dt05, .left .dt06, .left .dt07, .left .dt08, .left .dt09, .left .dt10{ background:url(../images/dt.png) no-repeat;  height:40px; display:block; padding-left:25px;}
+
+.left .dt01{ background-position:20px 10px;}
+
+.left .dt02{ background-position:20px -30px;}
+
+.left .dt03{ background-position:20px -70px;}
+
+.left .dt04{ background-position:20px -110px;}
+
+.left .dt05{ background-position:20px -150px;}
+
+.left .dt06{ background-position:20px -190px;}
+
+.left .dt07{ background-position:20px -230px;}
+
+.left .dt08{ background-position:20px -270px;}
+
+.left .dt09{ background-position:20px -310px;}
+
+.left .dt10{ background-position:20px -350px;}
+
+.left .first{ height:40px; padding-left:50px; line-height:40px; font-size:15px; font-weight:bold; padding-right:10px; border-bottom:1px dashed #ddd} 
+
+.left .mainfirst li{width:150px; line-height:35px; white-space:nowrap; overflow:hidden; border-bottom:1px solid #EEE;}
+
+.left .mainfirst li a{ padding-left:45px; font-size:12px; display:block;}
+
+.left .mainfirst li a:hover{}
+
+.left .mainfirst li.cardphone img{ position:absolute; z-index:2; top:392px; *top:428px; right:-17px;}
+
+.left li a{ color:#333; text-decoration:none;}
+
+.left li a.cutA{ color:#FFF;}
+
+.left li a:hover{ color:999; text-decoration:none;}
+
+.left li u{text-decoration:none;}
+
+.left li u.admincut{ font-weight:bold; background:#0080cb; display:block;}
+
+.left .visitedColor{ color:#055CA0; font-weight:bold;}
+
+.left .second li a.innerColor{color:#055CA0; font-weight:bold;}
+
+
+/*收银*/
+
+.moneybg{ background:url(../../admin/images/moneybg.gif) repeat;}
+
+.givebg{background:url(../../admin/images/givebg.gif) repeat;}
+
+.money{width:860px; min-height:550px; margin:0 auto; background:#FFF;  border:1px solid #ccc; padding-bottom:40px;}
+
+.money .successBox{width:70%; margin:40px auto 40px; border:1px solid #faa91e; clear:both; padding:40px 0px; background:#fdf8db;}
+
+.money dt.jumpSuccess{color:#1cb304; font-size:16px; text-align:center; font-family:"微软雅黑";}
+
+.money dt.jumpFail{color:#f80f51; font-size:16px; text-align:center;  font-family:"微软雅黑";}
+
+.money dt B{line-height:30px;}
+
+.money dl td{font-size:12px; color:#777; text-align:left; font-family:Arial, Helvetica, sans-serif;}
+
+.money dl td img{float:right;}
+
+.money dl table{margin:0 auto; width:70%;}
+
+.money dl td b{ color:#F00; margin-right:7px;}
+
+.money dl td a{color:#777; text-decoration:underline;}
+
+.money dl td a:hover{color:#03F; text-decoration:none;}
+
+/*认证*/
+.attest{ margin-left:85px; height:40px; color:#333; font-size:14px;}
+
+.attest input{ margin:0 5px;}
+
+.attestinfor{ margin:0 auto; width:510px; border:1px solid #ddd; padding:5px; font-size:12px; font-weight:normal; color:#666; line-height:25px;}

@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.mysql.mapper.MerchantCategoryMapper">
+
+	<resultMap type="MerchantCategory" id="merchantCategoryResultMap">
+		<id property="id" column="id" />
+		<result property="clientId" column="client_id" />
+		<result property="parentId" column="parent_id" />
+		<result property="name" column="name" />
+		<result property="treePath" column="tree_path" />
+		<result property="icoUrl" column="ico_url" />
+		<result property="isDelete" column="is_delete" />
+		<result property="orderValue" column="order_value" />
+	</resultMap>
+
+
+	<!-- 添加  MerchantCategory -->
+	<insert id="addMerchantCategory" parameterType="MerchantCategory" useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[
+			INSERT INTO cb_merchant_category (
+				client_id,parent_id,name,tree_path,ico_url,is_delete,order_value
+			) VALUES (
+				#{clientId},#{parentId},#{name},#{treePath},#{icoUrl},#{isDelete},#{orderValue}
+			) 
+		]]>
+	</insert>
+
+
+	<!-- 批量添加  MerchantCategory -->
+	<insert id="addMerchantCategoryByBatch" parameterType="java.util.List">
+		INSERT INTO cb_merchant_category (
+			client_id,parent_id,name,tree_path,ico_url,is_delete,order_value
+		) VALUES 
+		<foreach collection="merchantCategoryList" item="item" index="index" separator=",">
+			(#{clientId},#{parentId},#{name},#{treePath},#{icoUrl},#{isDelete},#{orderValue})
+		</foreach>
+	</insert>
+
+
+	<!-- 删除  MerchantCategory -->
+	<update id="deleteMerchantCategory" parameterType="MerchantCategory">
+		UPDATE cb_merchant_category SET is_delete = true 
+			<where>
+				<if test="id != null">
+					 AND id = #{id}
+				</if>
+				<if test="clientId != null">
+					 AND client_id = #{clientId}
+				</if>
+				<if test="parentId != null">
+					 AND parent_id = #{parentId}
+				</if>
+				<if test="name != null">
+					 AND name = #{name}
+				</if>
+				<if test="treePath != null">
+					 AND tree_path = #{treePath}
+				</if>
+				<if test="icoUrl != null">
+					 AND ico_url = #{icoUrl}
+				</if>
+				<if test="isDelete != null">
+					 AND is_delete = #{isDelete}
+				</if>
+			</where>
+	</update>
+
+
+	<!-- 修改  MerchantCategory -->
+	<update id="updateMerchantCategory" parameterType="MerchantCategory">
+		UPDATE cb_merchant_category  
+			<set>				
+					<if test="parentId != null">
+						  parent_id = #{parentId}, 
+					</if>
+					<if test="name != null">
+						  name = #{name}, 
+					</if>
+					<if test="treePath != null">
+						  tree_path = #{treePath}, 
+					</if>
+					<if test="icoUrl != null">
+						  ico_url = #{icoUrl}, 
+					</if>
+					<if test="orderValue != null">
+						  order_value = #{orderValue}, 
+					</if>
+			</set>
+
+			<where>
+				<if test="id != null">
+					 AND id = #{id}
+				</if>				
+			</where>
+	</update>
+
+
+	<!-- 查询  MerchantCategory -->
+	<select id="findMerchantCategoryById" parameterType="java.lang.Long" resultMap="merchantCategoryResultMap">
+		SELECT 
+            id,client_id,parent_id,name,tree_path,ico_url,is_delete,order_value
+        FROM cb_merchant_category 
+        WHERE 
+            id = #{id}
+
+	</select>
+	
+	<!-- 查询  MerchantCategory -->
+	<select id="findMerchantCategoryByCategoryIdList" resultMap="merchantCategoryResultMap">
+		SELECT 
+            id,client_id,parent_id,name,tree_path,ico_url,is_delete,order_value
+        FROM cb_merchant_category 
+        WHERE client_id = #{clientId} and id in
+        
+        <foreach collection="categoryIdList" item="categoryId" open="(" close=")" separator=",">
+			#{categoryId}
+		</foreach>
+
+	</select>
+
+	<!-- 查询  MerchantCategory -->
+	<select id="findMerchantCategory" parameterType="MerchantCategory" resultMap="merchantCategoryResultMap">
+		SELECT 
+            id,client_id,parent_id,name,tree_path,ico_url,is_delete,order_value 
+        FROM cb_merchant_category 
+		<where>
+			<if test="id != null">
+				 AND id = #{id}
+			</if>
+			<if test="clientId != null">
+				 AND client_id = #{clientId}
+			</if>
+			<if test="parentId != null">
+				 AND parent_id = #{parentId}
+			</if>
+			<if test="name != null">
+				 AND name = #{name}
+			</if>
+			<if test="treePath != null">
+				AND tree_path like CONCAT('%',#{treePath},'%' )
+			</if>
+			<if test="icoUrl != null">
+				 AND ico_url = #{icoUrl}
+			</if>
+			<if test="isDelete != null">
+				 AND is_delete = #{isDelete}
+			</if>
+		</where>
+		
+			order by order_value DESC
+	</select>
+
+	<!-- 分页查询  MerchantCategory -->
+	<select id="findByPage" parameterType="java.util.HashMap" resultMap="merchantCategoryResultMap">
+		SELECT 
+            id,client_id,parent_id,name,tree_path,ico_url,is_delete,order_value 
+        FROM cb_merchant_category 
+		<if test="merchantCategory != null">
+			<where>
+				<if test="merchantCategory.id != null">
+					 AND id = #{merchantCategory.id}
+				</if>
+				<if test="merchantCategory.clientId != null">
+					 AND client_id = #{merchantCategory.clientId}
+				</if>
+				<if test="merchantCategory.parentId != null">
+					 AND parent_id = #{merchantCategory.parentId}
+				</if>
+				<if test="merchantCategory.name != null">
+					 AND name = #{merchantCategory.name}
+				</if>
+				<if test="merchantCategory.treePath != null">
+					 AND tree_path = #{merchantCategory.treePath}
+				</if>
+				<if test="merchantCategory.icoUrl != null">
+					 AND ico_url = #{merchantCategory.icoUrl}
+				</if>
+				<if test="merchantCategory.isDelete != null">
+					 AND is_delete = #{merchantCategory.isDelete}
+				</if>
+			</where>
+		</if>
+		
+			order by order_value DESC
+	</select>
+
+
+</mapper>
+

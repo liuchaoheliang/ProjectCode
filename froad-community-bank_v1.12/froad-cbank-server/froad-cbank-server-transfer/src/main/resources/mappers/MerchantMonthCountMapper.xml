@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.mysql.mapper.MerchantMonthCountMapper">
+
+	<resultMap type="MerchantMonthCount" id="merchantMonthCountResultMap">
+		<id property="id" column="id" />
+		<result property="clientId"        column="client_id" />
+		<result property="merchantId"      column="merchant_id" />
+		<result property="year"            column="year" />
+		<result property="month"           column="month" />
+		<result property="monthMoney"      column="month_money" />
+		<result property="groupOrderCount" column="group_order_count" />
+		<result property="groupOrderMoney" column="group_order_money" />
+		<result property="sellOrderCount"  column="sell_order_count" />
+		<result property="sellOrderMoney"  column="sell_order_money" />
+		<result property="faceOrderCount"  column="face_order_count" />
+		<result property="faceOrderMoney"  column="face_order_money" />
+	</resultMap>
+
+
+
+
+
+	<!-- 查询  MerchantMonthCount -->
+	<select id="findMerchantMonthCount" parameterType="MerchantMonthCount" resultMap="merchantMonthCountResultMap">
+		SELECT 
+            id,client_id,merchant_id,year,month,month_money,
+            group_order_count,group_order_money,
+            sell_order_count,sell_order_money,
+            face_order_count,face_order_money
+        FROM cb_merchant_month_count 
+		WHERE client_id = #{clientId}
+		  AND merchant_id = #{merchantId}
+		  AND year = #{year}
+		  AND month = #{month}
+	</select>
+
+</mapper>
+

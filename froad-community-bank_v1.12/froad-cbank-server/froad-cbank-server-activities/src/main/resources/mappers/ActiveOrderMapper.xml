@@ -1,0 +1,539 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.mysql.mapper.ActiveOrderMapper">
+
+	<resultMap type="ActiveOrder" id="activeOrderResultMap">
+		<id property="id" column="id" />
+		<result property="clientId" column="client_id" />
+		<result property="createTime" column="create_time" />
+		<result property="updateTime" column="update_time" />
+		<result property="orderId" column="order_id" />
+		<result property="status" column="status" />
+		<result property="orderOriMoney" column="order_ori_money" />
+		<result property="orderMoney" column="order_money" />
+		<result property="orderOriModifyMoney" column="order_ori_modify_money" />
+		<result property="orderModifyMoney" column="order_modify_money" />
+		<result property="payTime" column="pay_time" />
+		<result property="memberCode" column="member_code" />
+		<result property="memberName" column="member_name" />
+		<result property="phone" column="phone" />
+		<result property="detail" column="detail" />
+		<result property="payBillNo" column="pay_bill_no" />
+		<result property="returnBillNo" column="return_bill_no" />
+		<result property="returnMoney" column="return_money" />
+	</resultMap>
+
+
+	<!-- 所有字段list -->
+	<sql id="Base_Column_List">
+		id,client_id,create_time,update_time,order_id,status,order_ori_money,order_money,order_ori_modify_money,order_modify_money,pay_time,member_code,member_name,phone,detail,pay_bill_no,return_bill_no,return_money
+	</sql>
+
+
+	<!-- 不包含ID字段list -->
+	<sql id="Not_ID_Column_List">
+		client_id,create_time,update_time,order_id,status,order_ori_money,order_money,order_ori_modify_money,order_modify_money,pay_time,member_code,member_name,phone,detail,pay_bill_no,return_bill_no,return_money
+	</sql>
+
+
+	<!-- 添加  ActiveOrder -->
+	<insert id="addActiveOrder" parameterType="ActiveOrder" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO cb_active_order (
+			<include refid="Base_Column_List" />
+		) VALUES (
+			#{id},#{clientId},#{createTime},#{updateTime},#{orderId},#{status},#{orderOriMoney},#{orderMoney},#{orderOriModifyMoney},#{orderModifyMoney},#{payTime},#{memberCode},#{memberName},#{phone},#{detail},#{payBillNo},#{returnBillNo},#{returnMoney}
+		) 
+	</insert>
+
+
+	<!-- 批量添加  ActiveOrder -->
+	<insert id="addActiveOrderByBatch" parameterType="java.util.List">
+		INSERT INTO cb_active_order (
+			<include refid="Base_Column_List" />
+		) VALUES 
+		<foreach collection="activeOrderList" item="item" index="index" separator=",">
+			(#{item.id},#{item.clientId},#{item.createTime},#{item.updateTime},#{item.orderId},#{item.status},#{item.orderOriMoney},#{item.orderMoney},#{item.orderOriModifyMoney},#{item.orderModifyMoney},#{item.payTime},#{item.memberCode},#{item.memberName},#{item.phone},#{item.detail},#{payBillNo},#{returnBillNo},#{returnMoney})
+		</foreach>
+	</insert>
+
+
+	<!-- 删除  ActiveOrder -->
+	<delete id="deleteActiveOrder" parameterType="ActiveOrder">
+		DELETE FROM cb_active_order 
+		<where>
+			<if test="id != null">
+				AND id = #{id}
+			</if>
+			<if test="clientId != null">
+				AND client_id = #{clientId}
+			</if>
+			<if test="createTime != null">
+				AND create_time = #{createTime}
+			</if>
+			<if test="updateTime != null">
+				AND update_time = #{updateTime}
+			</if>
+			<if test="orderId != null">
+				AND order_id = #{orderId}
+			</if>
+			<if test="status != null">
+				AND status = #{status}
+			</if>
+			<if test="orderOriMoney != null">
+				AND order_ori_money = #{orderOriMoney}
+			</if>
+			<if test="orderMoney != null">
+				AND order_money = #{orderMoney}
+			</if>
+			<if test="orderOriModifyMoney != null">
+				AND order_ori_modify_money = #{orderOriModifyMoney}
+			</if>
+			<if test="orderModifyMoney != null">
+				AND order_modify_money = #{orderModifyMoney}
+			</if>
+			<if test="payTime != null">
+				AND pay_time = #{payTime}
+			</if>
+			<if test="memberCode != null">
+				AND member_code = #{memberCode}
+			</if>
+			<if test="memberName != null">
+				AND member_name = #{memberName}
+			</if>
+			<if test="phone != null">
+				AND phone = #{phone}
+			</if>
+			<if test="detail != null">
+				AND detail = #{detail}
+			</if>
+		</where>
+	</delete>
+
+
+	<!-- 根据id删除  ActiveOrder -->
+	<delete id="deleteActiveOrderById" parameterType="java.lang.Long">
+		DELETE FROM cb_active_order 
+		 WHERE 
+			 id = #{id} 
+	</delete>
+
+
+	<!-- 修改  ActiveOrder -->
+	<update id="updateActiveOrder" parameterType="ActiveOrder">
+		UPDATE cb_active_order 
+		<set>
+			<if test="id != null">
+				id = #{id}, 
+			</if>
+			<if test="clientId != null">
+				client_id = #{clientId}, 
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime}, 
+			</if>
+			<if test="updateTime != null">
+				update_time = #{updateTime}, 
+			</if>
+			<if test="orderId != null">
+				order_id = #{orderId}, 
+			</if>
+			<if test="status != null">
+				status = #{status}, 
+			</if>
+			<if test="orderOriMoney != null">
+				order_ori_money = #{orderOriMoney}, 
+			</if>
+			<if test="orderMoney != null">
+				order_money = #{orderMoney}, 
+			</if>
+			<if test="orderOriModifyMoney != null">
+				order_ori_modify_money = #{orderOriModifyMoney}, 
+			</if>
+			<if test="orderModifyMoney != null">
+				order_modify_money = #{orderModifyMoney}, 
+			</if>
+			<if test="payTime != null">
+				pay_time = #{payTime}, 
+			</if>
+			<if test="memberCode != null">
+				member_code = #{memberCode}, 
+			</if>
+			<if test="memberName != null">
+				member_name = #{memberName}, 
+			</if>
+			<if test="phone != null">
+				phone = #{phone}, 
+			</if>
+			<if test="detail != null">
+				detail = #{detail},
+			</if>
+		</set>
+
+		<where>
+			<if test="id != null">
+				AND id = #{id}
+			</if>
+			<if test="clientId != null">
+				AND client_id = #{clientId}
+			</if>
+			<if test="orderId != null">
+				AND order_id = #{orderId}
+			</if>
+		</where>
+	</update>
+
+
+	<!-- 根据id修改  ActiveOrder -->
+	<update id="updateActiveOrderById" parameterType="ActiveOrder">
+		UPDATE cb_active_order 
+		<set>
+			<if test="clientId != null">
+				client_id = #{clientId}, 
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime}, 
+			</if>
+			<if test="updateTime != null">
+				update_time = #{updateTime}, 
+			</if>
+			<if test="orderId != null">
+				order_id = #{orderId}, 
+			</if>
+			<if test="status != null">
+				status = #{status}, 
+			</if>
+			<if test="orderOriMoney != null">
+				order_ori_money = #{orderOriMoney}, 
+			</if>
+			<if test="orderMoney != null">
+				order_money = #{orderMoney}, 
+			</if>
+			<if test="orderOriModifyMoney != null">
+				order_ori_modify_money = #{orderOriModifyMoney}, 
+			</if>
+			<if test="orderModifyMoney != null">
+				order_modify_money = #{orderModifyMoney}, 
+			</if>
+			<if test="payTime != null">
+				pay_time = #{payTime}, 
+			</if>
+			<if test="memberCode != null">
+				member_code = #{memberCode}, 
+			</if>
+			<if test="memberName != null">
+				member_name = #{memberName}, 
+			</if>
+			<if test="phone != null">
+				phone = #{phone}, 
+			</if>
+			<if test="detail != null">
+				detail = #{detail}, 
+			</if>
+		</set>
+
+		 WHERE 
+            order_id = #{orderId} 
+	</update>
+	
+	
+	<!-- 根据orderId修改  ActiveOrder -->
+	<update id="updateActiveOrderByOrderId" parameterType="ActiveOrder" >
+		UPDATE cb_active_order 
+		<set>
+			<if test="clientId != null">
+				client_id = #{clientId}, 
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime}, 
+			</if>
+			<if test="updateTime != null">
+				update_time = #{updateTime}, 
+			</if>
+			<if test="orderId != null">
+				order_id = #{orderId}, 
+			</if>
+			<if test="status != null">
+				status = #{status}, 
+			</if>
+			<if test="orderOriMoney != null">
+				order_ori_money = #{orderOriMoney}, 
+			</if>
+			<if test="orderMoney != null">
+				order_money = #{orderMoney}, 
+			</if>
+			<if test="orderOriModifyMoney != null">
+				order_ori_modify_money = #{orderOriModifyMoney}, 
+			</if>
+			<if test="orderModifyMoney != null">
+				order_modify_money = #{orderModifyMoney}, 
+			</if>
+			<if test="payTime != null">
+				pay_time = #{payTime}, 
+			</if>
+			<if test="memberCode != null">
+				member_code = #{memberCode}, 
+			</if>
+			<if test="memberName != null">
+				member_name = #{memberName}, 
+			</if>
+			<if test="phone != null">
+				phone = #{phone}, 
+			</if>
+			<if test="detail != null">
+				detail = #{detail}, 
+			</if>
+		</set>
+			 WHERE order_id = #{orderId}  and status != 0
+	</update>
+	
+	<!-- 根据id查询  ActiveOrder -->
+	<select id="findActiveOrderById" parameterType="java.lang.Long" resultMap="activeOrderResultMap">
+		SELECT 
+			<include refid="Base_Column_List" />
+        FROM cb_active_order 
+        WHERE 
+            id = #{id}
+
+	</select>
+
+	<!-- 查询一个  ActiveOrder -->
+	<select id="findOneActiveOrder" parameterType="ActiveOrder" resultMap="activeOrderResultMap">
+		SELECT 
+			<include refid="Base_Column_List" />
+        FROM cb_active_order 
+		<where>
+			<if test="id != null">
+				 AND id = #{id}
+			</if>
+			<if test="clientId != null">
+				 AND client_id = #{clientId}
+			</if>
+			<if test="createTime != null">
+				 AND create_time = #{createTime}
+			</if>
+			<if test="updateTime != null">
+				 AND update_time = #{updateTime}
+			</if>
+			<if test="orderId != null">
+				 AND order_id = #{orderId}
+			</if>
+			<if test="status != null">
+				 AND status = #{status}
+			</if>
+			<if test="orderOriMoney != null">
+				 AND order_ori_money = #{orderOriMoney}
+			</if>
+			<if test="orderMoney != null">
+				 AND order_money = #{orderMoney}
+			</if>
+			<if test="orderOriModifyMoney != null">
+				 AND order_ori_modify_money = #{orderOriModifyMoney}
+			</if>
+			<if test="orderModifyMoney != null">
+				 AND order_modify_money = #{orderModifyMoney}
+			</if>
+			<if test="payTime != null">
+				 AND pay_time = #{payTime}
+			</if>
+			<if test="memberCode != null">
+				 AND member_code = #{memberCode}
+			</if>
+			<if test="memberName != null">
+				 AND member_name = #{memberName}
+			</if>
+			<if test="phone != null">
+				 AND phone = #{phone}
+			</if>
+			<if test="detail != null">
+				 AND detail = #{detail}
+			</if>
+		 LIMIT 1 
+		</where>
+	</select>
+
+	<!-- 统计  ActiveOrder -->
+	<select id="countActiveOrder" parameterType="ActiveOrder" resultType="java.lang.Integer">
+		SELECT COUNT(0) FROM cb_active_order 
+		<where>
+			<if test="id != null">
+				 AND id = #{id}
+			</if>
+			<if test="clientId != null">
+				 AND client_id = #{clientId}
+			</if>
+			<if test="createTime != null">
+				 AND create_time = #{createTime}
+			</if>
+			<if test="updateTime != null">
+				 AND update_time = #{updateTime}
+			</if>
+			<if test="orderId != null">
+				 AND order_id = #{orderId}
+			</if>
+			<if test="status != null">
+				 AND status = #{status}
+			</if>
+			<if test="orderOriMoney != null">
+				 AND order_ori_money = #{orderOriMoney}
+			</if>
+			<if test="orderMoney != null">
+				 AND order_money = #{orderMoney}
+			</if>
+			<if test="orderOriModifyMoney != null">
+				 AND order_ori_modify_money = #{orderOriModifyMoney}
+			</if>
+			<if test="orderModifyMoney != null">
+				 AND order_modify_money = #{orderModifyMoney}
+			</if>
+			<if test="payTime != null">
+				 AND pay_time = #{payTime}
+			</if>
+			<if test="memberCode != null">
+				 AND member_code = #{memberCode}
+			</if>
+			<if test="memberName != null">
+				 AND member_name = #{memberName}
+			</if>
+			<if test="phone != null">
+				 AND phone = #{phone}
+			</if>
+			<if test="detail != null">
+				 AND detail = #{detail}
+			</if>
+		</where>
+	</select>
+
+	<!-- 查询  ActiveOrder -->
+	<select id="findActiveOrder" parameterType="ActiveOrder" resultMap="activeOrderResultMap">
+		SELECT 
+			<include refid="Base_Column_List" />
+        FROM cb_active_order 
+		<if test="activeOrder != null">
+			<where>
+				<if test="activeOrder.id != null">
+					 AND id = #{activeOrder.id}
+				</if>
+				<if test="activeOrder.clientId != null">
+					 AND client_id = #{activeOrder.clientId}
+				</if>
+				<if test="activeOrder.createTime != null">
+					 AND create_time = #{activeOrder.createTime}
+				</if>
+				<if test="activeOrder.updateTime != null">
+					 AND update_time = #{activeOrder.updateTime}
+				</if>
+				<if test="activeOrder.orderId != null">
+					 AND order_id = #{activeOrder.orderId}
+				</if>
+				<if test="activeOrder.status != null">
+					 AND status = #{activeOrder.status}
+				</if>
+				<if test="activeOrder.orderOriMoney != null">
+					 AND order_ori_money = #{activeOrder.orderOriMoney}
+				</if>
+				<if test="activeOrder.orderMoney != null">
+					 AND order_money = #{activeOrder.orderMoney}
+				</if>
+				<if test="activeOrder.orderOriModifyMoney != null">
+					 AND order_ori_modify_money = #{activeOrder.orderOriModifyMoney}
+				</if>
+				<if test="activeOrder.orderModifyMoney != null">
+					 AND order_modify_money = #{activeOrder.orderModifyMoney}
+				</if>
+				<if test="activeOrder.payTime != null">
+					 AND pay_time = #{activeOrder.payTime}
+				</if>
+				<if test="activeOrder.memberCode != null">
+					 AND member_code = #{activeOrder.memberCode}
+				</if>
+				<if test="activeOrder.memberName != null">
+					 AND member_name = #{activeOrder.memberName}
+				</if>
+				<if test="activeOrder.phone != null">
+					 AND phone = #{activeOrder.phone}
+				</if>
+				<if test="activeOrder.detail != null">
+					 AND detail = #{activeOrder.detail}
+				</if>
+			</where>
+		</if>
+		<if test="order != null">
+		 ORDER BY ${order} 
+		</if>
+	</select>
+
+	<!-- 分页查询  ActiveOrder -->
+	<select id="findByPage" parameterType="java.util.HashMap" resultMap="activeOrderResultMap">
+		SELECT 
+			<include refid="Base_Column_List" />
+        FROM cb_active_order 
+		<if test="activeOrder != null">
+			<where>
+				<if test="activeOrder.id != null">
+					 AND id = #{activeOrder.id}
+				</if>
+				<if test="activeOrder.clientId != null">
+					 AND client_id = #{activeOrder.clientId}
+				</if>
+				<if test="activeOrder.createTime != null">
+					 AND create_time = #{activeOrder.createTime}
+				</if>
+				<if test="activeOrder.updateTime != null">
+					 AND update_time = #{activeOrder.updateTime}
+				</if>
+				<if test="activeOrder.orderId != null">
+					 AND order_id = #{activeOrder.orderId}
+				</if>
+				<if test="activeOrder.status != null">
+					 AND status = #{activeOrder.status}
+				</if>
+				<if test="activeOrder.orderOriMoney != null">
+					 AND order_ori_money = #{activeOrder.orderOriMoney}
+				</if>
+				<if test="activeOrder.orderMoney != null">
+					 AND order_money = #{activeOrder.orderMoney}
+				</if>
+				<if test="activeOrder.orderOriModifyMoney != null">
+					 AND order_ori_modify_money = #{activeOrder.orderOriModifyMoney}
+				</if>
+				<if test="activeOrder.orderModifyMoney != null">
+					 AND order_modify_money = #{activeOrder.orderModifyMoney}
+				</if>
+				<if test="activeOrder.payTime != null">
+					 AND pay_time = #{activeOrder.payTime}
+				</if>
+				<if test="activeOrder.memberCode != null">
+					 AND member_code = #{activeOrder.memberCode}
+				</if>
+				<if test="activeOrder.memberName != null">
+					 AND member_name = #{activeOrder.memberName}
+				</if>
+				<if test="activeOrder.phone != null">
+					 AND phone = #{activeOrder.phone}
+				</if>
+				<if test="activeOrder.detail != null">
+					 AND detail = #{activeOrder.detail}
+				</if>
+			</where>
+		</if>
+	</select>
+
+	
+	
+	<!-- 根据orderId,client修改  updateActiveOrderReturnBillNoAndReturnMoney -->
+	<update id="updateActiveOrderReturnBillNoAndReturnMoney" parameterType="ActiveOrder" >
+		UPDATE cb_active_order 
+		<set>
+			<if test="returnBillNo != null">
+				return_bill_no = #{returnBillNo}, 
+			</if>
+			<if test="returnMoney != null">
+				return_money = #{returnMoney}, 
+			</if>
+		</set>
+			 WHERE order_id = #{orderId}  and client_id = #{clientId}
+	</update>
+	
+</mapper>
+

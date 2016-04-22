@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="merchantTrain" >
+
+	<typeAlias alias="merchantTrain" type="com.froad.CB.po.merchant.MerchantTrain"/>
+
+	<resultMap id="MerchantTrainResult" class="merchantTrain" >
+	  <result column="id" property="id" jdbcType="INT" />
+	  <result column="Merchant_id" property="merchantId" jdbcType="VARCHAR" />
+	  <result column="M_store_short_name" property="storeShortName" jdbcType="VARCHAR" />
+	  <result column="M_store_address" property="storeAddress" jdbcType="VARCHAR" />
+	  <result column="M_store_zip" property="storeZip" jdbcType="VARCHAR" />
+	  <result column="M_store_fax" property="storeFax" jdbcType="VARCHAR" />
+	  <result column="M_store_Tel" property="storeTel" jdbcType="VARCHAR" />
+	  <result column="seller_Rules_Desces" property="sellerRulesDesces" jdbcType="VARCHAR" />
+	  <result column="tags_district_hyperlink_A" property="tagsDistrictHyperlinkA" jdbcType="VARCHAR" />
+	  <result column="tags_district_hyperlink_B" property="tagsDistrictHyperlinkB" jdbcType="VARCHAR" />
+	  <result column="tags_classify_hyperlink_A" property="tagsCassifyHyperlinkA" jdbcType="VARCHAR" />
+	  <result column="tags_classify_hyperlink_B" property="tagsClassifyHyperlinkB" jdbcType="VARCHAR" />
+	  <result column="M_store_Logo_url" property="storeLogoUrl" jdbcType="VARCHAR" />
+	  <result column="M_store_Logo_format" property="storeLogoFormat" jdbcType="VARCHAR" />
+	  <result column="collectes" property="collectes" jdbcType="VARCHAR" />
+	  <result column="clickes" property="clickes" jdbcType="VARCHAR" />
+	  <result column="sendInfo" property="sendInfo" jdbcType="VARCHAR" />
+	  <result column="recommend_value" property="recommendValue" jdbcType="VARCHAR" />
+	  <result column="M_dc_hyperlink" property="dcHyperlink" jdbcType="VARCHAR" />
+	  <result column="state" property="state" jdbcType="VARCHAR" />
+	  <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+	  <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
+	  <result column="remark" property="remark" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<select id="selectByPrimaryKey" resultMap="MerchantTrainResult" parameterClass="java.lang.Integer" >
+	   select * from merchant_train where id = #id#
+	</select>
+	
+	<select id="selectByMerchantId" resultMap="MerchantTrainResult" parameterClass="string" >
+	   select * from merchant_train where Merchant_id=#value#
+	</select>
+	
+	<select id="selectByUserId" resultMap="MerchantTrainResult" parameterClass="string" >
+	   select * from merchant_train where Merchant_id=(
+	   	select id from merchant where user_id=#value#)
+	</select>
+	
+	<delete id="deleteByPrimaryKey" parameterClass="java.lang.Integer" >
+	  delete from merchant_train where id = #id#
+	</delete>
+	
+	<insert id="insert" parameterClass="merchantTrain" >
+	      insert into merchant_train (id, Merchant_id, M_store_short_name, M_store_address,
+	    M_store_zip, M_store_fax, M_store_Tel, seller_Rules_Desces, tags_district_hyperlink_A,
+	    tags_district_hyperlink_B, tags_classify_hyperlink_A, tags_classify_hyperlink_B,
+	    M_store_Logo_url, M_store_Logo_format, collectes, clickes, sendInfo, recommend_value,
+	    M_dc_hyperlink, state, remark, create_time, update_time)
+	  values (#id:INT#, #merchantId:VARCHAR#, #storeShortName:VARCHAR#, #storeAddress:VARCHAR#,
+	    #storeZip:VARCHAR#, #storeFax:VARCHAR#, #storeTel:VARCHAR#, #sellerRulesDesces:VARCHAR#,
+	    #tagsDistrictHyperlinkA:VARCHAR#, #tagsDistrictHyperlinkB:VARCHAR#,
+	    #tagsCassifyHyperlinkA:VARCHAR#, #tagsClassifyHyperlinkB:VARCHAR#, #storeLogoUrl:VARCHAR#,
+	    #storeLogoFormat:VARCHAR#, #collectes:VARCHAR#, #clickes:VARCHAR#, #sendInfo:VARCHAR#,
+	    #recommendValue:VARCHAR#, #dcHyperlink:VARCHAR#, #state:VARCHAR#,
+	    #remark:VARCHAR#,DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"))
+	    <selectKey keyProperty="id" resultClass="int">
+		 select last_insert_id() as id
+		</selectKey>
+	</insert>
+	
+	<update id="updateByPrimaryKeySelective" parameterClass="merchantTrain" >
+	  update merchant_train set update_time = DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s")
+	  <dynamic prepend="" >
+	    <isNotEmpty prepend="," property="merchantId" >
+	      Merchant_id = #merchantId:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="storeShortName" >
+	      M_store_short_name = #storeShortName:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="storeAddress" >
+	      M_store_address = #storeAddress:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="storeZip" >
+	      M_store_zip = #storeZip:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="storeFax" >
+	      M_store_fax = #storeFax:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="storeTel" >
+	      M_store_Tel = #storeTel:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="sellerRulesDesces" >
+	      seller_Rules_Desces = #sellerRulesDesces:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="tagsDistrictHyperlinkA" >
+	      tags_district_hyperlink_A = #tagsDistrictHyperlinkA:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="tagsDistrictHyperlinkB" >
+	      tags_district_hyperlink_B = #tagsDistrictHyperlinkB:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="tagsCassifyHyperlinkA" >
+	      tags_classify_hyperlink_A = #tagsCassifyHyperlinkA:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="tagsClassifyHyperlinkB" >
+	      tags_classify_hyperlink_B = #tagsClassifyHyperlinkB:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="storeLogoUrl" >
+	      M_store_Logo_url = #storeLogoUrl:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="storeLogoFormat" >
+	      M_store_Logo_format = #storeLogoFormat:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="collectes" >
+	      collectes = #collectes:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="clickes" >
+	      clickes = #clickes:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="sendInfo" >
+	      sendInfo = #sendInfo:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="recommendValue" >
+	      recommend_value = #recommendValue:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="dcHyperlink" >
+	      M_dc_hyperlink = #dcHyperlink:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="state" >
+	      state = #state:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="remark" >
+	      remark = #remark:VARCHAR#
+	    </isNotEmpty>
+	  </dynamic>
+	  where id = #id:INT#
+	</update>
+	
+	<select id="selectMerchantTrains"  resultMap="MerchantTrainResult" parameterClass="merchantTrain">
+	  select * from  merchant_train
+	  <dynamic prepend="where" >
+	  <isNotEmpty prepend="and" property="id" >
+	      id = #id:INT#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="and" property="merchantId" >
+	      Merchant_id = #merchantId:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="and" property="storeShortName" >
+	      M_store_short_name = #storeShortName:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="and" property="storeAddress" >
+	      M_store_address = #storeAddress:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="and" property="storeZip" >
+	      M_store_zip = #storeZip:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="and" property="storeFax" >
+	      M_store_fax = #storeFax:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="and" property="storeTel" >
+	      M_store_Tel = #storeTel:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="and" property="sellerRulesDesces" >
+	      seller_Rules_Desces = #sellerRulesDesces:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="and" property="tagsDistrictHyperlinkA" >
+	      tags_district_hyperlink_A = #tagsDistrictHyperlinkA:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="and" property="tagsDistrictHyperlinkB" >
+	      tags_district_hyperlink_B = #tagsDistrictHyperlinkB:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="and" property="tagsCassifyHyperlinkA" >
+	      tags_classify_hyperlink_A = #tagsCassifyHyperlinkA:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="and" property="tagsClassifyHyperlinkB" >
+	      tags_classify_hyperlink_B = #tagsClassifyHyperlinkB:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="and" property="storeLogoUrl" >
+	      M_store_Logo_url = #storeLogoUrl:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="and" property="storeLogoFormat" >
+	      M_store_Logo_format = #storeLogoFormat:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="and" property="collectes" >
+	      collectes = #collectes:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="and" property="clickes" >
+	      clickes = #clickes:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="and" property="sendInfo" >
+	      sendInfo = #sendInfo:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="and" property="recommendValue" >
+	      recommend_value = #recommendValue:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="and" property="dcHyperlink" >
+	      M_dc_hyperlink = #dcHyperlink:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="and" property="state" >
+	      state = #state:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="and" property="createTime" >
+	      create_time = #createTime:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="and" property="updateTime" >
+	      update_time = #updateTime:VARCHAR#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="and" property="remark" >
+	      remark = #remark:VARCHAR#
+	    </isNotEmpty>
+	  </dynamic>
+	</select>
+  
+</sqlMap>

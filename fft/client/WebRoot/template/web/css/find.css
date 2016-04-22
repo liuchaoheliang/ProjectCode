@@ -1,0 +1,30 @@
+/*
+* Author:
+* pengling@f-road.com.cn 
+*/
+/*找回密码*/
+.find{width:1050px; border:1px solid #b7b7b7; overflow:hidden; padding-bottom:10px; background:#FFF; height:400px; clear:both;}
+
+.findBox{ width:700px; height:180px; clear:both;  overflow:hidden; margin:0 auto; border:1px solid #ccc; margin-top:30px; padding:20px 0; background:#F9F9F9; color:#999; font-weight:bold;}
+
+.findBox dl{ clear:both; height:50px; line-height:50px; font-size:14px;  font-family:Arial, Helvetica, sans-serif;}
+
+.findBox dl B{ color:#F00;}
+
+.findBox dl dt{ float:left; width:150px; text-align:right;}
+
+.findBox dl dd{ float:left; }
+
+.findBox dl dd span{ margin-top:10px;}
+
+.findBox dl dd span img{ vertical-align:middle;}
+
+.findBox dl dd a{font-size:12px; color:#06C; font-weight:normal; text-decoration:none; margin-left:5px;}
+
+.findBox dl dd a:hover{ text-decoration:underline; color:#F90;}
+
+
+
+
+
+

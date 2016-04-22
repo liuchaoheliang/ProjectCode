@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="dailyTask">
+	<typeAlias alias="dailyTask" type="com.froad.CB.po.DailyTask"/>
+	
+	<resultMap id="DailyTaskResult" class="dailyTask">
+		<result column="id" property="id" jdbcType="INTEGER" />
+		<result column="user_id" property="userId" jdbcType="VARCHAR" />
+		<result column="sign_no" property="signNo" jdbcType="VARCHAR" />
+		<result column="last_sign_time" property="lastSignTime" jdbcType="VARCHAR" />
+		<result column="state" property="state" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="VARCHAR" />
+		<result column="update_time" property="updateTime" jdbcType="VARCHAR" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<select id="selectByPrimaryKey" resultMap="DailyTaskResult"
+		parameterClass="java.lang.Integer">
+		select * from daily_task where id = #value#
+	</select>
+	
+	<select id="getByUserId" resultMap="DailyTaskResult"
+		parameterClass="java.lang.String">
+		select * from daily_task where user_id = #userId:VARCHAR#
+	</select>
+	
+	<delete id="deleteByPrimaryKey" parameterClass="java.lang.Integer">
+		delete from daily_task where id = #id#
+	</delete>
+	
+	<insert id="insert" parameterClass="dailyTask">
+		insert into daily_task (id, user_id, sign_no, last_sign_time,
+		state, create_time, update_time, remark) values (#id:INTEGER#,
+		#userId:VARCHAR#, #signNo:VARCHAR#, #lastSignTime:VARCHAR#,
+		#state:VARCHAR#, DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"), DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),
+		#remark:VARCHAR#)
+		<selectKey keyProperty="id" resultClass="int">
+			select last_insert_id() as id
+		</selectKey>
+	</insert>
+	
+	<update id="updateStateById" parameterClass="java.util.HashMap">
+		update daily_task set update_time =DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),state=#state# where id=#id#
+	</update>
+	
+	<update id="updateById" parameterClass="dailyTask">
+		update daily_task set update_time =DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s")
+		<dynamic prepend="">
+			<isNotEmpty prepend="," property="userId">
+				user_id = #userId:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="signNo">
+				sign_no = #signNo:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="lastSignTime">
+				last_sign_time = #lastSignTime:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="state">
+				state = #state:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="remark">
+				remark = #remark:VARCHAR#
+			</isNotEmpty>
+		</dynamic>
+		where id = #id:INTEGER#
+	</update>
+</sqlMap>

@@ -1,0 +1,108 @@
+namespace java com.froad.thrift.vo
+
+include "Common.thrift" 
+/**
+ * 商品模型
+ */
+struct ShoppingProductVo{
+	1:string productId,		# 商品ID
+	2:string productName,	# 商品名称
+	3:string productImage,	# 商品图片
+	4:double money,			# 价格
+	5:double vipMoney,		# VIP优惠价格
+	6:i32 quantity,			# 数量
+	7:i32 vipQuantity,		# vip数量
+	8:string status,		# 商品状态 0-未上架 1-商品正常 2-商品下架 3-商品库存不足 4-商品限购数量超限 5-商品过期 6-商品无效
+	9:string orgCode,		# 门店ID
+	10:string orgName,		# 门店名称
+	11:bool orgStatus,		# 门店是否有效
+	12:i64 time,			# 更新时间
+	13:string type,			# 商品类型 1-团购2-预售3-名优特惠
+	14:string errCode;
+	15:string errMsg;
+}
+
+/**
+ *  购物车列表
+ */
+struct ShoppingListVo{
+	1:string merchantId,	# 商户ID
+	2:string merchantName,	# 商户名称
+	3:string type,			# 商户类型  1-团购商户2-预售机构商户3-名优特惠商户
+	4:bool merchantStatus,	# 商户是否有效
+	5:list<ShoppingProductVo> products,# 商品信息
+	6:string errCode;
+	7:string errMsg;
+}
+
+/**
+ * 购物车
+ */
+struct ShoppingCartVoRes{
+	1:i64 memberCode,				#会员ID
+	2:string clientId,					#客户端ID
+	3:list<ShoppingListVo> shoppingList,#购物车列表
+	4:string errCode;
+	5:string errMsg;
+}
+
+/**
+ *  购物车参数Req
+ */
+struct ShoppingCartVoReq{
+	1:i64 memberCode,
+	2:string clientId,
+	3:string merchantId,
+	4:string productId,
+	5:optional string outletId,
+	6:i32 num,
+	7:i32 vipLevel;
+}
+
+
+/**
+*3 对外接口定义
+*
+*/
+service ShoppingCartService{
+	/**
+	* 拉取用户购物车单个商品信息
+	*/
+	ShoppingCartVoRes getCartByProductId(1:i64 memberCode,2:string clientId,3:string merchantId,4:string productId,5:i32 vipLevel);
+	
+	/**
+	* 拉取用户购物车全部商品信息
+	*/
+	ShoppingCartVoRes getCart(1:i64 memberCode,2:string clientId,3:i32 vipLevel);
+	
+	/**
+	* 清空购物车
+	*/
+	bool deleteCart(1:i64 memberCode,2:string clientId);
+	
+	/**
+	* 修改购物车单个商品数量
+	*/
+	Common.ResultVo updateCartByProductNum(1:ShoppingCartVoReq shoppingCartVoReq);
+	
+	/**
+	* 批量删除购物车信息
+	*/
+	Common.ResultVo deleteBatchCart(1:list<ShoppingCartVoReq> shoppingCartVoReq);
+	
+	/**
+	*添加商品和数量到购物车
+	*/
+	Common.ResultVo addCart(1:ShoppingCartVoReq shoppingCartVoReq);
+	
+	/**
+	 * 获取购物车商品数量
+	 */
+	i32 getCartCount(1:i64 memberCode,2:string clientId);
+	
+	/**
+	 *  更新购物车商品的提货网点
+	 */
+	Common.ResultVo updateDelivery(1:i64 memberCode,2:string clientId,3:string merchantId,4:string productId,5:string outletId)
+	
+}

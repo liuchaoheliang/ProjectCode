@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="lm">
+	<typeAlias alias="lm" type="com.froad.CB.po.user.LoginManager"/>
+	<typeAlias alias="user" type="com.froad.CB.po.user.User"/>
+	   
+	<resultMap class="lm" id="lmMap">
+		<result property="sessionID" column="sessionID" />
+		<result property="userID" column="userID" />
+		<result property="username" column="username" />
+		<result property="uname" column="uname" />
+		<result property="loginTime" column="logintime" />
+		<result property="user" column="userID" select="LM_queryUser" />
+	</resultMap>
+	
+	<!-- 查询logintemp表中最大的ID号 -->
+	<select id="queryMaxSessionID" resultClass="String">
+	   select ID from logintemp order by ID desc limit 1
+	   </select>
+	<!-- 创建Session返回主键 -->
+	<insert id="createSession" parameterClass="lm">
+		insert into logintemp(ID,sessionID,userID,username,uname) values(#ID#,#sessionID#,#userID#,#username#,#uname#)
+	</insert>
+	
+	<!-- 查询最新的sessionID -->
+	<select id="queryMaxsessionID" resultClass="String">
+	  		select sessionID from logintemp where id = (select id from logintemp order by id desc limit 1)
+	  </select>
+	
+	<!-- 查询SessionID -->
+	<select id="selectSession" parameterClass="String" resultClass="String">
+		select sessionID from logintemp where sessionID=#sessionID#
+	</select>
+	
+	<!-- 查询用户密码by sessionID -->
+	<select id="selectUserLoginInfoBYsessionID" parameterClass="String"
+		resultMap="lmMap">
+		select username from logintemp where sessionID=#sessionID#
+	</select>
+	
+	<select id="selectUserIDBYsessionID" parameterClass="lm"
+		resultClass="lm">
+		select userID from logintemp where sessionID=#sessionID#
+	</select>
+	
+	<select id="LM_queryUser" resultClass="user" parameterClass="String">
+		SELECT * FROM user WHERE userID=#userID#
+	</select>
+	
+	<select id="selectUserInfoBYsessionID" parameterClass="String"
+		resultMap="lmMap">
+		select * from logintemp where sessionID=#sessionID#
+	</select>
+	
+	<!-- 删除sessionID -->
+	<delete id="delSessionID" parameterClass="String">
+	 delete  from logintemp  WHERE sessionID=#sessionID#
+	</delete>
+
+</sqlMap>

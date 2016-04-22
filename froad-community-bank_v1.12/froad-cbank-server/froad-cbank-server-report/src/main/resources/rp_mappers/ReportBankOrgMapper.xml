@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.mysql.rp_mappers.ReportBankOrgMapper">
+
+	<resultMap type="ReportBankOrg" id="reportBankOrgResultMap">
+		<id property="id" column="id"/>
+		<result property="clientId" column="client_id" />
+		<result property="bankCardId" column="bank_card_id" />
+		<result property="forgCode" column="forg_code" />
+		<result property="forgName" column="forg_name" />
+		<result property="sorgCode" column="sorg_code" />
+		<result property="sorgName" column="sorg_name" />
+		<result property="torgCode" column="torg_code" />
+		<result property="torgName" column="torg_name" />
+		<result property="lorgCode" column="lorg_code" />
+		<result property="lorgName" column="lorg_name" />
+	</resultMap>
+	
+	<sql id="selectColumn">
+		id,client_id,bank_card_id,forg_code,forg_name,sorg_code,sorg_name,torg_code,torg_name,lorg_code,lorg_name 
+	</sql>
+	
+	<select id="findInfoByPage" resultMap="reportBankOrgResultMap">
+		SELECT <include refid="selectColumn" />
+		FROM cb_report_bank_org 
+	</select>
+	
+	<select id="findAll" resultMap="reportBankOrgResultMap">
+		SELECT <include refid="selectColumn" />
+		FROM cb_report_bank_org 
+	</select>	
+	
+	<select id="findAllCount" resultType="java.lang.Integer">
+		SELECT COUNT(1) 
+		FROM cb_report_bank_org
+	</select>
+	
+</mapper>

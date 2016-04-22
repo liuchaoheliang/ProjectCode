@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.db.mysql.mapper.BizInstanceAttrValueMapper">
+
+	<resultMap type="BizInstanceAttrValue" id="bizInstanceAttrValueResultMap">
+		<result property="instanceId" column="instance_id" />
+		<result property="attrId" column="attr_id" />
+		<result property="attrName" column="attr_name" />
+		<result property="attrValue" column="attr_value" />
+	</resultMap>
+
+
+	<!-- 所有字段list -->
+	<sql id="Base_Column_List">
+		instance_id,attr_id,attr_name,attr_value
+	</sql>
+
+
+	<!-- 添加  BizInstanceAttrValue -->
+	<insert id="addBizInstanceAttrValue" parameterType="BizInstanceAttrValue" useGeneratedKeys="false">
+		INSERT INTO cb_biz_instance_attr_value (
+			<include refid="Base_Column_List" />
+		) VALUES (
+			#{instanceId},#{attrId},#{attrName},#{attrValue}
+		) 
+	</insert>
+
+
+	<!-- 批量添加  BizInstanceAttrValue -->
+	<insert id="addBizInstanceAttrValueByBatch" parameterType="java.util.List">
+		INSERT INTO cb_biz_instance_attr_value (
+			<include refid="Base_Column_List" />
+		) VALUES 
+		<foreach collection="bizInstanceAttrValueList" item="item" index="index" separator=",">
+			(#{item.instanceId},#{item.attrId},#{item.attrName},#{item.attrValue})
+		</foreach>
+	</insert>
+
+
+	<!-- 删除  BizInstanceAttrValue -->
+	<delete id="deleteBizInstanceAttrValue" parameterType="BizInstanceAttrValue">
+		DELETE FROM cb_biz_instance_attr_value 
+		<where>
+			<if test="instanceId != null">
+				AND instance_id = #{instanceId}
+			</if>
+			<if test="attrId != null">
+				AND attr_id = #{attrId}
+			</if>
+			<if test="attrName != null">
+				AND attr_name = #{attrName}
+			</if>
+			<if test="attrValue != null">
+				AND attr_value = #{attrValue}
+			</if>
+		</where>
+	</delete>
+
+
+	<!-- 根据instanceId删除  BizInstanceAttrValue -->
+	<delete id="deleteBizInstanceAttrValueByInstanceId" parameterType="java.lang.String">
+		DELETE FROM cb_biz_instance_attr_value 
+		 WHERE 
+			 instance_id = #{instanceId} 
+	</delete>
+
+
+	<!-- 修改  BizInstanceAttrValue -->
+	<update id="updateBizInstanceAttrValue" parameterType="BizInstanceAttrValue">
+		UPDATE cb_biz_instance_attr_value 
+		<set>
+			<if test="instanceId != null">
+				instance_id = #{instanceId}, 
+			</if>
+			<if test="attrId != null">
+				attr_id = #{attrId}, 
+			</if>
+			<if test="attrName != null">
+				attr_name = #{attrName}, 
+			</if>
+			<if test="attrValue != null">
+				attr_value = #{attrValue}, 
+			</if>
+		</set>
+
+		<where>
+			<if test="instanceId != null">
+				AND instance_id = #{instanceId}
+			</if>
+			<if test="attrId != null">
+				AND attr_id = #{attrId}
+			</if>
+			<if test="attrName != null">
+				AND attr_name = #{attrName}
+			</if>
+			<if test="attrValue != null">
+				AND attr_value = #{attrValue}
+			</if>
+		</where>
+	</update>
+
+
+	<!-- 根据instanceId修改  BizInstanceAttrValue -->
+	<update id="updateBizInstanceAttrValueByInstanceId" parameterType="BizInstanceAttrValue">
+		UPDATE cb_biz_instance_attr_value 
+		<set>
+			<if test="attrId != null">
+				attr_id = #{attrId}, 
+			</if>
+			<if test="attrName != null">
+				attr_name = #{attrName}, 
+			</if>
+			<if test="attrValue != null">
+				attr_value = #{attrValue}, 
+			</if>
+		</set>
+
+		 WHERE 
+            instance_id = #{instanceId} 
+	</update>
+
+
+	<!-- 根据instanceId查询  BizInstanceAttrValue -->
+	<select id="findBizInstanceAttrValueByInstanceId" parameterType="java.lang.String" resultMap="bizInstanceAttrValueResultMap">
+		SELECT 
+			<include refid="Base_Column_List" />
+        FROM cb_biz_instance_attr_value 
+        WHERE 
+            instance_id = #{instanceId}
+
+	</select>
+
+	<!-- 查询一个  BizInstanceAttrValue -->
+	<select id="findOneBizInstanceAttrValue" parameterType="BizInstanceAttrValue" resultMap="bizInstanceAttrValueResultMap">
+		SELECT 
+			<include refid="Base_Column_List" />
+        FROM cb_biz_instance_attr_value 
+		<where>
+			<if test="instanceId != null">
+				 AND instance_id = #{instanceId}
+			</if>
+			<if test="attrId != null">
+				 AND attr_id = #{attrId}
+			</if>
+			<if test="attrName != null">
+				 AND attr_name = #{attrName}
+			</if>
+			<if test="attrValue != null">
+				 AND attr_value = #{attrValue}
+			</if>
+		 LIMIT 1 
+		</where>
+	</select>
+
+	<!-- 统计  BizInstanceAttrValue -->
+	<select id="countBizInstanceAttrValue" parameterType="BizInstanceAttrValue" resultType="java.lang.Integer">
+		SELECT COUNT(0) FROM cb_biz_instance_attr_value 
+		<where>
+			<if test="instanceId != null">
+				 AND instance_id = #{instanceId}
+			</if>
+			<if test="attrId != null">
+				 AND attr_id = #{attrId}
+			</if>
+			<if test="attrName != null">
+				 AND attr_name = #{attrName}
+			</if>
+			<if test="attrValue != null">
+				 AND attr_value = #{attrValue}
+			</if>
+		</where>
+	</select>
+
+	<!-- 查询  BizInstanceAttrValue -->
+	<select id="findBizInstanceAttrValue" parameterType="BizInstanceAttrValue" resultMap="bizInstanceAttrValueResultMap">
+		SELECT 
+			<include refid="Base_Column_List" />
+        FROM cb_biz_instance_attr_value 
+		<if test="bizInstanceAttrValue != null">
+			<where>
+				<if test="bizInstanceAttrValue.instanceId != null">
+					 AND instance_id = #{bizInstanceAttrValue.instanceId}
+				</if>
+				<if test="bizInstanceAttrValue.attrId != null">
+					 AND attr_id = #{bizInstanceAttrValue.attrId}
+				</if>
+				<if test="bizInstanceAttrValue.attrName != null">
+					 AND attr_name = #{bizInstanceAttrValue.attrName}
+				</if>
+				<if test="bizInstanceAttrValue.attrValue != null">
+					 AND attr_value = #{bizInstanceAttrValue.attrValue}
+				</if>
+			</where>
+		</if>
+		<if test="order != null">
+		 ORDER BY ${order} 
+		</if>
+	</select>
+
+	<!-- 分页查询  BizInstanceAttrValue -->
+	<select id="findByPage" parameterType="java.util.HashMap" resultMap="bizInstanceAttrValueResultMap">
+		SELECT 
+			<include refid="Base_Column_List" />
+        FROM cb_biz_instance_attr_value 
+		<if test="bizInstanceAttrValue != null">
+			<where>
+				<if test="bizInstanceAttrValue.instanceId != null">
+					 AND instance_id = #{bizInstanceAttrValue.instanceId}
+				</if>
+				<if test="bizInstanceAttrValue.attrId != null">
+					 AND attr_id = #{bizInstanceAttrValue.attrId}
+				</if>
+				<if test="bizInstanceAttrValue.attrName != null">
+					 AND attr_name = #{bizInstanceAttrValue.attrName}
+				</if>
+				<if test="bizInstanceAttrValue.attrValue != null">
+					 AND attr_value = #{bizInstanceAttrValue.attrValue}
+				</if>
+			</where>
+		</if>
+	</select>
+
+
+</mapper>
+

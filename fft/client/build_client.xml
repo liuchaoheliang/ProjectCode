@@ -1,0 +1,1356 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="communityBusiness_client" basedir="." default="PresellDeliveryMap">
+
+    <!-- 此脚本由开发人员维护  -->
+
+    <property file="build_client.properties"/>
+    <property file="build.properties"/>
+    <property name="src" value="${basedir}/src"/>
+
+    <!-- 引用jar包 -->
+    <path id="cxf.classpath">
+        <fileset dir="${lib.dir}">
+            <include name="*.jar"/>
+        </fileset>
+    </path>
+
+    <!--
+    <target name="JavaToWS">
+        <java classname="org.apache.cxf.tools.java2ws.JavaToWS" fork="true">
+            <arg value="-wsdl" />
+            <arg value="-o" />
+            <arg value="${resource}/wsdl/IService.wsdl" />
+            <arg value="demo.spring.IService" />
+            <classpath>
+                <path refid="cxf.classpath" />
+            </classpath>
+        </java>
+    </target>
+     -->
+    <target name="MUser">
+        <echo message="生成MUser client文件......"/>
+        <java classname="org.apache.cxf.tools.wsdlto.WSDLToJava" fork="true">
+            <arg value="-client"/>
+            <arg value="-d"/>
+            <arg value="${src}"/>
+            <arg value="-p"/>
+            <arg value="com.froad.client.user"/>
+            <arg value="${wsdl.MUser_dir}"/>
+            <classpath>
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+        <echo message="${wsdl.MUser_dir}"/>
+    </target>
+
+    <target name="MLoginManager" depends="MUser">
+        <echo message="生成MLoginManager client文件......"/>
+        <java classname="org.apache.cxf.tools.wsdlto.WSDLToJava" fork="true">
+            <arg value="-client"/>
+            <arg value="-d"/>
+            <arg value="${src}"/>
+            <arg value="-p"/>
+            <arg value="com.froad.client.user"/>
+            <arg value="${wsdl.MLoginManager_dir}"/>
+            <classpath>
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+        <echo message="${wsdl.MLoginManager_dir}"/>
+    </target>
+    <target name="MContactManagement" depends="MLoginManager">
+        <echo message="生成MContactManagement client文件......"/>
+        <java classname="org.apache.cxf.tools.wsdlto.WSDLToJava" fork="true">
+            <arg value="-client"/>
+            <arg value="-d"/>
+            <arg value="${src}"/>
+            <arg value="-p"/>
+            <arg value="com.froad.client.user"/>
+            <arg value="${wsdl.MContactManagement_dir}"/>
+            <classpath>
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+        <echo message="${wsdl.MContactManagement_dir}"/>
+    </target>
+
+    <target name="MUserSuggest" depends="MContactManagement">
+        <echo message="生成MUserSuggest client文件......"/>
+        <java classname="org.apache.cxf.tools.wsdlto.WSDLToJava" fork="true">
+            <arg value="-client"/>
+            <arg value="-d"/>
+            <arg value="${src}"/>
+            <arg value="-p"/>
+            <arg value="com.froad.client.user"/>
+            <arg value="${wsdl.MUserSuggest_dir}"/>
+            <classpath>
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+        <echo message="${wsdl.MUserSuggest_dir}"/>
+    </target>
+
+    <target name="TagClassifyA" depends="MUserSuggest">
+        <echo message="生成TagClassifyA client文件......"/>
+        <java classname="org.apache.cxf.tools.wsdlto.WSDLToJava" fork="true">
+            <arg value="-client"/>
+            <arg value="-d"/>
+            <arg value="${src}"/>
+            <arg value="-p"/>
+            <arg value="com.froad.client.tag"/>
+            <arg value="${wsdl.TagClassifyA_dir}"/>
+            <classpath>
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+        <echo message="${wsdl.TagClassifyA_dir}"/>
+    </target>
+    <target name="TagClassifyB" depends="TagClassifyA">
+        <echo message="生成TagClassifyB client文件......"/>
+        <java classname="org.apache.cxf.tools.wsdlto.WSDLToJava" fork="true">
+            <arg value="-client"/>
+            <arg value="-d"/>
+            <arg value="${src}"/>
+            <arg value="-p"/>
+            <arg value="com.froad.client.tag"/>
+            <arg value="${wsdl.TagClassifyB_dir}"/>
+            <classpath>
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+        <echo message="${wsdl.TagClassifyB_dir}"/>
+    </target>
+    <target name="TagDistrictA" depends="TagClassifyB">
+        <echo message="生成TagDistrictA client文件......"/>
+        <java classname="org.apache.cxf.tools.wsdlto.WSDLToJava" fork="true">
+            <arg value="-client"/>
+            <arg value="-d"/>
+            <arg value="${src}"/>
+            <arg value="-p"/>
+            <arg value="com.froad.client.tag"/>
+            <arg value="${wsdl.TagDistrictA_dir}"/>
+            <classpath>
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+        <echo message="${wsdl.TagDistrictA_dir}"/>
+    </target>
+    <target name="TagDistrictB" depends="TagDistrictA">
+        <echo message="生成TagDistrictB client文件......"/>
+        <java classname="org.apache.cxf.tools.wsdlto.WSDLToJava" fork="true">
+            <arg value="-client"/>
+            <arg value="-d"/>
+            <arg value="${src}"/>
+            <arg value="-p"/>
+            <arg value="com.froad.client.tag"/>
+            <arg value="${wsdl.TagDistrictB_dir}"/>
+            <classpath>
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+        <echo message="${wsdl.TagDistrictB_dir}"/>
+    </target>
+
+    <target name="TagMap" depends="TagDistrictB">
+        <echo message="生成TagMap client文件......"/>
+        <java classname="org.apache.cxf.tools.wsdlto.WSDLToJava" fork="true">
+            <arg value="-client"/>
+            <arg value="-d"/>
+            <arg value="${src}"/>
+            <arg value="-p"/>
+            <arg value="com.froad.client.tag"/>
+            <arg value="${wsdl.TagMap_dir}"/>
+            <classpath>
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+        <echo message="${wsdl.TagMap_dir}"/>
+    </target>
+    <target name="MemberCollect" depends="TagMap">
+        <echo message="生成MemberCollect client文件......"/>
+        <java classname="org.apache.cxf.tools.wsdlto.WSDLToJava" fork="true">
+            <arg value="-client"/>
+            <arg value="-d"/>
+            <arg value="${src}"/>
+            <arg value="-p"/>
+            <arg value="com.froad.client.memberCollect"/>
+            <arg value="${wsdl.MemberCollect_dir}"/>
+            <classpath>
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+        <echo message="${wsdl.MemberCollect_dir}"/>
+    </target>
+
+
+    <target name="Goods" depends="MemberCollect">
+        <echo message="生成Goods client文件......"/>
+        <java classname="org.apache.cxf.tools.wsdlto.WSDLToJava" fork="true">
+            <arg value="-client"/>
+            <arg value="-d"/>
+            <arg value="${src}"/>
+            <arg value="-p"/>
+            <arg value="com.froad.client.goods"/>
+            <arg value="${wsdl.Goods_dir}"/>
+            <classpath>
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+        <echo message="${wsdl.Goods_dir}"/>
+    </target>
+    <target name="Trans" depends="Goods">
+        <echo message="生成Trans client文件......"/>
+        <java classname="org.apache.cxf.tools.wsdlto.WSDLToJava" fork="true">
+            <arg value="-client"/>
+            <arg value="-d"/>
+            <arg value="${src}"/>
+            <arg value="-p"/>
+            <arg value="com.froad.client.trans"/>
+            <arg value="${wsdl.Trans_dir}"/>
+            <classpath>
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+        <echo message="${wsdl.Trans_dir}"/>
+    </target>
+
+    <target name="TransDetails" depends="Trans">
+        <echo message="生成TransDetails client文件......"/>
+        <java classname="org.apache.cxf.tools.wsdlto.WSDLToJava" fork="true">
+            <arg value="-client"/>
+            <arg value="-d"/>
+            <arg value="${src}"/>
+            <arg value="-p"/>
+            <arg value="com.froad.client.transDetails"/>
+            <arg value="${wsdl.TransDetails_dir}"/>
+            <classpath>
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+        <echo message="${wsdl.TransDetails_dir}"/>
+    </target>
+
+    <target name="Pay" depends="TransDetails">
+        <echo message="生成Pay client文件......"/>
+        <java classname="org.apache.cxf.tools.wsdlto.WSDLToJava" fork="true">
+            <arg value="-client"/>
+            <arg value="-d"/>
+            <arg value="${src}"/>
+            <arg value="-p"/>
+            <arg value="com.froad.client.pay"/>
+            <arg value="${wsdl.Pay_dir}"/>
+            <classpath>
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+        <echo message="${wsdl.Pay_dir}"/>
+    </target>
+
+    <target name="Brand" depends="Pay">
+        <echo message="生成Brand client文件......"/>
+        <java classname="org.apache.cxf.tools.wsdlto.WSDLToJava" fork="true">
+            <arg value="-client"/>
+            <arg value="-d"/>
+            <arg value="${src}"/>
+            <arg value="-p"/>
+            <arg value="com.froad.client.brand"/>
+            <arg value="${wsdl.Brand_dir}"/>
+            <classpath>
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+        <echo message="${wsdl.Brand_dir}"/>
+    </target>
+
+    <target name="GoodsType" depends="Brand">
+        <echo message="生成GoodsType client文件......"/>
+        <java classname="org.apache.cxf.tools.wsdlto.WSDLToJava" fork="true">
+            <arg value="-client"/>
+            <arg value="-d"/>
+            <arg value="${src}"/>
+            <arg value="-p"/>
+            <arg value="com.froad.client.goodsType"/>
+            <arg value="${wsdl.GoodsType_dir}"/>
+            <classpath>
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+        <echo message="${wsdl.GoodsType_dir}"/>
+    </target>
+    <target name="GoodsCategory" depends="GoodsType">
+        <echo message="生成GoodsCategory client文件......"/>
+        <java classname="org.apache.cxf.tools.wsdlto.WSDLToJava" fork="true">
+            <arg value="-client"/>
+            <arg value="-d"/>
+            <arg value="${src}"/>
+            <arg value="-p"/>
+            <arg value="com.froad.client.goodsCategory"/>
+            <arg value="${wsdl.GoodsCategory_dir}"/>
+            <classpath>
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+        <echo message="${wsdl.GoodsCategory_dir}"/>
+    </target>
+
+    <target name="GoodsAttribute" depends="GoodsCategory">
+        <echo message="生成GoodsAttribute client文件......"/>
+        <java classname="org.apache.cxf.tools.wsdlto.WSDLToJava" fork="true">
+            <arg value="-client"/>
+            <arg value="-d"/>
+            <arg value="${src}"/>
+            <arg value="-p"/>
+            <arg value="com.froad.client.goodsAttribute"/>
+            <arg value="${wsdl.GoodsAttribute_dir}"/>
+            <classpath>
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+        <echo message="${wsdl.GoodsAttribute_dir}"/>
+    </target>
+
+    <target name="GoodsGoodsAttributeMapStore" depends="GoodsAttribute">
+        <echo message="生成GoodsGoodsAttributeMapStore client文件......"/>
+        <java classname="org.apache.cxf.tools.wsdlto.WSDLToJava" fork="true">
+            <arg value="-client"/>
+            <arg value="-d"/>
+            <arg value="${src}"/>
+            <arg value="-p"/>
+            <arg value="com.froad.client.goodsGoodsAttributeMapStore"/>
+            <arg value="${wsdl.GoodsGoodsAttributeMapStore_dir}"/>
+            <classpath>
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+        <echo message="${wsdl.GoodsGoodsAttributeMapStore_dir}"/>
+    </target>
+
+    <target name="Agreement" depends="GoodsGoodsAttributeMapStore">
+        <echo message="生成Agreement client文件......"/>
+        <java classname="org.apache.cxf.tools.wsdlto.WSDLToJava" fork="true">
+            <arg value="-client"/>
+            <arg value="-d"/>
+            <arg value="${src}"/>
+            <arg value="-p"/>
+            <arg value="com.froad.client.agreement"/>
+            <arg value="${wsdl.Agreement_dir}"/>
+            <classpath>
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+        <echo message="${wsdl.Agreement_dir}"/>
+    </target>
+
+    <target name="TransRuleService" depends="Agreement">
+        <echo message="生成TransRuleService client文件......"/>
+        <java classname="org.apache.cxf.tools.wsdlto.WSDLToJava" fork="true">
+            <arg value="-client"/>
+            <arg value="-d"/>
+            <arg value="${src}"/>
+            <arg value="-p"/>
+            <arg value="com.froad.client.transRule"/>
+            <arg value="${wsdl.TransRule_dir}"/>
+            <classpath>
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+        <echo message="${wsdl.TransRule_dir}"/>
+    </target>
+
+
+    <target name="RuleDetailTempletService" depends="TransRuleService">
+        <echo message="生成RuleDetailTempletService 文件......"/>
+        <java classname="org.apache.cxf.tools.wsdlto.WSDLToJava" fork="true">
+            <arg value="-client"/>
+            <arg value="-d"/>
+            <arg value="${src}"/>
+            <arg value="-p"/>
+            <arg value="com.froad.client.ruleDetailTemplet"/>
+            <arg value="${wsdl.RuleDetailTemplet_dir}"/>
+            <classpath>
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+        <echo message="${wsdl.RuleDetailTemplet_dir}"/>
+    </target>
+
+    <target name="Buyers" depends="RuleDetailTempletService">
+        <echo message="生成Buyers 文件......"/>
+        <java classname="org.apache.cxf.tools.wsdlto.WSDLToJava" fork="true">
+            <arg value="-client"/>
+            <arg value="-d"/>
+            <arg value="${src}"/>
+            <arg value="-p"/>
+            <arg value="com.froad.client.buyers"/>
+            <arg value="${wsdl.Buyers_dir}"/>
+            <classpath>
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+        <echo message="${wsdl.Buyers_dir}"/>
+    </target>
+
+    <target name="Sellers" depends="Buyers">
+        <echo message="生成Sellers文件......"/>
+        <java classname="org.apache.cxf.tools.wsdlto.WSDLToJava" fork="true">
+            <arg value="-client"/>
+            <arg value="-d"/>
+            <arg value="${src}"/>
+            <arg value="-p"/>
+            <arg value="com.froad.client.sellers"/>
+            <arg value="${wsdl.Sellers_dir}"/>
+            <classpath>
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+        <echo message="${wsdl.Sellers_dir}"/>
+    </target>
+    <target name="BuyerChannel" depends="Sellers">
+        <echo message="生成BuyerChannel client文件......"/>
+        <java classname="org.apache.cxf.tools.wsdlto.WSDLToJava" fork="true">
+            <arg value="-client"/>
+            <arg value="-d"/>
+            <arg value="${src}"/>
+            <arg value="-p"/>
+            <arg value="com.froad.client.buyerChannel"/>
+            <arg value="${wsdl.BuyerChannel_dir}"/>
+            <classpath>
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+        <echo message="${wsdl.BuyerChannel_dir}"/>
+    </target>
+    <target name="SellerChannel" depends="BuyerChannel">
+        <echo message="生成SellerChannel client文件......"/>
+        <java classname="org.apache.cxf.tools.wsdlto.WSDLToJava" fork="true">
+            <arg value="-client"/>
+            <arg value="-d"/>
+            <arg value="${src}"/>
+            <arg value="-p"/>
+            <arg value="com.froad.client.sellerChannel"/>
+            <arg value="${wsdl.SellerChannel_dir}"/>
+            <classpath>
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+        <echo message="${wsdl.SellerChannel_dir}"/>
+    </target>
+
+    <target name="GoodsGatherRack" depends="SellerChannel">
+        <echo message="生成GoodsGatherRack client文件......"/>
+        <java classname="org.apache.cxf.tools.wsdlto.WSDLToJava" fork="true">
+            <arg value="-client"/>
+            <arg value="-d"/>
+            <arg value="${src}"/>
+            <arg value="-p"/>
+            <arg value="com.froad.client.goodsGatherRack"/>
+            <arg value="${wsdl.GoodsGatherRack_dir}"/>
+            <classpath>
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+        <echo message="${wsdl.GoodsGatherRack_dir}"/>
+    </target>
+
+    <target name="ClientGoodsGatherRack" depends="GoodsGatherRack">
+        <echo message="生成ClientGoodsGatherRack client文件......"/>
+        <java classname="org.apache.cxf.tools.wsdlto.WSDLToJava" fork="true">
+            <arg value="-client"/>
+            <arg value="-d"/>
+            <arg value="${src}"/>
+            <arg value="-p"/>
+            <arg value="com.froad.client.clientGoodsGatherRack"/>
+            <arg value="${wsdl.ClientGoodsGatherRack_dir}"/>
+            <classpath>
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+        <echo message="${wsdl.ClientGoodsGatherRack_dir}"/>
+    </target>
+
+
+    <target name="GoodsExchangeRack" depends="ClientGoodsGatherRack">
+        <echo message="生成GoodsExchangeRack client文件......"/>
+        <java classname="org.apache.cxf.tools.wsdlto.WSDLToJava" fork="true">
+            <arg value="-client"/>
+            <arg value="-d"/>
+            <arg value="${src}"/>
+            <arg value="-p"/>
+            <arg value="com.froad.client.goodsExchangeRack"/>
+            <arg value="${wsdl.GoodsExchangeRack_dir}"/>
+            <classpath>
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+        <echo message="${wsdl.GoodsExchangeRack_dir}"/>
+    </target>
+
+    <target name="ClientGoodsExchangeRack" depends="GoodsExchangeRack">
+        <echo message="生成ClientGoodsExchangeRack client文件......"/>
+        <java classname="org.apache.cxf.tools.wsdlto.WSDLToJava" fork="true">
+            <arg value="-client"/>
+            <arg value="-d"/>
+            <arg value="${src}"/>
+            <arg value="-p"/>
+            <arg value="com.froad.client.clientGoodsExchangeRack"/>
+            <arg value="${wsdl.ClientGoodsExchangeRack_dir}"/>
+            <classpath>
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+        <echo message="${wsdl.ClientGoodsExchangeRack_dir}"/>
+    </target>
+    <target name="GoodsCarryRack" depends="ClientGoodsExchangeRack">
+        <echo message="生成GoodsCarryRack client文件......"/>
+        <java classname="org.apache.cxf.tools.wsdlto.WSDLToJava" fork="true">
+            <arg value="-client"/>
+            <arg value="-d"/>
+            <arg value="${src}"/>
+            <arg value="-p"/>
+            <arg value="com.froad.client.goodsCarryRack"/>
+            <arg value="${wsdl.GoodsCarryRack_dir}"/>
+            <classpath>
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+        <echo message="${wsdl.GoodsCarryRack_dir}"/>
+    </target>
+
+    <target name="ClientGoodsCarryRack" depends="GoodsCarryRack">
+        <echo message="生成ClientGoodsCarryRack client文件......"/>
+        <java classname="org.apache.cxf.tools.wsdlto.WSDLToJava" fork="true">
+            <arg value="-client"/>
+            <arg value="-d"/>
+            <arg value="${src}"/>
+            <arg value="-p"/>
+            <arg value="com.froad.client.clientGoodsCarryRack"/>
+            <arg value="${wsdl.ClientGoodsCarryRack_dir}"/>
+            <classpath>
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+        <echo message="${wsdl.ClientGoodsCarryRack_dir}"/>
+    </target>
+
+    <target name="Suggestion" depends="ClientGoodsCarryRack">
+        <echo message="生成Suggestion client文件......"/>
+        <java classname="org.apache.cxf.tools.wsdlto.WSDLToJava" fork="true">
+            <arg value="-client"/>
+            <arg value="-d"/>
+            <arg value="${src}"/>
+            <arg value="-p"/>
+            <arg value="com.froad.client.suggestion"/>
+            <arg value="${wsdl.Suggestion_dir}"/>
+            <classpath>
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+        <echo message="${wsdl.Suggestion_dir}"/>
+    </target>
+
+    <target name="SuggestionReply" depends="Suggestion">
+        <echo message="生成SuggestionReply client文件......"/>
+        <java classname="org.apache.cxf.tools.wsdlto.WSDLToJava" fork="true">
+            <arg value="-client"/>
+            <arg value="-d"/>
+            <arg value="${src}"/>
+            <arg value="-p"/>
+            <arg value="com.froad.client.suggestionReply"/>
+            <arg value="${wsdl.SuggestionReply_dir}"/>
+            <classpath>
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+        <echo message="${wsdl.SuggestionReply_dir}"/>
+    </target>
+
+    <target name="GoodsGroupRack" depends="SuggestionReply">
+        <echo message="生成GoodsGroupRack client文件......"/>
+        <java classname="org.apache.cxf.tools.wsdlto.WSDLToJava" fork="true">
+            <arg value="-client"/>
+            <arg value="-d"/>
+            <arg value="${src}"/>
+            <arg value="-p"/>
+            <arg value="com.froad.client.goodsGroupRack"/>
+            <arg value="${wsdl.GoodsGroupRack_dir}"/>
+            <classpath>
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+        <echo message="${wsdl.GoodsGroupRack_dir}"/>
+    </target>
+
+
+    <target name="GoodsRebateRack" depends="GoodsGroupRack">
+        <echo message="生成GoodsRebateRack client文件......"/>
+        <java classname="org.apache.cxf.tools.wsdlto.WSDLToJava" fork="true">
+            <arg value="-client"/>
+            <arg value="-d"/>
+            <arg value="${src}"/>
+            <arg value="-p"/>
+            <arg value="com.froad.client.goodsRebateRack"/>
+            <arg value="${wsdl.GoodsRebateRack_dir}"/>
+            <classpath>
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+        <echo message="${wsdl.GoodsRebateRack_dir}"/>
+    </target>
+
+    <target name="AdvertService" depends="GoodsRebateRack">
+        <echo message="生成AdvertService  client文件......"/>
+        <java classname="org.apache.cxf.tools.wsdlto.WSDLToJava" fork="true">
+            <arg value="-client"/>
+            <arg value="-d"/>
+            <arg value="${src}"/>
+            <arg value="-p"/>
+            <arg value="com.froad.client.advert"/>
+            <arg value="${wsdl.Advert_dir}"/>
+            <classpath>
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+        <echo message="${wsdl.Advert_dir}"/>
+    </target>
+
+    <target name="Merchant" depends="AdvertService">
+        <echo message="生成Merchant  client文件......"/>
+        <java classname="org.apache.cxf.tools.wsdlto.WSDLToJava" fork="true">
+            <arg value="-client"/>
+            <arg value="-d"/>
+            <arg value="${src}"/>
+            <arg value="-p"/>
+            <arg value="com.froad.client.merchant"/>
+            <arg value="${wsdl.Merchant_dir}"/>
+            <classpath>
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+        <echo message="${wsdl.Merchant_dir}"/>
+    </target>
+    <target name="MerchantTraffic" depends="Merchant">
+        <echo message="生成MerchantTraffic client文件......"/>
+        <java classname="org.apache.cxf.tools.wsdlto.WSDLToJava" fork="true">
+            <arg value="-client"/>
+            <arg value="-d"/>
+            <arg value="${src}"/>
+            <arg value="-p"/>
+            <arg value="com.froad.client.merchantTraffic"/>
+            <arg value="${wsdl.MerchantTraffic_dir}"/>
+            <classpath>
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+        <echo message="${wsdl.MerchantTraffic_dir}"/>
+    </target>
+
+    <target name="MerchantTrafficMAP" depends="MerchantTraffic">
+        <echo message="生成MerchantTrafficMAP client文件......"/>
+        <java classname="org.apache.cxf.tools.wsdlto.WSDLToJava" fork="true">
+            <arg value="-client"/>
+            <arg value="-d"/>
+            <arg value="${src}"/>
+            <arg value="-p"/>
+            <arg value="com.froad.client.merchantTrafficMAP"/>
+            <arg value="${wsdl.MerchantTrafficMAP_dir}"/>
+            <classpath>
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+        <echo message="${wsdl.MerchantTrafficMAP_dir}"/>
+    </target>
+
+    <target name="MerchantTrain" depends="MerchantTrafficMAP">
+        <echo message="生成MerchantTrain client文件......"/>
+        <java classname="org.apache.cxf.tools.wsdlto.WSDLToJava" fork="true">
+            <arg value="-client"/>
+            <arg value="-d"/>
+            <arg value="${src}"/>
+            <arg value="-p"/>
+            <arg value="com.froad.client.merchantTrain"/>
+            <arg value="${wsdl.MerchantTrain_dir}"/>
+            <classpath>
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+        <echo message="${wsdl.MerchantTrain_dir}"/>
+    </target>
+
+    <target name="MerchantIndustry" depends="MerchantTrain">
+        <echo message="生成MerchantIndustry client文件......"/>
+        <java classname="org.apache.cxf.tools.wsdlto.WSDLToJava" fork="true">
+            <arg value="-client"/>
+            <arg value="-d"/>
+            <arg value="${src}"/>
+            <arg value="-p"/>
+            <arg value="com.froad.client.merchantIndustry"/>
+            <arg value="${wsdl.MerchantIndustry_dir}"/>
+            <classpath>
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+        <echo message="${wsdl.MerchantIndustry_dir}"/>
+    </target>
+
+
+    <target name="MerchantOnlineApply" depends="MerchantIndustry">
+        <echo message="生成MerchantOnlineApply client文件......"/>
+        <java classname="org.apache.cxf.tools.wsdlto.WSDLToJava" fork="true">
+            <arg value="-client"/>
+            <arg value="-d"/>
+            <arg value="${src}"/>
+            <arg value="-p"/>
+            <arg value="com.froad.client.merchantOnlineApply"/>
+            <arg value="${wsdl.MerchantOnlineApply_dir}"/>
+            <classpath>
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+        <echo message="${wsdl.MerchantOnlineApply_dir}"/>
+    </target>
+
+    <target name="SmsLog" depends="MerchantOnlineApply">
+        <echo message="生成SmsLog client文件......"/>
+        <java classname="org.apache.cxf.tools.wsdlto.WSDLToJava" fork="true">
+            <arg value="-client"/>
+            <arg value="-d"/>
+            <arg value="${src}"/>
+            <arg value="-p"/>
+            <arg value="com.froad.client.smsLog"/>
+            <arg value="${wsdl.SmsLog_dir}"/>
+            <classpath>
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+        <echo message="${wsdl.SmsLog_dir}"/>
+    </target>
+    <target name="Message" depends="SmsLog">
+        <echo message="生成Message client文件......"/>
+        <java classname="org.apache.cxf.tools.wsdlto.WSDLToJava" fork="true">
+            <arg value="-client"/>
+            <arg value="-d"/>
+            <arg value="${src}"/>
+            <arg value="-p"/>
+            <arg value="com.froad.client.message"/>
+            <arg value="${wsdl.Message_dir}"/>
+            <classpath>
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+        <echo message="${wsdl.Message_dir}"/>
+    </target>
+    <target name="MerchantPhoto" depends="Message">
+        <echo message="生成MerchantPhoto client文件......"/>
+        <java classname="org.apache.cxf.tools.wsdlto.WSDLToJava" fork="true">
+            <arg value="-client"/>
+            <arg value="-d"/>
+            <arg value="${src}"/>
+            <arg value="-p"/>
+            <arg value="com.froad.client.merchantPhoto"/>
+            <arg value="${wsdl.MerchantPhoto_dir}"/>
+            <classpath>
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+        <echo message="${wsdl.MerchantPhoto_dir}"/>
+    </target>
+
+    <target name="MerchantProduct" depends="MerchantPhoto">
+        <echo message="生成MerchantProduct client文件......"/>
+        <java classname="org.apache.cxf.tools.wsdlto.WSDLToJava" fork="true">
+            <arg value="-client"/>
+            <arg value="-d"/>
+            <arg value="${src}"/>
+            <arg value="-p"/>
+            <arg value="com.froad.client.merchantProduct"/>
+            <arg value="${wsdl.MerchantProduct_dir}"/>
+            <classpath>
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+        <echo message="${wsdl.MerchantProduct_dir}"/>
+    </target>
+
+    <target name="MerchantPreferential" depends="MerchantProduct">
+        <echo message="生成MerchantPreferential client文件......"/>
+        <java classname="org.apache.cxf.tools.wsdlto.WSDLToJava" fork="true">
+            <arg value="-client"/>
+            <arg value="-d"/>
+            <arg value="${src}"/>
+            <arg value="-p"/>
+            <arg value="com.froad.client.merchantPreferential"/>
+            <arg value="${wsdl.MerchantPreferential_dir}"/>
+            <classpath>
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+        <echo message="${wsdl.MerchantPreferential_dir}"/>
+    </target>
+
+    <target name="MerchantPresent" depends="MerchantPreferential">
+        <echo message="生成MerchantPresent client文件......"/>
+        <java classname="org.apache.cxf.tools.wsdlto.WSDLToJava" fork="true">
+            <arg value="-client"/>
+            <arg value="-d"/>
+            <arg value="${src}"/>
+            <arg value="-p"/>
+            <arg value="com.froad.client.merchantPresent"/>
+            <arg value="${wsdl.MerchantPresent_dir}"/>
+            <classpath>
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+        <echo message="${wsdl.MerchantPresent_dir}"/>
+    </target>
+    <target name="ClientGoodsGroupRack" depends="MerchantPresent">
+        <echo message="生成ClientGoodsGroupRack client文件......"/>
+        <java classname="org.apache.cxf.tools.wsdlto.WSDLToJava" fork="true">
+            <arg value="-client"/>
+            <arg value="-d"/>
+            <arg value="${src}"/>
+            <arg value="-p"/>
+            <arg value="com.froad.client.clientGoodsGroupRack"/>
+            <arg value="${wsdl.ClientGoodsGroupRack_dir}"/>
+            <classpath>
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+        <echo message="${wsdl.ClientGoodsGroupRack_dir}"/>
+    </target>
+
+    <target name="ClientGoodsRebateRack" depends="ClientGoodsGroupRack">
+        <echo message="生成ClientGoodsRebateRack client文件......"/>
+        <java classname="org.apache.cxf.tools.wsdlto.WSDLToJava" fork="true">
+            <arg value="-client"/>
+            <arg value="-d"/>
+            <arg value="${src}"/>
+            <arg value="-p"/>
+            <arg value="com.froad.client.clientGoodsRebateRack"/>
+            <arg value="${wsdl.ClientGoodsRebateRack_dir}"/>
+            <classpath>
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+        <echo message="${wsdl.ClientGoodsRebateRack_dir}"/>
+    </target>
+    <target name="Point" depends="ClientGoodsRebateRack">
+        <echo message="生成Point client文件......"/>
+        <java classname="org.apache.cxf.tools.wsdlto.WSDLToJava" fork="true">
+            <arg value="-client"/>
+            <arg value="-d"/>
+            <arg value="${src}"/>
+            <arg value="-p"/>
+            <arg value="com.froad.client.point"/>
+            <arg value="${wsdl.Point_dir}"/>
+            <classpath>
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+        <echo message="${wsdl.Point_dir}"/>
+    </target>
+    <target name="Announcement" depends="Point">
+        <echo message="生成Announcement client文件......"/>
+        <java classname="org.apache.cxf.tools.wsdlto.WSDLToJava" fork="true">
+            <arg value="-client"/>
+            <arg value="-d"/>
+            <arg value="${src}"/>
+            <arg value="-p"/>
+            <arg value="com.froad.client.announcement"/>
+            <arg value="${wsdl.Announcement_dir}"/>
+            <classpath>
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+        <echo message="${wsdl.Announcement_dir}"/>
+    </target>
+
+    <target name="Searches" depends="Announcement">
+        <echo message="生成Searches client文件......"/>
+        <java classname="org.apache.cxf.tools.wsdlto.WSDLToJava" fork="true">
+            <arg value="-client"/>
+            <arg value="-d"/>
+            <arg value="${src}"/>
+            <arg value="-p"/>
+            <arg value="com.froad.client.searches"/>
+            <arg value="${wsdl.Searches_dir}"/>
+            <classpath>
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+        <echo message="${wsdl.Searches_dir}"/>
+    </target>
+    <target name="ComplaintCategory" depends="Searches">
+        <echo message="生成ComplaintCategory client文件......"/>
+        <java classname="org.apache.cxf.tools.wsdlto.WSDLToJava" fork="true">
+            <arg value="-client"/>
+            <arg value="-d"/>
+            <arg value="${src}"/>
+            <arg value="-p"/>
+            <arg value="com.froad.client.complaintCategory"/>
+            <arg value="${wsdl.ComplaintCategory_dir}"/>
+            <classpath>
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+        <echo message="${wsdl.ComplaintCategory_dir}"/>
+    </target>
+    <target name="Complaint" depends="ComplaintCategory">
+        <echo message="生成Complaint client文件......"/>
+        <java classname="org.apache.cxf.tools.wsdlto.WSDLToJava" fork="true">
+            <arg value="-client"/>
+            <arg value="-d"/>
+            <arg value="${src}"/>
+            <arg value="-p"/>
+            <arg value="com.froad.client.complaint"/>
+            <arg value="${wsdl.Complaint_dir}"/>
+            <classpath>
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+        <echo message="${wsdl.Complaint_dir}"/>
+    </target>
+    <target name="ComplaintReply" depends="Complaint">
+        <echo message="生成ComplaintReply client文件......"/>
+        <java classname="org.apache.cxf.tools.wsdlto.WSDLToJava" fork="true">
+            <arg value="-client"/>
+            <arg value="-d"/>
+            <arg value="${src}"/>
+            <arg value="-p"/>
+            <arg value="com.froad.client.complaintReply"/>
+            <arg value="${wsdl.ComplaintReply_dir}"/>
+            <classpath>
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+        <echo message="${wsdl.ComplaintReply_dir}"/>
+    </target>
+
+    <target name="ShareMerchant" depends="ComplaintReply">
+        <echo message="生成ShareMerchant client文件......"/>
+        <java classname="org.apache.cxf.tools.wsdlto.WSDLToJava" fork="true">
+            <arg value="-client"/>
+            <arg value="-d"/>
+            <arg value="${src}"/>
+            <arg value="-p"/>
+            <arg value="com.froad.client.shareMerchant"/>
+            <arg value="${wsdl.ShareMerchant_dir}"/>
+            <classpath>
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+        <echo message="${wsdl.ShareMerchant_dir}"/>
+    </target>
+    <target name="PointCashRule" depends="ShareMerchant">
+        <echo message="生成PointCashRule client文件......"/>
+        <java classname="org.apache.cxf.tools.wsdlto.WSDLToJava" fork="true">
+            <arg value="-client"/>
+            <arg value="-d"/>
+            <arg value="${src}"/>
+            <arg value="-p"/>
+            <arg value="com.froad.client.pointCashRule"/>
+            <arg value="${wsdl.PointCashRule_dir}"/>
+            <classpath>
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+        <echo message="${wsdl.PointCashRule_dir}"/>
+    </target>
+
+    <target name="FundsChannel" depends="PointCashRule">
+        <echo message="生成ShareMerchant client文件......"/>
+        <java classname="org.apache.cxf.tools.wsdlto.WSDLToJava" fork="true">
+            <arg value="-client"/>
+            <arg value="-d"/>
+            <arg value="${src}"/>
+            <arg value="-p"/>
+            <arg value="com.froad.client.fundsChannel"/>
+            <arg value="${wsdl.FundsChannel_dir}"/>
+            <classpath>
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+        <echo message="${wsdl.FundsChannel_dir}"/>
+    </target>
+
+    <target name="DailyTask" depends="FundsChannel">
+        <echo message="生成DailyTask client文件......"/>
+        <java classname="org.apache.cxf.tools.wsdlto.WSDLToJava" fork="true">
+            <arg value="-client"/>
+            <arg value="-d"/>
+            <arg value="${src}"/>
+            <arg value="-p"/>
+            <arg value="com.froad.client.dailyTask"/>
+            <arg value="${wsdl.DailyTask_dir}"/>
+            <classpath>
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+        <echo message="${wsdl.DailyTask_dir}"/>
+    </target>
+    <target name="HFCZ" depends="DailyTask">
+        <echo message="生成HFCZ client文件......"/>
+        <java classname="org.apache.cxf.tools.wsdlto.WSDLToJava" fork="true">
+            <arg value="-client"/>
+            <arg value="-d"/>
+            <arg value="${src}"/>
+            <arg value="-p"/>
+            <arg value="com.froad.client.hfcz"/>
+            <arg value="${wsdl.HFCZ_dir}"/>
+            <classpath>
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+        <echo message="${wsdl.HFCZ_dir}"/>
+    </target>
+    <target name="Lottery" depends="HFCZ">
+        <echo message="生成Lottery client文件......"/>
+        <java classname="org.apache.cxf.tools.wsdlto.WSDLToJava" fork="true">
+            <arg value="-client"/>
+            <arg value="-d"/>
+            <arg value="${src}"/>
+            <arg value="-p"/>
+            <arg value="com.froad.client.lottery"/>
+            <arg value="${wsdl.Lottery_dir}"/>
+            <classpath>
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+        <echo message="${wsdl.Lottery_dir}"/>
+    </target>
+
+    <target name="DailyTaskRule" depends="Lottery">
+        <echo message="生成DailyTaskRule client文件......"/>
+        <java classname="org.apache.cxf.tools.wsdlto.WSDLToJava" fork="true">
+            <arg value="-client"/>
+            <arg value="-d"/>
+            <arg value="${src}"/>
+            <arg value="-p"/>
+            <arg value="com.froad.client.dailyTaskRule"/>
+            <arg value="${wsdl.DailyTaskRule_dir}"/>
+            <classpath>
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+        <echo message="${wsdl.DailyTaskRule_dir}"/>
+    </target>
+    <target name="UserCertification" depends="DailyTaskRule">
+        <echo message="生成UserCertification client文件......"/>
+        <java classname="org.apache.cxf.tools.wsdlto.WSDLToJava" fork="true">
+            <arg value="-client"/>
+            <arg value="-d"/>
+            <arg value="${src}"/>
+            <arg value="-p"/>
+            <arg value="com.froad.client.userCertification"/>
+            <arg value="${wsdl.UserCertification_dir}"/>
+            <classpath>
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+        <echo message="${wsdl.UserCertification_dir}"/>
+    </target>
+
+    <target name="TempPoint" depends="UserCertification">
+        <echo message="生成TempPoint client文件......"/>
+        <java classname="org.apache.cxf.tools.wsdlto.WSDLToJava" fork="true">
+            <arg value="-client"/>
+            <arg value="-d"/>
+            <arg value="${src}"/>
+            <arg value="-p"/>
+            <arg value="com.froad.client.tempPoint"/>
+            <arg value="${wsdl.TempPoint_dir}"/>
+            <classpath>
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+        <echo message="${wsdl.TempPoint_dir}"/>
+    </target>
+
+    <target name="AuthTicket" depends="TempPoint">
+        <echo message="生成AuthTicket client文件......"/>
+        <java classname="org.apache.cxf.tools.wsdlto.WSDLToJava" fork="true">
+            <arg value="-client"/>
+            <arg value="-d"/>
+            <arg value="${src}"/>
+            <arg value="-p"/>
+            <arg value="com.froad.client.authTicket"/>
+            <arg value="${wsdl.AuthTicket_dir}"/>
+            <classpath>
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+        <echo message="${wsdl.AuthTicket_dir}"/>
+    </target>
+    <target name="MerchantUserSet" depends="AuthTicket">
+        <echo message="生成MerchantUserSet client文件......"/>
+        <java classname="org.apache.cxf.tools.wsdlto.WSDLToJava" fork="true">
+            <arg value="-client"/>
+            <arg value="-d"/>
+            <arg value="${src}"/>
+            <arg value="-p"/>
+            <arg value="com.froad.client.merchantUserSet"/>
+            <arg value="${wsdl.MerchantUserSet_dir}"/>
+            <classpath>
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+        <echo message="${wsdl.MerchantUserSet_dir}"/>
+    </target>
+    <target name="MerchantUserSeller" depends="MerchantUserSet">
+        <echo message="生成MerchantUserSeller client文件......"/>
+        <java classname="org.apache.cxf.tools.wsdlto.WSDLToJava" fork="true">
+            <arg value="-client"/>
+            <arg value="-d"/>
+            <arg value="${src}"/>
+            <arg value="-p"/>
+            <arg value="com.froad.client.merchantUserSeller"/>
+            <arg value="${wsdl.MerchantUserSeller_dir}"/>
+            <classpath>
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+        <echo message="${wsdl.MerchantUserSeller_dir}"/>
+    </target>
+
+    <target name="MerchantClerkUrl" depends="MerchantUserSeller">
+        <echo message="生成MerchantClerkUrl client文件......"/>
+        <java classname="org.apache.cxf.tools.wsdlto.WSDLToJava" fork="true">
+            <arg value="-client"/>
+            <arg value="-d"/>
+            <arg value="${src}"/>
+            <arg value="-p"/>
+            <arg value="com.froad.client.merchantClerkUrl"/>
+            <arg value="${wsdl.MerchantClerkUrl_dir}"/>
+            <classpath>
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+        <echo message="${wsdl.MerchantClerkUrl_dir}"/>
+    </target>
+    <target name="GoodsExchangeRackImages" depends="MerchantClerkUrl">
+        <echo message="生成GoodsExchangeRackImages client文件......"/>
+        <java classname="org.apache.cxf.tools.wsdlto.WSDLToJava" fork="true">
+            <arg value="-client"/>
+            <arg value="-d"/>
+            <arg value="${src}"/>
+            <arg value="-p"/>
+            <arg value="com.froad.client.GoodsExchangeRackImages"/>
+            <arg value="${wsdl.GoodsExchangeRackImages_dir}"/>
+            <classpath>
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+        <echo message="${wsdl.GoodsExchangeRackImages_dir}"/>
+    </target>
+    <target name="Store" depends="GoodsExchangeRackImages">
+        <echo message="生成Store client文件......"/>
+        <java classname="org.apache.cxf.tools.wsdlto.WSDLToJava" fork="true">
+            <arg value="-client"/>
+            <arg value="-d"/>
+            <arg value="${src}"/>
+            <arg value="-p"/>
+            <arg value="com.froad.client.Store"/>
+            <arg value="${wsdl.Store_dir}"/>
+            <classpath>
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+        <echo message="${wsdl.Store_dir}"/>
+    </target>
+    <target name="ActivityCustInfo" depends="Store">
+        <echo message="生成ActivityCustInfo client文件......"/>
+        <java classname="org.apache.cxf.tools.wsdlto.WSDLToJava" fork="true">
+            <arg value="-client"/>
+            <arg value="-d"/>
+            <arg value="${src}"/>
+            <arg value="-p"/>
+            <arg value="com.froad.client.activityCustInfo"/>
+            <arg value="${wsdl.ActivityCustInfo_dir}"/>
+            <classpath>
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+        <echo message="${wsdl.ActivityCustInfo_dir}"/>
+    </target>
+    <target name="ActivityLotteryResult" depends="ActivityCustInfo">
+        <echo message="生成ActivityLotteryResult client文件......"/>
+        <java classname="org.apache.cxf.tools.wsdlto.WSDLToJava" fork="true">
+            <arg value="-client"/>
+            <arg value="-d"/>
+            <arg value="${src}"/>
+            <arg value="-p"/>
+            <arg value="com.froad.client.activityLotteryResult"/>
+            <arg value="${wsdl.ActivityLotteryResult_dir}"/>
+            <classpath>
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+        <echo message="${wsdl.ActivityLotteryResult_dir}"/>
+    </target>
+    <target name="SpringFestivalCoupon" depends="ActivityLotteryResult">
+        <echo message="生成SpringFestivalCoupon client文件......"/>
+        <java classname="org.apache.cxf.tools.wsdlto.WSDLToJava" fork="true">
+            <arg value="-client"/>
+            <arg value="-d"/>
+            <arg value="${src}"/>
+            <arg value="-p"/>
+            <arg value="com.froad.client.SpringFestivalCoupon"/>
+            <arg value="${wsdl.SpringFestivalCoupon_dir}"/>
+            <classpath>
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+        <echo message="${wsdl.SpringFestivalCoupon_dir}"/>
+    </target>
+    <target
+            name="PresentPointRule"
+            depends="SpringFestivalCoupon">
+
+        <echo message="生成PresentPointRule client文件......"/>
+
+        <java
+                classname="org.apache.cxf.tools.wsdlto.WSDLToJava"
+                fork="true">
+
+            <arg value="-client"/>
+
+            <arg value="-d"/>
+
+            <arg value="${src}"/>
+
+            <arg value="-p"/>
+
+            <arg value="com.froad.client.PresentPointRule"/>
+
+            <arg value="${wsdl.PresentPointRule_dir}"/>
+
+            <classpath>
+
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+
+        <echo message="${wsdl.PresentPointRule_dir}"/>
+    </target>
+    <target
+            name="goodsPresellRack"
+            depends="PresentPointRule">
+
+        <echo message="生成goodsPresellRack client文件......"/>
+
+        <java
+                classname="org.apache.cxf.tools.wsdlto.WSDLToJava"
+                fork="true">
+
+            <arg value="-client"/>
+
+            <arg value="-d"/>
+
+            <arg value="${src}"/>
+
+            <arg value="-p"/>
+
+            <arg value="com.froad.client.goodsPresellRack"/>
+
+            <arg value="${wsdl.goodsPresellRack_dir}"/>
+
+            <classpath>
+
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+
+        <echo message="${wsdl.goodsPresellRack_dir}"/>
+    </target>
+
+    <target
+            name="PresellBuyInfo"
+            depends="goodsPresellRack">
+
+        <echo message="生成PresellBuyInfo client文件......"/>
+
+        <java
+                classname="org.apache.cxf.tools.wsdlto.WSDLToJava"
+                fork="true">
+
+            <arg value="-client"/>
+
+            <arg value="-d"/>
+
+            <arg value="${src}"/>
+
+            <arg value="-p"/>
+
+            <arg value="com.froad.client.presellBuyInfo"/>
+
+            <arg value="${wsdl.PresellBuyInfo_dir}"/>
+
+            <classpath>
+
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+
+        <echo message="${wsdl.PresellBuyInfo_dir}"/>
+    </target>
+
+    <target
+            name="PresellDelivery"
+            depends="PresellBuyInfo">
+
+        <echo message="生成PresellDelivery client文件......"/>
+
+        <java
+                classname="org.apache.cxf.tools.wsdlto.WSDLToJava"
+                fork="true">
+
+            <arg value="-client"/>
+
+            <arg value="-d"/>
+
+            <arg value="${src}"/>
+
+            <arg value="-p"/>
+
+            <arg value="com.froad.client.presellDelivery"/>
+
+            <arg value="${wsdl.PresellDelivery_dir}"/>
+
+            <classpath>
+
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+
+        <echo message="${wsdl.PresellDelivery_dir}"/>
+    </target>
+    <target
+            name="PresellDeliveryMap"
+            depends="PresellDelivery">
+
+        <echo message="生成PresellDeliveryMap client文件......"/>
+
+        <java
+                classname="org.apache.cxf.tools.wsdlto.WSDLToJava"
+                fork="true">
+
+            <arg value="-client"/>
+
+            <arg value="-d"/>
+
+            <arg value="${src}"/>
+
+            <arg value="-p"/>
+
+            <arg value="com.froad.client.presellDeliveryMap"/>
+
+            <arg value="${wsdl.PresellDeliveryMap_dir}"/>
+
+            <classpath>
+
+                <path refid="cxf.classpath"/>
+            </classpath>
+        </java>
+
+        <echo message="${wsdl.PresellDeliveryMap_dir}"/>
+    </target>
+</project>

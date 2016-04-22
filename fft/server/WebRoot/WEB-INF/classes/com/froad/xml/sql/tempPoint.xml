@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="tempPoint">
+	<typeAlias alias="tempPoint" type="com.froad.CB.po.TempPoint" />
+	
+	<resultMap id="TempPointResult" class="tempPoint">
+		<result column="id" property="id" jdbcType="INTEGER" />
+		<result column="account_name" property="accountName" jdbcType="VARCHAR" />
+		<result column="account_number" property="accountNumber" jdbcType="VARCHAR" />
+		<result column="point_value" property="pointValue" jdbcType="VARCHAR" />
+		<result column="card_type" property="cardType" jdbcType="VARCHAR" />
+		<result column="is_activate" property="isActivate" jdbcType="VARCHAR" />
+		<result column="state" property="state" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="VARCHAR" />
+		<result column="update_time" property="updateTime" jdbcType="VARCHAR" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />		
+		<result column="phone" property="phone" jdbcType="VARCHAR" />
+		<result column="identification_card" property="identificationCard" jdbcType="VARCHAR" />
+		<result column="activate_account" property="activateAccount" jdbcType="VARCHAR" />		
+		<result column="indentification_card_else" property="indentificationCardElse" jdbcType="VARCHAR"/>
+	</resultMap>
+	
+	<select id="selectByPrimaryKey" resultMap="TempPointResult"
+		parameterClass="java.lang.Integer">
+		select * from temp_point where id = #id#
+	</select>
+	
+	<delete id="deleteByPrimaryKey" parameterClass="java.lang.Integer">
+		delete from temp_point where id = #id#
+	</delete>
+	
+	<insert id="insert" parameterClass="tempPoint">
+		insert into temp_point (id,phone,identification_card, account_name, account_number,
+		point_value, card_type, is_activate, state, create_time,
+		update_time, remark,activate_account,indentification_card_else) values (#id:INTEGER#,#phone:VARCHAR#,#identificationCard:VARCHAR#,
+		#accountName:VARCHAR#, #accountNumber:VARCHAR#,
+		#pointValue:VARCHAR#, #cardType:VARCHAR#, #isActivate:VARCHAR#,
+		#state:VARCHAR#, DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"), DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s"),
+		#remark:VARCHAR#,#activateAccount:VARCHAR#,#indentificationCardElse:VARCHAR#)
+		<selectKey keyProperty="id" resultClass="int">
+			select last_insert_id() as id
+		</selectKey>
+	</insert>
+	
+	<update id="updateById" parameterClass="tempPoint">
+		update temp_point set update_time = DATE_FORMAT(NOW(),"%Y-%m-%d|%H:%i:%s")
+		<dynamic prepend="">
+			<isNotEmpty prepend="," property="phone">
+				<![CDATA[ phone = #phone:VARCHAR# ]]>
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="pointValue">
+				<![CDATA[ point_value = #pointValue:VARCHAR# ]]>
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="cardType">
+				<![CDATA[ card_type = #cardType:VARCHAR# ]]>
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="isActivate">
+				<![CDATA[ is_activate = #isActivate:VARCHAR# ]]>
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="state">
+				<![CDATA[ state = #state:VARCHAR# ]]>
+			</isNotEmpty> 
+			<isNotEmpty prepend="," property="remark">
+				<![CDATA[ remark = #remark:VARCHAR# ]]>
+			</isNotEmpty>	
+			<isNotEmpty prepend="," property="activateAccount">
+				<![CDATA[ activate_account = #activateAccount:VARCHAR# ]]>
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="indentificationCardElse">
+				<![CDATA[ indentification_card_else = #indentificationCardElse:VARCHAR# ]]>
+			</isNotEmpty>
+	<!--  	<isNotEmpty prepend="," property="isAccountLocked">
+				<![CDATA[ is_account_locked = #isAccountLocked:VARCHAR# ]]>
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="loginFailureCount">
+				<![CDATA[ login_failure_count = #loginFailureCount:INTEGER# ]]>
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="lockedDate">
+				<![CDATA[ locked_date = #lockedDate:VARCHAR# ]]>
+			</isNotEmpty> 
+			<isNotEmpty prepend="," property="lastTryTime">
+				<![CDATA[ last_try_time = #lastTryTime:VARCHAR# ]]>
+			</isNotEmpty>
+			-->
+		</dynamic>
+		<dynamic  prepend="where">
+			<isNotEmpty prepend="and" property="id">
+				<![CDATA[ id = #id:INTEGER# ]]>
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="accountName">
+				<![CDATA[ account_name = #accountName:VARCHAR# ]]>
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="accountNumber">
+				<![CDATA[ account_number = #accountNumber:VARCHAR# ]]>
+			</isNotEmpty>
+		</dynamic>
+	</update>
+	
+	<select id="getTempPointBySelective" parameterClass="tempPoint" resultMap="TempPointResult">
+		select * from temp_point
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="accountName">
+				<![CDATA[ account_name = #accountName:VARCHAR# ]]>
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="accountNumber">
+				<![CDATA[ account_number = #accountNumber:VARCHAR#  ]]>
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="phone">
+				<![CDATA[ phone = #phone:VARCHAR#  ]]>
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="pointValue">
+				<![CDATA[ point_value = #pointValue:VARCHAR#  ]]>
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="cardType">
+				<![CDATA[ card_type = #cardType:VARCHAR#  ]]>
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="isActivate">
+				<![CDATA[ is_activate = #isActivate:VARCHAR#  ]]>
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="state">
+				<![CDATA[ state = #state:VARCHAR#  ]]>
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="updateTime">
+				<![CDATA[ update_time = #updateTime:VARCHAR#  ]]>
+			</isNotEmpty>			
+			<isNotEmpty prepend="and" property="identificationCard">
+				<![CDATA[( identification_card = #identificationCard:VARCHAR# 
+					or indentification_card_else = #identificationCard:VARCHAR# )
+				]]>
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<!-- 分页查询 -->
+	<select id="getTempPointByPager" parameterClass="tempPoint" resultMap="TempPointResult">
+		select * from temp_point
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="accountName">
+				account_name = #accountName:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="accountNumber">
+				account_number = #accountNumber:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="phone">
+				phone = #phone:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="pointValue">
+				point_value = #pointValue:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="cardType">
+				card_type = #cardType:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="isActivate">
+				is_activate = #isActivate:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="state">
+				state = #state:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="updateTime">
+				update_time = #updateTime:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="remark">
+				remark = #remark:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty property="beginTime">
+    			<isNotEmpty property="endTime" prepend="and">
+    				create_time between #beginTime# and #endTime#
+    			</isNotEmpty>
+    		</isNotEmpty>
+    		<isNotEmpty prepend="and" property="identificationCard">
+				<![CDATA[ identification_card = #identificationCard:VARCHAR#  ]]>
+			</isNotEmpty>
+    	</dynamic>
+         <![CDATA[ 
+         order by $orderBy$ $orderType$ 
+         limit #startRow#,#pageSize#  
+         ]]>
+	</select>
+	
+	<select id="getTempPointByPagerCount" parameterClass="tempPoint" resultClass="java.lang.Integer">
+		select count(*) from temp_point
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="accountName">
+				account_name = #accountName:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="accountNumber">
+				account_number = #accountNumber:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="phone">
+				phone = #phone:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="pointValue">
+				point_value = #pointValue:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="cardType">
+				card_type = #cardType:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="isActivate">
+				is_activate = #isActivate:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="state">
+				state = #state:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="updateTime">
+				update_time = #updateTime:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="remark">
+				remark = #remark:VARCHAR#
+			</isNotEmpty>
+			<isNotEmpty prepend="," property="indentificationCardElse">
+				<![CDATA[ indentification_card_else = #indentificationCardElse:VARCHAR# ]]>
+			</isNotEmpty>
+			<isNotEmpty property="beginTime">
+    			<isNotEmpty property="endTime" prepend="and">
+    				create_time between #beginTime# and #endTime#
+    			</isNotEmpty>
+    		</isNotEmpty>
+    		<isNotEmpty prepend="and" property="identificationCard">
+				<![CDATA[ identification_card = #identificationCard:VARCHAR#  ]]>
+			</isNotEmpty>
+    	</dynamic>
+	</select>
+</sqlMap>

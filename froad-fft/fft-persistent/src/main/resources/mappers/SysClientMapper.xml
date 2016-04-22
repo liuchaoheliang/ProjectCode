@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+	<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  		 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.froad.fft.persistent.api.SysClientMapper">
+
+	<resultMap type="SysClient" id="sysClientResultMap">
+		<id property="id" column="id" />
+		<result property="createTime" column="create_time" />
+		<result property="updateTime" column="update_time" />
+
+		<result property="name" column="name" />
+		<result property="number" column="number"/>
+		<result property="shortLetter" column="short_letter"/>
+		<result property="isEnabled" column="is_enabled"/>
+		<result property="area" column="area" />
+		<result property="remark" column="remark" />
+		<result property="orgNo" column="org_no" />
+		<result property="partnerId" column="partner_id" />
+	</resultMap>
+	
+	<!-- 查询所有 -->
+	<select id="selectAllSysClient" resultMap="sysClientResultMap">
+		select * from fft_sys_client
+	</select>
+	
+	<!-- 查询 -->
+	<select id="selectSysClientById" parameterType="java.lang.Long" resultMap="sysClientResultMap">
+		select * from fft_sys_client where id = #{id}
+	</select>
+	
+	<!-- 查询根据Number -->
+	<select id="selectByNumber" parameterType="java.lang.String" resultMap="sysClientResultMap">
+		select * from fft_sys_client where number = #{number}
+	</select>
+	
+</mapper>
