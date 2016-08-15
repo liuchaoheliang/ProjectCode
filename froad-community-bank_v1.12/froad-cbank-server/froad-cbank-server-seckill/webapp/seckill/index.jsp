@@ -1,2 +1,0 @@
-<!-- monitor page -->
-Hello world

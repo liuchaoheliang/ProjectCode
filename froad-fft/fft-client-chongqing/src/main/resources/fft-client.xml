@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<fft>
-	<template id="sitemapIndex" type="page" name="sitemap索引" templatePath="/shop/xml/sitemap_index.ftl" staticPath="/sitemap/index.xml"/>  
-	<template id="sitemap" type="page" name="sitemap" templatePath="/shop/xml/sitemap.ftl" staticPath="/sitemap/${index}.xml"/>  
-	<template id="settingsJs" type="page" name="settings_js" templatePath="/common/static/js/settings.ftl" staticPath="/resources/common/js/settings.js"/>  
-	<template id="index" type="page" name="首页" templatePath="/shop/index.ftl" staticPath="/index.html"/>  
-</fft>

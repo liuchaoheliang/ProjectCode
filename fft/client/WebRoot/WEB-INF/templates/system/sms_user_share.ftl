@@ -1,1 +1,0 @@
-手机号为${mobile}的好友向您分享新选购的${name}，赶快来查看参与吧！详情请登录www.fenfentong.com.cn查询。【珠海农商银行】

@@ -1,2 +1,0 @@
-{"step":"pay_succ","client_id":,"order_id","create_time","member_code":,"payment_method":,"total_price":,"real_price":,"points":,"order_type":1,"product_id":,"product_name":,"money":,"merchant_id":,"merchant_name":}
-{"step":"pay_succ","client_id":,"order_id ","create_time","member_code":,"payment_method":,"total_price":,"real_price":,"points":,"order_type":,"sub_order":{"sub_order_id":,"type":子订单类型,"merchant_id":,"merchant_name":,"products":[{"product_id":,"product_name":,"money":,"quantity":}]}}
